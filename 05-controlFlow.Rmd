@@ -1,0 +1,256 @@
+# Flow Control
+
+You have written over 500 lines of code. This is a great achievement. All the code we write so far runs from up to the bottom in a linear fashion. Today, we will learn the if, for, and while statements to control the flow of your code.  
+
+## if...else Statement
+To be or not to be, this is a problem? When solving real problems using computer codes, we will inevitably have to branch our code in different directions based on some criteria.
+
+The simplest format for IF-statement in R is:
+```{r, eval=FALSE}
+if (logical_expression) {
+  # statement will only be executed if logical_expression is true
+  statement  
+}
+```
+
+
+We can also have else statement as below:
+```{r, eval=FALSE}
+if (logical_expression) {
+  # statement1 will be executed if logical_expression is true
+  statement1    
+} else {
+  # statement2 will be executed if logical_expression is false
+  statement2
+}
+```
+
+In the above case, statement1 will be excuted if the logical_expression is true; otherwise, statement2 will be executed. 
+
+Take one example, we will create a door with password. The door will open if you input the correct password, but the door will be closed if you input the incorrect password.
+```{r, eval=FALSE}
+pw="2497"
+pw_entered=readline("Please enter the password: ")
+
+if (pw_entered==pw){
+  print("The door is opened. Welcome!")
+} else {
+  print("Password wrong. Door closed!")
+}
+```
+
+In this case, the logical expression evaluates whether pw_entered==pw is true or not. If true, then the program proceeds to print("The door is opened. Welcome!"); If not true, then the program proceeds to print("Password wrong. Door closed!"). 
+
+## if...else if...else Statement
+The if...else statement is great to program the binary outcome (e.g., correct password or incorrect password). However, sometime we need to deal with more than two outcomes. In this case, we need to use the if...else if...else statement:
+
+```{r, eval=FALSE}
+if ( logical_expression1) {
+  statement1
+  
+} else if ( logical_expression2) {
+  statement2
+  
+} else {
+  statement3
+  
+}
+```
+
+logical_expression1 and logical_expression2 are a set of mutually exclusive criteria; only one statement will be executed depending on which logical_expression is true. You can have more else as needed.
+
+## Exercise
+In data analysis, we often want to bin a continuous variable into categorical of low, median, high or even more category. For example, we want to classify Auto as "low, median, high" gas efficiency based on mpg: if mpg<22, the efficiency is low; if 26>mpg>=22, then the efficiency is median; if mpg>=26, then the efficiency is high. 
+```{r}
+mpg=23
+
+if (mpg<22) {
+  efficiency="low"
+} else if (mpg<26) {
+  efficiency="median"
+} else{
+  efficiency="high"
+}
+efficiency
+
+```
+Note that we did not need to write mpg>=22 & mpg<26 in the second criteria since the second criteria will only be evaluated when mpg>=22.
+
+## for loop
+In computer programming, we sometime want to do things repetitively. For example, there are 10 data files, each corresponding to a specific year. Want to read all these 10 files into R; or we will visit 100 different websites to scrape the data from web. Loop allows the program to go back to previous code and do things repetitively. In R programming, a for-loop is used to iterate over a vector. The syntax of for loop is
+
+```{r, eval=FALSE}
+for (val in sequence){
+  statement
+}
+```
+
+Here, sequence is a vector and val takes on each of its value during the loop. val is also called iterator because it will iterate every elements in sequence. In each iteration, statement is evaluated.
+
+Let's look at one simple example. For example, print 1 to 10 on the screen. This is a repetitive task, i.e., printing a number on screen for 10 times. We can use for loop to achieve this.
+```{r}
+for (i in 1:10){
+  print(i)
+}
+```
+In this example, 1:10 generates a vector from 1 to 100. "i" will iterate every value from 1 to 10 and be printed on the screen. 
+
+The sequence can also be a character vector. For example, the following code will print every elements of the character vector on the screen.
+```{r}
+students=c("John","Lily","Leon","Brandon")
+
+for (i in students){
+  print(i)
+}
+```
+
+In the above code, "i" will iterate over the students vector; and print(i) will be excuted for 4 times, with i taking the value of "John", "Lily", "Leon", "Brandon".
+
+For example, we want to calculate the sum square from 1 to 100. 
+```{r}
+sum=0  # initize the sum as 0
+
+# we will add the square of a number (1-100) to sum
+for (i in 1:100){
+  sum=sum+i^2
+}
+sum
+```
+
+In this example, "i" will iterate every value from 1 to 100; and the statement will thus be excuted for 100 times, with i taking the value from 1 to 100.
+
+
+## Break Your Loops With break
+As seen in above examples, for-loop requires the program to iterate every element in the vector. However, you can break your loop with "break". When the R encounters a break, it will exit the loop immediately. 
+
+For example, in the printing students name example, we will exit the loop if the iterator takes the value "Leon" and print "Leon is not student."
+```{r}
+students=c("John","Lily","Leon","Brandon")
+
+for (i in students){
+  if (i=="Leon"){
+    print("Leon is not student.")
+    break
+    
+  } else{
+    print(i)
+  }
+  
+}
+```
+
+## Jump to the next cycly with next 
+The above code shows that we can use "break" to end the loop if the iterator meets certain criteria. However, in some cases, we do not want to end the loop completely, but to skip the particular iteration. We can use "next" to discontinue a particular iteration and jumps to the next cycle.
+```{r}
+students=c("John","Lily","Leon","Brandon")
+
+for (i in students){
+  if (i=="Leon"){
+    print("Leon is not student!")
+    next
+    
+  } else{
+    print(i)
+  }
+  
+}
+```
+
+## Exercise 
+Let's revisit the door password problem. In this exercise, we want to design the password in such way that you have three chances to input the passwords. If you enter the password correctly within the three times, the door will open; you have the opportunity to re-enter the password before you running out of the three chances; if you did not enter the correct password within the three trials, the door will be closed.
+
+This is a repetitive task because you are asked to enter the password for three times. We can thus use for-loop for this purpose.
+Verison 1:
+```{r, eval=FALSE}
+pw="2497"
+
+for (i in 1:3){
+
+  pw_entered=readline("Please enter the password: ")
+
+  if (pw_entered==pw){
+    print("The door is opened. Welcome!")
+    break
+    
+  } else {
+    print("Password wrong. Please re-enter the password: ")
+  }
+  
+} 
+```
+
+Verison 2:
+When i=3, the code should show that the door is locked due to too many failed trials, rather than asking for re-enter the password.
+```{r, eval=FALSE}
+pw="2497"
+
+for (i in 1:3){
+  
+  pw_entered=readline("Please enter the password: ")
+
+  if (pw_entered==pw){
+    print("The door is opened. Welcome!")
+    break
+    
+  } else if(i!=3){
+      print("Password wrong. Please re-enter the password: ")
+  } else {
+      print("Password wrong. Door closed.")
+  } 
+  
+} 
+```
+
+
+## While Loop
+In R programming, while loops are used to loop until a specific condition is met. The while loop is also used for repetitive task. The syntax for while-loop is as below:
+
+while (test_expression) {
+  statement
+}
+
+Here, test_expression is evaluated and the body of the loop is entered if the result is TRUE. 
+
+Let's look at how to calculate the sum square from 1 to 100 using while loop. 
+```{r}
+sum=0         # initize the sum as 0
+i=1           # initize the iterator
+
+# we will add the square of a number (1-100) to sum
+while (i<=100){
+  sum=sum+i^2
+  i=i+1
+}
+sum
+```
+
+Let's revist the password door exercise. You will have 3 chances to enter the correct password to open the door. This time, implement this with while-loop. 
+```{r, eval=FALSE}
+pw="2497"
+
+i=1     # initialize the iterator
+while (i <= 3){
+  
+  pw_entered=readline("Please enter the password: ")
+
+  if (pw_entered==pw){
+    print("The door is opened. Welcome!")
+    break
+    
+  } else if(i!=3){
+      print("Password wrong. Please re-enter the password: ")
+  } else {
+      print("Password wrong. Door closed.")
+  }
+
+  i=i+1  # increase the iterator by 1 at the end
+  
+} 
+```
+
+As seen, it is much easily to use for-loop for iterating over a fixed sequence because we do not need to manually update the iterator. Typically, we use while-loop if we do not how many iteration will be conducted; and use for-loop if we know how many iteration to be conducted.
+
+Also, break/next work similarly with while-loop to exit the while-loop or to jump to the next iteration within the while-loop, respectively.
+
+
+

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Define Variables | A Minimal Book Example</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Define Variables | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Define Variables | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Yihui Xie" />
+
+
+<meta name="date" content="2021-08-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="data-structure-vector-matrix-list-and-factor.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter01" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Define Variables</h1>
+<p>Here is the guideline in how to read this document: The shaded area (with green backgroud) is R code. Within the shaded area, “#” The hashtag means “This is a comment”. The comment is to help yourself and others to understand what the code does. The line right next to the code (starting with ##) is the output of the code.</p>
+<div id="use-r-as-a-calculator" class="section level2">
+<h2><span class="header-section-number">2.1</span> Use R as a Calculator</h2>
+<p>R can be used as a powerful calculator by entering equations directly at the prompt in the command console. Simply type your arithmetic expression and press ENTER.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="chapter01.html#cb2-1"></a><span class="co"># R is highly interactive, you can get instant feedback while coding.</span></span>
+<span id="cb2-2"><a href="chapter01.html#cb2-2"></a><span class="dv">3</span><span class="op">+</span><span class="dv">6</span></span></code></pre></div>
+<pre><code>## [1] 9</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="chapter01.html#cb4-1"></a><span class="co"># To execute the above command, put the mouse anywhere in the line and hit &quot;Ctrl+Enter&quot;.</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="chapter01.html#cb5-1"></a><span class="co"># the product of 2 and 4</span></span>
+<span id="cb5-2"><a href="chapter01.html#cb5-2"></a><span class="dv">2</span><span class="op">*</span><span class="dv">4</span></span></code></pre></div>
+<pre><code>## [1] 8</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="chapter01.html#cb7-1"></a><span class="co"># 6 divided by 7</span></span>
+<span id="cb7-2"><a href="chapter01.html#cb7-2"></a><span class="dv">6</span><span class="op">/</span><span class="dv">7</span></span></code></pre></div>
+<pre><code>## [1] 0.8571429</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="chapter01.html#cb9-1"></a><span class="co"># 2 to the power of 10</span></span>
+<span id="cb9-2"><a href="chapter01.html#cb9-2"></a><span class="dv">2</span><span class="op">^</span><span class="dv">10</span></span></code></pre></div>
+<pre><code>## [1] 1024</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="chapter01.html#cb11-1"></a><span class="co"># x%%y return the reminder of x divided by y</span></span>
+<span id="cb11-2"><a href="chapter01.html#cb11-2"></a><span class="dv">10</span><span class="op">%%</span><span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="define-variables" class="section level2">
+<h2><span class="header-section-number">2.2</span> Define variables</h2>
+<p>The most basic concept in programming is variable. A variable allows you to store a value (e.g. 4) or an object (e.g. a function) in R; and you can then later use this variable’s name to easily access the value or the object that is stored within this variable. The “&lt;-” symbol (“&lt;” and “-”) or “=” symbol means “Set the variable on the left equal to the thing on the right”. In RStudio the keyboard shortcut for the assignment operator “&lt;-” is <strong>Alt</strong> + <strong>-</strong> (Windows) or <strong>Option</strong> + <strong>-</strong> (Mac).</p>
+<p>For example, you can save you age to a varaible “my_age” through the following code:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="chapter01.html#cb13-1"></a><span class="co"># Assign the variable &quot;my_age&quot; the value of 30.</span></span>
+<span id="cb13-2"><a href="chapter01.html#cb13-2"></a><span class="co"># The &quot;&lt;-&quot; or &quot;=&quot; symbol assigns right hand side (RHS) to the left hand side(LHS)</span></span>
+<span id="cb13-3"><a href="chapter01.html#cb13-3"></a>my_age&lt;-<span class="dv">30</span>   </span></code></pre></div>
+<p>You have just defined a variable my_age with value of 30, which is stored in the computer now. Now look at the up right corner of R-studio, you should see the defined variable. To print “my_age” on the screen, type in “my_age” (without quotes) and hit Ctrl+Enter. It will show you the value.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="chapter01.html#cb14-1"></a>my_age</span></code></pre></div>
+<pre><code>## [1] 30</code></pre>
+<p>Or we can use the print() function to print the variable on the screen.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="chapter01.html#cb16-1"></a><span class="kw">print</span>(my_age)</span></code></pre></div>
+<pre><code>## [1] 30</code></pre>
+<p>Now, you need to define two more variables to save the age of the father and mother: “mother_age” with value of 60, and “father_age” with value of 65.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="chapter01.html#cb18-1"></a>mother_age&lt;-<span class="dv">60</span></span>
+<span id="cb18-2"><a href="chapter01.html#cb18-2"></a>father_age&lt;-<span class="dv">65</span></span></code></pre></div>
+<p>The defined the variables are saved in computer memory, and you can use the defined variable for calculation.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="chapter01.html#cb19-1"></a><span class="co"># How much the father is older than the child?</span></span>
+<span id="cb19-2"><a href="chapter01.html#cb19-2"></a>father_age<span class="op">-</span>my_age</span></code></pre></div>
+<pre><code>## [1] 35</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="chapter01.html#cb21-1"></a><span class="co"># How much the father is older than the mother?</span></span>
+<span id="cb21-2"><a href="chapter01.html#cb21-2"></a>father_age<span class="op">-</span>mother_age</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>We can define a new variable through the calculation on the existing variables. Define a variable “avg_age” with the value the average age of the parents.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="chapter01.html#cb23-1"></a>avg_age=(father_age<span class="op">+</span>mother_age)<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb23-2"><a href="chapter01.html#cb23-2"></a>avg_age</span></code></pre></div>
+<pre><code>## [1] 62.5</code></pre>
+<p>Variable names are like our human names, which uniquely identify the value stored in computer. It is best practice to use variable names that can be easily understood. Try to use English word and "_" to make it self-explanatory. Also, try to use lower case consistently because R is case-sensitivity. It will be hard to remember which letter is upper case and which is not.</p>
+</div>
+<div id="basic-variable-modes-integer-numeric-character-logical-factor." class="section level2">
+<h2><span class="header-section-number">2.3</span> Basic Variable Modes: integer, numeric, character, logical, factor.</h2>
+<p>In the physical world, we have different mode of data. E.g.,</p>
+<ul>
+<li>30 is a an integer (a more specific type of numeric);</li>
+<li>51.67 is a number;</li>
+<li>“Leon” is a character;</li>
+<li>TRUE/FALSE is logical;</li>
+<li>The color like blue/green/red is categorical. In R such categorical variable is called factor.</li>
+</ul>
+<p>R use different variable mode to store these different type of data.</p>
+<div id="integer-and-numeric" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Integer and numeric</h3>
+<p>Recall that we define my_age as a number. Type class(my_age) to checkt the model of the variable. Note: class(): is a built-in R function which returns the mode of a variable. We will talk later what is function.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="chapter01.html#cb25-1"></a><span class="co"># Type class(my_age) to check the mode of variable &quot;my_age&quot;</span></span>
+<span id="cb25-2"><a href="chapter01.html#cb25-2"></a><span class="kw">class</span>(my_age)</span></code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<p>To specifically define a variable as an integer, add letter L after the number. Define my_age=30L and check its mode.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="chapter01.html#cb27-1"></a>my_age=30L</span>
+<span id="cb27-2"><a href="chapter01.html#cb27-2"></a><span class="kw">class</span>(my_age)</span></code></pre></div>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<p>You may be wondering why bother to differentiate integer and numeric; after all, they are all numbers. However, there is an important thing to remember: computer uses combination of 0/1 to save any values. While integer can always be exactly represented in 0/1 byte, non-integer may not be and thus lead to rounding error. Let’s look at one example.</p>
+<p>It should be a no-brainer that sqrt(3)^2 should equals to 3. However, this is not the case in R (or any other programming languages). Try sqrt(3)^2==3 to compare these two number and see the result:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="chapter01.html#cb29-1"></a><span class="co"># == is the logical operator to compare whether LHS equals RHS</span></span>
+<span id="cb29-2"><a href="chapter01.html#cb29-2"></a><span class="kw">sqrt</span>(<span class="dv">3</span>)<span class="op">^</span><span class="dv">2</span><span class="op">==</span><span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>Surprisingly, the output is FALSE, i.e., the computer makes a verdict that sqrt(3)^2 does not equal 3. This is because computer first computes sqrt(3), which is a non-integer with infinite decimal. To save this number in memory, sqrt(3) will be rounded. As a result, its square is not exactly 3. But in most cases, we do not need to overly concerned about rounding errors because the difference is negligible.</p>
+</div>
+<div id="logical" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> Logical</h3>
+<p>In the above example, we introduced the logical operator “==” to compare numbers. The logical operator returns logical variable which takes value of only “TRUE” or “FALSE”.</p>
+<p>The typical Logical Operators in R:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&lt;</td>
+<td>less than</td>
+</tr>
+<tr class="even">
+<td>&lt;=</td>
+<td>less than or equal to</td>
+</tr>
+<tr class="odd">
+<td>&gt;</td>
+<td>greater than</td>
+</tr>
+<tr class="even">
+<td>&gt;=</td>
+<td>greater than or equal to</td>
+</tr>
+<tr class="odd">
+<td>==</td>
+<td>exactly equal to</td>
+</tr>
+<tr class="even">
+<td>!=</td>
+<td>not equal to</td>
+</tr>
+<tr class="odd">
+<td>!x</td>
+<td>Not x</td>
+</tr>
+<tr class="even">
+<td>x</td>
+<td>y</td>
+</tr>
+<tr class="odd">
+<td>x &amp; y</td>
+<td>x AND y</td>
+</tr>
+<tr class="even">
+<td>isTRUE(x)</td>
+<td>test if X is TRUE</td>
+</tr>
+</tbody>
+</table>
+<p>Now, let’s check the mode of the result of the comparison sqrt(3)^2==3 using the class() function.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="chapter01.html#cb31-1"></a><span class="kw">class</span>(<span class="kw">sqrt</span>(<span class="dv">3</span>)<span class="op">^</span><span class="dv">2</span><span class="op">==</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<p>Similarly, you define a logical variable by assigning the comparison results into a logical variable</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="chapter01.html#cb33-1"></a><span class="co"># type 3&gt;2 and assign the value to a variable compare</span></span>
+<span id="cb33-2"><a href="chapter01.html#cb33-2"></a><span class="co"># check the variable class of the variable compare</span></span>
+<span id="cb33-3"><a href="chapter01.html#cb33-3"></a>compare&lt;-<span class="dv">3</span><span class="op">&gt;</span><span class="dv">2</span></span>
+<span id="cb33-4"><a href="chapter01.html#cb33-4"></a>compare</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="chapter01.html#cb35-1"></a><span class="kw">class</span>(compare) </span></code></pre></div>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<p>We can use &amp; (and) and | (or ) for logical calcuation.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="chapter01.html#cb37-1"></a>compare1&lt;-<span class="dv">3</span><span class="op">==</span><span class="dv">2</span>  <span class="co"># 3 equals to 2 is FALSE</span></span>
+<span id="cb37-2"><a href="chapter01.html#cb37-2"></a>compare2&lt;-<span class="dv">3</span><span class="op">!=</span><span class="dv">2</span>  <span class="co"># 3 not equal to 2 is TRUE</span></span>
+<span id="cb37-3"><a href="chapter01.html#cb37-3"></a></span>
+<span id="cb37-4"><a href="chapter01.html#cb37-4"></a>compare1 <span class="op">&amp;</span><span class="st"> </span>compare2   <span class="co"># x &amp; y: true only if both x and y are true; otherwise false.</span></span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="chapter01.html#cb39-1"></a>compare1 <span class="op">|</span><span class="st"> </span>compare2   <span class="co"># x | y: false only if both x and y are false; otherwise true.</span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Now, compare the mother_age and father_age to see who is older?</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="chapter01.html#cb41-1"></a>father_age<span class="op">&gt;</span>mother_age</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div id="character" class="section level3">
+<h3><span class="header-section-number">2.3.3</span> Character</h3>
+<p>Suppose we want to save my name into a variable, how can I do that? This involves a new type of variable: character (also known as string). The character variable is defined by "“; anything inside”" will be saved as the character.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="chapter01.html#cb43-1"></a><span class="co"># Type my_name=&quot;Leon Xu&quot; and use class() to check its mode.</span></span>
+<span id="cb43-2"><a href="chapter01.html#cb43-2"></a>my_name&lt;-<span class="st">&quot;Leon Xu&quot;</span></span>
+<span id="cb43-3"><a href="chapter01.html#cb43-3"></a>my_name</span></code></pre></div>
+<pre><code>## [1] &quot;Leon Xu&quot;</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="chapter01.html#cb45-1"></a><span class="kw">class</span>(my_name)</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>Now, you need to define character variable “first_name” with value “Leon”; and define character variable “last_name” with value “Xu”;.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="chapter01.html#cb47-1"></a>first_name=<span class="st">&quot;Leon&quot;</span></span>
+<span id="cb47-2"><a href="chapter01.html#cb47-2"></a>last_name=<span class="st">&quot;Xu&quot;</span></span></code></pre></div>
+<p>Given, the first and last name, we can combine the two strings into the full name. Note that the Arithmetic operators (+-*/…) are not defined over strings. We need to use string-specific functions.</p>
+<p>You can use paste() function to concatenate the two string together.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="chapter01.html#cb48-1"></a>full_name=<span class="kw">paste</span>(first_name, last_name, <span class="dt">sep=</span><span class="st">&quot; &quot;</span>)  </span>
+<span id="cb48-2"><a href="chapter01.html#cb48-2"></a><span class="co"># sep=&quot; &quot; means to seperates the strings with a space.</span></span>
+<span id="cb48-3"><a href="chapter01.html#cb48-3"></a></span>
+<span id="cb48-4"><a href="chapter01.html#cb48-4"></a>full_name</span></code></pre></div>
+<pre><code>## [1] &quot;Leon Xu&quot;</code></pre>
+<p>type ?paste to get the help document on this function.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="chapter01.html#cb50-1"></a>?paste</span></code></pre></div>
+<p>Again, string is defined using "". To better understand that, run the following code to see the difference:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="chapter01.html#cb51-1"></a><span class="kw">print</span>(<span class="dv">10</span><span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb51-2"><a href="chapter01.html#cb51-2"></a><span class="kw">print</span>(<span class="st">&quot;10+1&quot;</span>)</span>
+<span id="cb51-3"><a href="chapter01.html#cb51-3"></a><span class="kw">print</span>(leon xu)</span></code></pre></div>
+<ul>
+<li><p>print(10+1): 10+1 is not inside "", so computer will read and interpret 10+1 and return 11 as the result.</p></li>
+<li><p>print(“10+1”): “10+1” is insdie "", so computer knows this is a strings and will not interpret it and keep it intact.</p></li>
+<li><p>print(leon xu): leon xu is not inside ""; so computer will read it and try to interpret it. Because computer (which is good at number and computation) cannot understand the string, thus returns error.</p></li>
+</ul>
+<p>It is one of the most common mistake to forget "" when you actually means to define a character.</p>
+</div>
+<div id="type-coercion" class="section level3">
+<h3><span class="header-section-number">2.3.4</span> Type coercion</h3>
+<p>Sometime we need to convert from one variable mode to another. This typically happens when we read data from computer or web (e.g., csv) into R because computer is not smart enough to guess the variable type correctly. The good news is that we can easily convert from one variable mode to another.</p>
+<p>e.g., define the following two variables:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="chapter01.html#cb52-1"></a>var1=<span class="st">&quot;3&quot;</span>   <span class="co"># this is a character</span></span>
+<span id="cb52-2"><a href="chapter01.html#cb52-2"></a>var2=<span class="dv">4</span>     <span class="co"># this is a numeric</span></span>
+<span id="cb52-3"><a href="chapter01.html#cb52-3"></a><span class="kw">class</span>(var1)</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter01.html#cb54-1"></a><span class="kw">class</span>(var2)</span></code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter01.html#cb56-1"></a><span class="co"># Type var1+var2 and run the code; this will cause an error because var1 is a character</span></span>
+<span id="cb56-2"><a href="chapter01.html#cb56-2"></a>var1<span class="op">+</span>var2  </span></code></pre></div>
+<p>The code below shows how to convert a character to numeric.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="chapter01.html#cb57-1"></a>var1&lt;-<span class="kw">as.numeric</span>(var1)</span>
+<span id="cb57-2"><a href="chapter01.html#cb57-2"></a>var1<span class="op">+</span>var2</span></code></pre></div>
+<pre><code>## [1] 7</code></pre>
+<p>The type coercion functions:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="chapter01.html#cb59-1"></a><span class="co"># convert character &quot;4&quot; to 4; </span></span>
+<span id="cb59-2"><a href="chapter01.html#cb59-2"></a><span class="kw">as.numeric</span>(<span class="st">&quot;4&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="chapter01.html#cb61-1"></a><span class="co"># convert 4 to character &quot;4&quot;</span></span>
+<span id="cb61-2"><a href="chapter01.html#cb61-2"></a><span class="kw">as.character</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;4&quot;</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="chapter01.html#cb63-1"></a><span class="co"># convert logical to numeric</span></span>
+<span id="cb63-2"><a href="chapter01.html#cb63-2"></a><span class="kw">as.numeric</span>(<span class="ot">FALSE</span>)  <span class="co"># FALSE is stored as 0 in the computer</span></span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="chapter01.html#cb65-1"></a><span class="kw">as.numeric</span>(<span class="ot">TRUE</span>)   <span class="co"># TRUE is stored as 1 in the computer</span></span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="chapter01.html#cb67-1"></a><span class="co"># we can sum TRUE/FALSE since they are saved as 1/0 </span></span>
+<span id="cb67-2"><a href="chapter01.html#cb67-2"></a><span class="ot">TRUE</span><span class="op">+</span><span class="ot">TRUE</span><span class="op">+</span><span class="ot">FALSE</span>   </span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>We cannot force type coercion when the it is clearly not possible. For example, we cannot change the character “John” to a number. In this case, the R will generate NA (missing value in R)</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="chapter01.html#cb69-1"></a>var&lt;-<span class="kw">as.numeric</span>(<span class="st">&quot;John&quot;</span>)   <span class="co"># var will be assigned NA (not available)</span></span></code></pre></div>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="chapter01.html#cb71-1"></a><span class="co"># is.na() is R function to check whether a variable is NA</span></span>
+<span id="cb71-2"><a href="chapter01.html#cb71-2"></a><span class="kw">is.na</span>(var)   </span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="chapter01.html#cb73-1"></a><span class="co"># NA is contagious in R; operations over NA results in NA</span></span>
+<span id="cb73-2"><a href="chapter01.html#cb73-2"></a>var<span class="op">+</span><span class="dv">1</span></span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<p>In R programming, everything stored in your computer are Objects. The variable we defined are also objects. Look for your “objects” in the upper right of the RStudio area</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="chapter01.html#cb75-1"></a><span class="co"># type ls() to see the objects stored in the computer</span></span>
+<span id="cb75-2"><a href="chapter01.html#cb75-2"></a><span class="kw">ls</span>()</span></code></pre></div>
+<pre><code>##  [1] &quot;avg_age&quot;    &quot;compare&quot;    &quot;compare1&quot;   &quot;compare2&quot;   &quot;father_age&quot;
+##  [6] &quot;first_name&quot; &quot;full_name&quot;  &quot;last_name&quot;  &quot;mother_age&quot; &quot;my_age&quot;    
+## [11] &quot;my_name&quot;    &quot;var&quot;        &quot;var1&quot;       &quot;var2&quot;</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="chapter01.html#cb77-1"></a><span class="co"># you can remove objects through rm(). Remove the variable firstname</span></span>
+<span id="cb77-2"><a href="chapter01.html#cb77-2"></a><span class="kw">rm</span>(var)</span></code></pre></div>
+</div>
+</div>
+<div id="exercise-1-greeting-from-r" class="section level2">
+<h2><span class="header-section-number">2.4</span> Exercise 1: Greeting from R</h2>
+<p>In this exercise, we will create a customized greeting from R to you. We will write a code to let the computer ask your name and age and print a customized greeting.</p>
+<p>This seems first overwhelming. In computer programming, one philosophy is always to break a complicated task into small piece and build upon that.</p>
+<p>Let’s do the version 1:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="chapter01.html#cb78-1"></a><span class="co"># Send a customized greeting based on your name (e.g., Leon) and age (e.g., 30)</span></span>
+<span id="cb78-2"><a href="chapter01.html#cb78-2"></a><span class="co"># Suppose it takes 1 year to master R programming</span></span>
+<span id="cb78-3"><a href="chapter01.html#cb78-3"></a></span>
+<span id="cb78-4"><a href="chapter01.html#cb78-4"></a><span class="kw">print</span>(<span class="st">&quot;Hello Leon, welcome to the world of R!&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Hello Leon, welcome to the world of R!&quot;</code></pre>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="chapter01.html#cb80-1"></a><span class="kw">print</span>(<span class="st">&quot;You will be empowered by R to do awesome data analytics by the age 31!&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;You will be empowered by R to do awesome data analytics by the age 31!&quot;</code></pre>
+<p>Well, this is simple, but we need to customize so that it print your name and age information.</p>
+<p>Let’s do the version 2:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="chapter01.html#cb82-1"></a><span class="co"># Define your name and age (change to your name and age)</span></span>
+<span id="cb82-2"><a href="chapter01.html#cb82-2"></a>name=<span class="st">&quot;Leon&quot;</span>  </span>
+<span id="cb82-3"><a href="chapter01.html#cb82-3"></a>age=<span class="dv">30</span></span>
+<span id="cb82-4"><a href="chapter01.html#cb82-4"></a></span>
+<span id="cb82-5"><a href="chapter01.html#cb82-5"></a><span class="co"># Send a customized greeting based on your name and age</span></span>
+<span id="cb82-6"><a href="chapter01.html#cb82-6"></a><span class="co"># We need to paste the name and age to the greeting</span></span>
+<span id="cb82-7"><a href="chapter01.html#cb82-7"></a>greeting1&lt;-<span class="kw">paste</span>(<span class="st">&quot;Hello &quot;</span>, name, <span class="st">&quot;, welcome to the world of R!&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb82-8"><a href="chapter01.html#cb82-8"></a>greeting2&lt;-<span class="kw">paste</span>(<span class="st">&quot;You will be empowered by R to do awesome data analytics by the age &quot;</span>, </span>
+<span id="cb82-9"><a href="chapter01.html#cb82-9"></a>                 age<span class="op">+</span><span class="dv">1</span>, <span class="st">&quot;!&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb82-10"><a href="chapter01.html#cb82-10"></a></span>
+<span id="cb82-11"><a href="chapter01.html#cb82-11"></a><span class="kw">print</span>(greeting1)</span></code></pre></div>
+<pre><code>## [1] &quot;Hello Leon, welcome to the world of R!&quot;</code></pre>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="chapter01.html#cb84-1"></a><span class="kw">print</span>(greeting2)</span></code></pre></div>
+<pre><code>## [1] &quot;You will be empowered by R to do awesome data analytics by the age 31!&quot;</code></pre>
+<p>Let’s do the version 3: we will make it more interactive by using a function readline(), which asks for input from user through keyboard.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="chapter01.html#cb86-1"></a><span class="co"># Use the console to input your name and age:</span></span>
+<span id="cb86-2"><a href="chapter01.html#cb86-2"></a>name=<span class="kw">readline</span>(<span class="st">&quot;What is your name: &quot;</span>) </span>
+<span id="cb86-3"><a href="chapter01.html#cb86-3"></a>age=<span class="kw">readline</span>(<span class="st">&quot;How old are you: &quot;</span>)   <span class="co"># readline() always return a character</span></span>
+<span id="cb86-4"><a href="chapter01.html#cb86-4"></a></span>
+<span id="cb86-5"><a href="chapter01.html#cb86-5"></a>age&lt;-<span class="kw">as.numeric</span>(age)</span>
+<span id="cb86-6"><a href="chapter01.html#cb86-6"></a></span>
+<span id="cb86-7"><a href="chapter01.html#cb86-7"></a><span class="co"># Send a customized greeting based on your name and age</span></span>
+<span id="cb86-8"><a href="chapter01.html#cb86-8"></a><span class="co"># We need to paste the name and age to the greeting</span></span>
+<span id="cb86-9"><a href="chapter01.html#cb86-9"></a>greeting1&lt;-<span class="kw">paste</span>(<span class="st">&quot;Hello &quot;</span>, name, <span class="st">&quot;, welcome to the world of R!&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb86-10"><a href="chapter01.html#cb86-10"></a>greeting2&lt;-<span class="kw">paste</span>(<span class="st">&quot;You will be empowered by R to do awesome data analytics by the age &quot;</span>, </span>
+<span id="cb86-11"><a href="chapter01.html#cb86-11"></a>                 age<span class="op">+</span><span class="dv">1</span>, <span class="st">&quot;!&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb86-12"><a href="chapter01.html#cb86-12"></a></span>
+<span id="cb86-13"><a href="chapter01.html#cb86-13"></a><span class="kw">print</span>(greeting1)</span>
+<span id="cb86-14"><a href="chapter01.html#cb86-14"></a><span class="kw">print</span>(greeting2)</span></code></pre></div>
+</div>
+<div id="exercise-2-mortgage-calculation" class="section level2">
+<h2><span class="header-section-number">2.5</span> Exercise 2: Mortgage Calculation</h2>
+<p>Support you are working at a bank provides mortgage loan. One important task is to calculate the monthly mortgage payment for any given loan.</p>
+<p>You can use the following equation to calculate the monthly mortgage payment (not including taxes and insurance):
+<span class="math display">\[M = P ( i(1 + i)^n ) / ( (1 + i)^n - 1)\]</span>
+where</p>
+<ul>
+<li><p>P = principal loan amount</p></li>
+<li><p>i = annual_interest_rate/12, i.e., i is the monthly interest rate, which is the annual interest rate divided by 12</p></li>
+<li><p>n = number of months required to repay the loan</p></li>
+</ul>
+<p>Develop a program to calculate the monthly mortgage payment for a loan with: P=350000; annual_interest_rate=3.25%; year_repay=30. Once you calculate the monthly payment, print the result on the screen "Your month mortgage payment is: ***"</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="chapter01.html#cb87-1"></a><span class="co"># Define the loan</span></span>
+<span id="cb87-2"><a href="chapter01.html#cb87-2"></a>P=<span class="dv">350000</span>   <span class="co"># loan amount</span></span>
+<span id="cb87-3"><a href="chapter01.html#cb87-3"></a>annual_rate=<span class="fl">0.0325</span>    <span class="co"># Convert % into decimal to avoid error</span></span>
+<span id="cb87-4"><a href="chapter01.html#cb87-4"></a>year_repay=<span class="dv">30</span>  <span class="co"># number of year to repay</span></span>
+<span id="cb87-5"><a href="chapter01.html#cb87-5"></a></span>
+<span id="cb87-6"><a href="chapter01.html#cb87-6"></a>n=<span class="dv">12</span><span class="op">*</span><span class="dv">30</span>  <span class="co"># number of month to repay </span></span>
+<span id="cb87-7"><a href="chapter01.html#cb87-7"></a>i=annual_rate<span class="op">/</span><span class="dv">12</span></span>
+<span id="cb87-8"><a href="chapter01.html#cb87-8"></a></span>
+<span id="cb87-9"><a href="chapter01.html#cb87-9"></a>payment =<span class="st"> </span>P<span class="op">*</span>( i<span class="op">*</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>i)<span class="op">^</span>n ) <span class="op">/</span><span class="st"> </span>( (<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>i)<span class="op">^</span>n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) </span>
+<span id="cb87-10"><a href="chapter01.html#cb87-10"></a>payment =<span class="st"> </span><span class="kw">round</span>(payment,<span class="dt">digits=</span><span class="dv">0</span>)</span>
+<span id="cb87-11"><a href="chapter01.html#cb87-11"></a></span>
+<span id="cb87-12"><a href="chapter01.html#cb87-12"></a><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Your monthy mortage payment is $&quot;</span>, payment, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;Your monthy mortage payment is $1523&quot;</code></pre>
+</div>
+<div id="summary" class="section level2">
+<h2><span class="header-section-number">2.6</span> Summary</h2>
+<ul>
+<li><p>Learn to do basic arithmetic operations (+,-,*,/,^,%%) in R.</p></li>
+<li><p>Learn to define variable and the rule in naming variables.</p></li>
+<li><p>Understand the different variable mode (or type): integer, numeric, logical, character</p></li>
+<li><p>Understand how convert from one tpye to another.</p></li>
+<li><p>Learn to create the first interactive program using print() and readline() functions.</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-structure-vector-matrix-list-and-factor.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-variables.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

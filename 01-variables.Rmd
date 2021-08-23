@@ -1,0 +1,359 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# Define Variables {#chapter01}
+
+Here is the guideline in how to read this document: The shaded area (with green backgroud) is R code. Within the shaded area, "#" The hashtag means "This is a comment".  The comment is to help yourself and others to understand what the code does. The line right next to the code (starting with ##) is the output of the code.
+
+## Use R as a Calculator
+R can be used as a powerful calculator by entering equations directly at the prompt in the command console. Simply type your arithmetic expression and press ENTER. 
+```{r}
+# R is highly interactive, you can get instant feedback while coding.
+3+6
+# To execute the above command, put the mouse anywhere in the line and hit "Ctrl+Enter".
+```
+
+```{r}
+# the product of 2 and 4
+2*4
+
+# 6 divided by 7
+6/7
+
+# 2 to the power of 10
+2^10
+
+# x%%y return the reminder of x divided by y
+10%%3
+```
+
+## Define variables 
+The most basic concept in programming is variable. A variable allows you to store a value (e.g. 4) or an object (e.g. a function) in R; and you can then later use this variable's name to easily access the value or the object that is stored within this variable. The "<-" symbol ("<" and "-") or "=" symbol means "Set the variable on the left equal to the thing on the right". In RStudio the keyboard shortcut for the assignment operator "<-" is **Alt** + **-** (Windows) or **Option** + **-** (Mac). 
+
+For example, you can save you age to a varaible "my_age" through the following code:
+```{r}
+# Assign the variable "my_age" the value of 30.
+# The "<-" or "=" symbol assigns right hand side (RHS) to the left hand side(LHS)
+my_age<-30   
+
+```
+
+You have just defined a variable my_age with value of 30, which is stored in the computer now. Now look at the up right corner of R-studio, you should see the defined variable. To print "my_age" on the screen, type in "my_age" (without quotes) and hit Ctrl+Enter.  It will show you the value.
+```{r}
+my_age
+```
+
+Or we can use the print() function to print the variable on the screen.
+```{r}
+print(my_age)
+```
+
+
+Now, you need to define two more variables to save the age of the father and mother: "mother_age" with value of 60, and "father_age" with value of 65.
+```{r}
+mother_age<-60
+father_age<-65
+```
+
+The defined the variables are saved in computer memory, and you can use the defined variable for calculation. 
+```{r}
+# How much the father is older than the child?
+father_age-my_age
+
+# How much the father is older than the mother?
+father_age-mother_age
+```
+
+We can define a new variable through the calculation on the existing variables. Define a variable "avg_age" with the value the average age of the parents.
+```{r}
+avg_age=(father_age+mother_age)/2
+avg_age
+```
+
+Variable names are like our human names, which uniquely identify the value stored in computer. It is best practice to use variable names that can be easily understood. Try to use English word and "_" to make it self-explanatory. Also, try to use lower case consistently because R is case-sensitivity. It will be hard to remember which letter is upper case and which is not.
+
+
+## Basic Variable Modes: integer, numeric, character, logical, factor. 
+In the physical world, we have different mode of data. E.g., 
+
+* 30 is a an integer (a more specific type of numeric); 
+* 51.67 is a number; 
+* "Leon" is a character; 
+* TRUE/FALSE is logical; 
+* The color like blue/green/red is categorical. In R such categorical variable is called factor.
+
+R use different variable mode to store these different type of data.
+
+### Integer and numeric
+Recall that we define my_age as a number. Type class(my_age) to checkt the model of the variable. Note: class(): is a built-in R function which returns the mode of a variable. We will talk later what is function. 
+```{r}
+# Type class(my_age) to check the mode of variable "my_age"
+class(my_age)
+```
+
+To specifically define a variable as an integer, add letter L after the number. Define my_age=30L and check its mode.
+```{r}
+my_age=30L
+class(my_age)
+```
+
+You may be wondering why bother to differentiate integer and numeric; after all, they are all numbers. However, there is an important thing to remember: computer uses combination of 0/1 to save any values. While integer can always be exactly represented in 0/1 byte, non-integer may not be and thus lead to rounding error. Let's look at one example. 
+
+It should be a no-brainer that sqrt(3)^2 should equals to 3. However, this is not the case in R (or any other programming languages). Try sqrt(3)^2==3 to compare these two number and see the result:
+```{r}
+# == is the logical operator to compare whether LHS equals RHS
+sqrt(3)^2==3
+```
+
+Surprisingly, the output is FALSE, i.e., the computer makes a verdict that sqrt(3)^2 does not equal 3. This is because computer first computes sqrt(3), which is a non-integer with infinite decimal. To save this number in memory, sqrt(3) will be rounded. As a result, its square is not exactly 3. But in most cases, we do not need to overly concerned about rounding errors because the difference is negligible. 
+
+
+### Logical 
+In the above example, we introduced the logical operator "==" to compare numbers. The logical operator returns logical variable which takes value of only "TRUE" or "FALSE".
+
+The typical Logical Operators in R:
+
+| Operator      | Description                                |
+|------------------|-----------------------------------------|
+|<	               | less than                               |
+|<=                |	less than or equal to                  |
+|>                 |	greater than                           |
+|>=                |	greater than or equal to               |
+|==                |	exactly equal to                       |
+|!=                |	not equal to                           |
+|!x                |	Not x                                  |
+|x | y             | 	x OR y                                 |
+|x & y	           | x AND y                                 |
+|isTRUE(x)         | test if X is TRUE                       |
+
+Now, let's check the mode of the result of the comparison sqrt(3)^2==3 using the class() function. 
+```{r}
+class(sqrt(3)^2==3)
+```
+
+Similarly, you define a logical variable by assigning the comparison results into a logical variable
+```{r}
+# type 3>2 and assign the value to a variable compare
+# check the variable class of the variable compare
+compare<-3>2
+compare
+class(compare) 
+```
+
+We can use & (and) and | (or ) for logical calcuation. 
+```{r}
+compare1<-3==2  # 3 equals to 2 is FALSE
+compare2<-3!=2  # 3 not equal to 2 is TRUE
+
+compare1 & compare2   # x & y: true only if both x and y are true; otherwise false.
+compare1 | compare2   # x | y: false only if both x and y are false; otherwise true.
+```
+
+Now, compare the mother_age and father_age to see who is older?
+```{r}
+father_age>mother_age
+
+```
+
+### Character
+Suppose we want to save my name into a variable, how can I do that? This involves a new type of variable: character (also known as string). The character variable is defined by ""; anything inside "" will be saved as the character. 
+
+```{r}
+# Type my_name="Leon Xu" and use class() to check its mode.
+my_name<-"Leon Xu"
+my_name
+class(my_name)
+```
+
+Now, you need to define character variable "first_name" with value "Leon"; and define character variable "last_name" with value "Xu";.
+```{r}
+first_name="Leon"
+last_name="Xu"
+```
+
+Given, the first and last name, we can combine the two strings into the full name. Note that the Arithmetic operators (+-*/...) are not defined over strings. We need to use string-specific functions.
+
+You can use paste() function to concatenate the two string together.
+```{r}
+full_name=paste(first_name, last_name, sep=" ")  
+# sep=" " means to seperates the strings with a space.
+
+full_name
+```
+
+type ?paste to get the help document on this function.
+```{r, eval=FALSE}
+?paste
+```
+
+Again, string is defined using "". To better understand that, run the following code to see the difference:
+```{r, eval=FALSE}
+print(10+1)
+print("10+1")
+print(leon xu)
+```
+
+* print(10+1): 10+1 is not inside "", so computer will read and interpret 10+1 and return 11 as the result. 
+
+* print("10+1"): "10+1" is insdie "", so computer knows this is a strings and will not interpret it and keep it intact. 
+
+* print(leon xu): leon xu is not inside ""; so computer will read it and try to interpret it. Because computer (which is good at number and computation) cannot understand the string, thus returns error. 
+
+It is one of the most common mistake to forget "" when you actually means to define a character. 
+
+
+### Type coercion
+Sometime we need to convert from one variable mode to another. This typically happens when we read data from computer or web (e.g., csv) into R because computer is not smart enough to guess the variable type correctly. The good news is that we can easily convert from one variable mode to another.
+
+e.g., define the following two variables:
+```{r}
+var1="3"   # this is a character
+var2=4     # this is a numeric
+class(var1)
+class(var2)
+```
+
+```{r  eval=FALSE}
+# Type var1+var2 and run the code; this will cause an error because var1 is a character
+var1+var2  
+```
+
+The code below shows how to convert a character to numeric.
+```{r}
+var1<-as.numeric(var1)
+var1+var2
+```
+
+The type coercion functions:
+```{r}
+# convert character "4" to 4; 
+as.numeric("4")
+
+# convert 4 to character "4"
+as.character(4)
+
+# convert logical to numeric
+as.numeric(FALSE)  # FALSE is stored as 0 in the computer
+as.numeric(TRUE)   # TRUE is stored as 1 in the computer
+
+# we can sum TRUE/FALSE since they are saved as 1/0 
+TRUE+TRUE+FALSE   
+```  
+
+We cannot force type coercion when the it is clearly not possible. For example, we cannot change the character "John" to a number. In this case, the R will generate NA (missing value in R)
+```{r}
+var<-as.numeric("John")   # var will be assigned NA (not available)
+
+# is.na() is R function to check whether a variable is NA
+is.na(var)   
+
+# NA is contagious in R; operations over NA results in NA
+var+1
+```
+
+In R programming, everything stored in your computer are Objects. The variable we defined are also objects. Look for your "objects" in the upper right of the RStudio area 
+```{r}
+# type ls() to see the objects stored in the computer
+ls()
+
+# you can remove objects through rm(). Remove the variable firstname
+rm(var)
+```
+
+## Exercise 1: Greeting from R
+In this exercise, we will create a customized greeting from R to you. We will write a code to let the computer ask your name and age and print a customized greeting. 
+
+This seems first overwhelming. In computer programming, one philosophy is always to break a complicated task into small piece and build upon that. 
+
+Let's do the version 1:
+```{r}
+# Send a customized greeting based on your name (e.g., Leon) and age (e.g., 30)
+# Suppose it takes 1 year to master R programming
+
+print("Hello Leon, welcome to the world of R!")
+print("You will be empowered by R to do awesome data analytics by the age 31!")
+```
+
+Well, this is simple, but we need to customize so that it print your name and age information.
+
+Let's do the version 2:
+```{r}
+# Define your name and age (change to your name and age)
+name="Leon"  
+age=30
+
+# Send a customized greeting based on your name and age
+# We need to paste the name and age to the greeting
+greeting1<-paste("Hello ", name, ", welcome to the world of R!", sep = "")
+greeting2<-paste("You will be empowered by R to do awesome data analytics by the age ", 
+                 age+1, "!", sep="")
+
+print(greeting1)
+print(greeting2)
+```
+
+Let's do the version 3: we will make it more interactive by using a function readline(), which asks for input from user through keyboard.
+```{r, eval=FALSE}
+# Use the console to input your name and age:
+name=readline("What is your name: ") 
+age=readline("How old are you: ")   # readline() always return a character
+
+age<-as.numeric(age)
+
+# Send a customized greeting based on your name and age
+# We need to paste the name and age to the greeting
+greeting1<-paste("Hello ", name, ", welcome to the world of R!", sep = "")
+greeting2<-paste("You will be empowered by R to do awesome data analytics by the age ", 
+                 age+1, "!", sep="")
+
+print(greeting1)
+print(greeting2)
+```
+
+
+## Exercise 2: Mortgage Calculation 
+Support you are working at a bank provides mortgage loan. One important task is to calculate the monthly mortgage payment for any given loan. 
+
+You can use the following equation to calculate the monthly mortgage payment (not including taxes and insurance):
+$$M = P ( i(1 + i)^n ) / ( (1 + i)^n - 1)$$
+where 
+
+* P = principal loan amount
+
+* i = annual_interest_rate/12, i.e., i is the monthly interest rate, which is the annual interest rate divided by 12
+
+* n = number of months required to repay the loan
+
+Develop a program to calculate the monthly mortgage payment for a loan with: P=350000; annual_interest_rate=3.25%; year_repay=30. Once you calculate the monthly payment, print the result on the screen "Your month mortgage payment is: ***"
+
+```{r}
+# Define the loan
+P=350000   # loan amount
+annual_rate=0.0325    # Convert % into decimal to avoid error
+year_repay=30  # number of year to repay
+
+n=12*30  # number of month to repay 
+i=annual_rate/12
+
+payment = P*( i*(1 + i)^n ) / ( (1 + i)^n - 1) 
+payment = round(payment,digits=0)
+
+print(paste("Your monthy mortage payment is $", payment, sep=""))
+```
+
+## Summary
+
+* Learn to do basic arithmetic operations (+,-,*,/,^,%%) in R.
+
+* Learn to define variable and the rule in naming variables.
+
+* Understand the different variable mode (or type): integer, numeric, logical, character
+
+* Understand how convert from one tpye to another.
+
+* Learn to create the first interactive program using print() and readline() functions.
+
+

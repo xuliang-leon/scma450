@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Data Structure: Vector, Matrix, List and Factor | A Minimal Book Example</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Data Structure: Vector, Matrix, List and Factor | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Data Structure: Vector, Matrix, List and Factor | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Yihui Xie" />
+
+
+<meta name="date" content="2021-08-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter01.html"/>
+<link rel="next" href="data-frame.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-structure-vector-matrix-list-and-factor" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Data Structure: Vector, Matrix, List and Factor</h1>
+<p>It is ineffecicent to store each data point as a single-value variable. Think of dataset with 1000 rows and 20 columns, it will requires 20,000 single-value variables to store the data.</p>
+<p>In R, there are more efficient ways to store an array of data. Here we will introduce a few common data structure in R, including vector, matrix, data frame, and list.</p>
+<p>In addition, we all also talk about the factor: the data mode to represent categorical variable in R.</p>
+<div id="vector" class="section level2">
+<h2><span class="header-section-number">3.1</span> Vector</h2>
+<p>Vector is a one-dimensional array that can hold numeric data, character data, or logical data.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb89-1"></a><span class="co"># Assign x the value c(1, 2, 3, 4, 10)  (Here, &quot;c&quot; means vector)</span></span>
+<span id="cb89-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb89-2"></a>x=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">10</span>)</span></code></pre></div>
+<p>Notice that, after running the code, it seems nothing happen on the output screen. This is because this code only tells the computer to create a vector x with value of c(1, 2, 3, 4, 10). You can type x to print it on the screen. One simple trick to print x is to put the code inside () as follow:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb90-1"></a>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## [1]  1  2  3  4 10</code></pre>
+<p>You can also create vector using a R-function seq(): y=seq(from=1, length=5, by=2), which creates a vector with length of 5, starting from 1 with step of 2. seq() is a very useful function to generate sequence, specially when we construct for loop.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb92-1"></a>(<span class="dt">y=</span><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">1</span>,<span class="dt">length=</span><span class="dv">5</span>,<span class="dt">by=</span><span class="dv">2</span>)) </span></code></pre></div>
+<pre><code>## [1] 1 3 5 7 9</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb94-1"></a><span class="co"># check the help document of the function by typing ?seq.</span></span></code></pre></div>
+<p>Now, suppose you are at SpaceX launching center, you want to count down from 10 to 1. Use seq() to generate a sequence from 10 to 1.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb95-1"></a><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">10</span>,<span class="dt">length=</span><span class="dv">10</span>,<span class="dt">by=</span><span class="op">-</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb97-1"></a><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">10</span>,<span class="dt">to=</span><span class="dv">1</span>,<span class="dt">by=</span><span class="op">-</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+<p>There is another quick way to generate a sequence of integer with interval of 1 using colon:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb99-1"></a><span class="co"># type 1:10 to define a vector from 1 to 10 with interval of 1.</span></span>
+<span id="cb99-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb99-2"></a><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb101-1"></a><span class="co"># type 10:1 to define a vector from 10 to 1 with interval of -1.</span></span>
+<span id="cb101-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb101-2"></a><span class="dv">10</span><span class="op">:</span><span class="dv">1</span></span></code></pre></div>
+<pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+<p>So far, the element of a vector is numerical. The element of a vector can also be character or logical.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb103-1"></a><span class="co"># define a character vector b=c(&quot;one&quot;,&quot;two&quot;,&quot;three&quot;) </span></span>
+<span id="cb103-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb103-2"></a>b=<span class="kw">c</span>(<span class="st">&quot;one&quot;</span>,<span class="st">&quot;two&quot;</span>,<span class="st">&quot;three&quot;</span>)</span>
+<span id="cb103-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb103-3"></a>b</span></code></pre></div>
+<pre><code>## [1] &quot;one&quot;   &quot;two&quot;   &quot;three&quot;</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb105-1"></a><span class="kw">class</span>(b)</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb107-1"></a><span class="co"># define a logical vector c=c(TRUE,FALSE,FALSE)</span></span>
+<span id="cb107-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb107-2"></a>c=<span class="kw">c</span>(<span class="ot">TRUE</span>,<span class="ot">FALSE</span>,<span class="ot">FALSE</span>)</span>
+<span id="cb107-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb107-3"></a>c</span></code></pre></div>
+<pre><code>## [1]  TRUE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb109-1"></a><span class="kw">class</span>(c)</span></code></pre></div>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<p>The element of a vector must be the same type. Otherwise, R will force type coercion: convert all elements into character. Of course, we should aviod such forced type coercion by making sure all elements in the vector are the same type.</p>
+<p>For example, type d=c(4,‘3’) and e=c(“a”, TRUE) and then print these two vectors, which are forced to be converted to character.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb111-1"></a>d=<span class="kw">c</span>(<span class="dv">4</span>,<span class="st">&quot;3&quot;</span>)</span>
+<span id="cb111-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb111-2"></a>e=<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="ot">TRUE</span>) </span>
+<span id="cb111-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb111-3"></a>d</span></code></pre></div>
+<pre><code>## [1] &quot;4&quot; &quot;3&quot;</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb113-1"></a>e</span></code></pre></div>
+<pre><code>## [1] &quot;a&quot;    &quot;TRUE&quot;</code></pre>
+<div id="subsetting-vectors" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Subsetting vectors</h3>
+<p>The vector is like an one-dimensional container for data. Once we create the vector, we can retrieve the elements from the vector according to the index.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb115-1"></a><span class="co"># define x=c(1,2,3,4,10)</span></span>
+<span id="cb115-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb115-2"></a>x=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">10</span>)</span>
+<span id="cb115-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb115-3"></a></span>
+<span id="cb115-4"><a href="data-structure-vector-matrix-list-and-factor.html#cb115-4"></a><span class="co"># retrieve the 2rd element of x by typing x[2]. </span></span>
+<span id="cb115-5"><a href="data-structure-vector-matrix-list-and-factor.html#cb115-5"></a>x[<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>It is important to notice that [] is the operator for subsetting the vector. It is a common mistake to type x(2), which means calling the function named x and passing argument 2 to the function.</p>
+<p>You can also retrieve multiple element for a vector at the same time.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb117-1"></a><span class="co"># retrieve the 1st, 3rd and 5th element of x </span></span>
+<span id="cb117-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb117-2"></a>x[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>)]</span></code></pre></div>
+<pre><code>## [1]  1  3 10</code></pre>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb119-1"></a><span class="co"># retrieve the 2rd to 5th elements of x using colon operator</span></span>
+<span id="cb119-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb119-2"></a>x[<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
+<pre><code>## [1]  2  3  4 10</code></pre>
+<p>The negative index means to retrieve every element from a vector except the negative index one, e.g.,</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb121-1"></a><span class="co"># retrieve every element of x except the 2rd element</span></span>
+<span id="cb121-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb121-2"></a>x[<span class="op">-</span><span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1]  2  3  4 10</code></pre>
+<p>We can also retrieve elements from vector by logical operator. E.g.,</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb123-1"></a><span class="co"># retrieve elements of x that is less than 5</span></span>
+<span id="cb123-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb123-2"></a>x[x<span class="op">&lt;</span><span class="dv">5</span>]</span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<p>We cannot retrieve element from a vector which is beyond its length.
+E.g., if you type x[6], that will return NA (i.e., missing value) because the x only have 5 elements.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb125-1"></a>x[<span class="dv">6</span>]</span></code></pre></div>
+<p>Thus, it is important to know the length of a vector to aviod such error.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb126-1"></a><span class="co"># Find the length of &quot;x&quot; using &quot;length(x)&quot;</span></span>
+<span id="cb126-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb126-2"></a><span class="kw">length</span>(x)</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+</div>
+<div id="vector-calculus" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Vector calculus</h3>
+<p>We can perform operation on vector just as we perform operation on their individual elements.
+E.g., when the element of vector is numeric, you can perform operation (+, -, *, /) on each element of a vector.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb128-1"></a>n=<span class="dv">4</span></span>
+<span id="cb128-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb128-2"></a>x=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">10</span>)</span>
+<span id="cb128-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb128-3"></a></span>
+<span id="cb128-4"><a href="data-structure-vector-matrix-list-and-factor.html#cb128-4"></a><span class="co"># Multiply x * n</span></span>
+<span id="cb128-5"><a href="data-structure-vector-matrix-list-and-factor.html#cb128-5"></a>x<span class="op">*</span>n</span></code></pre></div>
+<pre><code>## [1]  4  8 12 16 40</code></pre>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb130-1"></a><span class="co"># divide x/n</span></span>
+<span id="cb130-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb130-2"></a>x<span class="op">/</span>n</span></code></pre></div>
+<pre><code>## [1] 0.25 0.50 0.75 1.00 2.50</code></pre>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb132-1"></a><span class="co"># addition x+n</span></span>
+<span id="cb132-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb132-2"></a>x<span class="op">+</span>n</span></code></pre></div>
+<pre><code>## [1]  5  6  7  8 14</code></pre>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb134-1"></a><span class="co"># minus x-n</span></span>
+<span id="cb134-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb134-2"></a>x<span class="op">-</span>n</span></code></pre></div>
+<pre><code>## [1] -3 -2 -1  0  6</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb136-1"></a><span class="co"># power x^n</span></span>
+<span id="cb136-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb136-2"></a>x<span class="op">^</span>n</span></code></pre></div>
+<pre><code>## [1]     1    16    81   256 10000</code></pre>
+<p>We can also perform operation (+,-,*,/) with two vectors</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb138-1"></a>x=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">10</span>)</span>
+<span id="cb138-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb138-2"></a>y=<span class="dv">1</span><span class="op">:</span><span class="dv">5</span></span>
+<span id="cb138-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb138-3"></a><span class="co"># multiply x * y : the corresponding elements will multiply each other.</span></span>
+<span id="cb138-4"><a href="data-structure-vector-matrix-list-and-factor.html#cb138-4"></a>x<span class="op">*</span>y</span></code></pre></div>
+<pre><code>## [1]  1  4  9 16 50</code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb140-1"></a><span class="co"># divide x/y: the corresponding elements will divide each other.</span></span>
+<span id="cb140-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb140-2"></a>x<span class="op">/</span>y</span></code></pre></div>
+<pre><code>## [1] 1 1 1 1 2</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb142-1"></a><span class="co"># addition x+y: the corresponding elements will add each other.</span></span>
+<span id="cb142-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb142-2"></a>x<span class="op">+</span>y</span></code></pre></div>
+<pre><code>## [1]  2  4  6  8 15</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb144-1"></a><span class="co"># minus x-y: the corresponding elements will minus each other.</span></span>
+<span id="cb144-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb144-2"></a>x<span class="op">-</span>y</span></code></pre></div>
+<pre><code>## [1] 0 0 0 0 5</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb146-1"></a><span class="co"># x^y: the x to the power of the corresponding element in y</span></span>
+<span id="cb146-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb146-2"></a>x<span class="op">^</span>y</span></code></pre></div>
+<pre><code>## [1]      1      4     27    256 100000</code></pre>
+<p>We can also use built-in R function to get summry about a vector.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb148-1"></a><span class="co"># Find the mean, median, min, and max of the numebers in &quot;x&quot;</span></span>
+<span id="cb148-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb148-2"></a><span class="kw">mean</span>(x)</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb150-1"></a><span class="kw">median</span>(x)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb152-1"></a><span class="kw">min</span>(x)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb154-1"></a><span class="kw">max</span>(x)</span></code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb156-1"></a><span class="kw">summary</span>(x)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       1       2       3       4       4      10</code></pre>
+</div>
+</div>
+<div id="matrices" class="section level2">
+<h2><span class="header-section-number">3.2</span> Matrices</h2>
+<p>A matrix is a two-dimensional array where each element has the same type (numeric, character, or logical). Matrices are created with the matrix function. The general format is:</p>
+<p>myymatrix = matrix(vector, nrow=number_of_rows, ncol=number_of_columns, byrow=logical_value, dimnames=list( char_vector_rownames, char_vector_colnames))</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb158-1"></a><span class="co"># type ?matrix to get the help document on matrix()</span></span>
+<span id="cb158-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb158-2"></a>?matrix</span></code></pre></div>
+<p>Let’s make a matrix m=matrix(1:6, nrow = 3, ncol = 2). Note that we are not passing value to the arguments such as byrow and dimnames. In such case, the R will take the default value for these argumements.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb159-1"></a><span class="co"># with matrices, it always fills column by column by default.</span></span>
+<span id="cb159-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb159-2"></a>m =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">nrow =</span> <span class="dv">3</span>, <span class="dt">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb159-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb159-3"></a></span>
+<span id="cb159-4"><a href="data-structure-vector-matrix-list-and-factor.html#cb159-4"></a><span class="co"># print matrix m</span></span>
+<span id="cb159-5"><a href="data-structure-vector-matrix-list-and-factor.html#cb159-5"></a>m</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    1    4
+## [2,]    2    5
+## [3,]    3    6</code></pre>
+<p>Now, find the dimension of “m” so that we can retrieve its element.</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb161-1"></a><span class="co"># type dim(m) to get the rows and columns</span></span>
+<span id="cb161-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb161-2"></a><span class="kw">dim</span>(m) </span></code></pre></div>
+<pre><code>## [1] 3 2</code></pre>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb163-1"></a><span class="co"># type nrow(m) and ncol(m) to get the rows and columns respectively</span></span>
+<span id="cb163-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb163-2"></a><span class="kw">nrow</span>(m)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb165-1"></a><span class="kw">ncol</span>(m)</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>We can fill the matrix by rows by setting byrow to be TRUE</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb167-1"></a><span class="co"># create a matrix, filling by rows</span></span>
+<span id="cb167-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb167-2"></a><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,<span class="dt">nrow=</span><span class="dv">3</span>, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    1    2
+## [2,]    3    4
+## [3,]    5    6</code></pre>
+<p>We can also stack multiple vector to become a matrix. Depending on whether we want to stack the vector by column or by row, we can use cbind() and rbind() function.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb169-1"></a><span class="co"># create matrix through column bind cbind(): m2=cbind(c(1,3,4) c(2,34,5)) </span></span>
+<span id="cb169-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb169-2"></a>m2=<span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>),<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">34</span>,<span class="dv">5</span>))</span>
+<span id="cb169-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb169-3"></a>m2</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    1    2
+## [2,]    3   34
+## [3,]    4    5</code></pre>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb171-1"></a><span class="co"># create matrix through row bind rbind: m3=rbind(c(1,3,4), c(2,34,5))</span></span>
+<span id="cb171-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb171-2"></a>m3=<span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">34</span>,<span class="dv">5</span>))</span>
+<span id="cb171-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb171-3"></a>m3</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    3    4
+## [2,]    2   34    5</code></pre>
+<div id="subsetting-matrix" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> subsetting matrix</h3>
+<p>Matrix is a 2-dimensional container to store the data point. Once the matrix is defined, we can retrieve element from the matrix according to its index.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb173-1"></a><span class="co"># To retrieve the &quot;element&quot; in the second row and first column we</span></span>
+<span id="cb173-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb173-2"></a><span class="co"># type &quot;m[2,1]&quot;.  Again, the square brackets are used to retrieve part of a vector or matrix.</span></span>
+<span id="cb173-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb173-3"></a><span class="co"># If we want the entire second column we type in &quot;m[,2]&quot;.  This means &quot;all rows, second column 2&quot;</span></span>
+<span id="cb173-4"><a href="data-structure-vector-matrix-list-and-factor.html#cb173-4"></a><span class="co"># If we want the entire third row, we type in &quot;m[3,]&quot;.  This means &quot;third row, all columns&quot;</span></span>
+<span id="cb173-5"><a href="data-structure-vector-matrix-list-and-factor.html#cb173-5"></a>m[<span class="dv">2</span>,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb175-1"></a>m[,<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] 4 5 6</code></pre>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb177-1"></a>m[<span class="dv">3</span>,]</span></code></pre></div>
+<pre><code>## [1] 3 6</code></pre>
+<p>You can also retrieve elements from matrix using colon operator, e.g.,</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb179-1"></a><span class="co"># retrieve elements at row 1-2, and 2th column</span></span>
+<span id="cb179-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb179-2"></a>m[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] 4 5</code></pre>
+<p>Similar to vector, elements of a matrix have to be the same type. otherwise, R will force type coercion. E.g.,</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb181-1"></a><span class="co"># define a matrix with numerics</span></span>
+<span id="cb181-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb181-2"></a>m4=<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>,<span class="dt">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb181-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb181-3"></a>m4  </span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    1    5
+## [2,]    2    6
+## [3,]    3    7
+## [4,]    4    8</code></pre>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb183-1"></a><span class="co"># define a matrix with character.</span></span>
+<span id="cb183-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb183-2"></a>char=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>), <span class="dt">nrow=</span><span class="dv">4</span>)</span>
+<span id="cb183-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb183-3"></a>char</span></code></pre></div>
+<pre><code>##      [,1]
+## [1,] &quot;a&quot; 
+## [2,] &quot;b&quot; 
+## [3,] &quot;c&quot; 
+## [4,] &quot;d&quot;</code></pre>
+<p>Now combine the two matrixes m4 and char through cbind()</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb185-1"></a>m5=<span class="kw">cbind</span>(m4,char)</span>
+<span id="cb185-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb185-2"></a>m5</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,] &quot;1&quot;  &quot;5&quot;  &quot;a&quot; 
+## [2,] &quot;2&quot;  &quot;6&quot;  &quot;b&quot; 
+## [3,] &quot;3&quot;  &quot;7&quot;  &quot;c&quot; 
+## [4,] &quot;4&quot;  &quot;8&quot;  &quot;d&quot;</code></pre>
+<p>All elements of the matrixes are converted to character.</p>
+</div>
+<div id="matrix-calculus" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> matrix calculus</h3>
+<p>You can perform operation (+, -, *, /) on each element of a vector.</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb187-1"></a><span class="co"># Multiply m * n</span></span>
+<span id="cb187-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb187-2"></a>n=<span class="dv">10</span></span>
+<span id="cb187-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb187-3"></a>m =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">nrow =</span> <span class="dv">3</span>, <span class="dt">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb187-4"><a href="data-structure-vector-matrix-list-and-factor.html#cb187-4"></a>m<span class="op">*</span>n</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]   10   40
+## [2,]   20   50
+## [3,]   30   60</code></pre>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb189-1"></a><span class="co"># divide x/n</span></span>
+<span id="cb189-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb189-2"></a>m<span class="op">/</span>n</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]  0.1  0.4
+## [2,]  0.2  0.5
+## [3,]  0.3  0.6</code></pre>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb191-1"></a><span class="co"># addition x+n</span></span>
+<span id="cb191-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb191-2"></a>m<span class="op">+</span>n</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]   11   14
+## [2,]   12   15
+## [3,]   13   16</code></pre>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb193-1"></a><span class="co"># minus x-n</span></span>
+<span id="cb193-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb193-2"></a>m<span class="op">-</span>n</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]   -9   -6
+## [2,]   -8   -5
+## [3,]   -7   -4</code></pre>
+<p>We can also use the built-in R functions to perform matrix calcuation. The colSums and rowSums are two useful function for matrix.</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb195-1"></a><span class="co"># type colSums(m) to obtain the sum of each column of matrix m </span></span>
+<span id="cb195-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb195-2"></a><span class="kw">colSums</span>(m)</span></code></pre></div>
+<pre><code>## [1]  6 15</code></pre>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb197-1"></a><span class="co"># type rowSums(m) to obtain the sum of each row of matrix m</span></span>
+<span id="cb197-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb197-2"></a><span class="kw">rowSums</span>(m)</span></code></pre></div>
+<pre><code>## [1] 5 7 9</code></pre>
+<p>apply() is a handy function for matrix calcuation. The general format of apply() function is: apply(matrix, margin, function)</p>
+<ul>
+<li><p>margin=1 indicates applying each row of the matrix to the function.</p></li>
+<li><p>margin=2 indicate applying each column of the matrix to the function.</p></li>
+</ul>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb199-1"></a><span class="co"># E.g., calculating the mean of each row</span></span>
+<span id="cb199-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb199-2"></a><span class="kw">apply</span>(m,<span class="dv">1</span>,mean) </span></code></pre></div>
+<pre><code>## [1] 2.5 3.5 4.5</code></pre>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb201-1"></a><span class="co"># E.g., calculating the sum of each column</span></span>
+<span id="cb201-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb201-2"></a><span class="kw">apply</span>(m,<span class="dv">2</span>,sum)  </span></code></pre></div>
+<pre><code>## [1]  6 15</code></pre>
+</div>
+</div>
+<div id="factors" class="section level2">
+<h2><span class="header-section-number">3.3</span> Factors</h2>
+<p>Many data are categorical: e.g., the patients’ diabetes type (type 1 or type 2), the movie type (action, sci-fi, comedy…), the customer satisfaction level (poor, good excellent) to a call service.</p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb203-1"></a><span class="co"># define a vector of diabetes type</span></span>
+<span id="cb203-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb203-2"></a>diabetes =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Type1&quot;</span>, <span class="st">&quot;Type2&quot;</span>, <span class="st">&quot;Type1&quot;</span>, <span class="st">&quot;Type1&quot;</span>) </span>
+<span id="cb203-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb203-3"></a><span class="kw">class</span>(diabetes)</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>We need to convert the diabetes vector into factor to represent that this is a categorical variable. We can do that through the factor() function:</p>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb205-1"></a>diabetes =<span class="st"> </span><span class="kw">factor</span>(diabetes)</span>
+<span id="cb205-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb205-2"></a><span class="kw">class</span>(diabetes)</span></code></pre></div>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb207-1"></a><span class="kw">str</span>(diabetes)</span></code></pre></div>
+<pre><code>##  Factor w/ 2 levels &quot;Type1&quot;,&quot;Type2&quot;: 1 2 1 1</code></pre>
+<p>Note that str() is a very handy function in R. It examines the structure of any objects in R. We use this function to examine the factor. As shown, diabetes has two levels: Type1 and Type2. They are coded as 1 and 2 respectively.</p>
+<p>Take an another example. Suppose we are buidling a database for movies. The movie_type is the vector which stores the type of each movie in the database.</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb209-1"></a><span class="co"># define a vector of movie type</span></span>
+<span id="cb209-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb209-2"></a>movie_type=<span class="kw">c</span>(<span class="st">&quot;sci-fi&quot;</span>,<span class="st">&quot;comedy&quot;</span>,<span class="st">&quot;sci-fi&quot;</span>,<span class="st">&quot;action&quot;</span>,<span class="st">&quot;action&quot;</span>)</span>
+<span id="cb209-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb209-3"></a><span class="kw">str</span>(movie_type)</span></code></pre></div>
+<pre><code>##  chr [1:5] &quot;sci-fi&quot; &quot;comedy&quot; &quot;sci-fi&quot; &quot;action&quot; &quot;action&quot;</code></pre>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb211-1"></a>movie_type =<span class="st"> </span><span class="kw">factor</span>(movie_type)</span>
+<span id="cb211-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb211-2"></a><span class="kw">str</span>(movie_type)</span></code></pre></div>
+<pre><code>##  Factor w/ 3 levels &quot;action&quot;,&quot;comedy&quot;,..: 3 2 3 1 1</code></pre>
+<p>Note that both diabetes and movie are unordered because it does not make sense to compare each category in both cases. There are also situations we need ordered factor, i.e., age group, education level, etc. In marketing, we typically run customer satisfaction survey on a 1-5 scale, where 1 means poor, 2 fair, 3 good and 4 improved and 5 excellent. This is called ordered factor: they are categorical but you can compare different category.</p>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb213-1"></a><span class="co"># Here is a vector of survey response from 6 different customers</span></span>
+<span id="cb213-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb213-2"></a>survey_response=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>)</span>
+<span id="cb213-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb213-3"></a></span>
+<span id="cb213-4"><a href="data-structure-vector-matrix-list-and-factor.html#cb213-4"></a><span class="co"># convert this vector into a vector of factor with the corresponding labels</span></span>
+<span id="cb213-5"><a href="data-structure-vector-matrix-list-and-factor.html#cb213-5"></a>survey_response2=<span class="kw">factor</span>(survey_response,<span class="dt">order=</span><span class="ot">TRUE</span>,<span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>),<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;poor&quot;</span>,<span class="st">&quot;fair&quot;</span>,<span class="st">&quot;good&quot;</span>,<span class="st">&quot;improved&quot;</span>, <span class="st">&quot;excellent&quot;</span>))</span>
+<span id="cb213-6"><a href="data-structure-vector-matrix-list-and-factor.html#cb213-6"></a></span>
+<span id="cb213-7"><a href="data-structure-vector-matrix-list-and-factor.html#cb213-7"></a>survey_response2</span></code></pre></div>
+<pre><code>## [1] poor      good      excellent fair      good      excellent
+## Levels: poor &lt; fair &lt; good &lt; improved &lt; excellent</code></pre>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb215-1"></a><span class="kw">str</span>(survey_response2)</span></code></pre></div>
+<pre><code>##  Ord.factor w/ 5 levels &quot;poor&quot;&lt;&quot;fair&quot;&lt;..: 1 3 5 2 3 5</code></pre>
+<p>In the above code, levels and labels describe the level and their corresponding labels for this categorical variable. Note you need to put levels in their ascending order.</p>
+<p>As seen, the original response is coded in 1-5. Without proper labels, it would be very difficult to understand what 1-5 means. Thus, the R Factor is very useful to deal with such coded categorical variables.</p>
+<p>Since this is a ordered factor, we can compare between different level</p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb217-1"></a>survey_response2[<span class="dv">1</span>]   <span class="co"># no longer a number, but a coded level.</span></span></code></pre></div>
+<pre><code>## [1] poor
+## Levels: poor &lt; fair &lt; good &lt; improved &lt; excellent</code></pre>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb219-1"></a>survey_response2[<span class="dv">2</span>]  </span></code></pre></div>
+<pre><code>## [1] good
+## Levels: poor &lt; fair &lt; good &lt; improved &lt; excellent</code></pre>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb221-1"></a><span class="co"># we can compare level since this is a ordered factor</span></span>
+<span id="cb221-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb221-2"></a>survey_response2[<span class="dv">1</span>]<span class="op">&gt;</span>survey_response2[<span class="dv">2</span>]  </span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>As mentioned, everything in R (e.g., the variable we defined and the function) is an object. We can use str() to examine the structure of any objecxt.</p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb223-1"></a><span class="co"># use str() to examine data in R</span></span>
+<span id="cb223-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb223-2"></a><span class="kw">str</span>(movie_type)</span></code></pre></div>
+<pre><code>##  Factor w/ 3 levels &quot;action&quot;,&quot;comedy&quot;,..: 3 2 3 1 1</code></pre>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb225-1"></a><span class="kw">str</span>(survey_response2)</span></code></pre></div>
+<pre><code>##  Ord.factor w/ 5 levels &quot;poor&quot;&lt;&quot;fair&quot;&lt;..: 1 3 5 2 3 5</code></pre>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb227-1"></a><span class="co"># use str() to examine function</span></span>
+<span id="cb227-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb227-2"></a><span class="kw">str</span>(factor)</span></code></pre></div>
+<pre><code>## function (x = character(), levels, labels = levels, exclude = NA, ordered = is.ordered(x), 
+##     nmax = NA)</code></pre>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb229-1"></a><span class="kw">str</span>(str)</span></code></pre></div>
+<pre><code>## function (object, ...)</code></pre>
+</div>
+<div id="list" class="section level2">
+<h2><span class="header-section-number">3.4</span> List</h2>
+<p>Lists are the most complex of the R data types. Basically, a list is an collection of all kinds of objects (components). The many complex function returns list as function output, thus it is very important to know this data structure.</p>
+<p>Create a list: list(obj1, obj2, …) obj1, obj2, … can be DIFFERENT data types.</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb231-1"></a><span class="co"># type movielist=list(&quot;end game&quot;, 2019, 2783), </span></span>
+<span id="cb231-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb231-2"></a><span class="co"># the 1st is movie title, the 2nd is year, the 3rd is box office </span></span>
+<span id="cb231-3"><a href="data-structure-vector-matrix-list-and-factor.html#cb231-3"></a>movielist=<span class="kw">list</span>(<span class="st">&quot;end game&quot;</span>, <span class="dv">2019</span>, <span class="dv">2783</span>)</span>
+<span id="cb231-4"><a href="data-structure-vector-matrix-list-and-factor.html#cb231-4"></a></span>
+<span id="cb231-5"><a href="data-structure-vector-matrix-list-and-factor.html#cb231-5"></a><span class="co"># print the list</span></span>
+<span id="cb231-6"><a href="data-structure-vector-matrix-list-and-factor.html#cb231-6"></a>movielist</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;end game&quot;
+## 
+## [[2]]
+## [1] 2019
+## 
+## [[3]]
+## [1] 2783</code></pre>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb233-1"></a><span class="co"># type str(movielist) to see its structure</span></span>
+<span id="cb233-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb233-2"></a><span class="kw">str</span>(movielist)</span></code></pre></div>
+<pre><code>## List of 3
+##  $ : chr &quot;end game&quot;
+##  $ : num 2019
+##  $ : num 2783</code></pre>
+<p>Name each objects in the list using names() function</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb235-1"></a><span class="kw">names</span>(movielist)=<span class="kw">c</span>(<span class="st">&quot;title&quot;</span>,<span class="st">&quot;year&quot;</span>,<span class="st">&quot;boxoffice&quot;</span>)</span>
+<span id="cb235-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb235-2"></a>movielist</span></code></pre></div>
+<pre><code>## $title
+## [1] &quot;end game&quot;
+## 
+## $year
+## [1] 2019
+## 
+## $boxoffice
+## [1] 2783</code></pre>
+<p>It is a best practice to create list with variable name in the first place to enhance the readability of your code.</p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb237-1"></a>movielist=<span class="kw">list</span>(<span class="dt">title=</span><span class="st">&quot;end game&quot;</span>, <span class="dt">year=</span><span class="dv">2019</span>, <span class="dt">boxoffice=</span><span class="dv">2783</span>)</span>
+<span id="cb237-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb237-2"></a><span class="kw">str</span>(movielist)</span></code></pre></div>
+<pre><code>## List of 3
+##  $ title    : chr &quot;end game&quot;
+##  $ year     : num 2019
+##  $ boxoffice: num 2783</code></pre>
+<p>We can also retrieve the element from list by index; however, we need to use DOUBLE square brackets for retrieve element in list!!</p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb239-1"></a><span class="co"># Type movielist[[2]] to retrieve the 2rd element </span></span>
+<span id="cb239-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb239-2"></a>movielist[[<span class="dv">2</span>]]</span></code></pre></div>
+<pre><code>## [1] 2019</code></pre>
+<p>The objects in a list is named, we can also retrieve element from list by name. The “$” is used to retrieve list element by name.</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb241-1"></a>movielist<span class="op">$</span>title</span></code></pre></div>
+<pre><code>## [1] &quot;end game&quot;</code></pre>
+<p>Add an element to a list ia also very simple. For example, we want to add a duration of the movie, we can do type movielist$duration=3.</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="data-structure-vector-matrix-list-and-factor.html#cb243-1"></a>movielist<span class="op">$</span>duration=<span class="dv">3</span></span>
+<span id="cb243-2"><a href="data-structure-vector-matrix-list-and-factor.html#cb243-2"></a><span class="kw">str</span>(movielist)</span></code></pre></div>
+<pre><code>## List of 4
+##  $ title    : chr &quot;end game&quot;
+##  $ year     : num 2019
+##  $ boxoffice: num 2783
+##  $ duration : num 3</code></pre>
+</div>
+<div id="summary-1" class="section level2">
+<h2><span class="header-section-number">3.5</span> Summary</h2>
+<ul>
+<li><p>The common data structure in R: vector, matrix, list</p></li>
+<li><p>learn to retrieve elements from vector or matrix with index</p></li>
+<li><p>learn to retrieve elements from list with [[]] or $.</p></li>
+<li><p>Learn to use factor to represent both ordered and unodered categorical variables.</p></li>
+<li><p>All elments in vector and matrix must be the same type; list can contain any different type of data.</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter01.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-frame.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-dataStructure.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

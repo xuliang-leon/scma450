@@ -1,0 +1,251 @@
+# Data Frame
+
+
+A data frame is more general than a matrix in that different columns can contain different modes of data (numeric, character, factor, logical etc.). We can think of a data frame as a excel sheet where each row represents an observation, while each column represents a variable associated with the observation. Data frames are the basic data structure you’ll deal with in R.
+
+
+## Define a data.frame manually
+Our first exercise is to define a data frame manually to help you familize the functions related to data frame.
+
+Suppose we are building a database of diabetes patients. For simplicity, suppose we have only four patients, with the following patient information:
+```{r}
+patientID = c(1, 2, 3, 4) 
+age = c(25, 34, 28, 52) 
+diabetes = c("Type1", "Type2", "Type1", "Type1")  
+status = c("Poor", "Median", "Good", "Poor")
+```
+
+We want to combine these information into a data frame. The function to construct data fram is as below: mydata = data.frame(col1, col2, col3,…) where col1, col2, col3, … are the column of the data frame. Names for each column can be provided with the names function. The following code makes this clear.
+
+```{r}
+# this create an empty data frame. 
+# We sometime need to do that when we do not know the ultimate dimension of the data frame.
+patientdata = data.frame()  
+
+patientdata = data.frame(patientID, age, diabetes, status)
+
+# display the data frame on the screen to visually check the dataset
+patientdata
+```
+We can use str() to examine the structure of the data frame. str() is a very useful function to examine an object in R. We will use this function often.
+```{r}
+str(patientdata)
+```
+
+Note that each column of a data frame must have have same data mode, but you can put columns of different modes together to form the data frame. Because data frames are close to what analysts typically think of as datasets, we’ll use the terms columns  and variables  interchangeably when discussing data frames. 
+
+
+## Subsetting data.frame
+There are several ways to identify the elements of a data frame. You can use the index notation you used before (for example, with matrices) or you can specify column names.
+
+Subset the first 2 column of the patientdata by index:
+```{r}
+ patientdata[,1:2]
+```
+
+Subset the first two columns of the data frame by variable names:
+```{r}
+patientdata[c("diabetes", "status")]
+```
+
+Subset one specific column (e.g., age) by its name:
+```{r}
+patientdata$age
+```
+ 
+Now, change diabetes and status into factors because they are categorical variables:
+```{r}
+patientdata$diabetes<-factor(patientdata$diabetes)
+patientdata$status<-factor(patientdata$status, ordered = TRUE, levels = c("Poor", "Median","Good") )
+
+patientdata
+str(patientdata)
+
+```
+
+## Import csv data as data.frame.
+In most application, we will import dataset (i.e., csv, txt, excel files) from local computer into R as data frame. Here we will learn how to read data into R as data frame.
+
+The famous Auto.csv is a very standard dataset for R programming. The Auto.csv contains the basic information of over 300 kinds of Auto. We will learn to import this dataset.
+
+I have uploaded the Auto.csv file in the R-studio cloud to aviod the trouble of finding the file in each individuals' computer. Look at the files in the bottom right pannel. The file is in csv format, thus we will use read.csv() function.
+```{r}
+Auto=read.csv("data/Auto.csv")
+# examine the structure of Auto dataset
+str(Auto)
+```
+
+Unlikely excel which shows data in a tabular format, R uses different ways for us to visually examine the data. We can use head() and tail() to examine first/last 6 rows of the data.
+```{r}
+# print the first 6 rows for visually examining the dataset
+head(Auto)  
+tail(Auto)
+```
+
+We can use summary() function to quickly examine the distribution of each variable.
+```{r}
+summary(Auto)
+```
+
+read.csv() is the function to read csv file into R as a data.frame. When using the function, you need to tell exactly where to find the data file. For example, if Auto.csv is saved in my computer at: "C:/Users/lxu25/Dropbox/Teaching/UNL Courses/SCMA 450/code/Auto.csv".
+We can use the following code to read the file:
+
+```{r, eval=FALSE}
+Auto=read.csv("C:/Users/lxu25/Dropbox/Teaching/UNL Courses/SCMA 450/code/Auto.csv") 
+```
+
+Notice, in the the file directory is "/", not \". However, locating this data file can be a hassle, especially when your code is shared with others in your team because the data has a totally different directory in others's computer. Therefore, it is the best practice to always create a seperate folder for your project and save both code and data in that folder. Since your data is in the same folder of your code, we can simply use the filename to locate the data file. Then share the folder together to others.
+
+
+## Subsetting data frame
+Select by rows by index.
+```{r}
+# type Auto[2,] to select the 2nd row (or called 2nd observation)
+Auto[2,]  
+
+# type Auto[c(3,5,7),] to select the 3rd, 5th, and 7th rows.
+Auto[c(3,5,7),]
+```
+
+
+Select column by index.
+```{r}
+# type Auto[,4] to select the 4th column (i.e., horsepower); 
+head(Auto[,4])
+```
+
+```{r}
+# tpye hist(Auto[,4]) to plot the distribution of horsepower
+hist(Auto[,4])
+
+# You can customize the histgram to make it look nicer
+hist(Auto[,4],xlab="horsepower", col="gray",breaks = 50, main=
+       "frequency of horsepower")  
+```
+
+hist() plot the histogram of a variable. You can use ?hist to examine the detail of the function. 
+```{r, eval=FALSE}
+?hist  # a quick way to look at how to use this function of 
+```
+
+We can select multiple columns (variables) at the same time.
+```{r}
+# select the 2nd and 4th column (i.e., cylinders and horsepower )
+head(Auto[,c(2,4)])
+```
+
+We can create a scatter plot between these two variables to see their relationship. This also shows the reason why want to subset data frame.
+```{r}
+plot(Auto[,c(2,4)])
+```
+
+The scatter plot clearly demonstrates that a higher horsepower is assoicated with a larger number of cylinders.
+
+We can also subset the dataset by variable name. We need to use $ for subsetting one variable with its variable name.
+```{r}
+# Auto$mpg selects the variable mpg
+# type hist[Auto$mpg] to get its distribution
+hist(Auto$acceleration)
+```
+
+```{r}
+# select multiple columns by name.
+head( Auto[,c("horsepower","mpg","weight")]  )
+```
+
+Filter rows by condition:
+```{r}
+# select all rows with mpg less equal to 12
+Auto[Auto$mpg<=12,]
+
+# select all rows with mpg less equal to 12 and greater equal to 11
+Auto[Auto$mpg>=11 & Auto$mpg<=12,]
+```
+
+
+We can perform operation on existing variable and create new variables and add these new variable into the data frame.
+
+E.g., The following code creates a new variable called horsepowerpercylinder, which is horsepower divided by # of cylinders, # and adds to the data frame.
+```{r}
+Auto$horsepowerpercylinder=Auto$horsepower/Auto$cylinders
+str(Auto)
+```
+
+We can also rename variables using the names() function.
+```{r}
+# eamine the existing name of the Auto datafile.
+names(Auto)
+
+# change the 11th variable name to power_per_cylinder
+names(Auto)[11]="power_per_cylinder"
+str(Auto)
+```
+
+To delete a variable from data frames:
+```{r}
+# Delete the variable power_per_cylinder
+Auto=Auto[,-c(11)]
+str(Auto)
+```
+
+To access the mpg in Auto data frame, we must use $ (e.g., Auto$mpg). If you simply use mpg, R would not know which data frame to look for mpg. But this causes the code too long and hard to read. We can use with() function to avoid that. E.g., plot the scatter plot between weight and mpg
+```{r}
+with(Auto, plot(weight, mpg) )
+```
+The general format of with() function is to: with(DATA FRAME, CODE USING THE DATA FRAME)
+
+## Write a data frame to your computer
+We can use write.csv() to write the data frame to your local computer.
+```{r, eval=FALSE}
+write.csv(Auto,"data/Auto2.csv", row.names =FALSE)
+```
+Note, row.names = TRUE will generate an automatic ID (i.e., 1,2,3, ...) for each rows. 
+
+## Summary
+
+* While all elements in vector and matrix must be the same type, data.frame allows different columns (i.e., variable) to be different types.
+
+* use Base R for creating plots.
+
+* subsetting data.frame using index and variable names.
+
+* Use read.csv() to read csv file into R as data.frame; learn to subset data.frame.   
+
+* Use write.csv() to write data.frame from R to your local computer.
+
+
+
+
+
+```{r, eval=FALSE, include=FALSE}
+# use subset() to select the mpg and horsepower of Auto which are from US. 
+set_us=subset(Auto, origin=="US", select = c("mpg","horsepower"))   
+set_jp=subset(Auto, origin=="JP", select = c("mpg","horsepower"))
+
+plot(set_us,col="red")
+lines(set_jp, col="blue",type='p')
+
+#Note that: this chart highlights the strategy of Japanese auto company in 80s when they first come to the US market: design smaller and more energy efficient car for US consumer because the gas price is spiking in 80s. 
+
+
+#We can use attach(), detach() function to simplify that.
+
+#attach() function adds the data frame to the R search path such that data frames in the search path are checked in order to locate the variable.
+```
+
+
+```{r, eval=FALSE, include=FALSE}
+
+attach(Auto)  
+# all variables will be seached under Auto dataframe. 
+
+# We do need to write hist(Auto$mpg)
+hist(mpg, xlab="mpg", main="frequency of mpg") 
+
+detach(Auto)
+
+#Note: attach() and detach() always come together. Missing detach() will cause error.
+
+#Now, type plot(weight, mpg) to see what happens. We need to type plot(Auto$weight, Auto$mpg) becase the Auto is detached.  
+plot(weight, mpg) 
+```

@@ -1,0 +1,425 @@
+# Data Structure: Vector, Matrix, List and Factor
+
+
+It is ineffecicent to store each data point as a single-value variable. Think of dataset with 1000 rows and 20 columns, it will requires 20,000 single-value variables to store the data. 
+
+In R, there are more efficient ways to store an array of data. Here we will introduce a few common data structure in R, including vector, matrix, data frame, and list.
+
+In addition, we all also talk about the factor: the data mode to represent categorical variable in R.
+
+## Vector 
+Vector is a one-dimensional array that can hold numeric data, character data, or logical data. 
+```{r}
+# Assign x the value c(1, 2, 3, 4, 10)  (Here, "c" means vector)
+x=c(1,2,3,4,10)
+
+```
+Notice that, after running the code, it seems nothing happen on the output screen. This is because this code only tells the computer to create a vector x with value of c(1, 2, 3, 4, 10). You can type x to print it on the screen. One simple trick to print x is to put the code inside () as follow:
+
+```{r}
+(x=c(1,2,3,4,10))
+```
+
+You can also create vector using a R-function seq(): y=seq(from=1, length=5, by=2), which creates a vector with length of 5, starting from 1 with step of 2. seq() is a very useful function to generate sequence, specially when we construct for loop.
+
+```{r}
+(y=seq(from=1,length=5,by=2)) 
+
+# check the help document of the function by typing ?seq.
+ 
+```
+
+Now, suppose you are at SpaceX launching center, you want to count down from 10 to 1. Use seq() to generate a sequence from 10 to 1. 
+```{r}
+seq(from=10,length=10,by=-1)
+
+seq(from=10,to=1,by=-1)
+
+```
+
+There is another quick way to generate a sequence of integer with interval of 1 using colon:
+```{r}
+# type 1:10 to define a vector from 1 to 10 with interval of 1.
+1:10
+
+# type 10:1 to define a vector from 10 to 1 with interval of -1.
+10:1
+```
+
+So far, the element of a vector is numerical. The element of a vector can also be character or logical. 
+```{r}
+# define a character vector b=c("one","two","three") 
+b=c("one","two","three")
+b
+class(b)
+```
+
+```{r}
+# define a logical vector c=c(TRUE,FALSE,FALSE)
+c=c(TRUE,FALSE,FALSE)
+c
+class(c)
+```
+
+The element of a vector must be the same type. Otherwise, R will force type coercion: convert all elements into character. Of course, we should aviod such forced type coercion by making sure all elements in the vector are the same type.
+
+For example, type d=c(4,'3') and e=c("a", TRUE) and then print these two vectors, which are forced to be converted to character.
+
+```{r}
+d=c(4,"3")
+e=c("a", TRUE) 
+d
+e
+```
+
+### Subsetting vectors
+The vector is like an one-dimensional container for data. Once we create the vector, we can retrieve the elements from the vector according to the index. 
+```{r}
+# define x=c(1,2,3,4,10)
+x=c(1,2,3,4,10)
+
+# retrieve the 2rd element of x by typing x[2]. 
+x[2]
+```
+
+It is important to notice that [] is the operator for subsetting the vector. It is a common mistake to type x(2), which means calling the function named x and passing argument 2 to the function.
+
+You can also retrieve multiple element for a vector at the same time.
+```{r}
+# retrieve the 1st, 3rd and 5th element of x 
+x[c(1,3,5)]
+
+# retrieve the 2rd to 5th elements of x using colon operator
+x[2:5]
+```
+
+The negative index means to retrieve every element from a vector except the negative index one, e.g.,
+```{r}
+# retrieve every element of x except the 2rd element
+x[-1]
+```
+
+We can also retrieve elements from vector by logical operator. E.g.,
+```{r}
+# retrieve elements of x that is less than 5
+x[x<5]
+```
+
+We cannot retrieve element from a vector which is beyond its length.
+E.g., if you type x[6], that will return NA (i.e., missing value) because the x only have 5 elements.
+```{r, eval=FALSE}
+x[6]
+```
+
+Thus, it is important to know the length of a vector to aviod such error. 
+```{r}
+# Find the length of "x" using "length(x)"
+length(x)
+```
+
+
+### Vector calculus
+We can perform operation on vector just as we perform operation on their individual elements. 
+E.g., when the element of vector is numeric, you can perform operation (+, -, *, /) on each element of a vector. 
+```{r}
+n=4
+x=c(1,2,3,4,10)
+
+# Multiply x * n
+x*n
+
+# divide x/n
+x/n
+
+# addition x+n
+x+n
+
+# minus x-n
+x-n
+
+# power x^n
+x^n
+```
+
+We can also perform operation (+,-,*,/) with two vectors 
+```{r}
+x=c(1,2,3,4,10)
+y=1:5
+# multiply x * y : the corresponding elements will multiply each other.
+x*y
+
+# divide x/y: the corresponding elements will divide each other.
+x/y
+
+# addition x+y: the corresponding elements will add each other.
+x+y
+
+# minus x-y: the corresponding elements will minus each other.
+x-y
+
+# x^y: the x to the power of the corresponding element in y
+x^y
+```
+
+We can also use built-in R function to get summry about a vector.
+```{r}
+# Find the mean, median, min, and max of the numebers in "x"
+mean(x)
+median(x)
+min(x)
+max(x)
+summary(x)
+```
+
+
+## Matrices  
+A matrix is a two-dimensional array where each element has the same type (numeric, character, or logical). Matrices are created with the matrix function. The general format is:
+
+myymatrix = matrix(vector, nrow=number_of_rows, ncol=number_of_columns, byrow=logical_value, dimnames=list( char_vector_rownames, char_vector_colnames)) 
+```{r, eval=FALSE}
+# type ?matrix to get the help document on matrix()
+?matrix
+```
+
+Let's make a matrix m=matrix(1:6, nrow = 3, ncol = 2). Note that we are not passing value to the arguments such as byrow and dimnames. In such case, the R will take the default value for these argumements.
+```{r}
+# with matrices, it always fills column by column by default.
+m = matrix(1:6, nrow = 3, ncol = 2)
+
+# print matrix m
+m
+```
+
+Now, find the dimension of "m" so that we can retrieve its element.
+```{r}
+# type dim(m) to get the rows and columns
+dim(m) 
+
+# type nrow(m) and ncol(m) to get the rows and columns respectively
+nrow(m)
+ncol(m)
+```
+
+We can fill the matrix by rows by setting byrow to be TRUE
+```{r}
+# create a matrix, filling by rows
+matrix(1:6,nrow=3, ncol=2, byrow=TRUE)
+
+```
+
+We can also stack multiple vector to become a matrix. Depending on whether we want to stack the vector by column or by row, we can use cbind() and rbind() function.
+```{r}
+# create matrix through column bind cbind(): m2=cbind(c(1,3,4) c(2,34,5)) 
+m2=cbind(c(1,3,4),c(2,34,5))
+m2
+
+# create matrix through row bind rbind: m3=rbind(c(1,3,4), c(2,34,5))
+m3=rbind(c(1,3,4), c(2,34,5))
+m3
+```
+
+
+### subsetting matrix
+Matrix is a 2-dimensional container to store the data point. Once the matrix is defined, we can retrieve element from the matrix according to its index.
+```{r}
+# To retrieve the "element" in the second row and first column we
+# type "m[2,1]".  Again, the square brackets are used to retrieve part of a vector or matrix.
+# If we want the entire second column we type in "m[,2]".  This means "all rows, second column 2"
+# If we want the entire third row, we type in "m[3,]".  This means "third row, all columns"
+m[2,1]
+m[,2]
+m[3,]
+```
+
+You can also retrieve elements from matrix using colon operator, e.g., 
+```{r}
+# retrieve elements at row 1-2, and 2th column
+m[1:2,2]
+```
+
+Similar to vector, elements of a matrix have to be the same type. otherwise, R will force type coercion. E.g., 
+```{r}
+# define a matrix with numerics
+m4=matrix(1:8,ncol=2)
+m4  
+
+# define a matrix with character.
+char=matrix(c("a","b","c","d"), nrow=4)
+char
+```
+
+Now combine the two matrixes m4 and char through cbind()
+```{r}
+m5=cbind(m4,char)
+m5
+```
+All elements of the matrixes are converted to character.
+
+### matrix calculus
+You can perform operation (+, -, *, /) on each element of a vector.
+```{r}
+# Multiply m * n
+n=10
+m = matrix(1:6, nrow = 3, ncol = 2)
+m*n
+
+# divide x/n
+m/n
+
+# addition x+n
+m+n
+
+# minus x-n
+m-n
+```
+
+We can also use the built-in R functions to perform matrix calcuation. The colSums and rowSums are two useful function for matrix.
+```{r}
+# type colSums(m) to obtain the sum of each column of matrix m 
+colSums(m)
+
+# type rowSums(m) to obtain the sum of each row of matrix m
+rowSums(m)
+
+```
+
+
+apply() is a handy function for matrix calcuation. The general format of apply() function is: apply(matrix, margin, function)
+
+* margin=1 indicates applying each row of the matrix to the function.
+
+* margin=2 indicate applying each column of the matrix to the function.
+
+```{r}
+# E.g., calculating the mean of each row
+apply(m,1,mean) 
+
+# E.g., calculating the sum of each column
+apply(m,2,sum)  
+```
+
+
+## Factors 
+Many data are categorical: e.g., the patients' diabetes type (type 1 or type 2), the movie type (action, sci-fi, comedy...), the customer satisfaction level (poor, good excellent) to a call service.
+
+```{r}
+# define a vector of diabetes type
+diabetes = c("Type1", "Type2", "Type1", "Type1") 
+class(diabetes)
+```
+
+We need to convert the diabetes vector into factor to represent that this is a categorical variable. We can do that through the factor() function:
+```{r}
+diabetes = factor(diabetes)
+class(diabetes)
+str(diabetes)
+```
+Note that str() is a very handy function in R. It examines the structure of any objects in R. We use this function to examine the factor. As shown, diabetes has two levels: Type1 and Type2. They are coded as 1 and 2 respectively. 
+
+Take an another example. Suppose we are buidling a database for movies. The movie_type is the vector which stores the type of each movie in the database.
+```{r}
+# define a vector of movie type
+movie_type=c("sci-fi","comedy","sci-fi","action","action")
+str(movie_type)
+
+movie_type = factor(movie_type)
+str(movie_type)
+
+```
+
+Note that both diabetes and movie are unordered because it does not make sense to compare each category in both cases. There are also situations we need ordered factor, i.e., age group, education level, etc. In marketing, we typically run customer satisfaction survey on a 1-5 scale, where 1 means poor, 2 fair, 3 good and 4 improved and 5 excellent. This is called ordered factor: they are categorical but you can compare different category.
+
+```{r}
+# Here is a vector of survey response from 6 different customers
+survey_response=c(1,3,5,2,3,5)
+
+# convert this vector into a vector of factor with the corresponding labels
+survey_response2=factor(survey_response,order=TRUE,levels=c(1,2,3,4,5),labels=c("poor","fair","good","improved", "excellent"))
+
+survey_response2
+str(survey_response2)
+```
+
+In the above code, levels and labels describe the level and their corresponding labels for this categorical variable. Note you need to put levels in their ascending order. 
+
+As seen, the original response is coded in 1-5. Without proper labels, it would be very difficult to understand what 1-5 means. Thus, the R Factor is very useful to deal with such coded categorical variables. 
+
+Since this is a ordered factor, we can compare between different level
+```{r}
+survey_response2[1]   # no longer a number, but a coded level.
+survey_response2[2]  
+
+# we can compare level since this is a ordered factor
+survey_response2[1]>survey_response2[2]  
+```
+
+
+As mentioned, everything in R (e.g., the variable we defined and the function) is an object. We can use str() to examine the structure of any objecxt.  
+```{r}
+# use str() to examine data in R
+str(movie_type)
+str(survey_response2)
+
+# use str() to examine function
+str(factor)
+str(str)
+
+```
+
+## List 
+Lists are the most complex of the R data types. Basically, a list is an collection of all kinds of objects (components). The many complex function returns list as function output, thus it is very important to know this data structure.
+
+Create a list: list(obj1, obj2, ...)  obj1, obj2, ... can be DIFFERENT data types.
+
+```{r}
+# type movielist=list("end game", 2019, 2783), 
+# the 1st is movie title, the 2nd is year, the 3rd is box office 
+movielist=list("end game", 2019, 2783)
+
+# print the list
+movielist
+
+# type str(movielist) to see its structure
+str(movielist)
+```
+
+Name each objects in the list using names() function
+```{r}
+names(movielist)=c("title","year","boxoffice")
+movielist
+```
+
+It is a best practice to create list with variable name in the first place to enhance the readability of your code.
+```{r}
+movielist=list(title="end game", year=2019, boxoffice=2783)
+str(movielist)
+```
+
+We can also retrieve the element from list by index; however, we need to use DOUBLE square brackets for retrieve element in list!! 
+```{r}
+# Type movielist[[2]] to retrieve the 2rd element 
+movielist[[2]]
+```
+
+The objects in a list is named, we can also retrieve element from list by name. The "$" is used to retrieve list element by name.
+```{r}
+movielist$title
+```
+
+Add an element to a list ia also very simple. For example, we want to add a duration of the movie, we can do type movielist$duration=3.
+```{r}
+movielist$duration=3
+str(movielist)
+```
+
+## Summary
+
+* The common data structure in R: vector, matrix, list
+
+* learn to retrieve elements from vector or matrix with index
+
+* learn to retrieve elements from list with [[]] or $. 
+
+* Learn to use factor to represent both ordered and unodered categorical variables.
+
+* All elments in vector and matrix must be the same type; list can contain any different type of data.
