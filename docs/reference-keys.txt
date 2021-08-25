@@ -1,4 +1,4 @@
-prerequisites
+overview-of-business-analytics-and-r-programming
 chapter01
 use-r-as-a-calculator
 define-variables

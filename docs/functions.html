@@ -4,27 +4,27 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Functions | A Minimal Book Example</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <title>Chapter 5 Functions | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Functions | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 5 Functions | Notes for SCMA450: Data Modeling and Computing" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Functions | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 5 Functions | Notes for SCMA450: Data Modeling and Computing" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
   
 
-<meta name="author" content="Yihui Xie" />
+<meta name="author" content="Dr. Liang (Leon) Xu" />
 
 
-<meta name="date" content="2021-08-23" />
+<meta name="date" content="2021-08-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -137,7 +137,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
 <li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
 <li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
 <li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
@@ -205,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
           </h1>
         </div>
 
@@ -226,7 +226,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">5.1</span> Get the Help Document of A Function</h2>
 <p>You cannot memorize all functions and their usage. We rely on the help documents of the function.</p>
 <p>Take seq() function as an example. This function can generate a sequence of number. We can type ?seq to get the help document of the function</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="functions.html#cb298-1"></a>?seq</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="functions.html#cb297-1"></a>?seq</span></code></pre></div>
 </div>
 <div id="call-build-in-functions-in-r" class="section level2">
 <h2><span class="header-section-number">5.2</span> Call build-in functions in R</h2>
@@ -236,55 +236,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>by argument name.</li>
 </ul>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="functions.html#cb299-1"></a><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">2</span>,<span class="dt">to=</span><span class="dv">12</span>, <span class="dt">by=</span><span class="dv">2</span>)  </span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="functions.html#cb298-1"></a><span class="kw">seq</span>(<span class="dt">from=</span><span class="dv">2</span>,<span class="dt">to=</span><span class="dv">12</span>, <span class="dt">by=</span><span class="dv">2</span>)  </span></code></pre></div>
 <pre><code>## [1]  2  4  6  8 10 12</code></pre>
 <ul>
 <li>by position</li>
 </ul>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="functions.html#cb301-1"></a><span class="kw">seq</span>(<span class="dv">2</span>,<span class="dv">12</span>, <span class="dv">2</span>)  </span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="functions.html#cb300-1"></a><span class="kw">seq</span>(<span class="dv">2</span>,<span class="dv">12</span>, <span class="dv">2</span>)  </span></code></pre></div>
 <pre><code>## [1]  2  4  6  8 10 12</code></pre>
 </div>
 <div id="write-your-own-functions" class="section level2">
 <h2><span class="header-section-number">5.3</span> Write Your Own Functions</h2>
 <p>The general format for defining function is as follow:</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="functions.html#cb303-1"></a>function_name=<span class="cf">function</span>(argument1,arugment2, ...){</span>
-<span id="cb303-2"><a href="functions.html#cb303-2"></a></span>
-<span id="cb303-3"><a href="functions.html#cb303-3"></a> <span class="co"># Code to Process the arguments</span></span>
-<span id="cb303-4"><a href="functions.html#cb303-4"></a>  </span>
-<span id="cb303-5"><a href="functions.html#cb303-5"></a>  <span class="kw">return</span>(results) </span>
-<span id="cb303-6"><a href="functions.html#cb303-6"></a></span>
-<span id="cb303-7"><a href="functions.html#cb303-7"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="functions.html#cb302-1"></a>function_name=<span class="cf">function</span>(argument1,arugment2, ...){</span>
+<span id="cb302-2"><a href="functions.html#cb302-2"></a></span>
+<span id="cb302-3"><a href="functions.html#cb302-3"></a> <span class="co"># Code to Process the arguments</span></span>
+<span id="cb302-4"><a href="functions.html#cb302-4"></a>  </span>
+<span id="cb302-5"><a href="functions.html#cb302-5"></a>  <span class="kw">return</span>(results) </span>
+<span id="cb302-6"><a href="functions.html#cb302-6"></a></span>
+<span id="cb302-7"><a href="functions.html#cb302-7"></a>}</span></code></pre></div>
 <p>E.g., our first task is to write a function to calculate the sum square of two numbers.</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="functions.html#cb304-1"></a>myfun1=<span class="cf">function</span>(x1,x2){</span>
-<span id="cb304-2"><a href="functions.html#cb304-2"></a>  <span class="kw">return</span>(x1<span class="op">^</span><span class="dv">2</span><span class="op">+</span>x2<span class="op">^</span><span class="dv">2</span>)</span>
-<span id="cb304-3"><a href="functions.html#cb304-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="functions.html#cb303-1"></a>myfun1=<span class="cf">function</span>(x1,x2){</span>
+<span id="cb303-2"><a href="functions.html#cb303-2"></a>  <span class="kw">return</span>(x1<span class="op">^</span><span class="dv">2</span><span class="op">+</span>x2<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb303-3"><a href="functions.html#cb303-3"></a>}</span></code></pre></div>
 <p>By default, the result from the last line of the function will be the returned result. So we can change the last line as: <span class="math inline">\(x_1^2+x_2^2\)</span>.</p>
 <p>Once we define the function, it is ready to be used just as other functions built-in R.</p>
 <ul>
 <li>call function by argument name</li>
 </ul>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="functions.html#cb305-1"></a><span class="kw">myfun1</span>(<span class="dt">x2=</span><span class="dv">2</span>,<span class="dt">x1=</span><span class="dv">1</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="functions.html#cb304-1"></a><span class="kw">myfun1</span>(<span class="dt">x2=</span><span class="dv">2</span>,<span class="dt">x1=</span><span class="dv">1</span>) </span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
 <ul>
 <li>call function by position</li>
 </ul>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="functions.html#cb307-1"></a><span class="kw">myfun1</span>(<span class="dv">1</span>,<span class="dv">2</span>)  </span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="functions.html#cb306-1"></a><span class="kw">myfun1</span>(<span class="dv">1</span>,<span class="dv">2</span>)  </span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
 </div>
 <div id="flexible-function" class="section level2">
 <h2><span class="header-section-number">5.4</span> Flexible Function</h2>
 <p>You may notice that some functions have an argument of “…”. This is called flexible function. Let’s take a look at an example:</p>
 <p>We will define a plot function to make a scatter plot between two variable, and add a linear fitted linear to the plot.</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="functions.html#cb309-1"></a>abplot=<span class="cf">function</span>(x,y,...){</span>
-<span id="cb309-2"><a href="functions.html#cb309-2"></a>  <span class="kw">plot</span>(x,y,... )    <span class="co"># create a scatter plot</span></span>
-<span id="cb309-3"><a href="functions.html#cb309-3"></a>  <span class="kw">abline</span>(<span class="kw">lm</span>(y<span class="op">~</span>x))   <span class="co"># add a fitted line</span></span>
-<span id="cb309-4"><a href="functions.html#cb309-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="functions.html#cb308-1"></a>abplot=<span class="cf">function</span>(x,y,...){</span>
+<span id="cb308-2"><a href="functions.html#cb308-2"></a>  <span class="kw">plot</span>(x,y,... )    <span class="co"># create a scatter plot</span></span>
+<span id="cb308-3"><a href="functions.html#cb308-3"></a>  <span class="kw">abline</span>(<span class="kw">lm</span>(y<span class="op">~</span>x))   <span class="co"># add a fitted line</span></span>
+<span id="cb308-4"><a href="functions.html#cb308-4"></a>}</span></code></pre></div>
 <p>Essentially, anything you passed in the position of … will be passed to the plot() function.</p>
 <p>We can now call abplot() function with additional arguments as below:</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="functions.html#cb310-1"></a>Auto=<span class="kw">read.csv</span>(<span class="st">&quot;data/Auto.csv&quot;</span>)</span>
-<span id="cb310-2"><a href="functions.html#cb310-2"></a><span class="kw">abplot</span>(Auto<span class="op">$</span>weight, Auto<span class="op">$</span>mpg, <span class="dt">type=</span><span class="st">&quot;p&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;weight&quot;</span>, </span>
-<span id="cb310-3"><a href="functions.html#cb310-3"></a>       <span class="dt">ylab=</span><span class="st">&quot;mpg&quot;</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-109-1.png" width="672" /></p>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="functions.html#cb309-1"></a>Auto=<span class="kw">read.csv</span>(<span class="st">&quot;data/Auto.csv&quot;</span>)</span>
+<span id="cb309-2"><a href="functions.html#cb309-2"></a><span class="kw">abplot</span>(Auto<span class="op">$</span>weight, Auto<span class="op">$</span>mpg, <span class="dt">type=</span><span class="st">&quot;p&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;weight&quot;</span>, </span>
+<span id="cb309-3"><a href="functions.html#cb309-3"></a>       <span class="dt">ylab=</span><span class="st">&quot;mpg&quot;</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
 </div>
 <div id="excercise-1" class="section level2">
 <h2><span class="header-section-number">5.5</span> Excercise 1</h2>
@@ -294,18 +294,18 @@ Below is the formula for computing skewness of a variable.</p>
 <p><span class="math display">\[skewness =\frac{\sum_{i=1}^n(x_i − \bar x)^3}{n*\sigma^3}\]</span></p>
 <p>A variable with skewness close to 0 tend to be symmetry; A variable with negative skewness tend to left
 skewed; A variable with positive skewness tend to right.</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="functions.html#cb311-1"></a>mystat=<span class="cf">function</span>(x){</span>
-<span id="cb311-2"><a href="functions.html#cb311-2"></a>  avg=<span class="kw">mean</span>(x)</span>
-<span id="cb311-3"><a href="functions.html#cb311-3"></a>  sd=<span class="kw">sd</span>(x)</span>
-<span id="cb311-4"><a href="functions.html#cb311-4"></a>  skewness=<span class="kw">mean</span>((x<span class="op">-</span>avg)<span class="op">^</span><span class="dv">3</span>)<span class="op">/</span>sd<span class="op">^</span><span class="dv">3</span></span>
-<span id="cb311-5"><a href="functions.html#cb311-5"></a>  <span class="kw">return</span>(<span class="kw">c</span>(avg, sd, skewness)) <span class="co"># return mean and std dev as a vector</span></span>
-<span id="cb311-6"><a href="functions.html#cb311-6"></a>}</span>
-<span id="cb311-7"><a href="functions.html#cb311-7"></a></span>
-<span id="cb311-8"><a href="functions.html#cb311-8"></a><span class="co"># acceleration is not as skewed</span></span>
-<span id="cb311-9"><a href="functions.html#cb311-9"></a><span class="kw">mystat</span>(Auto<span class="op">$</span>acceleration)</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="functions.html#cb310-1"></a>mystat=<span class="cf">function</span>(x){</span>
+<span id="cb310-2"><a href="functions.html#cb310-2"></a>  avg=<span class="kw">mean</span>(x)</span>
+<span id="cb310-3"><a href="functions.html#cb310-3"></a>  sd=<span class="kw">sd</span>(x)</span>
+<span id="cb310-4"><a href="functions.html#cb310-4"></a>  skewness=<span class="kw">mean</span>((x<span class="op">-</span>avg)<span class="op">^</span><span class="dv">3</span>)<span class="op">/</span>sd<span class="op">^</span><span class="dv">3</span></span>
+<span id="cb310-5"><a href="functions.html#cb310-5"></a>  <span class="kw">return</span>(<span class="kw">c</span>(avg, sd, skewness)) <span class="co"># return mean and std dev as a vector</span></span>
+<span id="cb310-6"><a href="functions.html#cb310-6"></a>}</span>
+<span id="cb310-7"><a href="functions.html#cb310-7"></a></span>
+<span id="cb310-8"><a href="functions.html#cb310-8"></a><span class="co"># acceleration is not as skewed</span></span>
+<span id="cb310-9"><a href="functions.html#cb310-9"></a><span class="kw">mystat</span>(Auto<span class="op">$</span>acceleration)</span></code></pre></div>
 <pre><code>## [1] 15.5413265  2.7588641  0.2893592</code></pre>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="functions.html#cb313-1"></a><span class="co"># horsepower is right skewed</span></span>
-<span id="cb313-2"><a href="functions.html#cb313-2"></a><span class="kw">mystat</span>(Auto<span class="op">$</span>horsepower)</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="functions.html#cb312-1"></a><span class="co"># horsepower is right skewed</span></span>
+<span id="cb312-2"><a href="functions.html#cb312-2"></a><span class="kw">mystat</span>(Auto<span class="op">$</span>horsepower)</span></code></pre></div>
 <pre><code>## [1] 104.469388  38.491160   1.079019</code></pre>
 </div>
 <div id="the-apply-function-family" class="section level2">
@@ -317,10 +317,10 @@ skewed; A variable with positive skewness tend to right.</p>
 <li>whereas with MARGIN=2, it works over columns</li>
 </ul>
 <p>FUN, which is the function that you want to apply to the data.</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="functions.html#cb315-1"></a><span class="kw">apply</span>(Auto[<span class="kw">c</span>(<span class="st">&quot;mpg&quot;</span>,<span class="st">&quot;weight&quot;</span>,<span class="st">&quot;horsepower&quot;</span>)], <span class="dv">2</span>, mystat)</span></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="functions.html#cb314-1"></a><span class="kw">apply</span>(Auto[<span class="kw">c</span>(<span class="st">&quot;mpg&quot;</span>,<span class="st">&quot;weight&quot;</span>,<span class="st">&quot;horsepower&quot;</span>)], <span class="dv">2</span>, mystat)</span></code></pre></div>
 <p>In addition, lapply() and sapply() are the two variants of apply(). lapply() and sapply() both work over column and return results in different format.</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="functions.html#cb316-1"></a><span class="co"># apply function on the column and return results as list</span></span>
-<span id="cb316-2"><a href="functions.html#cb316-2"></a><span class="kw">lapply</span>(Auto[<span class="kw">c</span>(<span class="st">&quot;mpg&quot;</span>,<span class="st">&quot;weight&quot;</span>,<span class="st">&quot;horsepower&quot;</span>)], mystat)</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="functions.html#cb315-1"></a><span class="co"># apply function on the column and return results as list</span></span>
+<span id="cb315-2"><a href="functions.html#cb315-2"></a><span class="kw">lapply</span>(Auto[<span class="kw">c</span>(<span class="st">&quot;mpg&quot;</span>,<span class="st">&quot;weight&quot;</span>,<span class="st">&quot;horsepower&quot;</span>)], mystat)</span></code></pre></div>
 <pre><code>## $mpg
 ## [1] 23.4459184  7.8050075  0.4536001
 ## 
@@ -329,8 +329,8 @@ skewed; A variable with positive skewness tend to right.</p>
 ## 
 ## $horsepower
 ## [1] 104.469388  38.491160   1.079019</code></pre>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="functions.html#cb318-1"></a><span class="co"># apply function on column and return a simplified results</span></span>
-<span id="cb318-2"><a href="functions.html#cb318-2"></a><span class="kw">sapply</span>(Auto[<span class="kw">c</span>(<span class="st">&quot;mpg&quot;</span>,<span class="st">&quot;weight&quot;</span>,<span class="st">&quot;horsepower&quot;</span>)], mystat)</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="functions.html#cb317-1"></a><span class="co"># apply function on column and return a simplified results</span></span>
+<span id="cb317-2"><a href="functions.html#cb317-2"></a><span class="kw">sapply</span>(Auto[<span class="kw">c</span>(<span class="st">&quot;mpg&quot;</span>,<span class="st">&quot;weight&quot;</span>,<span class="st">&quot;horsepower&quot;</span>)], mystat)</span></code></pre></div>
 <pre><code>##             mpg      weight horsepower
 ## [1,] 23.4459184 2977.584184 104.469388
 ## [2,]  7.8050075  849.402560  38.491160
@@ -340,26 +340,26 @@ skewed; A variable with positive skewness tend to right.</p>
 <h2><span class="header-section-number">5.7</span> Scoping Rule in R</h2>
 <p>Scoping Rule determines where R should search the value of free variable inside a function. Free variables inside a function is the variables that is neither defined in a function nor the functions’ argument.</p>
 <p>Let’s look at an example.</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="functions.html#cb320-1"></a>power=<span class="dv">2</span></span>
-<span id="cb320-2"><a href="functions.html#cb320-2"></a></span>
-<span id="cb320-3"><a href="functions.html#cb320-3"></a>myfun2=<span class="cf">function</span>(x){    </span>
-<span id="cb320-4"><a href="functions.html#cb320-4"></a>  x<span class="op">^</span>power </span>
-<span id="cb320-5"><a href="functions.html#cb320-5"></a>}</span>
-<span id="cb320-6"><a href="functions.html#cb320-6"></a></span>
-<span id="cb320-7"><a href="functions.html#cb320-7"></a><span class="kw">myfun2</span>(<span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="functions.html#cb319-1"></a>power=<span class="dv">2</span></span>
+<span id="cb319-2"><a href="functions.html#cb319-2"></a></span>
+<span id="cb319-3"><a href="functions.html#cb319-3"></a>myfun2=<span class="cf">function</span>(x){    </span>
+<span id="cb319-4"><a href="functions.html#cb319-4"></a>  x<span class="op">^</span>power </span>
+<span id="cb319-5"><a href="functions.html#cb319-5"></a>}</span>
+<span id="cb319-6"><a href="functions.html#cb319-6"></a></span>
+<span id="cb319-7"><a href="functions.html#cb319-7"></a><span class="kw">myfun2</span>(<span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] 25</code></pre>
 <p>In the above code, “power” is a free variable. A good practice is to avoid free variables. In other word, we should define variables needed by a function either through arguments or define locally within the function. For example, we can revise the above function as below:</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="functions.html#cb322-1"></a>power=<span class="dv">2</span></span>
-<span id="cb322-2"><a href="functions.html#cb322-2"></a>myfun2=<span class="cf">function</span>(x){    </span>
-<span id="cb322-3"><a href="functions.html#cb322-3"></a>  power=<span class="dv">3</span>        <span class="co"># define power inside the function</span></span>
-<span id="cb322-4"><a href="functions.html#cb322-4"></a>  x<span class="op">^</span>power            </span>
-<span id="cb322-5"><a href="functions.html#cb322-5"></a>}</span>
-<span id="cb322-6"><a href="functions.html#cb322-6"></a></span>
-<span id="cb322-7"><a href="functions.html#cb322-7"></a><span class="co"># guess, what is the value of myfun2(2) </span></span>
-<span id="cb322-8"><a href="functions.html#cb322-8"></a><span class="kw">myfun2</span>(<span class="dv">2</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="functions.html#cb321-1"></a>power=<span class="dv">2</span></span>
+<span id="cb321-2"><a href="functions.html#cb321-2"></a>myfun2=<span class="cf">function</span>(x){    </span>
+<span id="cb321-3"><a href="functions.html#cb321-3"></a>  power=<span class="dv">3</span>        <span class="co"># define power inside the function</span></span>
+<span id="cb321-4"><a href="functions.html#cb321-4"></a>  x<span class="op">^</span>power            </span>
+<span id="cb321-5"><a href="functions.html#cb321-5"></a>}</span>
+<span id="cb321-6"><a href="functions.html#cb321-6"></a></span>
+<span id="cb321-7"><a href="functions.html#cb321-7"></a><span class="co"># guess, what is the value of myfun2(2) </span></span>
+<span id="cb321-8"><a href="functions.html#cb321-8"></a><span class="kw">myfun2</span>(<span class="dv">2</span>) </span></code></pre></div>
 <pre><code>## [1] 8</code></pre>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="functions.html#cb324-1"></a><span class="co"># guess, what is the value of power</span></span>
-<span id="cb324-2"><a href="functions.html#cb324-2"></a>power</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="functions.html#cb323-1"></a><span class="co"># guess, what is the value of power</span></span>
+<span id="cb323-2"><a href="functions.html#cb323-2"></a>power</span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <p>The scoping rule in R determines that what is the value of “power” when we call myfun2(2). In R, the program will first search inside the function whether “power” is defined. If yes, then use the value defined inside the function. Otherwise, the program examine whether “power” is defined outside the function. Changing the value inside the function will not change the variable outside the function.</p>
 </div>

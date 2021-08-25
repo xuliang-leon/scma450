@@ -4,27 +4,27 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Data Frame | A Minimal Book Example</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <title>Chapter 4 Data Frame | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Data Frame | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 4 Data Frame | Notes for SCMA450: Data Modeling and Computing" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Data Frame | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 4 Data Frame | Notes for SCMA450: Data Modeling and Computing" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
   
 
-<meta name="author" content="Yihui Xie" />
+<meta name="author" content="Dr. Liang (Leon) Xu" />
 
 
-<meta name="date" content="2021-08-23" />
+<meta name="date" content="2021-08-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -137,7 +137,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
 <li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
 <li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
 <li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
@@ -205,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
           </h1>
         </div>
 
@@ -220,26 +220,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">4.1</span> Define a data.frame manually</h2>
 <p>Our first exercise is to define a data frame manually to help you familize the functions related to data frame.</p>
 <p>Suppose we are building a database of diabetes patients. For simplicity, suppose we have only four patients, with the following patient information:</p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="data-frame.html#cb245-1"></a>patientID =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>) </span>
-<span id="cb245-2"><a href="data-frame.html#cb245-2"></a>age =<span class="st"> </span><span class="kw">c</span>(<span class="dv">25</span>, <span class="dv">34</span>, <span class="dv">28</span>, <span class="dv">52</span>) </span>
-<span id="cb245-3"><a href="data-frame.html#cb245-3"></a>diabetes =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Type1&quot;</span>, <span class="st">&quot;Type2&quot;</span>, <span class="st">&quot;Type1&quot;</span>, <span class="st">&quot;Type1&quot;</span>)  </span>
-<span id="cb245-4"><a href="data-frame.html#cb245-4"></a>status =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Median&quot;</span>, <span class="st">&quot;Good&quot;</span>, <span class="st">&quot;Poor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="data-frame.html#cb244-1"></a>patientID =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>) </span>
+<span id="cb244-2"><a href="data-frame.html#cb244-2"></a>age =<span class="st"> </span><span class="kw">c</span>(<span class="dv">25</span>, <span class="dv">34</span>, <span class="dv">28</span>, <span class="dv">52</span>) </span>
+<span id="cb244-3"><a href="data-frame.html#cb244-3"></a>diabetes =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Type1&quot;</span>, <span class="st">&quot;Type2&quot;</span>, <span class="st">&quot;Type1&quot;</span>, <span class="st">&quot;Type1&quot;</span>)  </span>
+<span id="cb244-4"><a href="data-frame.html#cb244-4"></a>status =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Median&quot;</span>, <span class="st">&quot;Good&quot;</span>, <span class="st">&quot;Poor&quot;</span>)</span></code></pre></div>
 <p>We want to combine these information into a data frame. The function to construct data fram is as below: mydata = data.frame(col1, col2, col3,…) where col1, col2, col3, … are the column of the data frame. Names for each column can be provided with the names function. The following code makes this clear.</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="data-frame.html#cb246-1"></a><span class="co"># this create an empty data frame. </span></span>
-<span id="cb246-2"><a href="data-frame.html#cb246-2"></a><span class="co"># We sometime need to do that when we do not know the ultimate dimension of the data frame.</span></span>
-<span id="cb246-3"><a href="data-frame.html#cb246-3"></a>patientdata =<span class="st"> </span><span class="kw">data.frame</span>()  </span>
-<span id="cb246-4"><a href="data-frame.html#cb246-4"></a></span>
-<span id="cb246-5"><a href="data-frame.html#cb246-5"></a>patientdata =<span class="st"> </span><span class="kw">data.frame</span>(patientID, age, diabetes, status)</span>
-<span id="cb246-6"><a href="data-frame.html#cb246-6"></a></span>
-<span id="cb246-7"><a href="data-frame.html#cb246-7"></a><span class="co"># display the data frame on the screen to visually check the dataset</span></span>
-<span id="cb246-8"><a href="data-frame.html#cb246-8"></a>patientdata</span></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="data-frame.html#cb245-1"></a><span class="co"># this create an empty data frame. </span></span>
+<span id="cb245-2"><a href="data-frame.html#cb245-2"></a><span class="co"># We sometime need to do that when we do not know the ultimate dimension of the data frame.</span></span>
+<span id="cb245-3"><a href="data-frame.html#cb245-3"></a>patientdata =<span class="st"> </span><span class="kw">data.frame</span>()  </span>
+<span id="cb245-4"><a href="data-frame.html#cb245-4"></a></span>
+<span id="cb245-5"><a href="data-frame.html#cb245-5"></a>patientdata =<span class="st"> </span><span class="kw">data.frame</span>(patientID, age, diabetes, status)</span>
+<span id="cb245-6"><a href="data-frame.html#cb245-6"></a></span>
+<span id="cb245-7"><a href="data-frame.html#cb245-7"></a><span class="co"># display the data frame on the screen to visually check the dataset</span></span>
+<span id="cb245-8"><a href="data-frame.html#cb245-8"></a>patientdata</span></code></pre></div>
 <pre><code>##   patientID age diabetes status
 ## 1         1  25    Type1   Poor
 ## 2         2  34    Type2 Median
 ## 3         3  28    Type1   Good
 ## 4         4  52    Type1   Poor</code></pre>
 <p>We can use str() to examine the structure of the data frame. str() is a very useful function to examine an object in R. We will use this function often.</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="data-frame.html#cb248-1"></a><span class="kw">str</span>(patientdata)</span></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="data-frame.html#cb247-1"></a><span class="kw">str</span>(patientdata)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    4 obs. of  4 variables:
 ##  $ patientID: num  1 2 3 4
 ##  $ age      : num  25 34 28 52
@@ -251,33 +251,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">4.2</span> Subsetting data.frame</h2>
 <p>There are several ways to identify the elements of a data frame. You can use the index notation you used before (for example, with matrices) or you can specify column names.</p>
 <p>Subset the first 2 column of the patientdata by index:</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="data-frame.html#cb250-1"></a> patientdata[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="data-frame.html#cb249-1"></a> patientdata[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
 <pre><code>##   patientID age
 ## 1         1  25
 ## 2         2  34
 ## 3         3  28
 ## 4         4  52</code></pre>
 <p>Subset the first two columns of the data frame by variable names:</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="data-frame.html#cb252-1"></a>patientdata[<span class="kw">c</span>(<span class="st">&quot;diabetes&quot;</span>, <span class="st">&quot;status&quot;</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="data-frame.html#cb251-1"></a>patientdata[<span class="kw">c</span>(<span class="st">&quot;diabetes&quot;</span>, <span class="st">&quot;status&quot;</span>)]</span></code></pre></div>
 <pre><code>##   diabetes status
 ## 1    Type1   Poor
 ## 2    Type2 Median
 ## 3    Type1   Good
 ## 4    Type1   Poor</code></pre>
 <p>Subset one specific column (e.g., age) by its name:</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="data-frame.html#cb254-1"></a>patientdata<span class="op">$</span>age</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="data-frame.html#cb253-1"></a>patientdata<span class="op">$</span>age</span></code></pre></div>
 <pre><code>## [1] 25 34 28 52</code></pre>
 <p>Now, change diabetes and status into factors because they are categorical variables:</p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="data-frame.html#cb256-1"></a>patientdata<span class="op">$</span>diabetes&lt;-<span class="kw">factor</span>(patientdata<span class="op">$</span>diabetes)</span>
-<span id="cb256-2"><a href="data-frame.html#cb256-2"></a>patientdata<span class="op">$</span>status&lt;-<span class="kw">factor</span>(patientdata<span class="op">$</span>status, <span class="dt">ordered =</span> <span class="ot">TRUE</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Median&quot;</span>,<span class="st">&quot;Good&quot;</span>) )</span>
-<span id="cb256-3"><a href="data-frame.html#cb256-3"></a></span>
-<span id="cb256-4"><a href="data-frame.html#cb256-4"></a>patientdata</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="data-frame.html#cb255-1"></a>patientdata<span class="op">$</span>diabetes&lt;-<span class="kw">factor</span>(patientdata<span class="op">$</span>diabetes)</span>
+<span id="cb255-2"><a href="data-frame.html#cb255-2"></a>patientdata<span class="op">$</span>status&lt;-<span class="kw">factor</span>(patientdata<span class="op">$</span>status, <span class="dt">ordered =</span> <span class="ot">TRUE</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Median&quot;</span>,<span class="st">&quot;Good&quot;</span>) )</span>
+<span id="cb255-3"><a href="data-frame.html#cb255-3"></a></span>
+<span id="cb255-4"><a href="data-frame.html#cb255-4"></a>patientdata</span></code></pre></div>
 <pre><code>##   patientID age diabetes status
 ## 1         1  25    Type1   Poor
 ## 2         2  34    Type2 Median
 ## 3         3  28    Type1   Good
 ## 4         4  52    Type1   Poor</code></pre>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="data-frame.html#cb258-1"></a><span class="kw">str</span>(patientdata)</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="data-frame.html#cb257-1"></a><span class="kw">str</span>(patientdata)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    4 obs. of  4 variables:
 ##  $ patientID: num  1 2 3 4
 ##  $ age      : num  25 34 28 52
@@ -289,9 +289,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In most application, we will import dataset (i.e., csv, txt, excel files) from local computer into R as data frame. Here we will learn how to read data into R as data frame.</p>
 <p>The famous Auto.csv is a very standard dataset for R programming. The Auto.csv contains the basic information of over 300 kinds of Auto. We will learn to import this dataset.</p>
 <p>I have uploaded the Auto.csv file in the R-studio cloud to aviod the trouble of finding the file in each individuals’ computer. Look at the files in the bottom right pannel. The file is in csv format, thus we will use read.csv() function.</p>
-<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="data-frame.html#cb260-1"></a>Auto=<span class="kw">read.csv</span>(<span class="st">&quot;data/Auto.csv&quot;</span>)</span>
-<span id="cb260-2"><a href="data-frame.html#cb260-2"></a><span class="co"># examine the structure of Auto dataset</span></span>
-<span id="cb260-3"><a href="data-frame.html#cb260-3"></a><span class="kw">str</span>(Auto)</span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="data-frame.html#cb259-1"></a>Auto=<span class="kw">read.csv</span>(<span class="st">&quot;data/Auto.csv&quot;</span>)</span>
+<span id="cb259-2"><a href="data-frame.html#cb259-2"></a><span class="co"># examine the structure of Auto dataset</span></span>
+<span id="cb259-3"><a href="data-frame.html#cb259-3"></a><span class="kw">str</span>(Auto)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    392 obs. of  10 variables:
 ##  $ mpg         : num  18 15 18 16 17 15 14 14 14 15 ...
 ##  $ cylinders   : int  8 8 8 8 8 8 8 8 8 8 ...
@@ -304,8 +304,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  $ origin      : chr  &quot;US&quot; &quot;US&quot; &quot;US&quot; &quot;US&quot; ...
 ##  $ name        : chr  &quot;chevrolet chevelle malibu&quot; &quot;buick skylark 320&quot; &quot;plymouth satellite&quot; &quot;amc rebel sst&quot; ...</code></pre>
 <p>Unlikely excel which shows data in a tabular format, R uses different ways for us to visually examine the data. We can use head() and tail() to examine first/last 6 rows of the data.</p>
-<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="data-frame.html#cb262-1"></a><span class="co"># print the first 6 rows for visually examining the dataset</span></span>
-<span id="cb262-2"><a href="data-frame.html#cb262-2"></a><span class="kw">head</span>(Auto)  </span></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="data-frame.html#cb261-1"></a><span class="co"># print the first 6 rows for visually examining the dataset</span></span>
+<span id="cb261-2"><a href="data-frame.html#cb261-2"></a><span class="kw">head</span>(Auto)  </span></code></pre></div>
 <pre><code>##   mpg cylinders displacement horsepower weight acceleration year rating origin
 ## 1  18         8          307        130   3504         12.0   70      3     US
 ## 2  15         8          350        165   3693         11.5   70      1     US
@@ -320,7 +320,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4             amc rebel sst
 ## 5               ford torino
 ## 6          ford galaxie 500</code></pre>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="data-frame.html#cb264-1"></a><span class="kw">tail</span>(Auto)</span></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="data-frame.html#cb263-1"></a><span class="kw">tail</span>(Auto)</span></code></pre></div>
 <pre><code>##     mpg cylinders displacement horsepower weight acceleration year rating
 ## 387  27         4          151         90   2950         17.3   82      2
 ## 388  27         4          140         86   2790         15.6   82      3
@@ -336,7 +336,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 391     US      ford ranger
 ## 392     US       chevy s-10</code></pre>
 <p>We can use summary() function to quickly examine the distribution of each variable.</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="data-frame.html#cb266-1"></a><span class="kw">summary</span>(Auto)</span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="data-frame.html#cb265-1"></a><span class="kw">summary</span>(Auto)</span></code></pre></div>
 <pre><code>##       mpg          cylinders      displacement     horsepower        weight    
 ##  Min.   : 9.00   Min.   :3.000   Min.   : 68.0   Min.   : 46.0   Min.   :1613  
 ##  1st Qu.:17.00   1st Qu.:4.000   1st Qu.:105.0   1st Qu.: 75.0   1st Qu.:2225  
@@ -360,20 +360,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## </code></pre>
 <p>read.csv() is the function to read csv file into R as a data.frame. When using the function, you need to tell exactly where to find the data file. For example, if Auto.csv is saved in my computer at: “C:/Users/lxu25/Dropbox/Teaching/UNL Courses/SCMA 450/code/Auto.csv”.
 We can use the following code to read the file:</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="data-frame.html#cb268-1"></a>Auto=<span class="kw">read.csv</span>(<span class="st">&quot;C:/Users/lxu25/Dropbox/Teaching/UNL Courses/SCMA 450/code/Auto.csv&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="data-frame.html#cb267-1"></a>Auto=<span class="kw">read.csv</span>(<span class="st">&quot;C:/Users/lxu25/Dropbox/Teaching/UNL Courses/SCMA 450/code/Auto.csv&quot;</span>) </span></code></pre></div>
 <p>Notice, in the the file directory is “/”, not ". However, locating this data file can be a hassle, especially when your code is shared with others in your team because the data has a totally different directory in others’s computer. Therefore, it is the best practice to always create a seperate folder for your project and save both code and data in that folder. Since your data is in the same folder of your code, we can simply use the filename to locate the data file. Then share the folder together to others.</p>
 </div>
 <div id="subsetting-data-frame" class="section level2">
 <h2><span class="header-section-number">4.4</span> Subsetting data frame</h2>
 <p>Select by rows by index.</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="data-frame.html#cb269-1"></a><span class="co"># type Auto[2,] to select the 2nd row (or called 2nd observation)</span></span>
-<span id="cb269-2"><a href="data-frame.html#cb269-2"></a>Auto[<span class="dv">2</span>,]  </span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="data-frame.html#cb268-1"></a><span class="co"># type Auto[2,] to select the 2nd row (or called 2nd observation)</span></span>
+<span id="cb268-2"><a href="data-frame.html#cb268-2"></a>Auto[<span class="dv">2</span>,]  </span></code></pre></div>
 <pre><code>##   mpg cylinders displacement horsepower weight acceleration year rating origin
 ## 2  15         8          350        165   3693         11.5   70      1     US
 ##                name
 ## 2 buick skylark 320</code></pre>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="data-frame.html#cb271-1"></a><span class="co"># type Auto[c(3,5,7),] to select the 3rd, 5th, and 7th rows.</span></span>
-<span id="cb271-2"><a href="data-frame.html#cb271-2"></a>Auto[<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>),]</span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="data-frame.html#cb270-1"></a><span class="co"># type Auto[c(3,5,7),] to select the 3rd, 5th, and 7th rows.</span></span>
+<span id="cb270-2"><a href="data-frame.html#cb270-2"></a>Auto[<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>),]</span></code></pre></div>
 <pre><code>##   mpg cylinders displacement horsepower weight acceleration year rating origin
 ## 3  18         8          318        150   3436         11.0   70      3     US
 ## 5  17         8          302        140   3449         10.5   70      1     US
@@ -383,21 +383,21 @@ We can use the following code to read the file:</p>
 ## 5        ford torino
 ## 7   chevrolet impala</code></pre>
 <p>Select column by index.</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="data-frame.html#cb273-1"></a><span class="co"># type Auto[,4] to select the 4th column (i.e., horsepower); </span></span>
-<span id="cb273-2"><a href="data-frame.html#cb273-2"></a><span class="kw">head</span>(Auto[,<span class="dv">4</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="data-frame.html#cb272-1"></a><span class="co"># type Auto[,4] to select the 4th column (i.e., horsepower); </span></span>
+<span id="cb272-2"><a href="data-frame.html#cb272-2"></a><span class="kw">head</span>(Auto[,<span class="dv">4</span>])</span></code></pre></div>
 <pre><code>## [1] 130 165 150 150 140 198</code></pre>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="data-frame.html#cb275-1"></a><span class="co"># tpye hist(Auto[,4]) to plot the distribution of horsepower</span></span>
-<span id="cb275-2"><a href="data-frame.html#cb275-2"></a><span class="kw">hist</span>(Auto[,<span class="dv">4</span>])</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="data-frame.html#cb276-1"></a><span class="co"># You can customize the histgram to make it look nicer</span></span>
-<span id="cb276-2"><a href="data-frame.html#cb276-2"></a><span class="kw">hist</span>(Auto[,<span class="dv">4</span>],<span class="dt">xlab=</span><span class="st">&quot;horsepower&quot;</span>, <span class="dt">col=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">breaks =</span> <span class="dv">50</span>, <span class="dt">main=</span></span>
-<span id="cb276-3"><a href="data-frame.html#cb276-3"></a>       <span class="st">&quot;frequency of horsepower&quot;</span>)  </span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-87-2.png" width="672" /></p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="data-frame.html#cb274-1"></a><span class="co"># tpye hist(Auto[,4]) to plot the distribution of horsepower</span></span>
+<span id="cb274-2"><a href="data-frame.html#cb274-2"></a><span class="kw">hist</span>(Auto[,<span class="dv">4</span>])</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="data-frame.html#cb275-1"></a><span class="co"># You can customize the histgram to make it look nicer</span></span>
+<span id="cb275-2"><a href="data-frame.html#cb275-2"></a><span class="kw">hist</span>(Auto[,<span class="dv">4</span>],<span class="dt">xlab=</span><span class="st">&quot;horsepower&quot;</span>, <span class="dt">col=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">breaks =</span> <span class="dv">50</span>, <span class="dt">main=</span></span>
+<span id="cb275-3"><a href="data-frame.html#cb275-3"></a>       <span class="st">&quot;frequency of horsepower&quot;</span>)  </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-88-2.png" width="672" /></p>
 <p>hist() plot the histogram of a variable. You can use ?hist to examine the detail of the function.</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="data-frame.html#cb277-1"></a>?hist  <span class="co"># a quick way to look at how to use this function of </span></span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="data-frame.html#cb276-1"></a>?hist  <span class="co"># a quick way to look at how to use this function of </span></span></code></pre></div>
 <p>We can select multiple columns (variables) at the same time.</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="data-frame.html#cb278-1"></a><span class="co"># select the 2nd and 4th column (i.e., cylinders and horsepower )</span></span>
-<span id="cb278-2"><a href="data-frame.html#cb278-2"></a><span class="kw">head</span>(Auto[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="data-frame.html#cb277-1"></a><span class="co"># select the 2nd and 4th column (i.e., cylinders and horsepower )</span></span>
+<span id="cb277-2"><a href="data-frame.html#cb277-2"></a><span class="kw">head</span>(Auto[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)])</span></code></pre></div>
 <pre><code>##   cylinders horsepower
 ## 1         8        130
 ## 2         8        165
@@ -406,16 +406,16 @@ We can use the following code to read the file:</p>
 ## 5         8        140
 ## 6         8        198</code></pre>
 <p>We can create a scatter plot between these two variables to see their relationship. This also shows the reason why want to subset data frame.</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="data-frame.html#cb280-1"></a><span class="kw">plot</span>(Auto[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)])</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="data-frame.html#cb279-1"></a><span class="kw">plot</span>(Auto[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)])</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
 <p>The scatter plot clearly demonstrates that a higher horsepower is assoicated with a larger number of cylinders.</p>
 <p>We can also subset the dataset by variable name. We need to use $ for subsetting one variable with its variable name.</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="data-frame.html#cb281-1"></a><span class="co"># Auto$mpg selects the variable mpg</span></span>
-<span id="cb281-2"><a href="data-frame.html#cb281-2"></a><span class="co"># type hist[Auto$mpg] to get its distribution</span></span>
-<span id="cb281-3"><a href="data-frame.html#cb281-3"></a><span class="kw">hist</span>(Auto<span class="op">$</span>acceleration)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="data-frame.html#cb282-1"></a><span class="co"># select multiple columns by name.</span></span>
-<span id="cb282-2"><a href="data-frame.html#cb282-2"></a><span class="kw">head</span>( Auto[,<span class="kw">c</span>(<span class="st">&quot;horsepower&quot;</span>,<span class="st">&quot;mpg&quot;</span>,<span class="st">&quot;weight&quot;</span>)]  )</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="data-frame.html#cb280-1"></a><span class="co"># Auto$mpg selects the variable mpg</span></span>
+<span id="cb280-2"><a href="data-frame.html#cb280-2"></a><span class="co"># type hist[Auto$mpg] to get its distribution</span></span>
+<span id="cb280-3"><a href="data-frame.html#cb280-3"></a><span class="kw">hist</span>(Auto<span class="op">$</span>acceleration)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="data-frame.html#cb281-1"></a><span class="co"># select multiple columns by name.</span></span>
+<span id="cb281-2"><a href="data-frame.html#cb281-2"></a><span class="kw">head</span>( Auto[,<span class="kw">c</span>(<span class="st">&quot;horsepower&quot;</span>,<span class="st">&quot;mpg&quot;</span>,<span class="st">&quot;weight&quot;</span>)]  )</span></code></pre></div>
 <pre><code>##   horsepower mpg weight
 ## 1        130  18   3504
 ## 2        165  15   3693
@@ -424,8 +424,8 @@ We can use the following code to read the file:</p>
 ## 5        140  17   3449
 ## 6        198  15   4341</code></pre>
 <p>Filter rows by condition:</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="data-frame.html#cb284-1"></a><span class="co"># select all rows with mpg less equal to 12</span></span>
-<span id="cb284-2"><a href="data-frame.html#cb284-2"></a>Auto[Auto<span class="op">$</span>mpg<span class="op">&lt;=</span><span class="dv">12</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="data-frame.html#cb283-1"></a><span class="co"># select all rows with mpg less equal to 12</span></span>
+<span id="cb283-2"><a href="data-frame.html#cb283-2"></a>Auto[Auto<span class="op">$</span>mpg<span class="op">&lt;=</span><span class="dv">12</span>,]</span></code></pre></div>
 <pre><code>##     mpg cylinders displacement horsepower weight acceleration year rating
 ## 26   10         8          360        215   4615         14.0   70      2
 ## 27   10         8          307        200   4376         15.0   70      2
@@ -454,8 +454,8 @@ We can use the following code to read the file:</p>
 ## 104     US               ford country
 ## 106     US   oldsmobile vista cruiser
 ## 124     US           oldsmobile omega</code></pre>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="data-frame.html#cb286-1"></a><span class="co"># select all rows with mpg less equal to 12 and greater equal to 11</span></span>
-<span id="cb286-2"><a href="data-frame.html#cb286-2"></a>Auto[Auto<span class="op">$</span>mpg<span class="op">&gt;=</span><span class="dv">11</span> <span class="op">&amp;</span><span class="st"> </span>Auto<span class="op">$</span>mpg<span class="op">&lt;=</span><span class="dv">12</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="data-frame.html#cb285-1"></a><span class="co"># select all rows with mpg less equal to 12 and greater equal to 11</span></span>
+<span id="cb285-2"><a href="data-frame.html#cb285-2"></a>Auto[Auto<span class="op">$</span>mpg<span class="op">&gt;=</span><span class="dv">11</span> <span class="op">&amp;</span><span class="st"> </span>Auto<span class="op">$</span>mpg<span class="op">&lt;=</span><span class="dv">12</span>,]</span></code></pre></div>
 <pre><code>##     mpg cylinders displacement horsepower weight acceleration year rating
 ## 28   11         8          318        210   4382         13.5   70      2
 ## 42   12         8          383        180   4955         11.5   71      1
@@ -480,8 +480,8 @@ We can use the following code to read the file:</p>
 ## 124     US           oldsmobile omega</code></pre>
 <p>We can perform operation on existing variable and create new variables and add these new variable into the data frame.</p>
 <p>E.g., The following code creates a new variable called horsepowerpercylinder, which is horsepower divided by # of cylinders, # and adds to the data frame.</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="data-frame.html#cb288-1"></a>Auto<span class="op">$</span>horsepowerpercylinder=Auto<span class="op">$</span>horsepower<span class="op">/</span>Auto<span class="op">$</span>cylinders</span>
-<span id="cb288-2"><a href="data-frame.html#cb288-2"></a><span class="kw">str</span>(Auto)</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="data-frame.html#cb287-1"></a>Auto<span class="op">$</span>horsepowerpercylinder=Auto<span class="op">$</span>horsepower<span class="op">/</span>Auto<span class="op">$</span>cylinders</span>
+<span id="cb287-2"><a href="data-frame.html#cb287-2"></a><span class="kw">str</span>(Auto)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    392 obs. of  11 variables:
 ##  $ mpg                  : num  18 15 18 16 17 15 14 14 14 15 ...
 ##  $ cylinders            : int  8 8 8 8 8 8 8 8 8 8 ...
@@ -495,15 +495,15 @@ We can use the following code to read the file:</p>
 ##  $ name                 : chr  &quot;chevrolet chevelle malibu&quot; &quot;buick skylark 320&quot; &quot;plymouth satellite&quot; &quot;amc rebel sst&quot; ...
 ##  $ horsepowerpercylinder: num  16.2 20.6 18.8 18.8 17.5 ...</code></pre>
 <p>We can also rename variables using the names() function.</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="data-frame.html#cb290-1"></a><span class="co"># eamine the existing name of the Auto datafile.</span></span>
-<span id="cb290-2"><a href="data-frame.html#cb290-2"></a><span class="kw">names</span>(Auto)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="data-frame.html#cb289-1"></a><span class="co"># eamine the existing name of the Auto datafile.</span></span>
+<span id="cb289-2"><a href="data-frame.html#cb289-2"></a><span class="kw">names</span>(Auto)</span></code></pre></div>
 <pre><code>##  [1] &quot;mpg&quot;                   &quot;cylinders&quot;             &quot;displacement&quot;         
 ##  [4] &quot;horsepower&quot;            &quot;weight&quot;                &quot;acceleration&quot;         
 ##  [7] &quot;year&quot;                  &quot;rating&quot;                &quot;origin&quot;               
 ## [10] &quot;name&quot;                  &quot;horsepowerpercylinder&quot;</code></pre>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="data-frame.html#cb292-1"></a><span class="co"># change the 11th variable name to power_per_cylinder</span></span>
-<span id="cb292-2"><a href="data-frame.html#cb292-2"></a><span class="kw">names</span>(Auto)[<span class="dv">11</span>]=<span class="st">&quot;power_per_cylinder&quot;</span></span>
-<span id="cb292-3"><a href="data-frame.html#cb292-3"></a><span class="kw">str</span>(Auto)</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="data-frame.html#cb291-1"></a><span class="co"># change the 11th variable name to power_per_cylinder</span></span>
+<span id="cb291-2"><a href="data-frame.html#cb291-2"></a><span class="kw">names</span>(Auto)[<span class="dv">11</span>]=<span class="st">&quot;power_per_cylinder&quot;</span></span>
+<span id="cb291-3"><a href="data-frame.html#cb291-3"></a><span class="kw">str</span>(Auto)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    392 obs. of  11 variables:
 ##  $ mpg               : num  18 15 18 16 17 15 14 14 14 15 ...
 ##  $ cylinders         : int  8 8 8 8 8 8 8 8 8 8 ...
@@ -517,9 +517,9 @@ We can use the following code to read the file:</p>
 ##  $ name              : chr  &quot;chevrolet chevelle malibu&quot; &quot;buick skylark 320&quot; &quot;plymouth satellite&quot; &quot;amc rebel sst&quot; ...
 ##  $ power_per_cylinder: num  16.2 20.6 18.8 18.8 17.5 ...</code></pre>
 <p>To delete a variable from data frames:</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="data-frame.html#cb294-1"></a><span class="co"># Delete the variable power_per_cylinder</span></span>
-<span id="cb294-2"><a href="data-frame.html#cb294-2"></a>Auto=Auto[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">11</span>)]</span>
-<span id="cb294-3"><a href="data-frame.html#cb294-3"></a><span class="kw">str</span>(Auto)</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="data-frame.html#cb293-1"></a><span class="co"># Delete the variable power_per_cylinder</span></span>
+<span id="cb293-2"><a href="data-frame.html#cb293-2"></a>Auto=Auto[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">11</span>)]</span>
+<span id="cb293-3"><a href="data-frame.html#cb293-3"></a><span class="kw">str</span>(Auto)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    392 obs. of  10 variables:
 ##  $ mpg         : num  18 15 18 16 17 15 14 14 14 15 ...
 ##  $ cylinders   : int  8 8 8 8 8 8 8 8 8 8 ...
@@ -532,14 +532,14 @@ We can use the following code to read the file:</p>
 ##  $ origin      : chr  &quot;US&quot; &quot;US&quot; &quot;US&quot; &quot;US&quot; ...
 ##  $ name        : chr  &quot;chevrolet chevelle malibu&quot; &quot;buick skylark 320&quot; &quot;plymouth satellite&quot; &quot;amc rebel sst&quot; ...</code></pre>
 <p>To access the mpg in Auto data frame, we must use $ (e.g., Auto$mpg). If you simply use mpg, R would not know which data frame to look for mpg. But this causes the code too long and hard to read. We can use with() function to avoid that. E.g., plot the scatter plot between weight and mpg</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="data-frame.html#cb296-1"></a><span class="kw">with</span>(Auto, <span class="kw">plot</span>(weight, mpg) )</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-97-1.png" width="672" />
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="data-frame.html#cb295-1"></a><span class="kw">with</span>(Auto, <span class="kw">plot</span>(weight, mpg) )</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-98-1.png" width="672" />
 The general format of with() function is to: with(DATA FRAME, CODE USING THE DATA FRAME)</p>
 </div>
 <div id="write-a-data-frame-to-your-computer" class="section level2">
 <h2><span class="header-section-number">4.5</span> Write a data frame to your computer</h2>
 <p>We can use write.csv() to write the data frame to your local computer.</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="data-frame.html#cb297-1"></a><span class="kw">write.csv</span>(Auto,<span class="st">&quot;data/Auto2.csv&quot;</span>, <span class="dt">row.names =</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="data-frame.html#cb296-1"></a><span class="kw">write.csv</span>(Auto,<span class="st">&quot;data/Auto2.csv&quot;</span>, <span class="dt">row.names =</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <p>Note, row.names = TRUE will generate an automatic ID (i.e., 1,2,3, …) for each rows.</p>
 </div>
 <div id="summary-2" class="section level2">

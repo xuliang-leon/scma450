@@ -4,27 +4,27 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 6 Flow Control | A Minimal Book Example</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <title>Chapter 6 Flow Control | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 6 Flow Control | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 6 Flow Control | Notes for SCMA450: Data Modeling and Computing" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 6 Flow Control | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 6 Flow Control | Notes for SCMA450: Data Modeling and Computing" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
   
 
-<meta name="author" content="Yihui Xie" />
+<meta name="author" content="Dr. Liang (Leon) Xu" />
 
 
-<meta name="date" content="2021-08-23" />
+<meta name="date" content="2021-08-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -137,7 +137,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
 <li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
 <li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
 <li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
@@ -205,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
           </h1>
         </div>
 
@@ -220,72 +220,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">6.1</span> if…else Statement</h2>
 <p>To be or not to be, this is a problem? When solving real problems using computer codes, we will inevitably have to branch our code in different directions based on some criteria.</p>
 <p>The simplest format for IF-statement in R is:</p>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="flow-control.html#cb326-1"></a><span class="cf">if</span> (logical_expression) {</span>
-<span id="cb326-2"><a href="flow-control.html#cb326-2"></a>  <span class="co"># statement will only be executed if logical_expression is true</span></span>
-<span id="cb326-3"><a href="flow-control.html#cb326-3"></a>  statement  </span>
-<span id="cb326-4"><a href="flow-control.html#cb326-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="flow-control.html#cb325-1"></a><span class="cf">if</span> (logical_expression) {</span>
+<span id="cb325-2"><a href="flow-control.html#cb325-2"></a>  <span class="co"># statement will only be executed if logical_expression is true</span></span>
+<span id="cb325-3"><a href="flow-control.html#cb325-3"></a>  statement  </span>
+<span id="cb325-4"><a href="flow-control.html#cb325-4"></a>}</span></code></pre></div>
 <p>We can also have else statement as below:</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="flow-control.html#cb327-1"></a><span class="cf">if</span> (logical_expression) {</span>
-<span id="cb327-2"><a href="flow-control.html#cb327-2"></a>  <span class="co"># statement1 will be executed if logical_expression is true</span></span>
-<span id="cb327-3"><a href="flow-control.html#cb327-3"></a>  statement1    </span>
-<span id="cb327-4"><a href="flow-control.html#cb327-4"></a>} <span class="cf">else</span> {</span>
-<span id="cb327-5"><a href="flow-control.html#cb327-5"></a>  <span class="co"># statement2 will be executed if logical_expression is false</span></span>
-<span id="cb327-6"><a href="flow-control.html#cb327-6"></a>  statement2</span>
-<span id="cb327-7"><a href="flow-control.html#cb327-7"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="flow-control.html#cb326-1"></a><span class="cf">if</span> (logical_expression) {</span>
+<span id="cb326-2"><a href="flow-control.html#cb326-2"></a>  <span class="co"># statement1 will be executed if logical_expression is true</span></span>
+<span id="cb326-3"><a href="flow-control.html#cb326-3"></a>  statement1    </span>
+<span id="cb326-4"><a href="flow-control.html#cb326-4"></a>} <span class="cf">else</span> {</span>
+<span id="cb326-5"><a href="flow-control.html#cb326-5"></a>  <span class="co"># statement2 will be executed if logical_expression is false</span></span>
+<span id="cb326-6"><a href="flow-control.html#cb326-6"></a>  statement2</span>
+<span id="cb326-7"><a href="flow-control.html#cb326-7"></a>}</span></code></pre></div>
 <p>In the above case, statement1 will be excuted if the logical_expression is true; otherwise, statement2 will be executed.</p>
 <p>Take one example, we will create a door with password. The door will open if you input the correct password, but the door will be closed if you input the incorrect password.</p>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="flow-control.html#cb328-1"></a>pw=<span class="st">&quot;2497&quot;</span></span>
-<span id="cb328-2"><a href="flow-control.html#cb328-2"></a>pw_entered=<span class="kw">readline</span>(<span class="st">&quot;Please enter the password: &quot;</span>)</span>
-<span id="cb328-3"><a href="flow-control.html#cb328-3"></a></span>
-<span id="cb328-4"><a href="flow-control.html#cb328-4"></a><span class="cf">if</span> (pw_entered<span class="op">==</span>pw){</span>
-<span id="cb328-5"><a href="flow-control.html#cb328-5"></a>  <span class="kw">print</span>(<span class="st">&quot;The door is opened. Welcome!&quot;</span>)</span>
-<span id="cb328-6"><a href="flow-control.html#cb328-6"></a>} <span class="cf">else</span> {</span>
-<span id="cb328-7"><a href="flow-control.html#cb328-7"></a>  <span class="kw">print</span>(<span class="st">&quot;Password wrong. Door closed!&quot;</span>)</span>
-<span id="cb328-8"><a href="flow-control.html#cb328-8"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="flow-control.html#cb327-1"></a>pw=<span class="st">&quot;2497&quot;</span></span>
+<span id="cb327-2"><a href="flow-control.html#cb327-2"></a>pw_entered=<span class="kw">readline</span>(<span class="st">&quot;Please enter the password: &quot;</span>)</span>
+<span id="cb327-3"><a href="flow-control.html#cb327-3"></a></span>
+<span id="cb327-4"><a href="flow-control.html#cb327-4"></a><span class="cf">if</span> (pw_entered<span class="op">==</span>pw){</span>
+<span id="cb327-5"><a href="flow-control.html#cb327-5"></a>  <span class="kw">print</span>(<span class="st">&quot;The door is opened. Welcome!&quot;</span>)</span>
+<span id="cb327-6"><a href="flow-control.html#cb327-6"></a>} <span class="cf">else</span> {</span>
+<span id="cb327-7"><a href="flow-control.html#cb327-7"></a>  <span class="kw">print</span>(<span class="st">&quot;Password wrong. Door closed!&quot;</span>)</span>
+<span id="cb327-8"><a href="flow-control.html#cb327-8"></a>}</span></code></pre></div>
 <p>In this case, the logical expression evaluates whether pw_entered==pw is true or not. If true, then the program proceeds to print(“The door is opened. Welcome!”); If not true, then the program proceeds to print(“Password wrong. Door closed!”).</p>
 </div>
 <div id="ifelse-ifelse-statement" class="section level2">
 <h2><span class="header-section-number">6.2</span> if…else if…else Statement</h2>
 <p>The if…else statement is great to program the binary outcome (e.g., correct password or incorrect password). However, sometime we need to deal with more than two outcomes. In this case, we need to use the if…else if…else statement:</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="flow-control.html#cb329-1"></a><span class="cf">if</span> ( logical_expression1) {</span>
-<span id="cb329-2"><a href="flow-control.html#cb329-2"></a>  statement1</span>
-<span id="cb329-3"><a href="flow-control.html#cb329-3"></a>  </span>
-<span id="cb329-4"><a href="flow-control.html#cb329-4"></a>} <span class="cf">else</span> <span class="cf">if</span> ( logical_expression2) {</span>
-<span id="cb329-5"><a href="flow-control.html#cb329-5"></a>  statement2</span>
-<span id="cb329-6"><a href="flow-control.html#cb329-6"></a>  </span>
-<span id="cb329-7"><a href="flow-control.html#cb329-7"></a>} <span class="cf">else</span> {</span>
-<span id="cb329-8"><a href="flow-control.html#cb329-8"></a>  statement3</span>
-<span id="cb329-9"><a href="flow-control.html#cb329-9"></a>  </span>
-<span id="cb329-10"><a href="flow-control.html#cb329-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="flow-control.html#cb328-1"></a><span class="cf">if</span> ( logical_expression1) {</span>
+<span id="cb328-2"><a href="flow-control.html#cb328-2"></a>  statement1</span>
+<span id="cb328-3"><a href="flow-control.html#cb328-3"></a>  </span>
+<span id="cb328-4"><a href="flow-control.html#cb328-4"></a>} <span class="cf">else</span> <span class="cf">if</span> ( logical_expression2) {</span>
+<span id="cb328-5"><a href="flow-control.html#cb328-5"></a>  statement2</span>
+<span id="cb328-6"><a href="flow-control.html#cb328-6"></a>  </span>
+<span id="cb328-7"><a href="flow-control.html#cb328-7"></a>} <span class="cf">else</span> {</span>
+<span id="cb328-8"><a href="flow-control.html#cb328-8"></a>  statement3</span>
+<span id="cb328-9"><a href="flow-control.html#cb328-9"></a>  </span>
+<span id="cb328-10"><a href="flow-control.html#cb328-10"></a>}</span></code></pre></div>
 <p>logical_expression1 and logical_expression2 are a set of mutually exclusive criteria; only one statement will be executed depending on which logical_expression is true. You can have more else as needed.</p>
 </div>
 <div id="exercise" class="section level2">
 <h2><span class="header-section-number">6.3</span> Exercise</h2>
 <p>In data analysis, we often want to bin a continuous variable into categorical of low, median, high or even more category. For example, we want to classify Auto as “low, median, high” gas efficiency based on mpg: if mpg&lt;22, the efficiency is low; if 26&gt;mpg&gt;=22, then the efficiency is median; if mpg&gt;=26, then the efficiency is high.</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="flow-control.html#cb330-1"></a>mpg=<span class="dv">23</span></span>
-<span id="cb330-2"><a href="flow-control.html#cb330-2"></a></span>
-<span id="cb330-3"><a href="flow-control.html#cb330-3"></a><span class="cf">if</span> (mpg<span class="op">&lt;</span><span class="dv">22</span>) {</span>
-<span id="cb330-4"><a href="flow-control.html#cb330-4"></a>  efficiency=<span class="st">&quot;low&quot;</span></span>
-<span id="cb330-5"><a href="flow-control.html#cb330-5"></a>} <span class="cf">else</span> <span class="cf">if</span> (mpg<span class="op">&lt;</span><span class="dv">26</span>) {</span>
-<span id="cb330-6"><a href="flow-control.html#cb330-6"></a>  efficiency=<span class="st">&quot;median&quot;</span></span>
-<span id="cb330-7"><a href="flow-control.html#cb330-7"></a>} <span class="cf">else</span>{</span>
-<span id="cb330-8"><a href="flow-control.html#cb330-8"></a>  efficiency=<span class="st">&quot;high&quot;</span></span>
-<span id="cb330-9"><a href="flow-control.html#cb330-9"></a>}</span>
-<span id="cb330-10"><a href="flow-control.html#cb330-10"></a>efficiency</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="flow-control.html#cb329-1"></a>mpg=<span class="dv">23</span></span>
+<span id="cb329-2"><a href="flow-control.html#cb329-2"></a></span>
+<span id="cb329-3"><a href="flow-control.html#cb329-3"></a><span class="cf">if</span> (mpg<span class="op">&lt;</span><span class="dv">22</span>) {</span>
+<span id="cb329-4"><a href="flow-control.html#cb329-4"></a>  efficiency=<span class="st">&quot;low&quot;</span></span>
+<span id="cb329-5"><a href="flow-control.html#cb329-5"></a>} <span class="cf">else</span> <span class="cf">if</span> (mpg<span class="op">&lt;</span><span class="dv">26</span>) {</span>
+<span id="cb329-6"><a href="flow-control.html#cb329-6"></a>  efficiency=<span class="st">&quot;median&quot;</span></span>
+<span id="cb329-7"><a href="flow-control.html#cb329-7"></a>} <span class="cf">else</span>{</span>
+<span id="cb329-8"><a href="flow-control.html#cb329-8"></a>  efficiency=<span class="st">&quot;high&quot;</span></span>
+<span id="cb329-9"><a href="flow-control.html#cb329-9"></a>}</span>
+<span id="cb329-10"><a href="flow-control.html#cb329-10"></a>efficiency</span></code></pre></div>
 <pre><code>## [1] &quot;median&quot;</code></pre>
 <p>Note that we did not need to write mpg&gt;=22 &amp; mpg&lt;26 in the second criteria since the second criteria will only be evaluated when mpg&gt;=22.</p>
 </div>
 <div id="for-loop" class="section level2">
 <h2><span class="header-section-number">6.4</span> for loop</h2>
 <p>In computer programming, we sometime want to do things repetitively. For example, there are 10 data files, each corresponding to a specific year. Want to read all these 10 files into R; or we will visit 100 different websites to scrape the data from web. Loop allows the program to go back to previous code and do things repetitively. In R programming, a for-loop is used to iterate over a vector. The syntax of for loop is</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="flow-control.html#cb332-1"></a><span class="cf">for</span> (val <span class="cf">in</span> sequence){</span>
-<span id="cb332-2"><a href="flow-control.html#cb332-2"></a>  statement</span>
-<span id="cb332-3"><a href="flow-control.html#cb332-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="flow-control.html#cb331-1"></a><span class="cf">for</span> (val <span class="cf">in</span> sequence){</span>
+<span id="cb331-2"><a href="flow-control.html#cb331-2"></a>  statement</span>
+<span id="cb331-3"><a href="flow-control.html#cb331-3"></a>}</span></code></pre></div>
 <p>Here, sequence is a vector and val takes on each of its value during the loop. val is also called iterator because it will iterate every elements in sequence. In each iteration, statement is evaluated.</p>
 <p>Let’s look at one simple example. For example, print 1 to 10 on the screen. This is a repetitive task, i.e., printing a number on screen for 10 times. We can use for loop to achieve this.</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="flow-control.html#cb333-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>){</span>
-<span id="cb333-2"><a href="flow-control.html#cb333-2"></a>  <span class="kw">print</span>(i)</span>
-<span id="cb333-3"><a href="flow-control.html#cb333-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="flow-control.html#cb332-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>){</span>
+<span id="cb332-2"><a href="flow-control.html#cb332-2"></a>  <span class="kw">print</span>(i)</span>
+<span id="cb332-3"><a href="flow-control.html#cb332-3"></a>}</span></code></pre></div>
 <pre><code>## [1] 1
 ## [1] 2
 ## [1] 3
@@ -298,24 +298,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [1] 10</code></pre>
 <p>In this example, 1:10 generates a vector from 1 to 100. “i” will iterate every value from 1 to 10 and be printed on the screen.</p>
 <p>The sequence can also be a character vector. For example, the following code will print every elements of the character vector on the screen.</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="flow-control.html#cb335-1"></a>students=<span class="kw">c</span>(<span class="st">&quot;John&quot;</span>,<span class="st">&quot;Lily&quot;</span>,<span class="st">&quot;Leon&quot;</span>,<span class="st">&quot;Brandon&quot;</span>)</span>
-<span id="cb335-2"><a href="flow-control.html#cb335-2"></a></span>
-<span id="cb335-3"><a href="flow-control.html#cb335-3"></a><span class="cf">for</span> (i <span class="cf">in</span> students){</span>
-<span id="cb335-4"><a href="flow-control.html#cb335-4"></a>  <span class="kw">print</span>(i)</span>
-<span id="cb335-5"><a href="flow-control.html#cb335-5"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="flow-control.html#cb334-1"></a>students=<span class="kw">c</span>(<span class="st">&quot;John&quot;</span>,<span class="st">&quot;Lily&quot;</span>,<span class="st">&quot;Leon&quot;</span>,<span class="st">&quot;Brandon&quot;</span>)</span>
+<span id="cb334-2"><a href="flow-control.html#cb334-2"></a></span>
+<span id="cb334-3"><a href="flow-control.html#cb334-3"></a><span class="cf">for</span> (i <span class="cf">in</span> students){</span>
+<span id="cb334-4"><a href="flow-control.html#cb334-4"></a>  <span class="kw">print</span>(i)</span>
+<span id="cb334-5"><a href="flow-control.html#cb334-5"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;John&quot;
 ## [1] &quot;Lily&quot;
 ## [1] &quot;Leon&quot;
 ## [1] &quot;Brandon&quot;</code></pre>
 <p>In the above code, “i” will iterate over the students vector; and print(i) will be excuted for 4 times, with i taking the value of “John”, “Lily”, “Leon”, “Brandon”.</p>
 <p>For example, we want to calculate the sum square from 1 to 100.</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="flow-control.html#cb337-1"></a>sum=<span class="dv">0</span>  <span class="co"># initize the sum as 0</span></span>
-<span id="cb337-2"><a href="flow-control.html#cb337-2"></a></span>
-<span id="cb337-3"><a href="flow-control.html#cb337-3"></a><span class="co"># we will add the square of a number (1-100) to sum</span></span>
-<span id="cb337-4"><a href="flow-control.html#cb337-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>){</span>
-<span id="cb337-5"><a href="flow-control.html#cb337-5"></a>  sum=sum<span class="op">+</span>i<span class="op">^</span><span class="dv">2</span></span>
-<span id="cb337-6"><a href="flow-control.html#cb337-6"></a>}</span>
-<span id="cb337-7"><a href="flow-control.html#cb337-7"></a>sum</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="flow-control.html#cb336-1"></a>sum=<span class="dv">0</span>  <span class="co"># initize the sum as 0</span></span>
+<span id="cb336-2"><a href="flow-control.html#cb336-2"></a></span>
+<span id="cb336-3"><a href="flow-control.html#cb336-3"></a><span class="co"># we will add the square of a number (1-100) to sum</span></span>
+<span id="cb336-4"><a href="flow-control.html#cb336-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>){</span>
+<span id="cb336-5"><a href="flow-control.html#cb336-5"></a>  sum=sum<span class="op">+</span>i<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb336-6"><a href="flow-control.html#cb336-6"></a>}</span>
+<span id="cb336-7"><a href="flow-control.html#cb336-7"></a>sum</span></code></pre></div>
 <pre><code>## [1] 338350</code></pre>
 <p>In this example, “i” will iterate every value from 1 to 100; and the statement will thus be excuted for 100 times, with i taking the value from 1 to 100.</p>
 </div>
@@ -323,18 +323,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">6.5</span> Break Your Loops With break</h2>
 <p>As seen in above examples, for-loop requires the program to iterate every element in the vector. However, you can break your loop with “break”. When the R encounters a break, it will exit the loop immediately.</p>
 <p>For example, in the printing students name example, we will exit the loop if the iterator takes the value “Leon” and print “Leon is not student.”</p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="flow-control.html#cb339-1"></a>students=<span class="kw">c</span>(<span class="st">&quot;John&quot;</span>,<span class="st">&quot;Lily&quot;</span>,<span class="st">&quot;Leon&quot;</span>,<span class="st">&quot;Brandon&quot;</span>)</span>
-<span id="cb339-2"><a href="flow-control.html#cb339-2"></a></span>
-<span id="cb339-3"><a href="flow-control.html#cb339-3"></a><span class="cf">for</span> (i <span class="cf">in</span> students){</span>
-<span id="cb339-4"><a href="flow-control.html#cb339-4"></a>  <span class="cf">if</span> (i<span class="op">==</span><span class="st">&quot;Leon&quot;</span>){</span>
-<span id="cb339-5"><a href="flow-control.html#cb339-5"></a>    <span class="kw">print</span>(<span class="st">&quot;Leon is not student.&quot;</span>)</span>
-<span id="cb339-6"><a href="flow-control.html#cb339-6"></a>    <span class="cf">break</span></span>
-<span id="cb339-7"><a href="flow-control.html#cb339-7"></a>    </span>
-<span id="cb339-8"><a href="flow-control.html#cb339-8"></a>  } <span class="cf">else</span>{</span>
-<span id="cb339-9"><a href="flow-control.html#cb339-9"></a>    <span class="kw">print</span>(i)</span>
-<span id="cb339-10"><a href="flow-control.html#cb339-10"></a>  }</span>
-<span id="cb339-11"><a href="flow-control.html#cb339-11"></a>  </span>
-<span id="cb339-12"><a href="flow-control.html#cb339-12"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="flow-control.html#cb338-1"></a>students=<span class="kw">c</span>(<span class="st">&quot;John&quot;</span>,<span class="st">&quot;Lily&quot;</span>,<span class="st">&quot;Leon&quot;</span>,<span class="st">&quot;Brandon&quot;</span>)</span>
+<span id="cb338-2"><a href="flow-control.html#cb338-2"></a></span>
+<span id="cb338-3"><a href="flow-control.html#cb338-3"></a><span class="cf">for</span> (i <span class="cf">in</span> students){</span>
+<span id="cb338-4"><a href="flow-control.html#cb338-4"></a>  <span class="cf">if</span> (i<span class="op">==</span><span class="st">&quot;Leon&quot;</span>){</span>
+<span id="cb338-5"><a href="flow-control.html#cb338-5"></a>    <span class="kw">print</span>(<span class="st">&quot;Leon is not student.&quot;</span>)</span>
+<span id="cb338-6"><a href="flow-control.html#cb338-6"></a>    <span class="cf">break</span></span>
+<span id="cb338-7"><a href="flow-control.html#cb338-7"></a>    </span>
+<span id="cb338-8"><a href="flow-control.html#cb338-8"></a>  } <span class="cf">else</span>{</span>
+<span id="cb338-9"><a href="flow-control.html#cb338-9"></a>    <span class="kw">print</span>(i)</span>
+<span id="cb338-10"><a href="flow-control.html#cb338-10"></a>  }</span>
+<span id="cb338-11"><a href="flow-control.html#cb338-11"></a>  </span>
+<span id="cb338-12"><a href="flow-control.html#cb338-12"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;John&quot;
 ## [1] &quot;Lily&quot;
 ## [1] &quot;Leon is not student.&quot;</code></pre>
@@ -342,18 +342,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="jump-to-the-next-cycly-with-next" class="section level2">
 <h2><span class="header-section-number">6.6</span> Jump to the next cycly with next</h2>
 <p>The above code shows that we can use “break” to end the loop if the iterator meets certain criteria. However, in some cases, we do not want to end the loop completely, but to skip the particular iteration. We can use “next” to discontinue a particular iteration and jumps to the next cycle.</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="flow-control.html#cb341-1"></a>students=<span class="kw">c</span>(<span class="st">&quot;John&quot;</span>,<span class="st">&quot;Lily&quot;</span>,<span class="st">&quot;Leon&quot;</span>,<span class="st">&quot;Brandon&quot;</span>)</span>
-<span id="cb341-2"><a href="flow-control.html#cb341-2"></a></span>
-<span id="cb341-3"><a href="flow-control.html#cb341-3"></a><span class="cf">for</span> (i <span class="cf">in</span> students){</span>
-<span id="cb341-4"><a href="flow-control.html#cb341-4"></a>  <span class="cf">if</span> (i<span class="op">==</span><span class="st">&quot;Leon&quot;</span>){</span>
-<span id="cb341-5"><a href="flow-control.html#cb341-5"></a>    <span class="kw">print</span>(<span class="st">&quot;Leon is not student!&quot;</span>)</span>
-<span id="cb341-6"><a href="flow-control.html#cb341-6"></a>    <span class="cf">next</span></span>
-<span id="cb341-7"><a href="flow-control.html#cb341-7"></a>    </span>
-<span id="cb341-8"><a href="flow-control.html#cb341-8"></a>  } <span class="cf">else</span>{</span>
-<span id="cb341-9"><a href="flow-control.html#cb341-9"></a>    <span class="kw">print</span>(i)</span>
-<span id="cb341-10"><a href="flow-control.html#cb341-10"></a>  }</span>
-<span id="cb341-11"><a href="flow-control.html#cb341-11"></a>  </span>
-<span id="cb341-12"><a href="flow-control.html#cb341-12"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="flow-control.html#cb340-1"></a>students=<span class="kw">c</span>(<span class="st">&quot;John&quot;</span>,<span class="st">&quot;Lily&quot;</span>,<span class="st">&quot;Leon&quot;</span>,<span class="st">&quot;Brandon&quot;</span>)</span>
+<span id="cb340-2"><a href="flow-control.html#cb340-2"></a></span>
+<span id="cb340-3"><a href="flow-control.html#cb340-3"></a><span class="cf">for</span> (i <span class="cf">in</span> students){</span>
+<span id="cb340-4"><a href="flow-control.html#cb340-4"></a>  <span class="cf">if</span> (i<span class="op">==</span><span class="st">&quot;Leon&quot;</span>){</span>
+<span id="cb340-5"><a href="flow-control.html#cb340-5"></a>    <span class="kw">print</span>(<span class="st">&quot;Leon is not student!&quot;</span>)</span>
+<span id="cb340-6"><a href="flow-control.html#cb340-6"></a>    <span class="cf">next</span></span>
+<span id="cb340-7"><a href="flow-control.html#cb340-7"></a>    </span>
+<span id="cb340-8"><a href="flow-control.html#cb340-8"></a>  } <span class="cf">else</span>{</span>
+<span id="cb340-9"><a href="flow-control.html#cb340-9"></a>    <span class="kw">print</span>(i)</span>
+<span id="cb340-10"><a href="flow-control.html#cb340-10"></a>  }</span>
+<span id="cb340-11"><a href="flow-control.html#cb340-11"></a>  </span>
+<span id="cb340-12"><a href="flow-control.html#cb340-12"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;John&quot;
 ## [1] &quot;Lily&quot;
 ## [1] &quot;Leon is not student!&quot;
@@ -364,40 +364,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Let’s revisit the door password problem. In this exercise, we want to design the password in such way that you have three chances to input the passwords. If you enter the password correctly within the three times, the door will open; you have the opportunity to re-enter the password before you running out of the three chances; if you did not enter the correct password within the three trials, the door will be closed.</p>
 <p>This is a repetitive task because you are asked to enter the password for three times. We can thus use for-loop for this purpose.
 Verison 1:</p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="flow-control.html#cb342-1"></a>pw=<span class="st">&quot;2497&quot;</span></span>
+<span id="cb342-2"><a href="flow-control.html#cb342-2"></a></span>
+<span id="cb342-3"><a href="flow-control.html#cb342-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>){</span>
+<span id="cb342-4"><a href="flow-control.html#cb342-4"></a></span>
+<span id="cb342-5"><a href="flow-control.html#cb342-5"></a>  pw_entered=<span class="kw">readline</span>(<span class="st">&quot;Please enter the password: &quot;</span>)</span>
+<span id="cb342-6"><a href="flow-control.html#cb342-6"></a></span>
+<span id="cb342-7"><a href="flow-control.html#cb342-7"></a>  <span class="cf">if</span> (pw_entered<span class="op">==</span>pw){</span>
+<span id="cb342-8"><a href="flow-control.html#cb342-8"></a>    <span class="kw">print</span>(<span class="st">&quot;The door is opened. Welcome!&quot;</span>)</span>
+<span id="cb342-9"><a href="flow-control.html#cb342-9"></a>    <span class="cf">break</span></span>
+<span id="cb342-10"><a href="flow-control.html#cb342-10"></a>    </span>
+<span id="cb342-11"><a href="flow-control.html#cb342-11"></a>  } <span class="cf">else</span> {</span>
+<span id="cb342-12"><a href="flow-control.html#cb342-12"></a>    <span class="kw">print</span>(<span class="st">&quot;Password wrong. Please re-enter the password: &quot;</span>)</span>
+<span id="cb342-13"><a href="flow-control.html#cb342-13"></a>  }</span>
+<span id="cb342-14"><a href="flow-control.html#cb342-14"></a>  </span>
+<span id="cb342-15"><a href="flow-control.html#cb342-15"></a>} </span></code></pre></div>
+<p>Verison 2:
+When i=3, the code should show that the door is locked due to too many failed trials, rather than asking for re-enter the password.</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="flow-control.html#cb343-1"></a>pw=<span class="st">&quot;2497&quot;</span></span>
 <span id="cb343-2"><a href="flow-control.html#cb343-2"></a></span>
 <span id="cb343-3"><a href="flow-control.html#cb343-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>){</span>
-<span id="cb343-4"><a href="flow-control.html#cb343-4"></a></span>
+<span id="cb343-4"><a href="flow-control.html#cb343-4"></a>  </span>
 <span id="cb343-5"><a href="flow-control.html#cb343-5"></a>  pw_entered=<span class="kw">readline</span>(<span class="st">&quot;Please enter the password: &quot;</span>)</span>
 <span id="cb343-6"><a href="flow-control.html#cb343-6"></a></span>
 <span id="cb343-7"><a href="flow-control.html#cb343-7"></a>  <span class="cf">if</span> (pw_entered<span class="op">==</span>pw){</span>
 <span id="cb343-8"><a href="flow-control.html#cb343-8"></a>    <span class="kw">print</span>(<span class="st">&quot;The door is opened. Welcome!&quot;</span>)</span>
 <span id="cb343-9"><a href="flow-control.html#cb343-9"></a>    <span class="cf">break</span></span>
 <span id="cb343-10"><a href="flow-control.html#cb343-10"></a>    </span>
-<span id="cb343-11"><a href="flow-control.html#cb343-11"></a>  } <span class="cf">else</span> {</span>
-<span id="cb343-12"><a href="flow-control.html#cb343-12"></a>    <span class="kw">print</span>(<span class="st">&quot;Password wrong. Please re-enter the password: &quot;</span>)</span>
-<span id="cb343-13"><a href="flow-control.html#cb343-13"></a>  }</span>
-<span id="cb343-14"><a href="flow-control.html#cb343-14"></a>  </span>
-<span id="cb343-15"><a href="flow-control.html#cb343-15"></a>} </span></code></pre></div>
-<p>Verison 2:
-When i=3, the code should show that the door is locked due to too many failed trials, rather than asking for re-enter the password.</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="flow-control.html#cb344-1"></a>pw=<span class="st">&quot;2497&quot;</span></span>
-<span id="cb344-2"><a href="flow-control.html#cb344-2"></a></span>
-<span id="cb344-3"><a href="flow-control.html#cb344-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>){</span>
-<span id="cb344-4"><a href="flow-control.html#cb344-4"></a>  </span>
-<span id="cb344-5"><a href="flow-control.html#cb344-5"></a>  pw_entered=<span class="kw">readline</span>(<span class="st">&quot;Please enter the password: &quot;</span>)</span>
-<span id="cb344-6"><a href="flow-control.html#cb344-6"></a></span>
-<span id="cb344-7"><a href="flow-control.html#cb344-7"></a>  <span class="cf">if</span> (pw_entered<span class="op">==</span>pw){</span>
-<span id="cb344-8"><a href="flow-control.html#cb344-8"></a>    <span class="kw">print</span>(<span class="st">&quot;The door is opened. Welcome!&quot;</span>)</span>
-<span id="cb344-9"><a href="flow-control.html#cb344-9"></a>    <span class="cf">break</span></span>
-<span id="cb344-10"><a href="flow-control.html#cb344-10"></a>    </span>
-<span id="cb344-11"><a href="flow-control.html#cb344-11"></a>  } <span class="cf">else</span> <span class="cf">if</span>(i<span class="op">!=</span><span class="dv">3</span>){</span>
-<span id="cb344-12"><a href="flow-control.html#cb344-12"></a>      <span class="kw">print</span>(<span class="st">&quot;Password wrong. Please re-enter the password: &quot;</span>)</span>
-<span id="cb344-13"><a href="flow-control.html#cb344-13"></a>  } <span class="cf">else</span> {</span>
-<span id="cb344-14"><a href="flow-control.html#cb344-14"></a>      <span class="kw">print</span>(<span class="st">&quot;Password wrong. Door closed.&quot;</span>)</span>
-<span id="cb344-15"><a href="flow-control.html#cb344-15"></a>  } </span>
-<span id="cb344-16"><a href="flow-control.html#cb344-16"></a>  </span>
-<span id="cb344-17"><a href="flow-control.html#cb344-17"></a>} </span></code></pre></div>
+<span id="cb343-11"><a href="flow-control.html#cb343-11"></a>  } <span class="cf">else</span> <span class="cf">if</span>(i<span class="op">!=</span><span class="dv">3</span>){</span>
+<span id="cb343-12"><a href="flow-control.html#cb343-12"></a>      <span class="kw">print</span>(<span class="st">&quot;Password wrong. Please re-enter the password: &quot;</span>)</span>
+<span id="cb343-13"><a href="flow-control.html#cb343-13"></a>  } <span class="cf">else</span> {</span>
+<span id="cb343-14"><a href="flow-control.html#cb343-14"></a>      <span class="kw">print</span>(<span class="st">&quot;Password wrong. Door closed.&quot;</span>)</span>
+<span id="cb343-15"><a href="flow-control.html#cb343-15"></a>  } </span>
+<span id="cb343-16"><a href="flow-control.html#cb343-16"></a>  </span>
+<span id="cb343-17"><a href="flow-control.html#cb343-17"></a>} </span></code></pre></div>
 </div>
 <div id="while-loop" class="section level2">
 <h2><span class="header-section-number">6.8</span> While Loop</h2>
@@ -407,37 +407,37 @@ statement
 }</p>
 <p>Here, test_expression is evaluated and the body of the loop is entered if the result is TRUE.</p>
 <p>Let’s look at how to calculate the sum square from 1 to 100 using while loop.</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="flow-control.html#cb345-1"></a>sum=<span class="dv">0</span>         <span class="co"># initize the sum as 0</span></span>
-<span id="cb345-2"><a href="flow-control.html#cb345-2"></a>i=<span class="dv">1</span>           <span class="co"># initize the iterator</span></span>
-<span id="cb345-3"><a href="flow-control.html#cb345-3"></a></span>
-<span id="cb345-4"><a href="flow-control.html#cb345-4"></a><span class="co"># we will add the square of a number (1-100) to sum</span></span>
-<span id="cb345-5"><a href="flow-control.html#cb345-5"></a><span class="cf">while</span> (i<span class="op">&lt;=</span><span class="dv">100</span>){</span>
-<span id="cb345-6"><a href="flow-control.html#cb345-6"></a>  sum=sum<span class="op">+</span>i<span class="op">^</span><span class="dv">2</span></span>
-<span id="cb345-7"><a href="flow-control.html#cb345-7"></a>  i=i<span class="op">+</span><span class="dv">1</span></span>
-<span id="cb345-8"><a href="flow-control.html#cb345-8"></a>}</span>
-<span id="cb345-9"><a href="flow-control.html#cb345-9"></a>sum</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="flow-control.html#cb344-1"></a>sum=<span class="dv">0</span>         <span class="co"># initize the sum as 0</span></span>
+<span id="cb344-2"><a href="flow-control.html#cb344-2"></a>i=<span class="dv">1</span>           <span class="co"># initize the iterator</span></span>
+<span id="cb344-3"><a href="flow-control.html#cb344-3"></a></span>
+<span id="cb344-4"><a href="flow-control.html#cb344-4"></a><span class="co"># we will add the square of a number (1-100) to sum</span></span>
+<span id="cb344-5"><a href="flow-control.html#cb344-5"></a><span class="cf">while</span> (i<span class="op">&lt;=</span><span class="dv">100</span>){</span>
+<span id="cb344-6"><a href="flow-control.html#cb344-6"></a>  sum=sum<span class="op">+</span>i<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb344-7"><a href="flow-control.html#cb344-7"></a>  i=i<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb344-8"><a href="flow-control.html#cb344-8"></a>}</span>
+<span id="cb344-9"><a href="flow-control.html#cb344-9"></a>sum</span></code></pre></div>
 <pre><code>## [1] 338350</code></pre>
 <p>Let’s revist the password door exercise. You will have 3 chances to enter the correct password to open the door. This time, implement this with while-loop.</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="flow-control.html#cb347-1"></a>pw=<span class="st">&quot;2497&quot;</span></span>
-<span id="cb347-2"><a href="flow-control.html#cb347-2"></a></span>
-<span id="cb347-3"><a href="flow-control.html#cb347-3"></a>i=<span class="dv">1</span>     <span class="co"># initialize the iterator</span></span>
-<span id="cb347-4"><a href="flow-control.html#cb347-4"></a><span class="cf">while</span> (i <span class="op">&lt;=</span><span class="st"> </span><span class="dv">3</span>){</span>
-<span id="cb347-5"><a href="flow-control.html#cb347-5"></a>  </span>
-<span id="cb347-6"><a href="flow-control.html#cb347-6"></a>  pw_entered=<span class="kw">readline</span>(<span class="st">&quot;Please enter the password: &quot;</span>)</span>
-<span id="cb347-7"><a href="flow-control.html#cb347-7"></a></span>
-<span id="cb347-8"><a href="flow-control.html#cb347-8"></a>  <span class="cf">if</span> (pw_entered<span class="op">==</span>pw){</span>
-<span id="cb347-9"><a href="flow-control.html#cb347-9"></a>    <span class="kw">print</span>(<span class="st">&quot;The door is opened. Welcome!&quot;</span>)</span>
-<span id="cb347-10"><a href="flow-control.html#cb347-10"></a>    <span class="cf">break</span></span>
-<span id="cb347-11"><a href="flow-control.html#cb347-11"></a>    </span>
-<span id="cb347-12"><a href="flow-control.html#cb347-12"></a>  } <span class="cf">else</span> <span class="cf">if</span>(i<span class="op">!=</span><span class="dv">3</span>){</span>
-<span id="cb347-13"><a href="flow-control.html#cb347-13"></a>      <span class="kw">print</span>(<span class="st">&quot;Password wrong. Please re-enter the password: &quot;</span>)</span>
-<span id="cb347-14"><a href="flow-control.html#cb347-14"></a>  } <span class="cf">else</span> {</span>
-<span id="cb347-15"><a href="flow-control.html#cb347-15"></a>      <span class="kw">print</span>(<span class="st">&quot;Password wrong. Door closed.&quot;</span>)</span>
-<span id="cb347-16"><a href="flow-control.html#cb347-16"></a>  }</span>
-<span id="cb347-17"><a href="flow-control.html#cb347-17"></a></span>
-<span id="cb347-18"><a href="flow-control.html#cb347-18"></a>  i=i<span class="op">+</span><span class="dv">1</span>  <span class="co"># increase the iterator by 1 at the end</span></span>
-<span id="cb347-19"><a href="flow-control.html#cb347-19"></a>  </span>
-<span id="cb347-20"><a href="flow-control.html#cb347-20"></a>} </span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="flow-control.html#cb346-1"></a>pw=<span class="st">&quot;2497&quot;</span></span>
+<span id="cb346-2"><a href="flow-control.html#cb346-2"></a></span>
+<span id="cb346-3"><a href="flow-control.html#cb346-3"></a>i=<span class="dv">1</span>     <span class="co"># initialize the iterator</span></span>
+<span id="cb346-4"><a href="flow-control.html#cb346-4"></a><span class="cf">while</span> (i <span class="op">&lt;=</span><span class="st"> </span><span class="dv">3</span>){</span>
+<span id="cb346-5"><a href="flow-control.html#cb346-5"></a>  </span>
+<span id="cb346-6"><a href="flow-control.html#cb346-6"></a>  pw_entered=<span class="kw">readline</span>(<span class="st">&quot;Please enter the password: &quot;</span>)</span>
+<span id="cb346-7"><a href="flow-control.html#cb346-7"></a></span>
+<span id="cb346-8"><a href="flow-control.html#cb346-8"></a>  <span class="cf">if</span> (pw_entered<span class="op">==</span>pw){</span>
+<span id="cb346-9"><a href="flow-control.html#cb346-9"></a>    <span class="kw">print</span>(<span class="st">&quot;The door is opened. Welcome!&quot;</span>)</span>
+<span id="cb346-10"><a href="flow-control.html#cb346-10"></a>    <span class="cf">break</span></span>
+<span id="cb346-11"><a href="flow-control.html#cb346-11"></a>    </span>
+<span id="cb346-12"><a href="flow-control.html#cb346-12"></a>  } <span class="cf">else</span> <span class="cf">if</span>(i<span class="op">!=</span><span class="dv">3</span>){</span>
+<span id="cb346-13"><a href="flow-control.html#cb346-13"></a>      <span class="kw">print</span>(<span class="st">&quot;Password wrong. Please re-enter the password: &quot;</span>)</span>
+<span id="cb346-14"><a href="flow-control.html#cb346-14"></a>  } <span class="cf">else</span> {</span>
+<span id="cb346-15"><a href="flow-control.html#cb346-15"></a>      <span class="kw">print</span>(<span class="st">&quot;Password wrong. Door closed.&quot;</span>)</span>
+<span id="cb346-16"><a href="flow-control.html#cb346-16"></a>  }</span>
+<span id="cb346-17"><a href="flow-control.html#cb346-17"></a></span>
+<span id="cb346-18"><a href="flow-control.html#cb346-18"></a>  i=i<span class="op">+</span><span class="dv">1</span>  <span class="co"># increase the iterator by 1 at the end</span></span>
+<span id="cb346-19"><a href="flow-control.html#cb346-19"></a>  </span>
+<span id="cb346-20"><a href="flow-control.html#cb346-20"></a>} </span></code></pre></div>
 <p>As seen, it is much easily to use for-loop for iterating over a fixed sequence because we do not need to manually update the iterator. Typically, we use while-loop if we do not how many iteration will be conducted; and use for-loop if we know how many iteration to be conducted.</p>
 <p>Also, break/next work similarly with while-loop to exit the while-loop or to jump to the next iteration within the while-loop, respectively.</p>
 

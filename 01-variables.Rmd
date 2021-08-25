@@ -125,7 +125,7 @@ The typical Logical Operators in R:
 |==                |	exactly equal to                       |
 |!=                |	not equal to                           |
 |!x                |	Not x                                  |
-|x | y             | 	x OR y                                 |
+|x \| y             | 	x OR y                                 |
 |x & y	           | x AND y                                 |
 |isTRUE(x)         | test if X is TRUE                       |
 
