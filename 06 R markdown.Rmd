@@ -1,0 +1,180 @@
+# R markdown for documentation 
+
+We have learned the statement of if...else if... for branching; the for/while-loop for repetitive task. Today, we will use these statements to write the first computer game in R.
+
+Rather than writing code in R script, we will use R-markdown for better documentation and communication.
+
+## rock, paper, scissors
+Let's write a program to play the "rock, paper, scissors" with the computer. At each round, the computer and you will choose one from "rock, paper, scissors". Then you compare the computer's and your choice to determine 1) you won 2) computer won 3) tie. Since there are three different outcomes, we need if...else if...else statement. 
+
+## verison 1:
+```{r}
+you="rock"   
+computer="paper" 
+
+if (computer==you){
+  print("this is a tie.")
+  
+} else if((computer=="rock" & you=="paper")|(computer=="paper" & you=="scissors")|(computer=="scissors" & you=="rock") ){
+  
+  print("You won!")
+} else{
+  
+  print("Oops, computer won!")
+}
+
+```
+
+While verison 1 is a borning game because you have already know the outcome of the game. In order not to have the pre-determined outcome, we need to let you and computer randomly choose from "rock, paper, scissors". There is a convenient function in R for random sampling: 
+
+sample(vector, n, replace=TRUE) samples n elements from vector with replacement. With replacement means that the sampled element is put back for the next sampling. E.g., 
+```{r}
+sample(c("rock","paper","scissors"), 4, replace=TRUE)
+```
+
+## verison 2
+With the sample() function, we can improve the program as below:
+
+```{r}
+#you=sample(c("rock","paper","scissors"), 1, replace=TRUE)
+you=readline("please enter your action: rock, paper, scissors > ")
+computer=sample(c("rock","paper","scissors"), 1, replace=TRUE)
+
+print(paste("your action is", you))
+print(paste("computer action is", computer))
+
+if (computer==you){
+  print("this is a tie.")
+  
+} else if((computer=="rock" & you=="paper")|(computer=="paper" & you=="scissors")|(computer=="scissors" & you=="rock") ){
+  
+  print("You won!")
+} else{
+  
+  print("Oops, computer won!")
+}
+
+```
+
+## Version 3
+Let's revisit the "rock, paper, scissors" game. This time, you and computer will play "rock, paper, scissors" for three rounds. Whoever won more rounds will be the winner.
+
+Playing 3 rounds is a repetitive task, we can use for-loop. Since the game will be playing multiple rounds, we will need to implement a score board to keep track of the score at each round (think of the score board in a basketball game).
+```{r}
+you_score=0
+computer_score=0
+
+for (i in 1:3){
+  
+  #you=sample(c("rock","paper","scissors"), 1, replace=TRUE)
+  you=readline("please enter your action: rock, paper, scissors > ")
+  computer=sample(c("rock","paper","scissors"), 1, replace=TRUE)
+
+  print(paste("your action is", you))
+  print(paste("computer action is", computer))
+  
+  if (computer==you){
+    print("this is a tied round.")
+  
+  } else if((computer=="rock" & you=="paper")|(computer=="paper" &   you=="scissors")|(computer=="scissors" & you=="rock") ){
+  
+    print("You won in this round!")
+    you_score=you_score+1
+    
+  } else{
+  
+    print("Oops, computer won in this round!")
+    computer_score=computer_score+1
+    
+  }
+}
+
+# determine who won finally
+print("The final score is: ")
+print(paste("you: ", you_score, " V.S. ", "computer: ", computer_score, sep=""))
+
+if (you_score>computer_score){
+  print("You won!")
+} else if (you_score==computer_score){
+  print("tie game")
+} else {
+  print("Computer won!")
+}
+
+```
+
+## verision 4
+Define a rps function for re-use:
+```{r}
+# determine the winner based on action
+rps=function(you, computer){
+  computer_score=0
+  you_score=0
+  
+  print(paste("your action is", you))
+  print(paste("computer action is", computer))
+  
+  if (computer==you){
+    print("this is a tied round.")
+  
+  } else if((computer=="rock" & you=="paper")|(computer=="paper" &        you=="scissors")|(computer=="scissors" & you=="rock") ){
+  
+    print("You won in this round!")
+    you_score=you_score+1
+    
+  } else{
+    print("Oops, computer won in this round!")
+    computer_score=computer_score+1
+  }
+  
+  return(c(computer_score,you_score))
+}
+
+# the function to print the score 
+winner=function(computer_score,you_score){
+  print("The final score is: ")
+  print(paste("you: ", you_score, " V.S. ", "computer: ", computer_score, sep=""))
+
+  if (you_score>computer_score){
+    print("You won!")
+  } else if (you_score==computer_score){
+    print("tie game")
+  } else {
+    print("Computer won!")
+  }
+}
+  
+#you=sample(c("rock","paper","scissors"), 1, replace=TRUE)
+you=readline("please enter your action: rock, paper, scissors > ")
+computer=sample(c("rock","paper","scissors"), 1, replace=TRUE)
+
+score=rps(you,computer)
+winner(score[1],score[2])
+
+```
+
+
+## version 5
+Let's revisit the "rock, paper, scissors" game. After each round, the program will ask you whether you want to continue to play another round. The program ends if you enter "no"; otherwise, the program will continue to the next round.
+
+This is also an iterative task, but we do not know in advance how many iteration will be. Thus, we can use while-loop.
+```{r}
+continue="yes"   # the logical expression in the while loop
+total_score=c(0,0)
+
+while (continue!="no"){
+  
+  you=readline("please enter your action: rock, paper, scissors > ")
+  computer=sample(c("rock","paper","scissors"), 1, replace=TRUE)
+
+  score=rps(you,computer)
+  total_score=total_score+score
+  
+  continue=readline("Do you want to play another round (yes/no): ")
+}
+
+winner(total_score[1],total_score[2])
+
+```
+
+Congratulation! You have just created your first computer game in R!
