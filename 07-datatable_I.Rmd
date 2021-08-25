@@ -1,0 +1,358 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Use data.table Package for Big Data 
+
+Packages are the fundamental units of reproducible R code. They include reusable R functions, the documentation that describes how to use them, and sample data. There are currently 120,000 packages in R, which empower you to do all kinds of data analysis. This huge variety of packages is one of the reasons that R is so successful: the chances are that someone has already solved a problem that you’re working on, and you can benefit from their work by downloading their package.
+
+The data.table package in R provides an enhanced version of data.frame that allows you to do blazing fast data manipulations. The data.table package is being used in different fields such as finance and genomics which encounter large data sets (for example, 1GB to 100GB). 
+
+Why we are interested in learning data.table package among all these packages?
+
+> "The data.table package in a sense helped to 'save' R. At one point a few years ago, there were major concerns that R could not handle Big Data, with calls from some in favor of Python instead. The data.table package showed that R could do quite well in large datasets. This really aided in R's being adopted by various large companies... " --- Norm Matloff, Prof. of Computer Science, UC Davis
+
+## Install R Packages
+There are over 120,000 packages in R. As you can imagine, it is not wise to install every package in R, which will take enormous computer storage space. In fact, when installing R, we will install the most essential packages, which are known as base R. For example, the functions learned so far are all from base R (e.g., data.frame, plot, loop, if ...). Base R can perform the basic functions. But we can enhance the power of R by installing packages.
+
+We can install R packages as needed through the following syntax:
+```{r, eval=FALSE}
+install.packages("package_name") # download and install the package
+library(package_name)            # load the package into memory
+```
+
+The packages are typically saved at the Comprehensive R Archive Network (CRAN); we do not need to worry about where the package is saved exactly on the Internet; R will take care of that automatically. 
+
+Let's install the data.table package by running following code: 
+```{r, eval=FALSE}
+install.packages("data.table")  
+```
+As you will see, downloading and installing the package takes times, especially when the package is big. Thus, I will run this code just once to install the package. Every time when you reopen your R project, you just need to load the package into your memory through the following code: 
+```{r}
+library("data.table")
+```
+Now that you have loaded the package into the computer memory, you can use all the powerful functions from the package.
+
+On the right bottom corner of R-studio, you should be able to examine all the packages that are installed. The packages that are checked are the ones loaded into the memory.
+
+```{r, eval=FALSE, include=FALSE}
+# download the flights13 data to the local computer
+install.packages("nycflights13")
+library(nycflights13)
+
+write.csv(nycflights13::flights,"flights.csv",row.names =FALSE)
+write.csv(weather,"weather.csv",row.names =FALSE)
+write.csv(planes,"planes.csv",row.names =FALSE)
+```
+
+As said, data.table is an enhanced venison of data.frame. Thus, recall what we did in the lecture about data.frame. We will learn 
+
+* how to read data file into R as data.table.
+
+* how to manipulate data.table.
+
+We will use the flights dataset for the purpose of illustration. The flights dataset contains flights information for all the flights departing from New York City airports in 2013. This dataset is from from the Bureau of Transporation Statistics.
+
+
+## fread(): Read csv file into R as data.table
+Remember, in read.csv() reads a dataset into R as data.frame. In comparison, fread() from data.table package will read a csv file into R as a data.table. 
+
+```{r, eval=FALSE}
+# type ?fread to check its help document
+?fread
+```
+
+Now, let's read flights.csv into R using fread() function in data.table package.
+```{r}
+flights=fread("data/flights.csv")
+```
+The flights.csv is 31.9MB, with 336,776 observation and 19 variables. This is not a small dataset. But as you can feel, fread() is blazing fast.
+
+We can use the class() function to examine the type of the data.table (flights) we just created:
+```{r}
+class(flights)
+```
+
+As seen, flights belongs to both ‘data.table’ and 'data.frame'. As mentioned, this is because data.table is an extension (enhancement of data.frame). Therefore, all functions works on data.frame all works on data.table.
+
+Now, let's compare the performance of data.table and data.frame in terms reading data into R. Performance benchmark between different programs is very common to determine which one is better.
+```{r}
+system.time( read.csv("data/flights.csv") )
+
+system.time( fread("data/flights.csv") )
+```
+As seen, read.csv() spends 1.42 seconds to read the data; while fread() spends 0.06 seconds to read the data. fread() is 23 times faster (this will be different depending on the machine you used). The advantage will be even prominent if we are dealing with even big file.
+
+### Convert data.frame into data.table
+You can convert an existing data.frame into a data.table using data.table() function.
+```{r}
+tmp=read.csv("data/flights.csv") 
+class(tmp)
+
+tmp=data.table(tmp)
+class(tmp)
+```
+
+
+## Quick summary of the data
+In the excel file, we can easily "see" the data in the tabular format. With R-stuido, you can click "flights" on the top right corner to "see" the data. But more commonly, we will examine the data through a few quick summary:
+
+Use head()/tail() to show the first/last 6 rows of the data. 
+```{r}
+head(flights)
+tail(flights)
+```
+
+Use summary() to get summary statistics for each variable.
+```{r}
+summary(flights)
+```
+
+str() is THE function for examining structure of a dataset.
+```{r}
+str(flights)
+```
+
+## Data Manipulation with data.table
+In many cases, we need to inquiry and subset a dataset. Structured Query Language (SQL) is designed for that purpose. data.table syntax is actually very similar to the SQL syntax. 
+
+data.table provides a simple, consistent, user-friendly syntax for data manipulation. The general form of data.table syntax is: 
+
+DT[i, j, by]  
+
+where 
+
+* DT is a data.table.
+
+* by: grouped by what?  
+
+* j: what to do? 
+
+* i: on which rows?
+
+We will apply this form to manipulate data: Filtering rows, selecting columns, aggregating, ...
+#
+# Filtering Rows
+Here we show how to filter particular rows with data.table.
+
+### Filtering rows through logical expression
+We can filter rows based on logical expression. E.g., 
+```{r}
+# filtering flights with "JFK" as the origin in the month of June.
+tmp <- flights[origin == "JFK" & month == 6] 
+head(tmp)
+
+```
+As see, this is much clear and easy to read compared to the syntax under data.frame; and we do not need to write flights\$origin, flights\$month as we did in data.frame.
+
+### Filtering rows by row index
+We can also filter rows by index. E.g.,
+```{r}
+#  filtering the first two rows from flights.
+flights[1:2]
+```
+
+In data.table, .N is a special symbol that contains the number of rows of the data.table. E.g.,
+```{r}
+# Return the last row of flights
+flights[.N] 
+
+# same as flights[336776]
+flights[336776]
+```
+
+### Fitering rows through %between%, %chin%, %like% 
+%between% allows you to search for numerical values in the closed interval [val1, val2]. The syntax is: numeric_col %between% c(val1, val2)
+```{r}
+# filtering all flights with arr_delay between 120 to 180 minutes
+tmp=flights[arr_delay%between% c(120, 180)]
+
+head(tmp)
+```
+
+%chin% is only for character vectors, it allows you to filter rows with character values in a set: character_col %chin% c("val1", "val2", "val3")
+```{r}
+# Filtering flights with "JFK" or "LGA" as origin in the month of May
+tmp <- flights[origin %chin% c("JFK","LGA") & month==5] 
+head(tmp)
+```
+
+%like% allows you to search for a pattern in a character or a factor vector. It is best to illustrate what pattern means with an example. E.g., the two characters "AA" and "AS" (acronym for American Airline and Alaska Airlines) are both started with a upper case U. This is called a pattern. In R, "^A" is used to denoted this pattern. We will talk more about pattern when we deal with strings.
+```{r}
+# filter carriers whose acronym starts with A.
+tmp <- flights[carrier %like% "^A"] 
+head(tmp)
+```
+
+
+## Select Columns 
+The general form of data.table syntax is: 
+
+DT[i, j, by]  
+
+where 
+
+* by: grouped by what?  
+
+* j: what to do? 
+
+* i: on which rows?
+
+The second argument j is used to select (and compute on) columns.
+
+### Using column names to select columns
+Because data.table is an enhanced data.frame, we can select columns by column names in accordance with data.frame. 
+```{r}
+# Select dep_delay and arr_delay column 
+tmp <- flights[, c("dep_delay","arr_delay")]
+
+# show the first 6 rows using head() function.
+head(tmp)  
+
+# create a scatter plot between these two variables.
+plot(tmp)
+```
+The plot shows that there is a strong linear relationship between dep_delay and arr_delay, which essentially means: if you deptures late by x minutes, you are very likely to arrive later by x minutes.
+
+Note that, as seen in flights[, c("dep_delay","arr_delay")], although we do not filter on rows, we need to include "," to add a place holder for argument i. Otherwise, the code will generate an error msg. 
+
+We can also select column based on the column index, which, however, is not strongly not recommended.
+```{r, eval=FALSE}
+flights[,c(6,9)]  # dep_delay and arr_delay are at 6,9th column
+```
+This is not recommended because if the order of columns changes (which is likely to happen if you are deleting or adding columns), the result will be wrong. 
+
+We can also deselecting columns: -c("col1", "col2") deselects the columns col1 and col2; in other words, delete col1 and col2.
+```{r, eval=FALSE}
+# disselect arr_delay and dep_delay column
+flights[,-c("dep_delay","arr_delay")]
+```
+
+
+### Select columns as variables - the data.table way
+In data.table, each column is treated as a variable, thus, you can use a list of variables (column names) to select columns.
+```{r}
+# Select the arr_delay and dep_delay column.
+tmp <- flights[, list(dep_delay,arr_delay)]
+```
+The difference of this code and the above code is that dep_delay and arr_delay are not inside "". This is because dep_delay and arr_delay are treated as variable, rather column names.
+
+.() is an alias to list(), for convenience. We can use .() to replace list(). This reduces typing and allows you to focus on the variables that are selected when reading the code.
+```{r}
+tmp <- flights[, .(dep_delay,arr_delay)]
+```
+
+We can also rename the column while selecting the column. E.g., the following code select arr_delay and dep_delay and rename to arrive_delay and depart_delay
+```{r}
+tmp <- flights[, .(arrive_delay = arr_delay, depart_delay = dep_delay)]
+head(tmp)
+```
+
+### Computing on columns
+Since columns in data.table can be referred to as variables, you can compute directly on them in j. We will find this is a quick and easy way to get summary statistics from the data.
+
+E.g., you want to know the average arr_delay and dep_delay of all the fligths? in other words, you want to compute the mean of arr_delay and dep_delay.
+```{r}
+# calcuate the mean arr_delay
+flights[,mean(arr_delay)]
+flights[,mean(arr_delay, na.rm = TRUE)]
+```
+
+
+We can also rename the calculated columns:
+```{r}
+# calcuate the mean arr_delay and dep_delay
+flights[,.(mean(arr_delay, na.rm = TRUE), mean(dep_delay, na.rm = TRUE))]
+```
+
+You can compute and name multiple variables at the same time:
+```{r}
+# calcuate the mean arr_delay and dep_delay
+flights[,.(avg_arr_delay=mean(arr_delay, na.rm = TRUE), avg_dep_delay=mean(dep_delay, na.rm = TRUE))]
+```
+
+
+### Computing on rows and columns
+Combining i and j is straightforward. E.g., you want to compute the average arr_deply and dep_deply for all flights origined from "JFK" in the month of Jun
+```{r}
+flights[origin=="JFK" & month==6,.(avg_arr_delay=mean(arr_delay, na.rm = TRUE), avg_dep_delay=mean(dep_delay, na.rm = TRUE))]
+```
+
+Now, let break this code to understand how it works. We first subset in i to find matching row indices where origin airport equals "JFK", and month equals 6; next we look at j and select the two columns and compute their mean(). Note that the code will return a data.table.
+
+
+### Special symbol .N in j
+Remember .N denotes the number of rows. .N can be used in j as well. It is particularly useful to get the number of rows after filtering in i.
+
+E.g., you want to compute how many flights are delayed (i.e., arr_delay + dep_delay>0).
+```{r}
+flights[arr_delay + dep_delay>0, .N]
+```
+In the above code, the data.table is first filtered by arr_delay + dep_delay<=0, and then compute the number of selected rows.
+
+### Advanced Computation on columns
+Because the columns can be treated as variable in data.table, thus we can perform complex calculation on these variable in j.
+
+E.g., we want to compute the average speed of all flights, where speed is measured by distance/(airm_time/60) (miles per hour)?
+```{r}
+flights[, .(miles_per_hr=mean( 60*distance/air_time , na.rm = TRUE))]
+```
+
+### Sort Data by One/Multiple Columns
+The data.table has very simple syntax to sort data based on one/multiple columns. E.g., sort flights first by origin in ascending order, and then by dest in descending order
+```{r}
+# Use the order() function to sort by columns.
+tmp <- flights[order(origin, -dest)]
+head(tmp)
+```
+
+## Calcuation by Group 
+We’ve already seen i and j from data.table’s general form. Here, we’ll see how they can be combined together with "by" to perform operations by group. 
+
+E.g., how can we get the number of flights corresponding to each origin airport?
+```{r}
+flights[, .(count=.N), by = .(origin)]
+```
+
+e.g., How can we get the total number of flights and average arrival delay and std deviation of arrial delay for each origin, dest pair for carrier code "AA"?
+```{r}
+tmp<-flights[carrier == "AA", .(count=.N, avg_arr_delay=mean(arr_delay, na.rm = TRUE), sd_arr_delay=sd(arr_delay, na.rm = TRUE)), by = .(origin, dest)]
+head(tmp)
+```
+From this summary, we can see that AA on average arrive on time. However, the high std deviation means there is great variation in terms of the arrive delay.  
+
+How can we get the average arrival and departure delay for each origin, dest pair for each month for carrier code "AA"?
+```{r}
+tmp=flights[carrier == "AA", .(avg_arr_delay=mean(arr_delay), avg_dep_delay=mean(dep_delay)), by = .(origin, dest, month)]
+
+
+# plot the avg_arr_delay, avg_dep_delay and use color to mark different month
+library(ggplot2)
+ggplot(tmp,aes(avg_arr_delay, avg_dep_delay, color=factor(month)))+
+  geom_point()
+```
+The data.table summary and the plot together provide a great way to visualize which month are more likely to have flights delay. 
+
+Note that, the above code retain the original ordering of origin-dest pair.  There are cases when preserving the original order is essential. However, if we want to automatically sort by the variables in our grouping, we can simply change by to "keyby"
+
+```{r}
+# sort by origin, dest, month
+tmp <- flights[carrier == "AA", .(avg_arr_delay=mean(arr_delay, na.rm = TRUE), avg_dep_delay=mean(dep_delay, na.rm = TRUE)), keyby = .(origin, dest, month)]
+head(tmp)
+
+```
+
+Notice that, the datatable is ordered based on variables in our grouping (origin-dest-month). This is easy for reader to examine the the pattern in our data in a tabular form. 
+
+
+## Summary
+
+* R has currently 120,000 packages, which can enhance the power of base R. data.table is a enhanced verison of data.frame to handle big data.
+
+* Learn how to install and load R packages.
+
+* data.table syntax: DT[i, j, by]:  by - grouped by what; j - what to do; i - on which rows.
+
+* use data.table syntax to manipulate the flights dataset: filtering rows, selecting columns; computing columns; aggregrating by group. 
+

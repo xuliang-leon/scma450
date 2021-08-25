@@ -1,8 +1,12 @@
 # R markdown for documentation 
 
-We have learned the statement of if...else if... for branching; the for/while-loop for repetitive task. Today, we will use these statements to write the first computer game in R.
+We have been writing code in Rscript and all the result of your code is printed at the console. From now on, we will learn to use a powerful interactive notebook interface to write code and display results. 
 
-Rather than writing code in R script, we will use R-markdown for better documentation and communication.
+In addition, you can also use multiple languages including R, Python, and SQL in R-markdown. We will later introduce how to insert python code in r-markdown.
+
+
+Next, we will write code in r-markdown to implement some small applications. In particular, we have learned the statement of if...else if... for branching; the for/while-loop for repetitive task. Today, we will use these statements to write the first computer game in R. 
+
 
 ## rock, paper, scissors
 Let's write a program to play the "rock, paper, scissors" with the computer. At each round, the computer and you will choose one from "rock, paper, scissors". Then you compare the computer's and your choice to determine 1) you won 2) computer won 3) tie. Since there are three different outcomes, we need if...else if...else statement. 
@@ -25,18 +29,20 @@ if (computer==you){
 
 ```
 
-While verison 1 is a borning game because you have already know the outcome of the game. In order not to have the pre-determined outcome, we need to let you and computer randomly choose from "rock, paper, scissors". There is a convenient function in R for random sampling: 
+While version 1 is a boring game because you have already know the outcome of the game. In order not to have the pre-determined outcome, we need to let you and computer randomly choose from "rock, paper, scissors". There is a convenient function in R for random sampling: 
 
 sample(vector, n, replace=TRUE) samples n elements from vector with replacement. With replacement means that the sampled element is put back for the next sampling. E.g., 
 ```{r}
 sample(c("rock","paper","scissors"), 4, replace=TRUE)
 ```
 
+
 ## verison 2
 With the sample() function, we can improve the program as below:
 
-```{r}
+```{r, eval=FALSE}
 #you=sample(c("rock","paper","scissors"), 1, replace=TRUE)
+
 you=readline("please enter your action: rock, paper, scissors > ")
 computer=sample(c("rock","paper","scissors"), 1, replace=TRUE)
 
@@ -60,7 +66,7 @@ if (computer==you){
 Let's revisit the "rock, paper, scissors" game. This time, you and computer will play "rock, paper, scissors" for three rounds. Whoever won more rounds will be the winner.
 
 Playing 3 rounds is a repetitive task, we can use for-loop. Since the game will be playing multiple rounds, we will need to implement a score board to keep track of the score at each round (think of the score board in a basketball game).
-```{r}
+```{r, eval=FALSE}
 you_score=0
 computer_score=0
 
@@ -105,7 +111,7 @@ if (you_score>computer_score){
 
 ## verision 4
 Define a rps function for re-use:
-```{r}
+```{r, eval=FALSE}
 # determine the winner based on action
 rps=function(you, computer){
   computer_score=0
@@ -158,7 +164,7 @@ winner(score[1],score[2])
 Let's revisit the "rock, paper, scissors" game. After each round, the program will ask you whether you want to continue to play another round. The program ends if you enter "no"; otherwise, the program will continue to the next round.
 
 This is also an iterative task, but we do not know in advance how many iteration will be. Thus, we can use while-loop.
-```{r}
+```{r, eval=FALSE}
 continue="yes"   # the logical expression in the while loop
 total_score=c(0,0)
 

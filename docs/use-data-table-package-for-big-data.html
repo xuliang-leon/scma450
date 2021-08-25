@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Use data.table Package for Big Data | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Use data.table Package for Big Data | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Use data.table Package for Big Data | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-08-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="r-markdown-for-documentation.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="use-data.table-package-for-big-data" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Use data.table Package for Big Data</h1>
+<p>Packages are the fundamental units of reproducible R code. They include reusable R functions, the documentation that describes how to use them, and sample data. There are currently 120,000 packages in R, which empower you to do all kinds of data analysis. This huge variety of packages is one of the reasons that R is so successful: the chances are that someone has already solved a problem that you’re working on, and you can benefit from their work by downloading their package.</p>
+<p>The data.table package in R provides an enhanced version of data.frame that allows you to do blazing fast data manipulations. The data.table package is being used in different fields such as finance and genomics which encounter large data sets (for example, 1GB to 100GB).</p>
+<p>Why we are interested in learning data.table package among all these packages?</p>
+<blockquote>
+<p>“The data.table package in a sense helped to ‘save’ R. At one point a few years ago, there were major concerns that R could not handle Big Data, with calls from some in favor of Python instead. The data.table package showed that R could do quite well in large datasets. This really aided in R’s being adopted by various large companies…” — Norm Matloff, Prof. of Computer Science, UC Davis</p>
+</blockquote>
+<div id="install-r-packages" class="section level2">
+<h2><span class="header-section-number">8.1</span> Install R Packages</h2>
+<p>There are over 120,000 packages in R. As you can imagine, it is not wise to install every package in R, which will take enormous computer storage space. In fact, when installing R, we will install the most essential packages, which are known as base R. For example, the functions learned so far are all from base R (e.g., data.frame, plot, loop, if …). Base R can perform the basic functions. But we can enhance the power of R by installing packages.</p>
+<p>We can install R packages as needed through the following syntax:</p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="use-data-table-package-for-big-data.html#cb355-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;package_name&quot;</span>) <span class="co"># download and install the package</span></span>
+<span id="cb355-2"><a href="use-data-table-package-for-big-data.html#cb355-2"></a><span class="kw">library</span>(package_name)            <span class="co"># load the package into memory</span></span></code></pre></div>
+<p>The packages are typically saved at the Comprehensive R Archive Network (CRAN); we do not need to worry about where the package is saved exactly on the Internet; R will take care of that automatically.</p>
+<p>Let’s install the data.table package by running following code:</p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="use-data-table-package-for-big-data.html#cb356-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;data.table&quot;</span>)  </span></code></pre></div>
+<p>As you will see, downloading and installing the package takes times, especially when the package is big. Thus, I will run this code just once to install the package. Every time when you reopen your R project, you just need to load the package into your memory through the following code:</p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="use-data-table-package-for-big-data.html#cb357-1"></a><span class="kw">library</span>(<span class="st">&quot;data.table&quot;</span>)</span></code></pre></div>
+<p>Now that you have loaded the package into the computer memory, you can use all the powerful functions from the package.</p>
+<p>On the right bottom corner of R-studio, you should be able to examine all the packages that are installed. The packages that are checked are the ones loaded into the memory.</p>
+<p>As said, data.table is an enhanced venison of data.frame. Thus, recall what we did in the lecture about data.frame. We will learn</p>
+<ul>
+<li><p>how to read data file into R as data.table.</p></li>
+<li><p>how to manipulate data.table.</p></li>
+</ul>
+<p>We will use the flights dataset for the purpose of illustration. The flights dataset contains flights information for all the flights departing from New York City airports in 2013. This dataset is from from the Bureau of Transporation Statistics.</p>
+</div>
+<div id="fread-read-csv-file-into-r-as-data.table" class="section level2">
+<h2><span class="header-section-number">8.2</span> fread(): Read csv file into R as data.table</h2>
+<p>Remember, in read.csv() reads a dataset into R as data.frame. In comparison, fread() from data.table package will read a csv file into R as a data.table.</p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="use-data-table-package-for-big-data.html#cb358-1"></a><span class="co"># type ?fread to check its help document</span></span>
+<span id="cb358-2"><a href="use-data-table-package-for-big-data.html#cb358-2"></a>?fread</span></code></pre></div>
+<p>Now, let’s read flights.csv into R using fread() function in data.table package.</p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="use-data-table-package-for-big-data.html#cb359-1"></a>flights=<span class="kw">fread</span>(<span class="st">&quot;data/flights.csv&quot;</span>)</span></code></pre></div>
+<p>The flights.csv is 31.9MB, with 336,776 observation and 19 variables. This is not a small dataset. But as you can feel, fread() is blazing fast.</p>
+<p>We can use the class() function to examine the type of the data.table (flights) we just created:</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="use-data-table-package-for-big-data.html#cb360-1"></a><span class="kw">class</span>(flights)</span></code></pre></div>
+<pre><code>## [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<p>As seen, flights belongs to both ‘data.table’ and ‘data.frame’. As mentioned, this is because data.table is an extension (enhancement of data.frame). Therefore, all functions works on data.frame all works on data.table.</p>
+<p>Now, let’s compare the performance of data.table and data.frame in terms reading data into R. Performance benchmark between different programs is very common to determine which one is better.</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="use-data-table-package-for-big-data.html#cb362-1"></a><span class="kw">system.time</span>( <span class="kw">read.csv</span>(<span class="st">&quot;data/flights.csv&quot;</span>) )</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##    1.39    0.02    1.41</code></pre>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="use-data-table-package-for-big-data.html#cb364-1"></a><span class="kw">system.time</span>( <span class="kw">fread</span>(<span class="st">&quot;data/flights.csv&quot;</span>) )</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##    0.16    0.00    0.07</code></pre>
+<p>As seen, read.csv() spends 1.42 seconds to read the data; while fread() spends 0.06 seconds to read the data. fread() is 23 times faster (this will be different depending on the machine you used). The advantage will be even prominent if we are dealing with even big file.</p>
+<div id="convert-data.frame-into-data.table" class="section level3">
+<h3><span class="header-section-number">8.2.1</span> Convert data.frame into data.table</h3>
+<p>You can convert an existing data.frame into a data.table using data.table() function.</p>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="use-data-table-package-for-big-data.html#cb366-1"></a>tmp=<span class="kw">read.csv</span>(<span class="st">&quot;data/flights.csv&quot;</span>) </span>
+<span id="cb366-2"><a href="use-data-table-package-for-big-data.html#cb366-2"></a><span class="kw">class</span>(tmp)</span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="use-data-table-package-for-big-data.html#cb368-1"></a>tmp=<span class="kw">data.table</span>(tmp)</span>
+<span id="cb368-2"><a href="use-data-table-package-for-big-data.html#cb368-2"></a><span class="kw">class</span>(tmp)</span></code></pre></div>
+<pre><code>## [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+</div>
+</div>
+<div id="quick-summary-of-the-data" class="section level2">
+<h2><span class="header-section-number">8.3</span> Quick summary of the data</h2>
+<p>In the excel file, we can easily “see” the data in the tabular format. With R-stuido, you can click “flights” on the top right corner to “see” the data. But more commonly, we will examine the data through a few quick summary:</p>
+<p>Use head()/tail() to show the first/last 6 rows of the data.</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="use-data-table-package-for-big-data.html#cb370-1"></a><span class="kw">head</span>(flights)</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     1   1      517            515         2      830            819
+## 2: 2013     1   1      533            529         4      850            830
+## 3: 2013     1   1      542            540         2      923            850
+## 4: 2013     1   1      544            545        -1     1004           1022
+## 5: 2013     1   1      554            600        -6      812            837
+## 6: 2013     1   1      554            558        -4      740            728
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        11      UA   1545  N14228    EWR  IAH      227     1400    5     15
+## 2:        20      UA   1714  N24211    LGA  IAH      227     1416    5     29
+## 3:        33      AA   1141  N619AA    JFK  MIA      160     1089    5     40
+## 4:       -18      B6    725  N804JB    JFK  BQN      183     1576    5     45
+## 5:       -25      DL    461  N668DN    LGA  ATL      116      762    6      0
+## 6:        12      UA   1696  N39463    EWR  ORD      150      719    5     58
+##              time_hour
+## 1: 2013-01-01 05:00:00
+## 2: 2013-01-01 05:00:00
+## 3: 2013-01-01 05:00:00
+## 4: 2013-01-01 05:00:00
+## 5: 2013-01-01 06:00:00
+## 6: 2013-01-01 05:00:00</code></pre>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="use-data-table-package-for-big-data.html#cb372-1"></a><span class="kw">tail</span>(flights)</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     9  30       NA           1842        NA       NA           2019
+## 2: 2013     9  30       NA           1455        NA       NA           1634
+## 3: 2013     9  30       NA           2200        NA       NA           2312
+## 4: 2013     9  30       NA           1210        NA       NA           1330
+## 5: 2013     9  30       NA           1159        NA       NA           1344
+## 6: 2013     9  30       NA            840        NA       NA           1020
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        NA      EV   5274  N740EV    LGA  BNA       NA      764   18     42
+## 2:        NA      9E   3393    &lt;NA&gt;    JFK  DCA       NA      213   14     55
+## 3:        NA      9E   3525    &lt;NA&gt;    LGA  SYR       NA      198   22      0
+## 4:        NA      MQ   3461  N535MQ    LGA  BNA       NA      764   12     10
+## 5:        NA      MQ   3572  N511MQ    LGA  CLE       NA      419   11     59
+## 6:        NA      MQ   3531  N839MQ    LGA  RDU       NA      431    8     40
+##              time_hour
+## 1: 2013-09-30 18:00:00
+## 2: 2013-09-30 14:00:00
+## 3: 2013-09-30 22:00:00
+## 4: 2013-09-30 12:00:00
+## 5: 2013-09-30 11:00:00
+## 6: 2013-09-30 08:00:00</code></pre>
+<p>Use summary() to get summary statistics for each variable.</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="use-data-table-package-for-big-data.html#cb374-1"></a><span class="kw">summary</span>(flights)</span></code></pre></div>
+<pre><code>##       year          month             day           dep_time    sched_dep_time
+##  Min.   :2013   Min.   : 1.000   Min.   : 1.00   Min.   :   1   Min.   : 106  
+##  1st Qu.:2013   1st Qu.: 4.000   1st Qu.: 8.00   1st Qu.: 907   1st Qu.: 906  
+##  Median :2013   Median : 7.000   Median :16.00   Median :1401   Median :1359  
+##  Mean   :2013   Mean   : 6.549   Mean   :15.71   Mean   :1349   Mean   :1344  
+##  3rd Qu.:2013   3rd Qu.:10.000   3rd Qu.:23.00   3rd Qu.:1744   3rd Qu.:1729  
+##  Max.   :2013   Max.   :12.000   Max.   :31.00   Max.   :2400   Max.   :2359  
+##                                                  NA&#39;s   :8255                 
+##    dep_delay          arr_time    sched_arr_time   arr_delay       
+##  Min.   : -43.00   Min.   :   1   Min.   :   1   Min.   : -86.000  
+##  1st Qu.:  -5.00   1st Qu.:1104   1st Qu.:1124   1st Qu.: -17.000  
+##  Median :  -2.00   Median :1535   Median :1556   Median :  -5.000  
+##  Mean   :  12.64   Mean   :1502   Mean   :1536   Mean   :   6.895  
+##  3rd Qu.:  11.00   3rd Qu.:1940   3rd Qu.:1945   3rd Qu.:  14.000  
+##  Max.   :1301.00   Max.   :2400   Max.   :2359   Max.   :1272.000  
+##  NA&#39;s   :8255      NA&#39;s   :8713                  NA&#39;s   :9430      
+##    carrier              flight       tailnum             origin         
+##  Length:336776      Min.   :   1   Length:336776      Length:336776     
+##  Class :character   1st Qu.: 553   Class :character   Class :character  
+##  Mode  :character   Median :1496   Mode  :character   Mode  :character  
+##                     Mean   :1972                                        
+##                     3rd Qu.:3465                                        
+##                     Max.   :8500                                        
+##                                                                         
+##      dest              air_time        distance         hour      
+##  Length:336776      Min.   : 20.0   Min.   :  17   Min.   : 1.00  
+##  Class :character   1st Qu.: 82.0   1st Qu.: 502   1st Qu.: 9.00  
+##  Mode  :character   Median :129.0   Median : 872   Median :13.00  
+##                     Mean   :150.7   Mean   :1040   Mean   :13.18  
+##                     3rd Qu.:192.0   3rd Qu.:1389   3rd Qu.:17.00  
+##                     Max.   :695.0   Max.   :4983   Max.   :23.00  
+##                     NA&#39;s   :9430                                  
+##      minute       time_hour        
+##  Min.   : 0.00   Length:336776     
+##  1st Qu.: 8.00   Class :character  
+##  Median :29.00   Mode  :character  
+##  Mean   :26.23                     
+##  3rd Qu.:44.00                     
+##  Max.   :59.00                     
+## </code></pre>
+<p>str() is THE function for examining structure of a dataset.</p>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="use-data-table-package-for-big-data.html#cb376-1"></a><span class="kw">str</span>(flights)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   336776 obs. of  19 variables:
+##  $ year          : int  2013 2013 2013 2013 2013 2013 2013 2013 2013 2013 ...
+##  $ month         : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ day           : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ dep_time      : int  517 533 542 544 554 554 555 557 557 558 ...
+##  $ sched_dep_time: int  515 529 540 545 600 558 600 600 600 600 ...
+##  $ dep_delay     : int  2 4 2 -1 -6 -4 -5 -3 -3 -2 ...
+##  $ arr_time      : int  830 850 923 1004 812 740 913 709 838 753 ...
+##  $ sched_arr_time: int  819 830 850 1022 837 728 854 723 846 745 ...
+##  $ arr_delay     : int  11 20 33 -18 -25 12 19 -14 -8 8 ...
+##  $ carrier       : chr  &quot;UA&quot; &quot;UA&quot; &quot;AA&quot; &quot;B6&quot; ...
+##  $ flight        : int  1545 1714 1141 725 461 1696 507 5708 79 301 ...
+##  $ tailnum       : chr  &quot;N14228&quot; &quot;N24211&quot; &quot;N619AA&quot; &quot;N804JB&quot; ...
+##  $ origin        : chr  &quot;EWR&quot; &quot;LGA&quot; &quot;JFK&quot; &quot;JFK&quot; ...
+##  $ dest          : chr  &quot;IAH&quot; &quot;IAH&quot; &quot;MIA&quot; &quot;BQN&quot; ...
+##  $ air_time      : int  227 227 160 183 116 150 158 53 140 138 ...
+##  $ distance      : int  1400 1416 1089 1576 762 719 1065 229 944 733 ...
+##  $ hour          : int  5 5 5 5 6 5 6 6 6 6 ...
+##  $ minute        : int  15 29 40 45 0 58 0 0 0 0 ...
+##  $ time_hour     : chr  &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+</div>
+<div id="data-manipulation-with-data.table" class="section level2">
+<h2><span class="header-section-number">8.4</span> Data Manipulation with data.table</h2>
+<p>In many cases, we need to inquiry and subset a dataset. Structured Query Language (SQL) is designed for that purpose. data.table syntax is actually very similar to the SQL syntax.</p>
+<p>data.table provides a simple, consistent, user-friendly syntax for data manipulation. The general form of data.table syntax is:</p>
+<p>DT[i, j, by]</p>
+<p>where</p>
+<ul>
+<li><p>DT is a data.table.</p></li>
+<li><p>by: grouped by what?</p></li>
+<li><p>j: what to do?</p></li>
+<li><p>i: on which rows?</p></li>
+</ul>
+<p>We will apply this form to manipulate data: Filtering rows, selecting columns, aggregating, …
+#
+# Filtering Rows
+Here we show how to filter particular rows with data.table.</p>
+<div id="filtering-rows-through-logical-expression" class="section level3">
+<h3><span class="header-section-number">8.4.1</span> Filtering rows through logical expression</h3>
+<p>We can filter rows based on logical expression. E.g.,</p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="use-data-table-package-for-big-data.html#cb378-1"></a><span class="co"># filtering flights with &quot;JFK&quot; as the origin in the month of June.</span></span>
+<span id="cb378-2"><a href="use-data-table-package-for-big-data.html#cb378-2"></a>tmp &lt;-<span class="st"> </span>flights[origin <span class="op">==</span><span class="st"> &quot;JFK&quot;</span> <span class="op">&amp;</span><span class="st"> </span>month <span class="op">==</span><span class="st"> </span><span class="dv">6</span>] </span>
+<span id="cb378-3"><a href="use-data-table-package-for-big-data.html#cb378-3"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     6   1        2           2359         3      341            350
+## 2: 2013     6   1      538            545        -7      925            922
+## 3: 2013     6   1      539            540        -1      832            840
+## 4: 2013     6   1      553            600        -7      700            711
+## 5: 2013     6   1      554            600        -6      851            908
+## 6: 2013     6   1      557            600        -3      934            942
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        -9      B6    739  N618JB    JFK  PSE      200     1617   23     59
+## 2:         3      B6    725  N806JB    JFK  BQN      203     1576    5     45
+## 3:        -8      AA    701  N5EAAA    JFK  MIA      140     1089    5     40
+## 4:       -11      EV   5716  N835AS    JFK  IAD       42      228    6      0
+## 5:       -17      UA   1159  N33132    JFK  LAX      330     2475    6      0
+## 6:        -8      B6    715  N766JB    JFK  SJU      198     1598    6      0
+##              time_hour
+## 1: 2013-06-01 23:00:00
+## 2: 2013-06-01 05:00:00
+## 3: 2013-06-01 05:00:00
+## 4: 2013-06-01 06:00:00
+## 5: 2013-06-01 06:00:00
+## 6: 2013-06-01 06:00:00</code></pre>
+<p>As see, this is much clear and easy to read compared to the syntax under data.frame; and we do not need to write flights$origin, flights$month as we did in data.frame.</p>
+</div>
+<div id="filtering-rows-by-row-index" class="section level3">
+<h3><span class="header-section-number">8.4.2</span> Filtering rows by row index</h3>
+<p>We can also filter rows by index. E.g.,</p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="use-data-table-package-for-big-data.html#cb380-1"></a><span class="co">#  filtering the first two rows from flights.</span></span>
+<span id="cb380-2"><a href="use-data-table-package-for-big-data.html#cb380-2"></a>flights[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     1   1      517            515         2      830            819
+## 2: 2013     1   1      533            529         4      850            830
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        11      UA   1545  N14228    EWR  IAH      227     1400    5     15
+## 2:        20      UA   1714  N24211    LGA  IAH      227     1416    5     29
+##              time_hour
+## 1: 2013-01-01 05:00:00
+## 2: 2013-01-01 05:00:00</code></pre>
+<p>In data.table, .N is a special symbol that contains the number of rows of the data.table. E.g.,</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="use-data-table-package-for-big-data.html#cb382-1"></a><span class="co"># Return the last row of flights</span></span>
+<span id="cb382-2"><a href="use-data-table-package-for-big-data.html#cb382-2"></a>flights[.N] </span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     9  30       NA            840        NA       NA           1020
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        NA      MQ   3531  N839MQ    LGA  RDU       NA      431    8     40
+##              time_hour
+## 1: 2013-09-30 08:00:00</code></pre>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="use-data-table-package-for-big-data.html#cb384-1"></a><span class="co"># same as flights[336776]</span></span>
+<span id="cb384-2"><a href="use-data-table-package-for-big-data.html#cb384-2"></a>flights[<span class="dv">336776</span>]</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     9  30       NA            840        NA       NA           1020
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        NA      MQ   3531  N839MQ    LGA  RDU       NA      431    8     40
+##              time_hour
+## 1: 2013-09-30 08:00:00</code></pre>
+</div>
+<div id="fitering-rows-through-between-chin-like" class="section level3">
+<h3><span class="header-section-number">8.4.3</span> Fitering rows through %between%, %chin%, %like%</h3>
+<p>%between% allows you to search for numerical values in the closed interval [val1, val2]. The syntax is: numeric_col %between% c(val1, val2)</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="use-data-table-package-for-big-data.html#cb386-1"></a><span class="co"># filtering all flights with arr_delay between 120 to 180 minutes</span></span>
+<span id="cb386-2"><a href="use-data-table-package-for-big-data.html#cb386-2"></a>tmp=flights[arr_delay<span class="op">%between%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">120</span>, <span class="dv">180</span>)]</span>
+<span id="cb386-3"><a href="use-data-table-package-for-big-data.html#cb386-3"></a></span>
+<span id="cb386-4"><a href="use-data-table-package-for-big-data.html#cb386-4"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     1   1      811            630       101     1047            830
+## 2: 2013     1   1      957            733       144     1056            853
+## 3: 2013     1   1     1114            900       134     1447           1222
+## 4: 2013     1   1     1505           1310       115     1638           1431
+## 5: 2013     1   1     1525           1340       105     1831           1626
+## 6: 2013     1   1     1549           1445        64     1912           1656
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:       137      MQ   4576  N531MQ    LGA  CLT      118      544    6     30
+## 2:       123      UA    856  N534UA    EWR  BOS       37      200    7     33
+## 3:       145      UA   1086  N76502    LGA  IAH      248     1416    9      0
+## 4:       127      EV   4497  N17984    EWR  RIC       63      277   13     10
+## 5:       125      B6    525  N231JB    EWR  MCO      152      937   13     40
+## 6:       136      EV   4181  N21197    EWR  MCI      234     1092   14     45
+##              time_hour
+## 1: 2013-01-01 06:00:00
+## 2: 2013-01-01 07:00:00
+## 3: 2013-01-01 09:00:00
+## 4: 2013-01-01 13:00:00
+## 5: 2013-01-01 13:00:00
+## 6: 2013-01-01 14:00:00</code></pre>
+<p>%chin% is only for character vectors, it allows you to filter rows with character values in a set: character_col %chin% c(“val1”, “val2”, “val3”)</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="use-data-table-package-for-big-data.html#cb388-1"></a><span class="co"># Filtering flights with &quot;JFK&quot; or &quot;LGA&quot; as origin in the month of May</span></span>
+<span id="cb388-2"><a href="use-data-table-package-for-big-data.html#cb388-2"></a>tmp &lt;-<span class="st"> </span>flights[origin <span class="op">%chin%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;JFK&quot;</span>,<span class="st">&quot;LGA&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>month<span class="op">==</span><span class="dv">5</span>] </span>
+<span id="cb388-3"><a href="use-data-table-package-for-big-data.html#cb388-3"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     5   1        9           1655       434      308           2020
+## 2: 2013     5   1      537            540        -3      836            840
+## 3: 2013     5   1      544            545        -1      818            827
+## 4: 2013     5   1      548            600       -12      831            854
+## 5: 2013     5   1      549            600       -11      804            810
+## 6: 2013     5   1      553            600        -7      700            712
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:       408      VX    413  N628VA    JFK  LAX      341     2475   16     55
+## 2:        -4      AA    701  N5BYAA    JFK  MIA      144     1089    5     40
+## 3:        -9      UA    450  N494UA    LGA  IAH      190     1416    5     45
+## 4:       -23      B6    371  N523JB    LGA  FLL      140     1076    6      0
+## 5:        -6      MQ   4650  N520MQ    LGA  ATL      113      762    6      0
+## 6:       -12      EV   5747  N877AS    LGA  IAD       48      229    6      0
+##              time_hour
+## 1: 2013-05-01 16:00:00
+## 2: 2013-05-01 05:00:00
+## 3: 2013-05-01 05:00:00
+## 4: 2013-05-01 06:00:00
+## 5: 2013-05-01 06:00:00
+## 6: 2013-05-01 06:00:00</code></pre>
+<p>%like% allows you to search for a pattern in a character or a factor vector. It is best to illustrate what pattern means with an example. E.g., the two characters “AA” and “AS” (acronym for American Airline and Alaska Airlines) are both started with a upper case U. This is called a pattern. In R, “^A” is used to denoted this pattern. We will talk more about pattern when we deal with strings.</p>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="use-data-table-package-for-big-data.html#cb390-1"></a><span class="co"># filter carriers whose acronym starts with A.</span></span>
+<span id="cb390-2"><a href="use-data-table-package-for-big-data.html#cb390-2"></a>tmp &lt;-<span class="st"> </span>flights[carrier <span class="op">%like%</span><span class="st"> &quot;^A&quot;</span>] </span>
+<span id="cb390-3"><a href="use-data-table-package-for-big-data.html#cb390-3"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     1   1      542            540         2      923            850
+## 2: 2013     1   1      558            600        -2      753            745
+## 3: 2013     1   1      559            600        -1      941            910
+## 4: 2013     1   1      606            610        -4      858            910
+## 5: 2013     1   1      623            610        13      920            915
+## 6: 2013     1   1      628            630        -2     1137           1140
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        33      AA   1141  N619AA    JFK  MIA      160     1089    5     40
+## 2:         8      AA    301  N3ALAA    LGA  ORD      138      733    6      0
+## 3:        31      AA    707  N3DUAA    LGA  DFW      257     1389    6      0
+## 4:       -12      AA   1895  N633AA    EWR  MIA      152     1085    6     10
+## 5:         5      AA   1837  N3EMAA    LGA  MIA      153     1096    6     10
+## 6:        -3      AA    413  N3BAAA    JFK  SJU      192     1598    6     30
+##              time_hour
+## 1: 2013-01-01 05:00:00
+## 2: 2013-01-01 06:00:00
+## 3: 2013-01-01 06:00:00
+## 4: 2013-01-01 06:00:00
+## 5: 2013-01-01 06:00:00
+## 6: 2013-01-01 06:00:00</code></pre>
+</div>
+</div>
+<div id="select-columns" class="section level2">
+<h2><span class="header-section-number">8.5</span> Select Columns</h2>
+<p>The general form of data.table syntax is:</p>
+<p>DT[i, j, by]</p>
+<p>where</p>
+<ul>
+<li><p>by: grouped by what?</p></li>
+<li><p>j: what to do?</p></li>
+<li><p>i: on which rows?</p></li>
+</ul>
+<p>The second argument j is used to select (and compute on) columns.</p>
+<div id="using-column-names-to-select-columns" class="section level3">
+<h3><span class="header-section-number">8.5.1</span> Using column names to select columns</h3>
+<p>Because data.table is an enhanced data.frame, we can select columns by column names in accordance with data.frame.</p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="use-data-table-package-for-big-data.html#cb392-1"></a><span class="co"># Select dep_delay and arr_delay column </span></span>
+<span id="cb392-2"><a href="use-data-table-package-for-big-data.html#cb392-2"></a>tmp &lt;-<span class="st"> </span>flights[, <span class="kw">c</span>(<span class="st">&quot;dep_delay&quot;</span>,<span class="st">&quot;arr_delay&quot;</span>)]</span>
+<span id="cb392-3"><a href="use-data-table-package-for-big-data.html#cb392-3"></a></span>
+<span id="cb392-4"><a href="use-data-table-package-for-big-data.html#cb392-4"></a><span class="co"># show the first 6 rows using head() function.</span></span>
+<span id="cb392-5"><a href="use-data-table-package-for-big-data.html#cb392-5"></a><span class="kw">head</span>(tmp)  </span></code></pre></div>
+<pre><code>##    dep_delay arr_delay
+## 1:         2        11
+## 2:         4        20
+## 3:         2        33
+## 4:        -1       -18
+## 5:        -6       -25
+## 6:        -4        12</code></pre>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="use-data-table-package-for-big-data.html#cb394-1"></a><span class="co"># create a scatter plot between these two variables.</span></span>
+<span id="cb394-2"><a href="use-data-table-package-for-big-data.html#cb394-2"></a><span class="kw">plot</span>(tmp)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-155-1.png" width="672" />
+The plot shows that there is a strong linear relationship between dep_delay and arr_delay, which essentially means: if you deptures late by x minutes, you are very likely to arrive later by x minutes.</p>
+<p>Note that, as seen in flights[, c(“dep_delay”,“arr_delay”)], although we do not filter on rows, we need to include “,” to add a place holder for argument i. Otherwise, the code will generate an error msg.</p>
+<p>We can also select column based on the column index, which, however, is not strongly not recommended.</p>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="use-data-table-package-for-big-data.html#cb395-1"></a>flights[,<span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">9</span>)]  <span class="co"># dep_delay and arr_delay are at 6,9th column</span></span></code></pre></div>
+<p>This is not recommended because if the order of columns changes (which is likely to happen if you are deleting or adding columns), the result will be wrong.</p>
+<p>We can also deselecting columns: -c(“col1”, “col2”) deselects the columns col1 and col2; in other words, delete col1 and col2.</p>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="use-data-table-package-for-big-data.html#cb396-1"></a><span class="co"># disselect arr_delay and dep_delay column</span></span>
+<span id="cb396-2"><a href="use-data-table-package-for-big-data.html#cb396-2"></a>flights[,<span class="op">-</span><span class="kw">c</span>(<span class="st">&quot;dep_delay&quot;</span>,<span class="st">&quot;arr_delay&quot;</span>)]</span></code></pre></div>
+</div>
+<div id="select-columns-as-variables---the-data.table-way" class="section level3">
+<h3><span class="header-section-number">8.5.2</span> Select columns as variables - the data.table way</h3>
+<p>In data.table, each column is treated as a variable, thus, you can use a list of variables (column names) to select columns.</p>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="use-data-table-package-for-big-data.html#cb397-1"></a><span class="co"># Select the arr_delay and dep_delay column.</span></span>
+<span id="cb397-2"><a href="use-data-table-package-for-big-data.html#cb397-2"></a>tmp &lt;-<span class="st"> </span>flights[, <span class="kw">list</span>(dep_delay,arr_delay)]</span></code></pre></div>
+<p>The difference of this code and the above code is that dep_delay and arr_delay are not inside "". This is because dep_delay and arr_delay are treated as variable, rather column names.</p>
+<p>.() is an alias to list(), for convenience. We can use .() to replace list(). This reduces typing and allows you to focus on the variables that are selected when reading the code.</p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="use-data-table-package-for-big-data.html#cb398-1"></a>tmp &lt;-<span class="st"> </span>flights[, .(dep_delay,arr_delay)]</span></code></pre></div>
+<p>We can also rename the column while selecting the column. E.g., the following code select arr_delay and dep_delay and rename to arrive_delay and depart_delay</p>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="use-data-table-package-for-big-data.html#cb399-1"></a>tmp &lt;-<span class="st"> </span>flights[, .(<span class="dt">arrive_delay =</span> arr_delay, <span class="dt">depart_delay =</span> dep_delay)]</span>
+<span id="cb399-2"><a href="use-data-table-package-for-big-data.html#cb399-2"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    arrive_delay depart_delay
+## 1:           11            2
+## 2:           20            4
+## 3:           33            2
+## 4:          -18           -1
+## 5:          -25           -6
+## 6:           12           -4</code></pre>
+</div>
+<div id="computing-on-columns" class="section level3">
+<h3><span class="header-section-number">8.5.3</span> Computing on columns</h3>
+<p>Since columns in data.table can be referred to as variables, you can compute directly on them in j. We will find this is a quick and easy way to get summary statistics from the data.</p>
+<p>E.g., you want to know the average arr_delay and dep_delay of all the fligths? in other words, you want to compute the mean of arr_delay and dep_delay.</p>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="use-data-table-package-for-big-data.html#cb401-1"></a><span class="co"># calcuate the mean arr_delay</span></span>
+<span id="cb401-2"><a href="use-data-table-package-for-big-data.html#cb401-2"></a>flights[,<span class="kw">mean</span>(arr_delay)]</span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="use-data-table-package-for-big-data.html#cb403-1"></a>flights[,<span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)]</span></code></pre></div>
+<pre><code>## [1] 6.895377</code></pre>
+<p>We can also rename the calculated columns:</p>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="use-data-table-package-for-big-data.html#cb405-1"></a><span class="co"># calcuate the mean arr_delay and dep_delay</span></span>
+<span id="cb405-2"><a href="use-data-table-package-for-big-data.html#cb405-2"></a>flights[,.(<span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))]</span></code></pre></div>
+<pre><code>##          V1       V2
+## 1: 6.895377 12.63907</code></pre>
+<p>You can compute and name multiple variables at the same time:</p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="use-data-table-package-for-big-data.html#cb407-1"></a><span class="co"># calcuate the mean arr_delay and dep_delay</span></span>
+<span id="cb407-2"><a href="use-data-table-package-for-big-data.html#cb407-2"></a>flights[,.(<span class="dt">avg_arr_delay=</span><span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">avg_dep_delay=</span><span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))]</span></code></pre></div>
+<pre><code>##    avg_arr_delay avg_dep_delay
+## 1:      6.895377      12.63907</code></pre>
+</div>
+<div id="computing-on-rows-and-columns" class="section level3">
+<h3><span class="header-section-number">8.5.4</span> Computing on rows and columns</h3>
+<p>Combining i and j is straightforward. E.g., you want to compute the average arr_deply and dep_deply for all flights origined from “JFK” in the month of Jun</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="use-data-table-package-for-big-data.html#cb409-1"></a>flights[origin<span class="op">==</span><span class="st">&quot;JFK&quot;</span> <span class="op">&amp;</span><span class="st"> </span>month<span class="op">==</span><span class="dv">6</span>,.(<span class="dt">avg_arr_delay=</span><span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">avg_dep_delay=</span><span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))]</span></code></pre></div>
+<pre><code>##    avg_arr_delay avg_dep_delay
+## 1:      17.59693      20.49973</code></pre>
+<p>Now, let break this code to understand how it works. We first subset in i to find matching row indices where origin airport equals “JFK”, and month equals 6; next we look at j and select the two columns and compute their mean(). Note that the code will return a data.table.</p>
+</div>
+<div id="special-symbol-.n-in-j" class="section level3">
+<h3><span class="header-section-number">8.5.5</span> Special symbol .N in j</h3>
+<p>Remember .N denotes the number of rows. .N can be used in j as well. It is particularly useful to get the number of rows after filtering in i.</p>
+<p>E.g., you want to compute how many flights are delayed (i.e., arr_delay + dep_delay&gt;0).</p>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="use-data-table-package-for-big-data.html#cb411-1"></a>flights[arr_delay <span class="op">+</span><span class="st"> </span>dep_delay<span class="op">&gt;</span><span class="dv">0</span>, .N]</span></code></pre></div>
+<pre><code>## [1] 135059</code></pre>
+<p>In the above code, the data.table is first filtered by arr_delay + dep_delay&lt;=0, and then compute the number of selected rows.</p>
+</div>
+<div id="advanced-computation-on-columns" class="section level3">
+<h3><span class="header-section-number">8.5.6</span> Advanced Computation on columns</h3>
+<p>Because the columns can be treated as variable in data.table, thus we can perform complex calculation on these variable in j.</p>
+<p>E.g., we want to compute the average speed of all flights, where speed is measured by distance/(airm_time/60) (miles per hour)?</p>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="use-data-table-package-for-big-data.html#cb413-1"></a>flights[, .(<span class="dt">miles_per_hr=</span><span class="kw">mean</span>( <span class="dv">60</span><span class="op">*</span>distance<span class="op">/</span>air_time , <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))]</span></code></pre></div>
+<pre><code>##    miles_per_hr
+## 1:     394.2737</code></pre>
+</div>
+<div id="sort-data-by-onemultiple-columns" class="section level3">
+<h3><span class="header-section-number">8.5.7</span> Sort Data by One/Multiple Columns</h3>
+<p>The data.table has very simple syntax to sort data based on one/multiple columns. E.g., sort flights first by origin in ascending order, and then by dest in descending order</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="use-data-table-package-for-big-data.html#cb415-1"></a><span class="co"># Use the order() function to sort by columns.</span></span>
+<span id="cb415-2"><a href="use-data-table-package-for-big-data.html#cb415-2"></a>tmp &lt;-<span class="st"> </span>flights[<span class="kw">order</span>(origin, <span class="op">-</span>dest)]</span>
+<span id="cb415-3"><a href="use-data-table-package-for-big-data.html#cb415-3"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     1   2      905            822        43     1313           1045
+## 2: 2013     1   3      848            850        -2     1149           1113
+## 3: 2013     1   4      901            850        11     1120           1113
+## 4: 2013     1   6      843            848        -5     1053           1111
+## 5: 2013     1   7      858            850         8     1105           1113
+## 6: 2013     1   8      847            850        -3     1116           1113
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        NA      EV   4140  N15912    EWR  XNA       NA     1131    8     22
+## 2:        36      EV   4125  N21129    EWR  XNA      196     1131    8     50
+## 3:         7      EV   4125  N16178    EWR  XNA      168     1131    8     50
+## 4:       -18      EV   4625  N12172    EWR  XNA      174     1131    8     48
+## 5:        -8      EV   4125  N13118    EWR  XNA      163     1131    8     50
+## 6:         3      EV   4125  N14180    EWR  XNA      177     1131    8     50
+##              time_hour
+## 1: 2013-01-02 08:00:00
+## 2: 2013-01-03 08:00:00
+## 3: 2013-01-04 08:00:00
+## 4: 2013-01-06 08:00:00
+## 5: 2013-01-07 08:00:00
+## 6: 2013-01-08 08:00:00</code></pre>
+</div>
+</div>
+<div id="calcuation-by-group" class="section level2">
+<h2><span class="header-section-number">8.6</span> Calcuation by Group</h2>
+<p>We’ve already seen i and j from data.table’s general form. Here, we’ll see how they can be combined together with “by” to perform operations by group.</p>
+<p>E.g., how can we get the number of flights corresponding to each origin airport?</p>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="use-data-table-package-for-big-data.html#cb417-1"></a>flights[, .(<span class="dt">count=</span>.N), by =<span class="st"> </span>.(origin)]</span></code></pre></div>
+<pre><code>##    origin  count
+## 1:    EWR 120835
+## 2:    LGA 104662
+## 3:    JFK 111279</code></pre>
+<p>e.g., How can we get the total number of flights and average arrival delay and std deviation of arrial delay for each origin, dest pair for carrier code “AA”?</p>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="use-data-table-package-for-big-data.html#cb419-1"></a>tmp&lt;-flights[carrier <span class="op">==</span><span class="st"> &quot;AA&quot;</span>, .(<span class="dt">count=</span>.N, <span class="dt">avg_arr_delay=</span><span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">sd_arr_delay=</span><span class="kw">sd</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)), by =<span class="st"> </span>.(origin, dest)]</span>
+<span id="cb419-2"><a href="use-data-table-package-for-big-data.html#cb419-2"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    origin dest count avg_arr_delay sd_arr_delay
+## 1:    JFK  MIA  2221   -3.23122440     36.81734
+## 2:    LGA  ORD  5694   -1.31396831     41.07306
+## 3:    LGA  DFW  4836   -1.18901523     39.21697
+## 4:    EWR  MIA  1068    0.06332703     54.78252
+## 5:    LGA  MIA  3945   -1.64248971     37.45564
+## 6:    JFK  SJU  1099   -0.77603687     37.28137</code></pre>
+<p>From this summary, we can see that AA on average arrive on time. However, the high std deviation means there is great variation in terms of the arrive delay.</p>
+<p>How can we get the average arrival and departure delay for each origin, dest pair for each month for carrier code “AA”?</p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="use-data-table-package-for-big-data.html#cb421-1"></a>tmp=flights[carrier <span class="op">==</span><span class="st"> &quot;AA&quot;</span>, .(<span class="dt">avg_arr_delay=</span><span class="kw">mean</span>(arr_delay), <span class="dt">avg_dep_delay=</span><span class="kw">mean</span>(dep_delay)), by =<span class="st"> </span>.(origin, dest, month)]</span>
+<span id="cb421-2"><a href="use-data-table-package-for-big-data.html#cb421-2"></a></span>
+<span id="cb421-3"><a href="use-data-table-package-for-big-data.html#cb421-3"></a></span>
+<span id="cb421-4"><a href="use-data-table-package-for-big-data.html#cb421-4"></a><span class="co"># plot the avg_arr_delay, avg_dep_delay and use color to mark different month</span></span>
+<span id="cb421-5"><a href="use-data-table-package-for-big-data.html#cb421-5"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb421-6"><a href="use-data-table-package-for-big-data.html#cb421-6"></a><span class="kw">ggplot</span>(tmp,<span class="kw">aes</span>(avg_arr_delay, avg_dep_delay, <span class="dt">color=</span><span class="kw">factor</span>(month)))<span class="op">+</span></span>
+<span id="cb421-7"><a href="use-data-table-package-for-big-data.html#cb421-7"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 151 rows containing missing values (geom_point).</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-170-1.png" width="672" />
+The data.table summary and the plot together provide a great way to visualize which month are more likely to have flights delay.</p>
+<p>Note that, the above code retain the original ordering of origin-dest pair. There are cases when preserving the original order is essential. However, if we want to automatically sort by the variables in our grouping, we can simply change by to “keyby”</p>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="use-data-table-package-for-big-data.html#cb423-1"></a><span class="co"># sort by origin, dest, month</span></span>
+<span id="cb423-2"><a href="use-data-table-package-for-big-data.html#cb423-2"></a>tmp &lt;-<span class="st"> </span>flights[carrier <span class="op">==</span><span class="st"> &quot;AA&quot;</span>, .(<span class="dt">avg_arr_delay=</span><span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dt">avg_dep_delay=</span><span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)), keyby =<span class="st"> </span>.(origin, dest, month)]</span>
+<span id="cb423-3"><a href="use-data-table-package-for-big-data.html#cb423-3"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    origin dest month avg_arr_delay avg_dep_delay
+## 1:    EWR  DFW     1      8.042945      9.587879
+## 2:    EWR  DFW     2      8.222222     11.855172
+## 3:    EWR  DFW     3      1.113095     16.035503
+## 4:    EWR  DFW     4     13.067485     16.713415
+## 5:    EWR  DFW     5     -6.158537     10.053571
+## 6:    EWR  DFW     6      4.148148     18.153374</code></pre>
+<p>Notice that, the datatable is ordered based on variables in our grouping (origin-dest-month). This is easy for reader to examine the the pattern in our data in a tabular form.</p>
+</div>
+<div id="summary-3" class="section level2">
+<h2><span class="header-section-number">8.7</span> Summary</h2>
+<ul>
+<li><p>R has currently 120,000 packages, which can enhance the power of base R. data.table is a enhanced verison of data.frame to handle big data.</p></li>
+<li><p>Learn how to install and load R packages.</p></li>
+<li><p>data.table syntax: DT[i, j, by]: by - grouped by what; j - what to do; i - on which rows.</p></li>
+<li><p>use data.table syntax to manipulate the flights dataset: filtering rows, selecting columns; computing columns; aggregrating by group.</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="r-markdown-for-documentation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/07-datatable_I.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
