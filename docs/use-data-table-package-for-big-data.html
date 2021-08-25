@@ -287,10 +287,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now, let’s compare the performance of data.table and data.frame in terms reading data into R. Performance benchmark between different programs is very common to determine which one is better.</p>
 <div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="use-data-table-package-for-big-data.html#cb362-1"></a><span class="kw">system.time</span>( <span class="kw">read.csv</span>(<span class="st">&quot;data/flights.csv&quot;</span>) )</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    1.39    0.02    1.41</code></pre>
+##    1.34    0.09    1.44</code></pre>
 <div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="use-data-table-package-for-big-data.html#cb364-1"></a><span class="kw">system.time</span>( <span class="kw">fread</span>(<span class="st">&quot;data/flights.csv&quot;</span>) )</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    0.16    0.00    0.07</code></pre>
+##    0.10    0.00    0.06</code></pre>
 <p>As seen, read.csv() spends 1.42 seconds to read the data; while fread() spends 0.06 seconds to read the data. fread() is 23 times faster (this will be different depending on the machine you used). The advantage will be even prominent if we are dealing with even big file.</p>
 <div id="convert-data.frame-into-data.table" class="section level3">
 <h3><span class="header-section-number">8.2.1</span> Convert data.frame into data.table</h3>
