@@ -192,6 +192,7 @@ To access the mpg in Auto data frame, we must use $ (e.g., Auto$mpg). If you sim
 ```{r}
 with(Auto, plot(weight, mpg) )
 ```
+
 The general format of with() function is to: with(DATA FRAME, CODE USING THE DATA FRAME)
 
 ## Write a data frame to your computer
