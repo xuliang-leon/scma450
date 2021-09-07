@@ -3,7 +3,7 @@ output:
   pdf_document: default
   html_document: default
 ---
-# Use data.table Package for Big Data 
+# Use data.table Package for Big Data I
 
 Packages are the fundamental units of reproducible R code. They include reusable R functions, the documentation that describes how to use them, and sample data. There are currently 120,000 packages in R, which empower you to do all kinds of data analysis. This huge variety of packages is one of the reasons that R is so successful: the chances are that someone has already solved a problem that you’re working on, and you can benefit from their work by downloading their package.
 

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 20 Develop simple linear regression model | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 20 Develop simple linear regression model | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 20 Develop simple linear regression model | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-09-02" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="examine-and-explore-the-data.html"/>
+<link rel="next" href="overall-model-fittness.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2 I</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html"><i class="fa fa-check"></i><b>15</b> Visualization with ggplot2 II</a><ul>
+<li class="chapter" data-level="15.1" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#bar-chart-and-statistical-transformation-1"><i class="fa fa-check"></i><b>15.1</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="15.2" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#stacked-par-1"><i class="fa fa-check"></i><b>15.2</b> stacked par</a></li>
+<li class="chapter" data-level="15.3" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#histogram-1"><i class="fa fa-check"></i><b>15.3</b> Histogram</a></li>
+<li class="chapter" data-level="15.4" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#boxplot-1"><i class="fa fa-check"></i><b>15.4</b> boxplot</a></li>
+<li class="chapter" data-level="15.5" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#line-chart-1"><i class="fa fa-check"></i><b>15.5</b> line chart</a></li>
+<li class="chapter" data-level="15.6" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#use-theme-to-customize-the-appearance-of-your-chart.-1"><i class="fa fa-check"></i><b>15.6</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="15.7" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#summary-10"><i class="fa fa-check"></i><b>15.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html"><i class="fa fa-check"></i><b>16</b> Visualization with ggplot2 III</a><ul>
+<li class="chapter" data-level="16.1" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-world-map"><i class="fa fa-check"></i><b>16.1</b> Draw world map</a></li>
+<li class="chapter" data-level="16.2" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-map"><i class="fa fa-check"></i><b>16.2</b> Draw US map</a></li>
+<li class="chapter" data-level="16.3" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-county-map"><i class="fa fa-check"></i><b>16.3</b> draw US county map</a></li>
+<li class="chapter" data-level="16.4" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#summary-11"><i class="fa fa-check"></i><b>16.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html"><i class="fa fa-check"></i><b>17</b> Visualization with ggplot2 - Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-of-scatter-plot-to-show-how-two-variables-evolve-over-time-simultaneously"><i class="fa fa-check"></i><b>17.1</b> Animation of scatter plot to show how two variables evolve over time simultaneously</a></li>
+<li class="chapter" data-level="17.2" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#use-a-line-chart-to-show-how-gdppercap-evolve-over-time"><i class="fa fa-check"></i><b>17.2</b> Use a line chart to show how gdpPercap evolve over time</a></li>
+<li class="chapter" data-level="17.3" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-with-bar-chart"><i class="fa fa-check"></i><b>17.3</b> Animation with Bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>18</b> Simple Linear Regression</a></li>
+<li class="chapter" data-level="19" data-path="examine-and-explore-the-data.html"><a href="examine-and-explore-the-data.html"><i class="fa fa-check"></i><b>19</b> Examine and explore the data</a><ul>
+<li class="chapter" data-level="19.1" data-path="examine-and-explore-the-data.html"><a href="examine-and-explore-the-data.html#correlation-matrix"><i class="fa fa-check"></i><b>19.1</b> Correlation matrix</a></li>
+<li class="chapter" data-level="19.2" data-path="examine-and-explore-the-data.html"><a href="examine-and-explore-the-data.html#scatter-plot-1"><i class="fa fa-check"></i><b>19.2</b> Scatter plot</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="develop-simple-linear-regression-model.html"><a href="develop-simple-linear-regression-model.html"><i class="fa fa-check"></i><b>20</b> Develop simple linear regression model</a><ul>
+<li class="chapter" data-level="20.1" data-path="develop-simple-linear-regression-model.html"><a href="develop-simple-linear-regression-model.html#estimation"><i class="fa fa-check"></i><b>20.1</b> Estimation</a></li>
+<li class="chapter" data-level="20.2" data-path="develop-simple-linear-regression-model.html"><a href="develop-simple-linear-regression-model.html#how-to-interpret-the-coefficient-estimates"><i class="fa fa-check"></i><b>20.2</b> How to interpret the coefficient estimates?</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="overall-model-fittness.html"><a href="overall-model-fittness.html"><i class="fa fa-check"></i><b>21</b> Overall model fittness</a><ul>
+<li class="chapter" data-level="21.1" data-path="overall-model-fittness.html"><a href="overall-model-fittness.html#regression-diagnoise"><i class="fa fa-check"></i><b>21.1</b> Regression Diagnoise</a></li>
+<li class="chapter" data-level="21.2" data-path="overall-model-fittness.html"><a href="overall-model-fittness.html#use-estimated-model-for-prediction"><i class="fa fa-check"></i><b>21.2</b> Use estimated model for prediction</a></li>
+<li class="chapter" data-level="21.3" data-path="overall-model-fittness.html"><a href="overall-model-fittness.html#summary-12"><i class="fa fa-check"></i><b>21.3</b> Summary</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="develop-simple-linear-regression-model" class="section level1">
+<h1><span class="header-section-number">Chapter 20</span> Develop simple linear regression model</h1>
+<p>The general form of simple linear regression equation is <span class="math inline">\(y=\beta_0+\beta_1*x+\epsilon\)</span>. This implies two things. First, we are using the variation in x to explain variation in y. E.g., let y= students’ final grade of SCMA450, and x=lines of codes written by the students. Then the model implies that students’ SCMA450 final grade is different because of the number of lines they wrote during the study.</p>
+<p>Second, one additional unit of x will always result in the same amount of change (i.e., quantifies by <span class="math inline">\(\beta_1\)</span>). In the above example, each additional line of code written by the students will result in the same amount of improvement on their final grade. Such linear assumption works fine in many application and leads easy-to-understand interpretation. We will talk about how to address potential non-linear relationship in next chapter.</p>
+<p>Back to the Boston house price example, we are trying to explain why the house price varies at Boston. We hypothesize that “lstat” (i.e., the percent of low income population in the neighborhood) may result in different house price: Houses located in “rich” area (i.e., lstat is low) would likely have higher price. To test this hypothesis, we can build a simple linear regression model as follow:
+<span class="math display">\[medv=\beta_0+\beta_1*lstat+\epsilon\]</span></p>
+<div id="estimation" class="section level2">
+<h2><span class="header-section-number">20.1</span> Estimation</h2>
+<p>The model estimation is to find the coefficient <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> to minimize the sum square error, which is known as the least square algorithm. Let’s illustrate the least square algorithm.</p>
+<p>For a given lstat, based on the linear equation, we can compute the fitted value of medv according to:
+<span class="math display">\[medvFit=\beta_0+\beta_1*lstat\]</span>
+and the error term:
+<span class="math display">\[error=medv-\beta_0-\beta_1*lstat\]</span>
+We can better demonstrate the formula using the following tabular form:</p>
+<pre><code>##    medv lstat          medvFit                 error
+## 1: 24.0  4.98 beta0+beta1*4.98   24-beta0-beta1*4.98
+## 2: 21.6  9.14 beta0+beta1*9.14 21.6-beta0-beta1*9.14
+## 3: 34.7  4.03 beta0+beta1*4.03 34.7-beta0-beta1*4.03
+## 4: 33.4  2.94 beta0+beta1*2.94 33.4-beta0-beta1*2.94
+## 5: 36.2  5.33 beta0+beta1*5.33 36.2-beta0-beta1*5.33
+## 6: 28.7  5.21 beta0+beta1*5.21 28.7-beta0-beta1*5.21</code></pre>
+<p>Given any value <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, based on the above formula in the table, we will get a series of fitted value and errors. We want to our model to best fit the data, meaning we want medvFit to be as close to medv and thus we want error to as small as possible. Thus, the best <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> should minimize the errors. The algorithm to find optimal <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> is called least square algoirthm. Mathematically, the least square algorithm will determine <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> to minimize the residual sum square (RSS):
+<span class="math display">\[\min_{\beta_0,\beta_1} RSS=\sum_i(y_i-\beta_0-\beta_1x_i)^2\]</span>
+here <span class="math inline">\(i\)</span> is the index of different observations (i.e., the index of rows in the above table).</p>
+<p>We do not to need to calcuate the optimal <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> mannually. The R code to estimate the above model is really simple.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="develop-simple-linear-regression-model.html#cb26-1"></a><span class="kw">lm</span>(<span class="dt">formula=</span>medv<span class="op">~</span>lstat, <span class="dt">data=</span>Boston)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = medv ~ lstat, data = Boston)
+## 
+## Coefficients:
+## (Intercept)        lstat  
+##       34.55        -0.95</code></pre>
+<p>Here lm() is the function to estimate linear model. It takes two arguments: formula and data. medv~lstat represents the formula: medv is y-variable, with lstat as the x-variable. data=Boston specifies the dataset used.</p>
+<p>We typically save the estimated results first and use summary() to get more information about the estimation.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="develop-simple-linear-regression-model.html#cb28-1"></a>fit1=<span class="kw">lm</span>(medv<span class="op">~</span>lstat, <span class="dt">data=</span>Boston)</span>
+<span id="cb28-2"><a href="develop-simple-linear-regression-model.html#cb28-2"></a><span class="kw">summary</span>(fit1)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = medv ~ lstat, data = Boston)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -15.168  -3.990  -1.318   2.034  24.500 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 34.55384    0.56263   61.41   &lt;2e-16 ***
+## lstat       -0.95005    0.03873  -24.53   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 6.216 on 504 degrees of freedom
+## Multiple R-squared:  0.5441, Adjusted R-squared:  0.5432 
+## F-statistic: 601.6 on 1 and 504 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>In fact, lm() function returns a list, and is saved into “fit1” as we defined. We can take a look at the elements in “fit1” list.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="develop-simple-linear-regression-model.html#cb30-1"></a><span class="kw">names</span>(fit1)</span></code></pre></div>
+<pre><code>##  [1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;         
+##  [5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;  
+##  [9] &quot;xlevels&quot;       &quot;call&quot;          &quot;terms&quot;         &quot;model&quot;</code></pre>
+<p>As seen, the fitted line is:
+<span class="math display">\[medvFit=34.55-0.95*lstat\]</span></p>
+</div>
+<div id="how-to-interpret-the-coefficient-estimates" class="section level2">
+<h2><span class="header-section-number">20.2</span> How to interpret the coefficient estimates?</h2>
+<p>The estimated coefficients (<span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>) are actually random variables, because their value depends on the data and the data are typically from random sampling. In this example, if we happen to sample a different set of houses at Bonston, we may get different coefficient estimates.</p>
+<p>Let’s illustrate that by randomly drawing 100 houses from the Boston dataset and re-estimate the model based on the sub-sample.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="develop-simple-linear-regression-model.html#cb32-1"></a><span class="co"># Take 100 houses randomly from the Boston dataset</span></span>
+<span id="cb32-2"><a href="develop-simple-linear-regression-model.html#cb32-2"></a>Boston_sample=Boston[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">506</span>, <span class="dv">100</span>, <span class="dt">replace=</span><span class="ot">FALSE</span>)] </span>
+<span id="cb32-3"><a href="develop-simple-linear-regression-model.html#cb32-3"></a></span>
+<span id="cb32-4"><a href="develop-simple-linear-regression-model.html#cb32-4"></a><span class="co"># estimate coefficients based on the sub-sample</span></span>
+<span id="cb32-5"><a href="develop-simple-linear-regression-model.html#cb32-5"></a>fit_sub=<span class="kw">lm</span>(<span class="dt">formula=</span>medv<span class="op">~</span>lstat, <span class="dt">data=</span>Boston_sample)</span>
+<span id="cb32-6"><a href="develop-simple-linear-regression-model.html#cb32-6"></a></span>
+<span id="cb32-7"><a href="develop-simple-linear-regression-model.html#cb32-7"></a><span class="co"># plot the sub-sample and fitted line</span></span>
+<span id="cb32-8"><a href="develop-simple-linear-regression-model.html#cb32-8"></a><span class="kw">plot</span>(Boston_sample<span class="op">$</span>lstat, Boston_sample<span class="op">$</span>medv)</span>
+<span id="cb32-9"><a href="develop-simple-linear-regression-model.html#cb32-9"></a><span class="kw">points</span>(Boston_sample<span class="op">$</span>lstat, <span class="kw">fitted</span>(fit_sub), <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Each time we run the above code, we randomly generate a new dataset and obtain a new estimated regression line. In this example, although the sample is randomly drawn and thus different, the shope of the line is quite rubust. This is because there is a strong linear relationship between medv and lstat, and thus this relationship should sustain in the random sample. In this case, we says the coefficient lstat is significant.</p>
+<p>Since the coefficient estimates are random variable, we can obtain their confidence interval as below:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="develop-simple-linear-regression-model.html#cb33-1"></a><span class="co"># get confidence interval with confidence level of 0.95</span></span>
+<span id="cb33-2"><a href="develop-simple-linear-regression-model.html#cb33-2"></a><span class="kw">confint</span>(fit1, <span class="dt">level=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>##                 2.5 %     97.5 %
+## (Intercept) 33.448457 35.6592247
+## lstat       -1.026148 -0.8739505</code></pre>
+<p>This means, with probability of 95%, <span class="math inline">\(\beta_1\)</span> will be between -1.026148 and -0.8739505. Notice that, this interval does not contain 0, meaning that we are pretty sure the coefficient is not zero and has a consistent negative sign (i.e., the lstat has a significant impact on medv).</p>
+<p>In particular, the p-value is particularly used to determine whether the coefficient is significantly different from 0. p-value &lt; 5% is commonly considered that the coefficient is significantly different from 0.</p>
+<p>We will only intercept the impact of significant independent variable on dependent variable, because, as mentioned, we cannot differentiate the impact of insignifcant variable from 0.</p>
+<p>In this example, the estimated result suggests that: when lstat=0, then medv is 34.55; as lstat increases by 1, then medv will decreases on average by 0.95 (or 0.874~1.026).</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="examine-and-explore-the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="overall-model-fittness.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/17-simpleLR.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

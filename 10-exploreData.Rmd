@@ -1,0 +1,242 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Put it together: explore big data with data.table
+
+The general form of data.table syntax is 
+
+DT[i, j, by]  
+
+where 
+
+- DT is a data.table.
+- by: grouped by what?  
+- j: what to do? 
+- i: on which rows?
+
+In general, we can tack expressions one after another, forming a chain of operations, i.e., DT[ ... ][ ... ][ ... ].
+
+The learning objectives is to
+
+- Practice the data.table syntax to explore datasets on COVID-19:
+- Two datasets will be used:
+  + COVID-19 new/cumulative cases on county level
+  + population of US counties in 2019
+
+```{r}
+library(data.table)
+library(curl)
+library(lubridate)
+library(magrittr)
+library(ggplot2)
+```
+
+
+## Import the COVID-19 case data
+The New York Times is releasing a series of data files with cumulative counts of coronavirus cases in the United States, at the state and county level, over time. We are compiling this time series data from state and local governments and health departments in an attempt to provide a complete record of the ongoing outbreak. The data is published on Github. We can download the csv data directly using fread().
+```{r}
+# the data record the total confirmed cases and deaths for each county at each date. 
+covid_county=fread("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
+
+head(covid_county)
+str(covid_county)
+
+# add a column to define abbr for each state
+covid_county[,state_abbr:=state.abb[match(state,state.name)]]
+
+# Set order of column
+setcolorder(covid_county, c("date", "state", "state_abbr","county","fips","cases","deaths"))
+
+# change state name to lower case for consistency
+covid_county[,state:=tolower(state)]
+
+
+# illustrate the total cases and total death
+covid_county[county=="Lancaster" & state_abbr=="NE", 
+             .(date,cases)] %>% ggplot()+
+  geom_line(aes(date,cases))
+
+covid_county[county=="Lancaster" & state_abbr=="NE", 
+             .(date,deaths)] %>% ggplot()+
+  geom_line(aes(date,deaths))
+
+
+# compute the daily new cases and new deaths
+covid_county=covid_county[order(state,county,date)]
+covid_county[ , confirmed_count := cases - shift(cases), by = .(state,county)] 
+covid_county[ , death_count := deaths - shift(deaths), by = .(state,county)] 
+covid_county[is.na(confirmed_count),confirmed_count:=cases][is.na(death_count),death_count:=deaths]
+
+# save the data to local computer
+fwrite(covid_county,"data/covid_county.csv")
+```
+
+
+
+
+
+## Selecting Rows and Columns
+- Q1: What is the new confirmed cases in the Lancaster county, NE, on 2020-07-16?
+```{r}
+covid_county[county=="Lancaster" & state_abbr=="NE" & 
+               date=="2020-07-16", 
+             .(confirmed_count)]
+
+```
+
+
+## Selecting Rows and Columns
+- Q2: What is the new confirmed cases and death in the Lancaster county, NE, on 2020-07-16?
+```{r}
+covid_county[county=="Lancaster" & state_abbr=="NE" & 
+               date=="2020-07-16", 
+             .(confirmed_count, death_count)]
+```
+
+## Computing on j 
+
+- Q3: What is the new confirmed cases in US on 2020-07-16?
+```{r}
+covid_county[date=="2020-07-16",
+             .(confirmed_count=sum(confirmed_count))]
+```
+## Computing on j 
+- Q4: What is the new confirmed cases for each state on 2020-07-16? Order the result in the descending order of cases count.
+```{r}
+tmp=covid_county[date=="2020-07-16",
+             .(confirmed_count=sum(confirmed_count)), 
+             by=.(state_abbr)][order(-confirmed_count)]
+head(tmp)
+```
+
+## Computing on j 
+- Q5: What is the new confirmed cases and death for each state, on 2020-07-16? Order the result in the descending order of cases count.
+```{r}
+tmp=covid_county[date=="2020-07-16", 
+             .(confirmed_count=sum(confirmed_count),
+               death_count=sum(death_count)), 
+             by=.(state_abbr)][order(-confirmed_count)]
+head(tmp)
+```
+
+## Computing on j 
+- Q6: What is the new confirmed cases each day for the state of Nebraska? 
+```{r}
+tmp=covid_county[state_abbr=="NE", 
+                 .(confirmed_count=sum(confirmed_count)), 
+                 by=.(state_abbr,date)]
+head(tmp)
+```
+
+## Special symbol .N
+- Q7: How many counties has new confirmed cases that is above 5000? 
+```{r}
+covid_county[confirmed_count>5000, .N]
+```
+
+- Q8: What are these counties which has new confirmed cases that is above 5000 in a single day?
+```{r}
+covid_county[confirmed_count>5000, 
+                 .(state,county, date, confirmed_count)] %>% head()
+```
+
+
+## Fitering rows through %between%
+- Q9: How many county has daily new confirmed case between 1000 and 5000 for each day? 
+```{r}
+tmp=covid_county[confirmed_count%between%c(1000,5000), 
+                 .(count=.N), by=.(date)]
+tail(tmp)
+```
+
+
+## Fitering rows through %chin%
+- Q10: How many new confirmed cases in each day for the top10 states together? 
+```{r, echo=TRUE}
+# find the top10 states in terms of total cases
+covid_county[date=="2021-08-27",.(cases=sum(cases)), by=c("state","state_abbr")][order(-cases)][1:10]
+top10_states=covid_county[date=="2021-08-27",.(cases=sum(cases)), by=c("state","state_abbr")][order(-cases)][1:10]$state_abbr
+
+top10_states=c("NY", "CA", "FL", "TX", "NJ", "IL", "MA",
+               "AZ", "GA", "PA")  
+
+# find how many confirmed cases each date for the top 10 state
+tmp=covid_county[state_abbr%chin%top10_states, 
+                 .(confirmed=sum(cases)), 
+                 by=.(date)]
+tail(tmp)
+```
+
+## uniqueN() 
+- Q11: How many counties has COVID-19 cases for each state?
+```{r}
+tmp=covid_county[confirmed_count>0, 
+                 .(county_cnt=uniqueN(county)), 
+                 by=.(state_abbr)]
+head(tmp)
+```
+
+## Subset of Data: .SD[ ]
+- Q12: for each day, find the top 3 counties in terms of the new confirmed cases.
+```{r}
+tmp=covid_county[order(date,-confirmed_count)][
+  , .SD[1:3], by=.(date), 
+   .SDcols=c("state_abbr","county",
+             "confirmed_count")]
+tail(tmp)
+```
+
+## Subset of Data: .SD[ ]
+- Q13: find the top 3 counties for each state in terms of the total confirmed cases. 
+```{r}
+tmp=covid_county[,.(confirmed=sum(confirmed_count)),
+     by=.(county,state_abbr)][
+     order(state_abbr,-confirmed)][, .SD[1:3], 
+                                   by=.(state_abbr)]
+head(tmp)
+```
+- Q13_extension: find the bottom 3 counties for each state in terms of the total confirmed cases. 
+
+
+
+## Use := to Add/Update Columns By Reference
+- Q14: Define a new variable death_rate, which equals to cumulative death divided by cumulative confirmed cases for each state
+```{r}
+tmp=covid_county[, deat_rate:=deaths/cases][
+                 order(-deat_rate)]
+head(tmp)
+```
+
+
+## Join datasets
+- Q15: Compute the infection_rate (percent of population infected at each county). We need to first compute the total cases for each county and add population information to it for computing the infection rate.
+
+```{r}
+population2019=fread("data/population2019.csv")
+
+tmp=covid_county[, .(cum_case=sum(confirmed_count)), 
+             by=.(state_abbr, state, county)]
+
+tmp1=merge(tmp, population2019, by.x=c("state","county"), 
+          by.y = c("state_name","county_name"),
+          all.x = TRUE)
+tmp2=tmp1[,infection_rate:=cum_case/population19][,-c("state")][
+  order(-infection_rate)]
+head(tmp2)
+```
+
+
+## Additional Exercises:
+
+- Q16: what is the total death in each state?
+- Q17: Which county in Nebraska has the highest total confirmed cases? 
+
+## Summary
+
+- Congratulation! You have mastered the skills to manipulate big data for insights using data.table.
+- It is very likely you will forget the codes for manipulating data. 
+- Do not try to memorize the code; memorize the scenarios in which the code is used; develop a code library for these scenarios.
+- We will later learn to combine data manipulation and visualization. 
+

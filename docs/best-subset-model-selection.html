@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 21 Best Subset Model Selection | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 21 Best Subset Model Selection | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 21 Best Subset Model Selection | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="mutiple-linear-regression.html"/>
+<link rel="next" href="model-selection-with-trainingtest-set.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2 I</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html"><i class="fa fa-check"></i><b>15</b> Visualization with ggplot2 II</a><ul>
+<li class="chapter" data-level="15.1" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#bar-chart-and-statistical-transformation-1"><i class="fa fa-check"></i><b>15.1</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="15.2" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#stacked-par-1"><i class="fa fa-check"></i><b>15.2</b> stacked par</a></li>
+<li class="chapter" data-level="15.3" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#histogram-1"><i class="fa fa-check"></i><b>15.3</b> Histogram</a></li>
+<li class="chapter" data-level="15.4" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#boxplot-1"><i class="fa fa-check"></i><b>15.4</b> boxplot</a></li>
+<li class="chapter" data-level="15.5" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#line-chart-1"><i class="fa fa-check"></i><b>15.5</b> line chart</a></li>
+<li class="chapter" data-level="15.6" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#use-theme-to-customize-the-appearance-of-your-chart.-1"><i class="fa fa-check"></i><b>15.6</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="15.7" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#summary-10"><i class="fa fa-check"></i><b>15.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html"><i class="fa fa-check"></i><b>16</b> Visualization with ggplot2 III</a><ul>
+<li class="chapter" data-level="16.1" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-world-map"><i class="fa fa-check"></i><b>16.1</b> Draw world map</a></li>
+<li class="chapter" data-level="16.2" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-map"><i class="fa fa-check"></i><b>16.2</b> Draw US map</a></li>
+<li class="chapter" data-level="16.3" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-county-map"><i class="fa fa-check"></i><b>16.3</b> draw US county map</a></li>
+<li class="chapter" data-level="16.4" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#summary-11"><i class="fa fa-check"></i><b>16.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html"><i class="fa fa-check"></i><b>17</b> Visualization with ggplot2 - Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-of-scatter-plot-to-show-how-two-variables-evolve-over-time-simultaneously"><i class="fa fa-check"></i><b>17.1</b> Animation of scatter plot to show how two variables evolve over time simultaneously</a></li>
+<li class="chapter" data-level="17.2" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#use-a-line-chart-to-show-how-gdppercap-evolve-over-time"><i class="fa fa-check"></i><b>17.2</b> Use a line chart to show how gdpPercap evolve over time</a></li>
+<li class="chapter" data-level="17.3" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-with-bar-chart"><i class="fa fa-check"></i><b>17.3</b> Animation with Bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>18</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="18.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#examine-and-explore-the-data"><i class="fa fa-check"></i><b>18.1</b> Examine and explore the data</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#correlation-matrix"><i class="fa fa-check"></i><b>18.1.1</b> Correlation matrix</a></li>
+<li class="chapter" data-level="18.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#scatter-plot-1"><i class="fa fa-check"></i><b>18.1.2</b> Scatter plot</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#develop-simple-linear-regression-model"><i class="fa fa-check"></i><b>18.2</b> Develop simple linear regression model</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>18.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="18.2.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#how-to-interpret-the-coefficient-estimates"><i class="fa fa-check"></i><b>18.2.2</b> How to interpret the coefficient estimates?</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#overall-model-fittness"><i class="fa fa-check"></i><b>18.3</b> Overall model fittness</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-diagnoise"><i class="fa fa-check"></i><b>18.3.1</b> Regression Diagnoise</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#use-estimated-model-for-prediction"><i class="fa fa-check"></i><b>18.4</b> Use estimated model for prediction</a></li>
+<li class="chapter" data-level="18.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#summary-12"><i class="fa fa-check"></i><b>18.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html"><i class="fa fa-check"></i><b>19</b> Log Tranformation and Polynomial Terms</a><ul>
+<li class="chapter" data-level="19.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#log-transformation"><i class="fa fa-check"></i><b>19.1</b> Log-transformation</a></li>
+<li class="chapter" data-level="19.2" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#quadratic-regression"><i class="fa fa-check"></i><b>19.2</b> Quadratic regression</a></li>
+<li class="chapter" data-level="19.3" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#polynomial-regression"><i class="fa fa-check"></i><b>19.3</b> Polynomial regression</a></li>
+<li class="chapter" data-level="19.4" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#summary-13"><i class="fa fa-check"></i><b>19.4</b> Summary</a></li>
+<li class="chapter" data-level="19.5" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#exercise-3"><i class="fa fa-check"></i><b>19.5</b> Exercise</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#solution"><i class="fa fa-check"></i><b>19.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html"><i class="fa fa-check"></i><b>20</b> Mutiple Linear Regression</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#mutiple-linear-regression-1"><i class="fa fa-check"></i><b>20.1</b> Mutiple linear regression</a></li>
+<li class="chapter" data-level="20.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#categorical-variables"><i class="fa fa-check"></i><b>20.2</b> Categorical variables</a></li>
+<li class="chapter" data-level="20.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#interprate-coefficients---keeping-all-other-variables-the-same"><i class="fa fa-check"></i><b>20.3</b> Interprate coefficients - Keeping all other variables the same</a></li>
+<li class="chapter" data-level="20.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#multicollinearity"><i class="fa fa-check"></i><b>20.4</b> Multicollinearity</a></li>
+<li class="chapter" data-level="20.5" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#excerise"><i class="fa fa-check"></i><b>20.5</b> Excerise</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#examine-the-frequency-of-chas"><i class="fa fa-check"></i><b>20.5.1</b> Examine the frequency of chas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#visualize-the-house-price-with-ggplot2"><i class="fa fa-check"></i><b>20.5.2</b> Visualize the house price with ggplot2</a></li>
+<li class="chapter" data-level="20.5.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#estimate-the-linear-regression-model"><i class="fa fa-check"></i><b>20.5.3</b> estimate the linear regression model</a></li>
+<li class="chapter" data-level="20.5.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#plot-the-fitted-line"><i class="fa fa-check"></i><b>20.5.4</b> plot the fitted line</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html"><i class="fa fa-check"></i><b>21</b> Best Subset Model Selection</a><ul>
+<li class="chapter" data-level="21.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#best-subset-model-selection-1"><i class="fa fa-check"></i><b>21.1</b> Best Subset Model Selection</a></li>
+<li class="chapter" data-level="21.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#deterimining-the-best-model-with-adj-r2-cp-aic-and-bic"><i class="fa fa-check"></i><b>21.2</b> Deterimining the best model with adj-R2, Cp, AIC, and BIC</a><ul>
+<li class="chapter" data-level="21.2.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#r-squared-is-not-a-good-criteria-for-model-selection"><i class="fa fa-check"></i><b>21.2.1</b> R-squared is not a good criteria for model selection</a></li>
+<li class="chapter" data-level="21.2.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-adjusted-r2"><i class="fa fa-check"></i><b>21.2.2</b> Select the best model using Adjusted R2</a></li>
+<li class="chapter" data-level="21.2.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-cp"><i class="fa fa-check"></i><b>21.2.3</b> Select the best model using Cp</a></li>
+<li class="chapter" data-level="21.2.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-bic"><i class="fa fa-check"></i><b>21.2.4</b> Select the best model using BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#forwardbackward-selection"><i class="fa fa-check"></i><b>21.3</b> Forward/Backward selection</a></li>
+<li class="chapter" data-level="21.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#summary-14"><i class="fa fa-check"></i><b>21.4</b> Summary:</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>22</b> Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#create-trainingtest-set"><i class="fa fa-check"></i><b>22.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="22.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-selection"><i class="fa fa-check"></i><b>22.2</b> Model selection</a><ul>
+<li class="chapter" data-level="22.2.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#estimate-the-model-using-training-set"><i class="fa fa-check"></i><b>22.2.1</b> estimate the model using training set</a></li>
+<li class="chapter" data-level="22.2.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#evaluate-the-models-out-of-sample-prediction-using-test-set"><i class="fa fa-check"></i><b>22.2.2</b> evaluate the models’ out-of-sample prediction using test set</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-4-has-the-problem-of-over-fitting"><i class="fa fa-check"></i><b>22.3</b> Model 4 has the problem of over-fitting</a></li>
+<li class="chapter" data-level="22.4" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#other-commonly-used-metrics-for-prediction-performance"><i class="fa fa-check"></i><b>22.4</b> Other Commonly Used Metrics for Prediction performance</a></li>
+<li class="chapter" data-level="22.5" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#summary-15"><i class="fa fa-check"></i><b>22.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>23</b> Best Subset Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="23.1" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#create-trainingtest-set-1"><i class="fa fa-check"></i><b>23.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="23.2" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#evaluate-the-best-subset-regression-through-trainingtest-set"><i class="fa fa-check"></i><b>23.2</b> Evaluate the Best subset regression through training/test set</a></li>
+<li class="chapter" data-level="23.3" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#exercise-4"><i class="fa fa-check"></i><b>23.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="decision-tree.html"><a href="decision-tree.html"><i class="fa fa-check"></i><b>24</b> Decision Tree</a></li>
+<li class="chapter" data-level="25" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html"><i class="fa fa-check"></i><b>25</b> Maching Learning with Caret</a><ul>
+<li class="chapter" data-level="25.1" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest"><i class="fa fa-check"></i><b>25.1</b> Random Forest</a></li>
+<li class="chapter" data-level="25.2" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest-1"><i class="fa fa-check"></i><b>25.2</b> Random Forest</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="best-subset-model-selection" class="section level1">
+<h1><span class="header-section-number">Chapter 21</span> Best Subset Model Selection</h1>
+<p>So far, we have built many different models to predict Boston house price. For any given house, each model predicts a different medv. You must be wondering: which model should I trust and use eventually?</p>
+<p>Today, we will learn the technique to select the “best” models.</p>
+<p>We will continue to use the Boston house dataset for illustration for consistence. The Boston dataset has 14 independent variables and 1 dependent variable.</p>
+<div class="sourceCode" id="cb983"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb983-1"><a href="best-subset-model-selection.html#cb983-1"></a>Boston=<span class="kw">fread</span>(<span class="st">&quot;data/Boston.csv&quot;</span>)</span>
+<span id="cb983-2"><a href="best-subset-model-selection.html#cb983-2"></a>Boston[,location<span class="op">:</span><span class="er">=</span><span class="kw">factor</span>(location)]</span>
+<span id="cb983-3"><a href="best-subset-model-selection.html#cb983-3"></a>Boston[,chas<span class="op">:</span><span class="er">=</span><span class="kw">factor</span>(chas)]</span>
+<span id="cb983-4"><a href="best-subset-model-selection.html#cb983-4"></a><span class="kw">dim</span>(Boston)</span></code></pre></div>
+<pre><code>## [1] 506  15</code></pre>
+<p>Each variable can be either included or not included in the model. Accordingly, we will have <span class="math inline">\(2^14\)</span> number of possible models. The goal of model selection is to determine which subset of variable should be used for the linear regression model to predict medv.</p>
+<p>In general, suppose we have p independent variable,
+<span class="math display">\[y=\beta_0+ \beta_1x_1+ ...+\beta_p*x_p + \epsilon\]</span>
+It is not necessarily the best to include all <span class="math inline">\(x_1, ...x_p\)</span> into the model due to potential irrelevant variable or multicollinearity. Therefore, there are together <span class="math inline">\(2^p\)</span> model candidate because each variable can be included or not included. Our task is find the best one!</p>
+<p>This seems an impossible mission. But, with the R Package “leaps”, we can perform an exhaustive search for all the <span class="math inline">\(2^p\)</span> model candidate and identify the the best subsets of x-variables for predicting y. This package is developed by Thomas Lumley, a statistical professor at University of Auckland.</p>
+<p>Install the “leaps” package.</p>
+<div class="sourceCode" id="cb985"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb985-1"><a href="best-subset-model-selection.html#cb985-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;leaps&quot;</span>)</span></code></pre></div>
+<p>Load the package into R:</p>
+<div class="sourceCode" id="cb986"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb986-1"><a href="best-subset-model-selection.html#cb986-1"></a><span class="kw">library</span>(leaps)  </span></code></pre></div>
+<pre><code>## Warning: package &#39;leaps&#39; was built under R version 4.0.5</code></pre>
+<div id="best-subset-model-selection-1" class="section level2">
+<h2><span class="header-section-number">21.1</span> Best Subset Model Selection</h2>
+<p>Best subset regression algorithm exhausts all the <span class="math inline">\(2^p\)</span> combination to find the best model for each model size of <span class="math inline">\(d=1,2.., p\)</span>.</p>
+<p>To be specific, for model size of 1 (only 1 x-variable will be included), the algorithm will return the best one variable to predict y-variable; for model size of 2 (2 x-variables will be included), the algorithm will return the best two variables to predict y-variable…</p>
+<p>Here is the R code for best subset regression:</p>
+<div class="sourceCode" id="cb988"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb988-1"><a href="best-subset-model-selection.html#cb988-1"></a>bestFit=<span class="kw">regsubsets</span>(medv<span class="op">~</span>.,<span class="dt">data=</span>Boston,<span class="dt">nvmax=</span><span class="dv">18</span>)  <span class="co"># save the regression results</span></span>
+<span id="cb988-2"><a href="best-subset-model-selection.html#cb988-2"></a>bestFit</span></code></pre></div>
+<pre><code>## Subset selection object
+## Call: regsubsets.formula(medv ~ ., data = Boston, nvmax = 18)
+## 16 Variables  (and intercept)
+##               Forced in Forced out
+## crim              FALSE      FALSE
+## zn                FALSE      FALSE
+## indus             FALSE      FALSE
+## chas1             FALSE      FALSE
+## nox               FALSE      FALSE
+## rm                FALSE      FALSE
+## age               FALSE      FALSE
+## dis               FALSE      FALSE
+## rad               FALSE      FALSE
+## tax               FALSE      FALSE
+## ptratio           FALSE      FALSE
+## black             FALSE      FALSE
+## lstat             FALSE      FALSE
+## locationnorth     FALSE      FALSE
+## locationsouth     FALSE      FALSE
+## locationwest      FALSE      FALSE
+## 1 subsets of each size up to 16
+## Selection Algorithm: exhaustive</code></pre>
+<p>Here nvmax sets the maximum number of variable to include. We set nvmax =16 or larger since we have 14 independent variable (R will automatically define 3 location dummies).</p>
+<p>use summary() to get a quick summary of the regression results</p>
+<div class="sourceCode" id="cb990"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb990-1"><a href="best-subset-model-selection.html#cb990-1"></a>bestFit_sum=<span class="kw">summary</span>(bestFit)</span>
+<span id="cb990-2"><a href="best-subset-model-selection.html#cb990-2"></a>bestFit_sum</span></code></pre></div>
+<pre><code>## Subset selection object
+## Call: regsubsets.formula(medv ~ ., data = Boston, nvmax = 18)
+## 16 Variables  (and intercept)
+##               Forced in Forced out
+## crim              FALSE      FALSE
+## zn                FALSE      FALSE
+## indus             FALSE      FALSE
+## chas1             FALSE      FALSE
+## nox               FALSE      FALSE
+## rm                FALSE      FALSE
+## age               FALSE      FALSE
+## dis               FALSE      FALSE
+## rad               FALSE      FALSE
+## tax               FALSE      FALSE
+## ptratio           FALSE      FALSE
+## black             FALSE      FALSE
+## lstat             FALSE      FALSE
+## locationnorth     FALSE      FALSE
+## locationsouth     FALSE      FALSE
+## locationwest      FALSE      FALSE
+## 1 subsets of each size up to 16
+## Selection Algorithm: exhaustive
+##           crim zn  indus chas1 nox rm  age dis rad tax ptratio black lstat
+## 1  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;     &quot; &quot;   &quot;*&quot;  
+## 2  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;     &quot; &quot;   &quot;*&quot;  
+## 3  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 4  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 5  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 6  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 7  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 8  ( 1 )  &quot; &quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 9  ( 1 )  &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 10  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 11  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 12  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 13  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 14  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 15  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 16  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+##           locationnorth locationsouth locationwest
+## 1  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 2  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 3  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 4  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 5  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 6  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 7  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 8  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 9  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 10  ( 1 ) &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 11  ( 1 ) &quot;*&quot;           &quot; &quot;           &quot; &quot;         
+## 12  ( 1 ) &quot; &quot;           &quot;*&quot;           &quot;*&quot;         
+## 13  ( 1 ) &quot; &quot;           &quot;*&quot;           &quot;*&quot;         
+## 14  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot;*&quot;         
+## 15  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot;*&quot;         
+## 16  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot;*&quot;</code></pre>
+<p>Here summary() reports the best subset of variables for each model size. Here is how we read the output report: each row represents a model (with the row ID correponsonds size of the model), an asterisk specifies that the variable is included in the corresponding model. E.g., when n=1 (model with only 1 variables), the best variable to include is lstat; when n=2 (model with two variables), the best variables to include is lstat and rm; and so on so forth.</p>
+<p>Thus, we have narrowed down from <span class="math inline">\(2^p\)</span> possible models to 16 models with distinct model sizes.</p>
+</div>
+<div id="deterimining-the-best-model-with-adj-r2-cp-aic-and-bic" class="section level2">
+<h2><span class="header-section-number">21.2</span> Deterimining the best model with adj-R2, Cp, AIC, and BIC</h2>
+<p>Now, the question is to pin down the best model among the remaining 16 models. We will discuss the three measures (i.e., adj-R2, Cp, and BIC) for selecting the best model. These three metrics measure how good the model is in fitting the data while penalizing the complexity of the model.</p>
+<p>bestFit_sum is a list that contains these measures (i.e., adj-R2, Cp, and BIC). Let’s first examine the objects in the list:</p>
+<div class="sourceCode" id="cb992"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb992-1"><a href="best-subset-model-selection.html#cb992-1"></a><span class="kw">names</span>(bestFit_sum)  </span></code></pre></div>
+<pre><code>## [1] &quot;which&quot;  &quot;rsq&quot;    &quot;rss&quot;    &quot;adjr2&quot;  &quot;cp&quot;     &quot;bic&quot;    &quot;outmat&quot; &quot;obj&quot;</code></pre>
+<div id="r-squared-is-not-a-good-criteria-for-model-selection" class="section level3">
+<h3><span class="header-section-number">21.2.1</span> R-squared is not a good criteria for model selection</h3>
+<p>As mentioned previously, R-sq always inreases as more variables are included in the model. We can plot the R-sq of the 16 models to demonstrate that:</p>
+<div class="sourceCode" id="cb994"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb994-1"><a href="best-subset-model-selection.html#cb994-1"></a><span class="kw">plot</span>(bestFit_sum<span class="op">$</span>rsq, <span class="dt">xlab =</span> <span class="st">&quot;number of variables&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;R-square&quot;</span>, <span class="dt">type=</span><span class="st">&quot;b&quot;</span>)</span>
+<span id="cb994-2"><a href="best-subset-model-selection.html#cb994-2"></a></span>
+<span id="cb994-3"><a href="best-subset-model-selection.html#cb994-3"></a><span class="co"># return the model index of maximum R-sq</span></span>
+<span id="cb994-4"><a href="best-subset-model-selection.html#cb994-4"></a>opt_id=<span class="kw">which.max</span>(bestFit_sum<span class="op">$</span>rsq) </span>
+<span id="cb994-5"><a href="best-subset-model-selection.html#cb994-5"></a></span>
+<span id="cb994-6"><a href="best-subset-model-selection.html#cb994-6"></a><span class="co"># add the maximum R-sq on the plot</span></span>
+<span id="cb994-7"><a href="best-subset-model-selection.html#cb994-7"></a><span class="kw">points</span>(opt_id,bestFit_sum<span class="op">$</span>rsq[opt_id],<span class="dt">pch=</span><span class="dv">20</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-461-1.png" width="672" /></p>
+<p>The above chart shows that R-sq always favor model with larger number of variables, i.e., the model with all independent variables included. As mentioned, this is not always the best because some variables may be totally irrelevant or cause multicollinearity issue.</p>
+</div>
+<div id="select-the-best-model-using-adjusted-r2" class="section level3">
+<h3><span class="header-section-number">21.2.2</span> Select the best model using Adjusted R2</h3>
+<p>As mentioned, R-squared always increases as more independent variables are included in the model. Adjusted R-squared, instead, will penalize the model complexity. Adding irrelevant independent variables increases R-squared, but will lower adjusted R-squared.</p>
+<p>The formula for adj-R2 is
+<span class="math display">\[AdjR2=1-(1-R2)\frac{n-1}{n-d-1}\]</span>
+Here R2 is the R-squared, n is the sample size, and d is the number of predictors. Keeping everything the same, as d increases, Adj-R2 will decreases; thus Adj-R2 will penalize the complexity of the model. A higher Adj-R2 means a better model.</p>
+<p>Let’s plot the adj-R2 for different model from the best subset regression result:</p>
+<div class="sourceCode" id="cb995"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb995-1"><a href="best-subset-model-selection.html#cb995-1"></a><span class="co"># plot the Adj-R2 for different models of size 1 to 16</span></span>
+<span id="cb995-2"><a href="best-subset-model-selection.html#cb995-2"></a><span class="kw">plot</span>(bestFit_sum<span class="op">$</span>adjr2,<span class="dt">xlab=</span><span class="st">&quot;number of variables&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Adj R2&quot;</span>,<span class="dt">type=</span><span class="st">&quot;b&quot;</span>)</span>
+<span id="cb995-3"><a href="best-subset-model-selection.html#cb995-3"></a></span>
+<span id="cb995-4"><a href="best-subset-model-selection.html#cb995-4"></a><span class="co"># return the model index of maximum adj-R2</span></span>
+<span id="cb995-5"><a href="best-subset-model-selection.html#cb995-5"></a>opt_id=<span class="kw">which.max</span>(bestFit_sum<span class="op">$</span>adjr2) </span>
+<span id="cb995-6"><a href="best-subset-model-selection.html#cb995-6"></a></span>
+<span id="cb995-7"><a href="best-subset-model-selection.html#cb995-7"></a><span class="kw">points</span>(opt_id,bestFit_sum<span class="op">$</span>adjr2[opt_id],<span class="dt">pch=</span><span class="dv">20</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-462-1.png" width="672" /></p>
+<p>As the above plot shows, according to adj-R2, the best model is the 11th model, i.e., the model with 11 independent variables. We can check the variables and estiamted coefficients of the best model as below:</p>
+<div class="sourceCode" id="cb996"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb996-1"><a href="best-subset-model-selection.html#cb996-1"></a><span class="kw">coef</span>(bestFit,<span class="dv">11</span>)</span></code></pre></div>
+<pre><code>##   (Intercept)          crim            zn         chas1           nox 
+##  27.996958891  -0.067235171   0.043898771   2.994908911 -17.389642253 
+##            rm           dis           rad       ptratio         black 
+##   4.158308888  -1.438223278   0.404644153  -0.827872396   0.008366116 
+##         lstat locationnorth 
+##  -0.524336874   0.842588270</code></pre>
+</div>
+<div id="select-the-best-model-using-cp" class="section level3">
+<h3><span class="header-section-number">21.2.3</span> Select the best model using Cp</h3>
+<p>Mallows’s Cp is another commonly used metric to assess the fit of a linear regression model. A <strong>smaller</strong> value of Cp means that the model is relatively precise and thus a better model.
+<span class="math display">\[ Cp=\frac{1}{n}(RSS+2d\hat{\sigma}^2)\]</span>
+where <span class="math inline">\(\hat{\sigma}^2\)</span> refers to the estimated variance of residual when all predictors are included. This terms represents the penality to the model complexity (i.e., Cp increases as <span class="math inline">\(d\)</span> increases).</p>
+<div class="sourceCode" id="cb998"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb998-1"><a href="best-subset-model-selection.html#cb998-1"></a><span class="co"># plot the Cp for different models of size 1 to 16</span></span>
+<span id="cb998-2"><a href="best-subset-model-selection.html#cb998-2"></a><span class="kw">plot</span>(bestFit_sum<span class="op">$</span>cp, <span class="dt">xlab=</span><span class="st">&quot;number of variables&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Cp&quot;</span>,<span class="dt">type=</span><span class="st">&quot;b&quot;</span>)</span>
+<span id="cb998-3"><a href="best-subset-model-selection.html#cb998-3"></a></span>
+<span id="cb998-4"><a href="best-subset-model-selection.html#cb998-4"></a><span class="co"># return the index of minimum Cp</span></span>
+<span id="cb998-5"><a href="best-subset-model-selection.html#cb998-5"></a>opt_id=<span class="kw">which.min</span>(bestFit_sum<span class="op">$</span>cp)</span>
+<span id="cb998-6"><a href="best-subset-model-selection.html#cb998-6"></a></span>
+<span id="cb998-7"><a href="best-subset-model-selection.html#cb998-7"></a><span class="kw">points</span>(opt_id,bestFit_sum<span class="op">$</span>cp[opt_id],<span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-464-1.png" width="672" />
+In this case, the Cp measure suggests the same model as adj-R2: the model with 11 variables.</p>
+<p>The AIC (Akaike information criterion) is other commonly used criterion for model selection. In the case of the best subset linear regression model, the formula for AIC is as below:
+<span class="math display">\[AIC = \frac{1}{n\hat{\sigma}^2}(RSS+2d\hat{\sigma}^2)\]</span>
+As seen, the AIC (Akaike information criterion) criterion is proportional to Cp. Thus, will yeild the same model selection as Cp.</p>
+</div>
+<div id="select-the-best-model-using-bic" class="section level3">
+<h3><span class="header-section-number">21.2.4</span> Select the best model using BIC</h3>
+<p>BIC (Bayesian Information Criterion) is another commonly used measure to select model. The lower BIC means a better model.</p>
+<p>The formula to calcuate BIC for linear regression model is as follow:
+<span class="math display">\[BIC=\frac{1}{n}(RSS+log(n)d\hat{\sigma}^2)\]</span>
+where <span class="math inline">\(n\)</span> is the number of observation in the estiamtion dataset, <span class="math inline">\(d\)</span> is the number of predictors in the model, and log() is the natural logarithm. Notice that BIC replaces the <span class="math inline">\(2d\hat{\sigma}^2\)</span> used by Cp with a <span class="math inline">\(log(n)d\hat{\sigma}^2\)</span> term, where n is the number of observations. Since <span class="math inline">\(log(n)\)</span>&gt;2 for any <span class="math inline">\(n&gt;7\)</span>, the BIC generally places a heavier penalty on models with more variables, and hence results in the selection of smaller models than Cp.</p>
+<div class="sourceCode" id="cb999"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb999-1"><a href="best-subset-model-selection.html#cb999-1"></a><span class="co"># plot the BIC for different models of size 1 to 16</span></span>
+<span id="cb999-2"><a href="best-subset-model-selection.html#cb999-2"></a><span class="kw">plot</span>(bestFit_sum<span class="op">$</span>bic,<span class="dt">xlab=</span><span class="st">&quot;number of variables&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;BIC&quot;</span>,<span class="dt">type=</span><span class="st">&quot;b&quot;</span>)</span>
+<span id="cb999-3"><a href="best-subset-model-selection.html#cb999-3"></a></span>
+<span id="cb999-4"><a href="best-subset-model-selection.html#cb999-4"></a><span class="co"># return the index of minimum BIC</span></span>
+<span id="cb999-5"><a href="best-subset-model-selection.html#cb999-5"></a>opt_id=<span class="kw">which.min</span>(bestFit_sum<span class="op">$</span>bic) </span>
+<span id="cb999-6"><a href="best-subset-model-selection.html#cb999-6"></a></span>
+<span id="cb999-7"><a href="best-subset-model-selection.html#cb999-7"></a><span class="kw">points</span>(opt_id,bestFit_sum<span class="op">$</span>bic[opt_id],<span class="dt">pch=</span><span class="dv">20</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-465-1.png" width="672" /></p>
+<p>As mentioned, the BIC is more aggregative in penalizing model complexity. Thus, BIC suggests a simpler model with 8 variables. We can examine the resulting model as below:</p>
+<div class="sourceCode" id="cb1000"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1000-1"><a href="best-subset-model-selection.html#cb1000-1"></a><span class="kw">coef</span>(bestFit,<span class="dv">8</span>)</span></code></pre></div>
+<pre><code>##   (Intercept)            zn         chas1           nox            rm 
+##  30.316950269   0.037808067   3.111061718 -16.687427958   4.116082349 
+##           dis       ptratio         black         lstat 
+##  -1.382714038  -0.881851067   0.009403764  -0.543125369</code></pre>
+<p>Another way to examine the Adj-R2/Cp/BIC measure for different model size as well as the variable in the models is through the following plot:</p>
+<div class="sourceCode" id="cb1002"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1002-1"><a href="best-subset-model-selection.html#cb1002-1"></a><span class="kw">plot</span>(bestFit,<span class="dt">scale=</span><span class="st">&quot;adjr2&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-467-1.png" width="672" /></p>
+<p>Here is how to read the plot: Each rows represents a model; if the variable is blank on that row, then the variable is not included in that model. The y-axis corresponds the adj-R2 for that model. The best model is the one with highest adj-R2, i.e., the top row.</p>
+<p>We can create the same plot with Cp on the y-axis.</p>
+<div class="sourceCode" id="cb1003"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1003-1"><a href="best-subset-model-selection.html#cb1003-1"></a><span class="kw">plot</span>(bestFit,<span class="dt">scale=</span><span class="st">&quot;Cp&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-468-1.png" width="672" /></p>
+<p>Similarly, each rows represents a model; if the variable is blank on that row, then the variable is not included in that model. The y-axis corresponds the Cp for that model. The best model is the one with lowest Cp, i.e., the top row.</p>
+<p>We can create the same plot with BIC on the y-axis.</p>
+<div class="sourceCode" id="cb1004"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1004-1"><a href="best-subset-model-selection.html#cb1004-1"></a><span class="kw">plot</span>(bestFit,<span class="dt">scale=</span><span class="st">&quot;bic&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-469-1.png" width="672" /></p>
+<p>Similarly, each rows represents a model; if the variable is blank on that row, then the variable is not included in that model. The y-axis corresponds the BIC for that model. The best model is the one with lowest Cp, i.e., the top row. As seen, the BIC suggests a simpler model than adj-R2 and Cp do.</p>
+<p>Let’s summerize. For a dataset with p predictors, there are <span class="math inline">\(2^p\)</span> possible model combination. We use the best subset regression to narrow down to <span class="math inline">\(p\)</span> possible models. Each of these <span class="math inline">\(p\)</span> models corresponds to a distinct model size from <span class="math inline">\(d=1, 2,..., p\)</span>.
+It is not always true that the model with most variables is the best because some variables may be irrelevant or cause multicollinearity (meaning the variation in these variables has been captured by the other variables). We can use Adj-R2, Cp, and BIC to select the best model. BIC would penalize the model complexity more aggressively and thus resulting simpler model.</p>
+<p>Utimately, it is your call to go with which model (a taste of combination of science and art). I would prefer a simpler model (model suggests by BIC) due to its simplicity.</p>
+<div class="sourceCode" id="cb1005"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1005-1"><a href="best-subset-model-selection.html#cb1005-1"></a><span class="kw">coef</span>(bestFit,<span class="dv">8</span>)</span></code></pre></div>
+<pre><code>##   (Intercept)            zn         chas1           nox            rm 
+##  30.316950269   0.037808067   3.111061718 -16.687427958   4.116082349 
+##           dis       ptratio         black         lstat 
+##  -1.382714038  -0.881851067   0.009403764  -0.543125369</code></pre>
+</div>
+</div>
+<div id="forwardbackward-selection" class="section level2">
+<h2><span class="header-section-number">21.3</span> Forward/Backward selection</h2>
+<p>The best subset algorithm does not scale up very well, thus limits its application. As <span class="math inline">\(p\)</span> goes up, the number of models need to be estimated (i.e., <span class="math inline">\(2^p\)</span>) increases exponentially. Especially when your dataset has many rows, evaluating one single model takes much time and computing power.</p>
+<p>The plot shows the number of linear models to be estimated for best subset algorithm:</p>
+<div class="sourceCode" id="cb1007"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1007-1"><a href="best-subset-model-selection.html#cb1007-1"></a><span class="kw">plot</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>),<span class="dv">2</span><span class="op">^</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>), <span class="dt">type=</span><span class="st">&quot;b&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;number of variables&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;number of possible models&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-471-1.png" width="672" /></p>
+<p>Two heuristics are typically used as a compromise: forward selection and backward selection.</p>
+<p>Forward selection will add variable sequentially: it starts with adding the one independent variable that fit the data best; the variable will always be kept and then adding the second independent variables which together fit the data best; then the third, …</p>
+<p>The Forward selection only requires estimating <span class="math inline">\(p^2\)</span> models and thus can be scale up well. Here is a comparison between The plot shows the number of linear models to be estimated for best subset and forward selection algorithm:</p>
+<div class="sourceCode" id="cb1008"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1008-1"><a href="best-subset-model-selection.html#cb1008-1"></a><span class="kw">plot</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>),<span class="dv">2</span><span class="op">^</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>), <span class="dt">type=</span><span class="st">&quot;b&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;number of variables&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;number of possible models&quot;</span>)</span>
+<span id="cb1008-2"><a href="best-subset-model-selection.html#cb1008-2"></a><span class="kw">lines</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>),<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>)<span class="op">^</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-472-1.png" width="672" /></p>
+<p>Now, let’s see how Forward selection works in R.</p>
+<div class="sourceCode" id="cb1009"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1009-1"><a href="best-subset-model-selection.html#cb1009-1"></a>fwd_fit=<span class="kw">regsubsets</span>(medv<span class="op">~</span>., <span class="dt">data=</span>Boston, <span class="dt">nvmax=</span><span class="dv">18</span>, <span class="dt">method=</span><span class="st">&quot;forward&quot;</span>)</span>
+<span id="cb1009-2"><a href="best-subset-model-selection.html#cb1009-2"></a>fwd_fit_sum=<span class="kw">summary</span>(fwd_fit)</span>
+<span id="cb1009-3"><a href="best-subset-model-selection.html#cb1009-3"></a>fwd_fit_sum</span></code></pre></div>
+<pre><code>## Subset selection object
+## Call: regsubsets.formula(medv ~ ., data = Boston, nvmax = 18, method = &quot;forward&quot;)
+## 16 Variables  (and intercept)
+##               Forced in Forced out
+## crim              FALSE      FALSE
+## zn                FALSE      FALSE
+## indus             FALSE      FALSE
+## chas1             FALSE      FALSE
+## nox               FALSE      FALSE
+## rm                FALSE      FALSE
+## age               FALSE      FALSE
+## dis               FALSE      FALSE
+## rad               FALSE      FALSE
+## tax               FALSE      FALSE
+## ptratio           FALSE      FALSE
+## black             FALSE      FALSE
+## lstat             FALSE      FALSE
+## locationnorth     FALSE      FALSE
+## locationsouth     FALSE      FALSE
+## locationwest      FALSE      FALSE
+## 1 subsets of each size up to 16
+## Selection Algorithm: forward
+##           crim zn  indus chas1 nox rm  age dis rad tax ptratio black lstat
+## 1  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;     &quot; &quot;   &quot;*&quot;  
+## 2  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;     &quot; &quot;   &quot;*&quot;  
+## 3  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 4  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 5  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 6  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 7  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 8  ( 1 )  &quot; &quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 9  ( 1 )  &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 10  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 11  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 12  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 13  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 14  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 15  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 16  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+##           locationnorth locationsouth locationwest
+## 1  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 2  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 3  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 4  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 5  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 6  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 7  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 8  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 9  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 10  ( 1 ) &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 11  ( 1 ) &quot;*&quot;           &quot; &quot;           &quot; &quot;         
+## 12  ( 1 ) &quot;*&quot;           &quot; &quot;           &quot; &quot;         
+## 13  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot; &quot;         
+## 14  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot;*&quot;         
+## 15  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot;*&quot;         
+## 16  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot;*&quot;</code></pre>
+<p>summary() reports the best set of variables for each model size. Each row represents a model (with the row ID correponsonds size of the model), an asterisk specifies that a given variable is included in the corresponding model. When n=1 (i.e., model with only 1 variables), lstat is added to the model, and will not be removed in the remaining process; When n=2 (i.e., model with only 2 variables), rm is added to the model and will remain in the model in the remaining process; and so on so forth.</p>
+<p>Now, we have successfully narrowed down to the 16 different models with distinct size. Again, we can use adj-R2, Cp or BIC to select the best model.</p>
+<div class="sourceCode" id="cb1011"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1011-1"><a href="best-subset-model-selection.html#cb1011-1"></a><span class="kw">plot</span>(fwd_fit,<span class="dt">scale=</span><span class="st">&quot;bic&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-474-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1012"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1012-1"><a href="best-subset-model-selection.html#cb1012-1"></a><span class="co"># plot the Cp for different models of size 1 to 16</span></span>
+<span id="cb1012-2"><a href="best-subset-model-selection.html#cb1012-2"></a><span class="kw">plot</span>(fwd_fit_sum<span class="op">$</span>bic,<span class="dt">xlab=</span><span class="st">&quot;number of variables&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;BIC&quot;</span>,<span class="dt">type=</span><span class="st">&quot;b&quot;</span>)</span>
+<span id="cb1012-3"><a href="best-subset-model-selection.html#cb1012-3"></a></span>
+<span id="cb1012-4"><a href="best-subset-model-selection.html#cb1012-4"></a><span class="co"># return the index of minimum BIC</span></span>
+<span id="cb1012-5"><a href="best-subset-model-selection.html#cb1012-5"></a>opt_id=<span class="kw">which.min</span>(fwd_fit_sum<span class="op">$</span>bic) </span>
+<span id="cb1012-6"><a href="best-subset-model-selection.html#cb1012-6"></a></span>
+<span id="cb1012-7"><a href="best-subset-model-selection.html#cb1012-7"></a><span class="kw">points</span>(opt_id,fwd_fit_sum<span class="op">$</span>bic[opt_id],<span class="dt">pch=</span><span class="dv">20</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-475-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1013"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1013-1"><a href="best-subset-model-selection.html#cb1013-1"></a><span class="co"># examine the variables and coefficients of the best model:</span></span>
+<span id="cb1013-2"><a href="best-subset-model-selection.html#cb1013-2"></a><span class="kw">coef</span>(fwd_fit,<span class="dt">id=</span>opt_id)</span></code></pre></div>
+<pre><code>##   (Intercept)            zn         chas1           nox            rm 
+##  30.316950269   0.037808067   3.111061718 -16.687427958   4.116082349 
+##           dis       ptratio         black         lstat 
+##  -1.382714038  -0.881851067   0.009403764  -0.543125369</code></pre>
+<p>We can also select the best model based on Cp or Adj-R2.</p>
+<p>It is a common mistake to confuse the model fit results (e.g., fwd_fit) and its summary (e.g., fwd_fit_sum). One quick way to help you remember when to use fwd_fit and when to use fwd_fit_sum is: fwd_fit saves the models themselves and fwd_fit_sum saves the how good these models are. Thus, when we need to retrieve coefficients information, we use fwd_fit; and when we want to retrieve R2, adj-R2, Cp and BIC, we use fwd_fit_sum.</p>
+<p>Backward selection is the reverse of forward selection: all variables are included in the model first, and the variables are removed sequentially to reduce the model complexity. The foreward/backward selection is essentially the same, and we can simply use forward selection.</p>
+<p>Note that there is one situation that we should not use backward selection: number of rows is less than number of variables (because including all variables will not be feasible because the resulting model cannot be estimated).</p>
+<div class="sourceCode" id="cb1015"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1015-1"><a href="best-subset-model-selection.html#cb1015-1"></a>back_fit=<span class="kw">regsubsets</span>(medv<span class="op">~</span>., <span class="dt">data=</span>Boston, <span class="dt">nvmax=</span><span class="dv">18</span>, <span class="dt">method=</span><span class="st">&quot;backward&quot;</span>)</span>
+<span id="cb1015-2"><a href="best-subset-model-selection.html#cb1015-2"></a>back_fit_sum=<span class="kw">summary</span>(back_fit)</span>
+<span id="cb1015-3"><a href="best-subset-model-selection.html#cb1015-3"></a>back_fit_sum</span></code></pre></div>
+<pre><code>## Subset selection object
+## Call: regsubsets.formula(medv ~ ., data = Boston, nvmax = 18, method = &quot;backward&quot;)
+## 16 Variables  (and intercept)
+##               Forced in Forced out
+## crim              FALSE      FALSE
+## zn                FALSE      FALSE
+## indus             FALSE      FALSE
+## chas1             FALSE      FALSE
+## nox               FALSE      FALSE
+## rm                FALSE      FALSE
+## age               FALSE      FALSE
+## dis               FALSE      FALSE
+## rad               FALSE      FALSE
+## tax               FALSE      FALSE
+## ptratio           FALSE      FALSE
+## black             FALSE      FALSE
+## lstat             FALSE      FALSE
+## locationnorth     FALSE      FALSE
+## locationsouth     FALSE      FALSE
+## locationwest      FALSE      FALSE
+## 1 subsets of each size up to 16
+## Selection Algorithm: backward
+##           crim zn  indus chas1 nox rm  age dis rad tax ptratio black lstat
+## 1  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;     &quot; &quot;   &quot;*&quot;  
+## 2  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;     &quot; &quot;   &quot;*&quot;  
+## 3  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 4  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot; &quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 5  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot; &quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 6  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot; &quot;   &quot;*&quot;  
+## 7  ( 1 )  &quot; &quot;  &quot; &quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 8  ( 1 )  &quot; &quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 9  ( 1 )  &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot; &quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 10  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 11  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 12  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot; &quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 13  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 14  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 15  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot; &quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+## 16  ( 1 ) &quot;*&quot;  &quot;*&quot; &quot;*&quot;   &quot;*&quot;   &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot;     &quot;*&quot;   &quot;*&quot;  
+##           locationnorth locationsouth locationwest
+## 1  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 2  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 3  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 4  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 5  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 6  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 7  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 8  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 9  ( 1 )  &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 10  ( 1 ) &quot; &quot;           &quot; &quot;           &quot; &quot;         
+## 11  ( 1 ) &quot; &quot;           &quot; &quot;           &quot;*&quot;         
+## 12  ( 1 ) &quot; &quot;           &quot;*&quot;           &quot;*&quot;         
+## 13  ( 1 ) &quot; &quot;           &quot;*&quot;           &quot;*&quot;         
+## 14  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot;*&quot;         
+## 15  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot;*&quot;         
+## 16  ( 1 ) &quot;*&quot;           &quot;*&quot;           &quot;*&quot;</code></pre>
+</div>
+<div id="summary-14" class="section level2">
+<h2><span class="header-section-number">21.4</span> Summary:</h2>
+<ul>
+<li>It is not always best to include every variable into the linear regression model. We need to select the best subset of variables to include.</li>
+<li>Best subset algoirthm exhausts every possible combination to select the best model of each size.</li>
+<li>We can use adj-R2, Cp, AIC, and BIC to select the best model from the output of the best subset regression. A model with higher Adj-R2, or lower Cp/AIC or lower BIC is a better model.</li>
+<li>Best subset model selection cannot be scaled up, so we use forward selection, which will add variables sequentially.</li>
+<li>Backward selection is equivalent to forward selection, but can be only used when number of rows &gt; number of variables.</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="mutiple-linear-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="model-selection-with-trainingtest-set.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/20-BestSubset.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

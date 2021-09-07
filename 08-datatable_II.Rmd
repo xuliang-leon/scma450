@@ -1,0 +1,211 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Use data.table Package for Big Data II 
+
+Here we will look at some advanced use of data.table. You will be amazed by the power of data.table for data analysis. 
+
+Again, we need to first load data.table package first.
+```{r}
+library(data.table)
+```
+
+As a quick review, we have learned to use fread() to read csv file into R as data.table; or use data.table() to convert an existing data.frame into a data.table. 
+
+data.table provides a simple, consistent, user-friendly syntax for data manipulation. The general form of data.table syntax is: 
+
+DT[i, j, by]  
+
+where 
+
+* DT is a data.table.
+
+* by: grouped by what?  
+
+* j: what to do? 
+
+* i: on which rows?
+
+In this chapter,we will explore the advanced use of data.table, using the flights dataset as an illustration.
+
+Let's read flights.csv into R using fread() function in data.table package.
+```{r}
+flights=fread("data/flights.csv")
+```
+
+## Use Chaining to Avoid Intermediate Result
+Let’s reconsider the task of getting the total number of flights for each origin, destination pair for carrier “AA”:
+```{r}
+tmp <- flights[carrier == "AA", .(count=.N), by = .(origin, dest)]
+```
+
+How can we order tmp using the columns origin in ascending order, and destination in descending order? We can store the intermediate result in a data.table, and then apply order(origin, -dest) on that data.table. It seems fairly straightforward. 
+
+```{r}
+tmp <- tmp[order(origin, -dest)]
+head(tmp,8)
+```
+
+This requires having to create an intermediate data.table and then overwriting that data.table. The intermediate data.table has no other use. When you are working on big data, these intermediate data will soon consumes your computer memory and makes the code slow to run.
+
+We can do better and avoid this intermediate data.table altogether by chaining expressions. For the above task, we can:
+```{r}
+tmp <- flights[carrier == "AA", .(count=.N), by = .(origin, dest)][order(origin, -dest)]
+
+# print the first 8 rows of ans
+head(tmp, 8)
+```
+Let's look at this code. [carrier == "AA", .(count=.N), by = .(origin, dest)] is first executed; followed by [order(origin, -dest)]. We do not need to create an intermediate result. 
+
+In general, we can tack expressions one after another, forming a chain of operations, i.e., DT[ ... ][ ... ][ ... ].
+
+The chaining operation is very important in R to speedup the R code and has been implemented in many other packages, e.g., the pipe, %>%, from the magrittr package. We will take about the chaining with pipe operator %>% in later chapters.
+
+Let's look at the another example: Find the origin, dest pair with the longest average air_time.
+
+```{r}
+flights[,.(avg_air_time=mean(air_time)), by=.(origin, dest)][order(-avg_air_time)][1:3]
+```
+The result shows that the longest flight pair is JFK-HNL (Hawaii). Chaining allows you to answer questions like this with one simple line of code! Really cool!
+
+Now, let's spend sometime examine the code. The first expression [,.(avg_air_time=mean(air_time)), by=.(origin, dest)] is excuted first, and the new data.table is created in the memory. Since avg_air_time is created, the second expression [order(-avg_air_time)] can use this new variable avg_air_time for sorting. The third expression then filtering the top three observations. 
+
+## uniqueN() 
+uniqueN() is a handy function that returns an integer value containing the number of unique
+values in the input object. It accepts vectors as well as data.frames and data.tables as its argument. 
+
+E.g., we want to find out how many unique id in this vector: student_id=c(1,2,3,4,1,2)
+```{r}
+student_id=c(1,2,3,4,1,2)
+uniqueN(student_id)
+```
+
+In data.table, we can use uniqueN() together with by to get summary statistics such as: how many direct flights are at each origin airport? In other words, how many unique destination for each origin?
+```{r}
+flights[, uniqueN(dest), by=.(origin)]
+```
+Thus, we know that EWR airport has direct flights to 86 other airports.
+
+## Subset of Data: .SD[]
+.SD is a special symbol which stands for Subset of Data. It contains subset of data corresponding to each group; which itself is a data.table. 
+
+Why we need this? Let's look at one example: You want to the find out, for each origin, dest pair, which flight has the longest arr_delay? Intuitively, we know you should sort the data according to origin, dest, arr_delay.
+```{r, eval=FALSE}
+flights[order(origin,dest,-arr_delay)]
+```
+ 
+To help you see result of the above code, let's print the first few rows and a few columns (origin, dest, month, day, arr_delay). 
+```{r}
+head( flights[order(origin,dest,-arr_delay)][,.(origin,dest,month,day,arr_delay)] )
+```
+But how to retrieve the top row for each origin, dest pair? .SD[] is designed for that purpose. As mentioned, .SD denotes the data.table which contains subset of data corresponding to each group. We can use .SD[i] to retrieve the i-th row from the data.table.
+```{r, eval=FALSE}
+# use .SD[] to retrieve the top row for each group.
+flights[order(origin,dest,-arr_delay)][, .SD[1], by=.(origin,dest)]
+```
+
+We can use .SDcols to select columns contained in .SD.
+```{r, eval=FALSE}
+# use .SD[] to select top row for each group and select month, day, arr_delay
+flights[order(origin,dest,-arr_delay)][, .SD[1], by=.(origin,dest),.SDcols=c("month","day","arr_delay")]
+```
+
+You can also select the top n rows for each group using .SD 
+```{r, eval=FALSE}
+# use .SD[] to select top three row for each group and select month, day, arr_delay
+flights[order(origin,dest,-arr_delay)][, .SD[1:3], by=.(origin,dest),.SDcols=c("month","day","arr_delay")]
+```
+
+Using is .SD[] provides an easy way to identify the outlier (or the most interesting data point) in our data for each group. This can help us to answer question such as: what is the top sales person for each region? which county has the top population for each state? 
+
+
+## Use := to Add/Update Columns By Reference
+data.table defines a new operator := for adding/updating columns by reference. 
+
+The syntax of := is as follow: LHS := RHS 
+
+E.g., we want to create a new variable called total_delay, which equals to arr_delay+arr_delay. We can use the following code:
+```{r}
+flights[,total_delay:=arr_delay+arr_delay]
+str(flights)
+```
+We will see the variable total_delay is created. 
+
+You may be wondering what "updating by reference" means. Under the data.frame, when we need to update a column, R will read the whole data.frame into memory, update the whole data.frame and write the updated data.frame into a new object. This is really inefficient. Under data.table with :=, we do not need to updated the whole data.table object; Instead, we just refer the new column to the computer memory address that contains the new column. Therefore, := is much more efficient. The efficiency difference is particular evident when working with big data.
+
+You can also create multiple new columns simultaneously using := . E.g., you need to create a total_delay and speed=distance/(air_time/60). Note that speed is measured by miles per hour.
+```{r}
+flights[,c("total_delay","speed"):=.(arr_delay+arr_delay,  distance/air_time*60)]
+str(flights)
+```
+Note that, on the LHS of :=, i.e., c("total_delay","speed"), we used variable name inside "" because these variables are not yet defined in the data.table and thus cannot be referred as variables directly. 
+
+We can combine := with by group argument to create new variables by groups. E.g., we want to add a new column avg_air_time which is the average air_time for the origin, dest pair. 
+```{r}
+tmp=flights[, avg_air_time:=mean(air_time, na.rm = TRUE), by = .(origin, dest)]
+head(tmp)
+```
+Note that we created a new variable as the average air time. 
+
+Note that we can also compute on j by group as we illustrate in previous chapter (shown in the code below. However, we cannot add this calculation as a new column to the original data.table as we did with :=.
+```{r}
+tmp=flights[, .(avg_air_time=mean(air_time, na.rm = TRUE)), by = .(origin, dest)]
+head(tmp)
+```
+
+## Binning a continuous value into category
+In many application, we want to convert a continuous value into levels. E.g., we want to classify flights into short/median/long flight based on the average distance. Specifically, if average distance<=520 (1st Qu), short; else if average distance<=1389 (3rd Qu.), median; else long.
+
+```{r}
+distance_level <- function(distance) {
+  avg_distance=mean(distance, na.rm = TRUE)
+  if (avg_distance <= 520) "short"
+  else if (avg_distance <= 1389) "medium"
+  else "long"
+}
+
+tmp=flights[, distance_level:= .( distance_level(distance) ), by=.(origin, dest)]
+head(tmp)
+```
+
+
+```{r, include=FALSE, eval=FALSE}
+distance_level <- function(distance) {
+  avg_distance=mean(distance, na.rm = TRUE)
+  if (avg_distance <= 520) "short"
+  else if (avg_distance <= 1389) "medium"
+  else "long"
+}
+flights[, .(distance_level= distance_level(distance), avg_dist=mean(distance, na.rm = TRUE)), by=.(origin, dest)]
+```
+
+## Expressions in by
+Recall the data.table syntax DT[i, j, by]. 
+Like argument j, argument by also accepts expressions? As an example, if we would like to find out how many flights departed late but arrived early, departed and arrived late, departed early and arrived early, departed early but arrived late:
+```{r}
+flights[, .(count=.N), by=.(dep_late=dep_delay>0, arr_late=arr_delay>0)]
+```
+
+We can further show calcuate count as percentage of total.
+```{r}
+flights[, .(count=.N), by=.(dep_late=dep_delay>0, arr_late=arr_delay>0)][, percent:=count/sum(count)][]
+```
+
+As seen, 27.4% of the flights does not depart nor arrive late. About half of flights depart and arrive on time. This is a very useful and quick way to slice data into different groups and compute summary statistics accordingly.
+
+
+## Summary
+
+* The basic data.table syntax DT[ i,j, by] is like a building block and can be chained DT[i, j, by][...][...] to avoid intermediate results.
+
+* Use uniqueN() to count the unqiue value in a group
+
+* Use .SD[ ] to select the top n rows in a group
+
+* Use := to add new columns in a data.table
+
+* Convert a continuous value into category
+
+* Use expression in by

@@ -1,0 +1,361 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Visualization with ggplot2 III
+
+In many cases, we work with location data. The best way to visualize the location data is map. To draw maps in R, we first need to install the map-related packages. 
+```{r, eval=FALSE}
+install.packages("ggplot2") 
+install.packages("maps")      # maps packages contains world maps data 
+install.packages("mapproj")   # Converts latitude/longitude into projected coordinates
+```
+
+```{r, message=FALSE}
+library(ggplot2)
+library(maps)
+library(mapproj)
+```
+
+We will also be using data.table and lubridate packages to clean data; and curl package for download data directly from website.
+```{r, eval=TRUE}
+library(lubridate)
+library(data.table)
+library(curl)
+library(ggplot2)
+```
+
+## Draw world map
+First, we get the world map data from the map package.
+```{r}
+# map_data() is a function in maps package to load the map data
+world_map=as.data.table(map_data("world"))
+
+head(world_map)
+```
+
+Second, we can use ggplot2 to plot the world map:
+```{r}
+ggplot() + 
+  geom_polygon(data=world_map, aes(long, lat, group=group), fill="gray",color="black")+
+  geom_path()+ 
+  coord_map(xlim=c(-180,180))
+```
+
+Next, we want to add information of each country on the map. For example, we want to show the number of confirmed COVID-19 cases.
+
+The csv format data can be access through from the following website:
+```{r}
+covid_world=fread("https://covid.ourworldindata.org/data/owid-covid-data.csv")
+```
+
+Let's first take a look at the data:
+```{r}
+covid_world=covid_world[,.(iso_code,continent,location,date,total_cases,new_cases,total_deaths,new_deaths,total_tests_per_thousand,people_vaccinated_per_hundred)]
+head(covid_world)
+str(covid_world)
+summary(covid_world)
+
+```
+
+We need to clean the date into the correct format before any analysis:
+Examine extreme values
+```{r}
+covid_world[new_cases<0 | new_cases>100000]
+```
+
+Clean up the data:
+```{r}
+covid_world[,date:=ymd(date)]
+
+# in the world map data, United States is named USA
+covid_world[location=="United States",location:="USA"]  
+
+# clean up the negative new cases as missing value
+covid_world[new_cases<0,new_cases:=NA]  
+```
+
+Use a line chart to show the number of new cases over time:
+```{r}
+ggplot(covid_world)+
+  geom_line(aes(date, new_cases, color=location),show.legend = FALSE)+
+  theme_classic()
+```
+
+Use a line chart to show the number of new cases over time:
+```{r}
+ggplot(covid_world[location%in%c("United Kingdom","USA","Italy","Brazil","Korean","China")])+
+  geom_line(aes(date, new_cases, color=location))+
+  theme_classic()
+```
+
+
+To plot the map of new cases in each day, we need to first prepare the map data to include the COVID-19 cases informatin.
+```{r}
+# define any date you want to inquiry
+today=ymd("2020-06-19") 
+
+# subset the covid dataset to select the above date and relevant columns
+covid_today=covid_world[date==today,.(location,continent,date,total_cases,new_cases, total_deaths, total_tests_per_thousand)]
+
+# combine the map data file
+my_map = merge(world_map,covid_today, by.x="region", by.y ="location", all.x = TRUE)
+
+head(my_map)
+
+# It is vital that the map data is ordered by the order column. Otherwise, the map will be messed up. 
+my_map[order(order)]
+```
+
+Now, we are ready to plot the data:
+```{r}
+g<-ggplot(my_map, aes(x=long,y=lat,group=group))+
+  geom_polygon(aes(fill=new_cases))+
+  geom_path()+ 
+  coord_map(xlim=c(-180,180))+
+  labs(x = NULL, y = NULL, title = paste("New confirmed cases worldwide: ", today),fill="New Cases")
+
+g
+```
+
+The default fill color scheme is not quite differentiable. We can use scale_fill_gradient() function to creates a two colour gradient (low-high): 
+```{r}
+g+ scale_fill_gradient(low="white",high="red",na.value="grey90")
+```
+
+In the above code, we set color scheme of "white" representing low quantity, "red" representing high quantity, the missing value is represented by grey. 
+
+Here is another commonly used color scheme. In the code below, heat.colors(10) generate a heat color scheme from white, yellow to red with 10 steps in between. rev() reserves this color scheme because we want to use red to represent high quantity, and yellow to represent low quantity.
+```{r}
+g+ scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")
+```
+
+Now, the map looks OK, but we want to clean the extra grid and axis labels. We can do that by change the theme of the plot. Below is a reusable map theme that is readily to use.
+
+Define the theme of map:
+```{r}
+theme_map <- function(...) {
+  theme_minimal() +
+    theme(
+      axis.line = element_blank(),
+      axis.text.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_blank(),
+      plot.background = element_rect(fill = "white", color = NA), 
+      panel.background = element_rect(fill = "gray99", color = NA), 
+      legend.background = element_rect(fill = "white", color = NA),
+      panel.border = element_blank(),
+      legend.position = "right",
+      ...
+    )
+}
+```
+
+Apply the self-defined map theme:
+```{r}
+g + scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+  theme_map()          
+```
+
+Now, let's plot the total cases on the map:
+```{r}
+ggplot(my_map, aes(x=long,y=lat,group=group))+
+  geom_polygon(aes(fill=total_cases))+
+  geom_path()+ 
+  coord_map(xlim=c(-180,180))+
+  labs(x = NULL, y = NULL, title = paste("Total cases worldwide: ", today), fill="Total Cases")+
+  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+  theme_map()
+
+ggsave("data/covid_total_cases.png") # save the chart into local file
+```
+
+## Draw US map
+In most of the situation, we focus on US as well as states in US. Here we show how to create US/States map.
+First, we need to load the US map data.
+```{r}
+states_map=as.data.table(map_data("state"))
+head(states_map)
+```
+
+Next, we can plot the US map.
+```{r}
+ggplot(data=states_map)+
+  geom_polygon(aes(x=long, y=lat, group=group), color="black", fill="gray90") +
+  coord_map() +
+  theme_map()
+```
+
+
+We can add the information of each state on the map. E.g., we can fill each state to a color corresponding to its number of new COVID-19 confirmed cases.
+
+First, we need to download the COVID-19 data for each state from the web. 
+```{r}
+# the data is in the following web-page
+url = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv'
+
+covid_US=fread(url)
+```
+
+```{r, eval=FALSE, include=FALSE}
+# The code scraps the website where the data is saved.
+url <-'https://github.com/nytimes/covid-19-data/blob/master/us-states.csv'
+
+# read the url using read_html()
+first_page <- read_html(url)
+
+# define a reuse-able function to scrap table from website
+get_tabledata <- function(html, table_index){
+  table0<-html %>% 
+    # The relevant tag
+    html_nodes('table') %>%  ## select all tables in the webpage
+    .[table_index] %>%                 ## the table we are interested is the 2rd one
+    html_table(fill = TRUE)  ## convert the CCS select into table format
+  
+  table<-
+    table0 %>% 
+    data.frame()
+}
+
+# use the self-define function to download data; the data we are interested is in the firt table of the website
+table<-get_tabledata(first_page,1)  
+
+# Let's look at the data first. We need to first clean up the data before analysis: 1) remove X1; 2) the variable name is in the first row; 3) variable type is not correct.
+head(table) 
+
+#We next clean up the data for analysis.
+# remove the first variable and save to covid_US 
+# avoid edit directly on the raw data since we may want to access the raw data later
+covid_US<-table[,-1]    
+head(covid_US)
+```
+
+Examine the data through head():
+```{r}
+head(covid_US)
+```
+
+Clean the data before any analysis. First, in map_state, the state name is lower case; here state name has upper case, we need to make it also lower case so that we can merge the two datasets. Second, we need to convert date from string to date. 
+```{r}
+covid_US[,date:=ymd(date)]
+covid_US[,state:=tolower(state)]
+head(covid_US)
+```
+
+Merge the state map data with the covid-19 data.
+```{r}
+select_date="2020-07-04"
+covid_US_today=covid_US[date==select_date]
+  
+map_covid_state = merge(states_map,covid_US_today, by.x="region", by.y="state", all.x = TRUE)
+
+head(map_covid_state)
+```
+
+Next, we can plot the US map.
+```{r}
+ggplot(map_covid_state)+
+  geom_polygon(aes(x=long, y=lat, group=group, fill=cases), color="black") +
+  coord_map() +
+  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+  theme_map()+
+  labs(title=paste("Total confimed cases in US: ", select_date, sep=""), fill="New Cases")
+
+ggsave("data/covid_us_map.png")
+```
+
+
+Sometime, we want to add text information on the map:
+```{r}
+ggplot(map_covid_state)+
+  geom_polygon(aes(x=long, y=lat, group=group, fill=cases), color="black") +
+  coord_map() +
+  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+  theme_map()+
+  labs(title=paste("Total confimed cases in US: ", select_date, sep=""), fill="New Cases")
+
+ggsave("data/covid_us_map.png")
+```
+
+## draw US county map
+Sometime, we only want to zoom in to look at a subset of states at the county level. 
+Here we show how to draw US county map. 
+
+First, we need to extract the US county map data:
+```{r}
+county_map=as.data.table(map_data("county"))
+head(county_map)
+```
+Next, we can draw US county map:
+```{r}
+ggplot(data=county_map)+
+  geom_polygon(aes(x=long, y=lat, group=group), color="gray")+
+  coord_map() +
+  theme_map()+
+  labs(title="US county map")
+```
+
+Similarly, we can include county information to the map. Take covid-19 as an example:
+
+First, we need to download the data from the following address: 
+```{r}
+covid_county=fread("https://github.com/nytimes/covid-19-data/raw/master/us-counties.csv")
+head(covid_county)
+```
+
+Clean up the data for analysis:
+```{r}
+covid_county[,date:=ymd(date)]
+covid_county[,county:=tolower(county)]
+covid_county[,state:=tolower(state)]
+head(covid_county)
+```
+
+Merge with the map data
+```{r}
+# choose the date to map
+select_date="06-21-2020"
+covid_county2<-covid_county[date==mdy(select_date)]
+
+map_covid_county = merge(county_map,covid_county2, by.x=c("region","subregion"), by.y=c("state","county"), all.x = TRUE)
+
+head(map_covid_county)
+```
+
+Next, we can draw US county map:
+```{r}
+ggplot(map_covid_county)+
+  geom_polygon(aes(x=long, y=lat, fill=cases, group=group), color="gray80")+
+  coord_map() +
+  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+  theme_map()+
+  labs(title=paste("Total confirmed cases in US: ", select_date), fill="total cases")
+```
+
+The county map is mostly useful when we want to zoom in to look at particular state.
+```{r}
+select_state=c("nebraska")
+ggplot(map_covid_county[region%in%select_state])+
+  geom_polygon(aes(x=long, y=lat, fill=cases, group=group), color="gray80")+
+  coord_map() +
+  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+  theme_map()+
+  labs(title=paste("Total confirmed cases in ", select_state, " : ", select_date), fill="Total Cases")
+
+ggsave("data/covid_county_map.png")
+```
+
+## Summary
+
+* learn to make maps with ggplot2: world map, US state maps, US county maps
+
+* learn to include information about on the map.
+
+* apply data.table to join data.table.
+
+* Use theme to adjust the appearance of the map

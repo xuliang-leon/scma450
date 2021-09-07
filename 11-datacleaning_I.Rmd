@@ -1,0 +1,373 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Data Cleaning I
+
+Guess what, data scientists spend 80% of their time cleaning data! When you are in a real job, the data you get to work with can be very messy. However, we do not typically teach how to clean data in class but provide students with clean data that is ready for analysis. I am compelled to teach you how to clean data, because, again, 80% of the time, we will be cleaning data. You will find the skills of cleaning data will be of great help later in your work. Thus, data cleaning, although may be tedious, will pay off in the near future.
+
+This chapter provides a very basic introduction to cleaning data in R using the data.table, lubridate, and stringr packages. After taking the course you'll be able to go from raw data to awesome insights as quickly and painlessly as possible!
+
+There are two main characteristics of a clean data: 1). each row represents an observation and each column represents a variable/attribute associated with the observation. 2). The columns are in the right variable mode (e.g., numbers are numeric, date are date not character, categorical variables are factors).
+
+Although this sounds really intuitive and simple, most raw datasets are not like that, potentially due to the way the data are collected. 
+
+There are three basic steps to clean a messy data:
+
+* exploring raw data to diagnose the places to be cleaned
+
+* tidying data to make rows as observations, columns as variables.
+
+* preparing data for analysis (converting columns into the right variable type) 
+We will go over each of these steps in this chapter. 
+
+Run the code to install the packages (only need to run once):
+```{r, eval=FALSE}
+install.packages("lubridate")   # dealing date variable
+install.packages("stringr")     # dealing strings/character
+install.packages("tidyr")       # tidying data
+install.packages("data.table")
+```
+
+Run the code to load the packages into R:
+```{r}
+library(lubridate)
+library(stringr)
+library(tidyr)
+library(data.table)
+```
+
+For the purpose of illustration, we will use a messy, real-world dataset containing an entire year's worth of weather data from Boston (i.e., "weather_boston.csv"). Among other things, you'll be presented with variables that contain column names, column names that should be values, numbers coded as character strings, and values that are missing, extreme, and downright erroneous!
+
+First thing first, let's read the weather_boston.csv data into R. 
+```{r}
+# use fread() to read csv into R as data.table
+weather_boston<-fread("data/weather_boston.csv")  
+```
+
+## Exploring the raw data
+It is critical to explore the raw data, understand its structure and diagnose why the data is messy. We can explore the raw data through the following means.
+
+* understand the structure of the data
+
+* look at the data
+
+* visualize the data
+
+### Understand the structure of the data
+```{r}
+class(weather_boston) # view its class
+
+dim(weather_boston)    # view its dimensions
+
+names(weather_boston)  # check the column names (variable names)
+
+str(weather_boston)    # examine the structure of the data
+
+summary(weather_boston) # examine potential outliers and missing values
+```
+
+### Visulize the data in Tabular form
+There is no substitute to actually "see" the data. First, let's see the data in a tabular form. 
+```{r}
+head(weather_boston)  # view the first 6 rows of the data
+
+head(weather_boston, 10)   # view the first 10 rows of the data
+
+tail(weather_boston)     # view the last 6 rows of the data
+
+tail(weather_boston, 10)    # view the last 10 rows of the data
+```
+
+Among other things, we see that the weather_boston dataset suffers from one of the most common symptoms of messy data: column names are values. In particular, the column names X1-X31 represent days of the month, which should really be values of a new variable called day. As a result, each row is not an individual observation, but a combined observation of 31 days. Also, variables are not orginaized by columns. The measure column indicates that the multiple measure are stacked by rows. We will tidy this data into the correct form later.
+
+
+### Visualize the raw data through charts
+Histgoram is a great tool to see the range and distribution of the data. It provides a great way to identify potential outliers in your data.
+```{r}
+hist(as.numeric(weather_boston$X1))
+```
+
+We can also look at the scatter plot between two variable to check their relationship.
+```{r}
+plot(as.numeric(weather_boston$X1), as.numeric(weather_boston$X2))
+```
+
+We can also look at the boxplot 
+```{r}
+boxplot(as.numeric(weather_boston$X1))
+```
+
+## Tidying data
+What is tidy data? For any statistical analysis or visualization, the data needs to be in the right form: each row represents an observation and each column represents a variable/attribute associated with the observation. Data analyst spend huge amount of time to get data ready in this format. Nevertheless, the tidy data concept is proposed and formalized by Hadley Wickham in the Journal of Statistical Software recently. 
+Here is the link to the paper: https://vita.had.co.nz/papers/tidy-data.pdf
+
+Here is an example of tidy data.
+```{r}
+country<-rep(c("United Stat", "Japan", "China"), times=3)
+abbr<-rep(c("US", "JP", "CH"), times=3)
+year<-rep(c(2017:2019),each=3)
+GDP<-c(400,200,290,420,210,310,450,230,320)
+unemployrate<-c("4%","3%","2%","4.1%","3.3%","2.5%","3.9%","3.2%","2.9%")
+GDP_tidy<-data.table(country,abbr,year,GDP,unemployrate)
+GDP_tidy
+```
+The GDP_tidy is an example is a simple tidy data. By name, we know this data is about GDP of country. Each row represents an observation: we observe the GDP and unemployment of a particular country in a particular year. Thus, each column represents one attribute of the observation: which country is observed; in which year it is observed, and what is the observed GDP amount.
+
+Here is an example of non-tidy data.
+```{r}
+country<-c("United Stat/US", "Japan/JP", "China/CH")
+GDP_2017<-c(400,200,290)
+GDP_2018<-c(420,210,310)
+GDP_2019<-c(450,230,320)
+unemployrate_2017=c("4%", "3%","2%")
+unemployrate_2018=c("4.1%", "3.3%","2.5%")
+unemployrate_2019=c("3.9%", "3.2%","2.9%")
+
+GDP_messy<-data.table(country,GDP_2017,GDP_2018,GDP_2019,unemployrate_2017,unemployrate_2018,unemployrate_2019)
+GDP_messy
+```
+This is a non-tidy data because the attribute of an observation (i.e., the year when the observation is observed) is represented in the column. 
+
+Next, we will use the melt() and dcast() function in data.table package to tidy data. There are some other packages (e.g., tidyr) for this purpose. We choose to use the data.table function for consistence.  Also, the data.table is very fast and memory efficient, making it well-suited to handling large data sets.
+
+### melt()
+A common problem is a dataset where some of the column names are not names of variables, but values of a variable. 
+```{r}
+country<-c("United Stat/US", "Japan/JP", "China/CH")
+abbr<-c("US", "JP", "CH")
+GDP_2017<-c(400,200,290)
+GDP_2018<-c(420,210,310)
+GDP_2019<-c(450,230,320)
+
+GDP_messy<-data.table(country,abbr, GDP_2017,GDP_2018,GDP_2019)
+GDP_messy
+```
+The dataset GDP_messy from the following code as an example. The column GDP_2017, GDP_2018 and GDP_2019 represent the value of the year when it is observed.
+
+melt() is design to collect the information in those columns name as a new variable.  
+```{r}
+GDP1<-melt(GDP_messy, id ="country", measure =c("GDP_2017","GDP_2018","GDP_2019"), variable.name = "year", value.name = "GDP")
+GDP1
+```
+The code above collect the colunme name GDP_2017, GDP_2018, GDP_2019 into a new variable (and renamed as year); and put the corresponding value into the value variable (and renamed as GDP). The general format for melt() is as follow:
+melt(
+  data.table,
+  id= c(""),       # id variable for origin data, will be kept in the new data
+  measure = c(""), # columns to be melt
+  variable.name = "year", # name of new variable to place original column name 
+  value.name = "GDP",   # name of new variable to place original column value
+)
+
+Note that: 1) the melt() function takes only data.table not data.frame as argument; 2) melt() function will return a data.table as a result; 3) the variables not included the id.vars will not be kept in the new data.table.
+
+We can also use pattern argument:
+```{r}
+GDP_tidy = melt(GDP_messy, id="country", measure = patterns('GDP_'),variable.name = "year", value.name = "GDP")
+GDP_tidy
+```
+In the above code, instead of specifying the measure =c("GDP_2017","GDP_2018","GDP_2019"), which share the same pattern of "GDP_", we can use measure=patterns('GDP_') to specify these columns.
+
+To clean the data, we need extract the 4-digit year from the year column. This can be done from the following code:
+```{r}
+GDP_tidy[,year2:=str_sub(year,5,9)]
+GDP_tidy
+```
+str_sub(year,5,9) extract the substring from the character vector year, where the position of the substring is from 5th char to the 9th char.
+
+### dcast()
+The opposite of melt() is dcast(), which takes key-values pairs and spreads them across multiple columns. This is useful when values in a column should actually be column names (i.e. variables). 
+
+Let's look at one example:
+```{r}
+country<-rep(c("United Stat/US", "Japan/JP", "China/CH"), times=6)
+measure<-rep(c("GDP","unemployrate"), each=3*3)
+year<-rep(c(2017,2018,2019), each=3,times=2)
+amount<-c("400","200","290","420","210","310","450","230","320","4%", "3%", "2%","4.1%", "3.3%", "2.5%", "3.9%", "3.2%" ,"2.9%")
+GPD_messy=data.table(country,year,measure, amount)
+GPD_messy
+```
+
+As see, in GPD_messy, the column "measure" should be variable name: (GDP nd unemployrate are stacked in one column). We need to allocate this column into two columns. The folowing code with dcast() achieves this purpose:
+```{r}
+GDP_tidy<-dcast(GPD_messy, country+year~measure, value.var="amount")
+GDP_tidy
+```
+
+In the above code, country+year~measure is called formula. Here it means that each country+year pair will consists a row in the new data.table, the variables in the original "measure" column will be the new columns. value.var="amount" indicates that the value of the new columns is populated by the value in the orignal "amount" column.
+
+The general syntax for dcast() function is as below: dcast(data, formula, value.var). 
+
+
+## Preparing data for analysis
+Now that we have tidy the data, we need to futher clean it so that it is ready for statistical analysis or visualization. The most important task in this step is to make sure each column is in the right format (i.e., numbers are numeric, date is represented in date, categorical variables are represented in factors, characters are characters, logical are logical)
+
+### Type conversions
+It is often necessary to change, or coerce, the way that variables in a dataset are stored. This could be because of the way they were read into R (with read.csv(), for example) or perhaps the function you are using to analyze the data requires variables to be coded a certain way.
+
+The common type conversions in R include:
+```{r}
+as.character(2016)
+as.numeric(TRUE)
+as.factor(c("level A", "level B", "leval A", "leval A"))
+as.logical(0)
+```
+
+Only certain coercions are allowed, but the rules for what works are generally pretty intuitive. For example, trying to convert a character string to a number gives a missing value NA: 
+```{r}
+as.numeric("some text")
+```
+
+There are a few less intuitive results. For example, under the hood, the logical values TRUE and FALSE are coded as 1 and 0, respectively. Therefore, as.logical(1) returns TRUE and as.numeric(TRUE) returns 1.
+```{r}
+as.logical(1)
+as.numeric(TRUE)
+```
+
+
+### Working with dates
+Dates can be a challenge to work with in any programming language, but thanks to the lubridate package, working with dates in R isn't so bad. Since this module is about cleaning data, we only cover the most basic functions from lubridate to help us standardize the format of dates and times in our data. But this will cover most of the situations you face in real world.
+
+These functions combine the letters y, m, d, h, m, s, which stand for year, month, day, hour, minute, and second, respectively. The order of the letters in the function should match the order of the date/time you are attempting to read in, although not all combinations are valid. Notice that the functions are "smart" in that they are capable of parsing multiple formats.
+
+```{r}
+# Experiment with basic lubridate functions
+ymd("2015-08-25")
+class(ymd("2015-08-25"))
+
+ymd("2015 August 25")
+mdy("August 25, 2015")
+hms("13:33:09")
+ymd_hms("2015/08/25 13.33.09")
+
+```
+As see, the these functions from lubridate package is quite smart to understand the general date in various form and return the standardized date. 
+
+### String (character) manipulation
+Here we introduce you to string manipulation in R. In many situation we have to deal with textual data, e.g., customer review, address, tweets, .... 
+
+We will use the stringr package for string manipulation, which is written Hadley Wickham. Base R contains many functions to work with strings but we’ll avoid them because they can be inconsistent, which makes them hard to remember. Instead we’ll use functions from stringr. These have more intuitive names, and all start with str_.
+
+Examine the length of a string:
+```{r}
+str_length(c("a", "data science", NA))
+```
+
+Combine two or more strings (we have used paste() in base R for this):
+```{r}
+str_c("Leon", "Xu", sep=" ")
+str_c(2019, "Mar", 24, sep="-")
+
+str_c("https://www.zillow.com/", c("page1","page2","page3"), sep="")
+```
+
+subsetting strings: you can extract parts of a string use str_sub(). Subsetting a string is the most used operations to deal with strings. E.g., to extract zip from address. It takes a general form like this: str_sub(string, start, end)
+```{r}
+address="7313 Sherman Street, Licoln, NE 68506"
+len=str_length(address)
+
+str_sub(address,  len-4, len)
+```
+
+str_replace() and str_replace_all() allow you to replace matches with new strings. The general syntax is: str_replace(string, pattern, replacement)
+```{r}
+x<-c("apple?","pear4","banana")
+
+str_replace(x,"a","A")   # replace the first match
+
+str_replace_all(x,"a","A")  # replace all match
+
+```
+
+Trim all leading and trailing whitespace
+```{r}
+str_trim(c("   Filip ", "Nick  ", " Jonathan"))
+```
+
+Pad these strings with leading zeros
+```{r}
+str_pad(c("23485W", "8823453Q", "994Z"), width=7, side='left', pad="0")
+```
+
+tolower() turn all letter in string into lower case.
+```{r}
+tolower("University of Nebraska")
+```
+toupper() turn all letter in string into upper case.
+```{r}
+toupper("University of Nebraska")
+```
+
+## Missing and special values in R
+Missing values in R should be represented by NA. 
+
+If missing values are properly coded as NA, the is.na() function will help you find them. 
+
+Unfortunately you will not always be so lucky. Before you can deal with missing values, you have to find them in the data. 
+Otherwise, if your dataset is too big to just look at the whole thing, you may need to try searching for some of the usual suspects like "", "#N/A", etc to identify the missing value.
+
+Let's examine the example to see the missing values. 
+```{r}
+x<-data.table(x1=c(2,5,NA,9), x2=c(NA, 23,9,NA))
+x
+```
+is.na() return for each element in the data.table, it returns TRUE/FALSE to indicate whether the data is missing.
+```{r}
+is.na(x)
+
+# since TRUE is stored as 1 and FALSE is stored as 0, we can use sum() to count to total number of missing value
+sum(is.na(x))
+
+# use which() returns the index of missing elements in each column
+which(is.na(x$x1))
+which(is.na(x$x2))
+```
+
+
+```{r}
+# Use complete.cases() to see which rows have no missing values
+complete.cases(x)
+```
+For each row in x, complete.cases(x) returns TRUE/FALSE if the corresponding row has't/has missing value.
+
+```{r}
+# Use na.omit() to remove all rows with any missing values
+na.omit(x)
+```
+na.omit() remove all rows that contain missing value. The resulting data will have no missing value.
+
+
+## Outliers, obvious error and missing value
+When dealing with strange values in your data, you often must decide whether they are just extreme or actually error. Extreme values show up all over the place, but you, the data analyst, must figure out when they are plausible and when they are not.
+
+One quick way to see the outlier is to visulize your data. The summary() and hist() and boxplot() are useful for this purpose.
+
+```{r}
+# Look at a summary() of a variable
+summary(as.numeric(weather_boston$X1))
+
+# View a histogram of a variable
+hist(as.numeric(weather_boston$X1), breaks=30)
+```
+
+Another useful way of looking at strange values is with boxplots. Simply put, boxplots draw a box around the middle 50% of values for a given variable, with a bolded horizontal line drawn at the median. Values that fall far from the bulk of the data points (i.e. outliers) are denoted by open circles.
+```{r}
+# view a boxplot
+boxplot(as.numeric(weather_boston$X1))
+```
+
+## Summary
+
+* 80% of the data scientist's time is to clean data.
+
+* Three steps to clean data: 1) exploring raw data to for diagnosis; 2) tidy the data using melt() and dcast() 3) convert columns into the right variable type. 
+
+* A tidy data means each row represents an observation, and each column represents a variable (attribute) about an observation. When columns names contains variable information, we should use melt(); when multiple variables are stacked into rows, we should use dcast().
+
+* Convert each column into the correct variable types using as.character(), as.numeric(), as.factor(), as.logical(). 
+
+* Use lubridate and stringr package to work with date and string variables.
+
+
+

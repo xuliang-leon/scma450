@@ -1,0 +1,184 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Join Mutliple Datasets
+
+It’s rare that data scientists work with only a single table of data during a project. Typically you have many tables of data, and you must combine them to answer the questions that you’re interested in. Collectively, multiple tables of data are called relational data because it is the relations, not just the individual datasets, that are important. 
+
+As an illustration, in addition to the flights dataset, we will use 
+
+* "planes.csv", which contains the information about the airplane for each flights in the "flights.csv" dataset
+
+* and "weather.csv" dataset, which contains the weather information for the time period when "flights.csv" is collected.
+
+First thing first, we need to load the data.table into R.
+```{r}
+library(data.table)
+```
+
+Let's read these three data file into R using fread() and examine these datasets.
+```{r}
+flights=fread("data/flights.csv")
+str(flights)
+```
+
+
+```{r}
+weather=fread("data/weather.csv")
+str(weather)
+```
+Weather is uniquely identify by "origin, year, month, day, hour"; it records the weather at particular origin airport at particular hour of a day. Generally, each dataset should have a set of variables (also called key) to uniquely identify an observation. 
+
+```{r}
+planes=fread("data/planes.csv")
+str(planes)
+```
+The key of planes dataset is tailnum, the unique ID of a plane. 
+
+### Join files using merge()
+The merge() function also exists in data.frame to merge data.frames. data.table also implement this function so that we can use the merge() function to join two data.table. 
+
+Between we talk about the syntax of merge(), we need to understand the 4 different types of join. 
+
+* inner join
+
+* full join
+
+* left join 
+
+* right join
+
+Don't be overwhelmed! They are actually very similar. The general syntax of merge() is:
+
+merge(x = dt1, y = dt2, by.x = "name", by.y = "name", all.x=FALSE, all.y=FALSE)
+
+The 4 cases of all.x and all.y corresponds to 4 different types of join. Note that the default value of all.x and all.y are FALSE.
+
+### inner join
+We will start with an example.
+```{r}
+tmp=merge(flights, planes, by.x="tailnum", by.y="tailnum")
+head(tmp)
+```
+
+This is the inner join: only observations with tailnum in both data.table are kept. The unmatched observation is not kept. You can check the dimension of the merged data.table. You will find that the number of observation in the merged data is smaller than both flights and planes. This is because unmatched rows will be removed. 
+```{r}
+dim(tmp)
+```
+
+Since "tailnum" has the same column name in both data.table, we can simplify the code as 
+```{r, eval=FALSE}
+tmp=merge(flights, planes, by="tailnum")
+```
+If you examine tmp carefully, you will find the new variable year.x and year.y. This is because year appears in both flights and planes dataset; when merge these two datasets, we need to differentiate which dataset the year variable is from. Based on argument position, flight is at x and plane is at y, thus R will automatically rename the variables of same name to mark their sources. 
+
+### full join
+Full join keeps all observations that are in either data.table. The code is exactly the same except letting all.x=TRUE and all.y=TRUE, meaning the merge will keep all observation from x and all observation from y.
+```{r}
+tmp=merge(flights, planes, by="tailnum", all.x = TRUE, all.y = TRUE)
+```
+
+### left join/right join
+Left join adds information from the right data.table to the left data.table. E.g., we want to add the plane information to the flights dataset. 
+```{r, eval=FALSE}
+tmp=merge(flights, planes, by="tailnum", all.x = TRUE)
+```
+Since we want to add information to flights, therefore, we will keep all flights information; Thus, in the above code, we set all.x=TRUE. 
+
+Right join is essentially the same with left join; we can always switch the position of x and y data.table to achieve the same goal. 
+
+left/right join is the most common join in data analysis, because we constantly need to add information to the main dataset.
+
+## Merge dataset using data.table syntax
+The data.table syntax for joining is as below:
+
+DT2[DT1, on=.(name)]  
+
+The code will add information from DT2 to DT1, and the variable to match DT1 and DT2 is name. The default join in data.table is right join.
+
+If the variable name are different in DT1 and DT2, we can modify the code as:
+
+DT2[DT1, on=c(name2="name1")] 
+
+Let's look at an example: add the planes information to the flights dataset.
+```{r}
+tmp=planes[flights, on=.(tailnum)]
+dim(tmp)
+head(tmp)
+```
+The dimension of the merged dataset indicates that all rows of flights dataset are kept. This is because we are adding plane information to the flights dataset. Be really careful about the where to put the main dataset (should be inside the [] because the default is right join). 
+
+Examing the merged dataset, you will find a new variable i.year, which indicates the year from flights dataset (because flights is in the i argument position). 
+
+For inner join, i.e., removing unmatched rows, we can set nomatch=0, as shown below:
+```{r}
+tmp=planes[flights, on=.(tailnum), nomatch=0]
+dim(tmp)
+```
+
+Full join is not possible with the data.table syntax, use the merge() function instead. You must be wondering why we need another way of joining data.table. This is because, with the data.table syntax, we can chain the inquiry like this DT[...][...][...].
+
+## Chaining Join and Data Manipulation
+data.table expressions can be chained in sequence: DT[...][...][...]. This enables us to join multiple data.table and then manipulate the merged data.table for insights.
+
+E.g., we want to compute the market share of airplane manufacturers in terms of the number flights using the airplanes made by the manufacturers. We need to first include the manufacturer information to the flights dataset and then compute the count statistics.  
+```{r}
+planes[flights, on=.(tailnum)][,.(count=.N), by=manufacturer]
+```
+
+E.g., we want to know the average seat avialable between each origin,dest pair, which shows how well the two nodes are connected. The seats information is in the planes dataset, thus we need to first add planes to the flights dataset.
+```{r}
+tmp=planes[flights, on=.(tailnum)][,.(avg_seat=mean(seats,na.rm = TRUE)), by=.(origin, dest)]
+
+head(tmp)
+```
+
+## Exercise
+Suppose you are developing a system that can check the weather condition at each flight. One important task is to add the weather information to the flights dataset. Note that the key of the weather dataset is: year, month, day, hour, origin; in other words, this set of variable uniquely identify an observation in weather dataset.
+
+You can do that using merge() function:
+```{r}
+tmp=merge(flights, weather, by=c("year","month","day","hour","origin"), all.x = TRUE)
+head(tmp)
+```
+
+We can plot the dep_delay against the weather condition (e.g., humid) at the origin airport to see whether there is a relationship between these two
+```{r}
+# load the ggplot2 package into R
+library(ggplot2)  
+
+# scatter plot with humid on x, dep_delay on y
+ggplot(tmp, aes(humid,dep_delay, col=origin))+
+  geom_point(position = "jitter", alpha=0.3)
+```
+What is your observation of the chart? 1) it seems to suggest a higher humidity is associated with a longer departure delay; 2) however, there also exist many departure delay in a non-humid weather, which will be attributed to other factors. 
+
+Or you can do that using the data.table syntax:
+```{r}
+# note that the main data.table is inside []
+tmp=weather[flights, on=.(year,month, day, hour, origin)]
+dim(tmp)
+```
+
+Now, suppose a customer is inquiring the scheduled departure time and the weather condition for flights UA1714 for the date 2013-01-01. You will inquire the flight and return the temp, wind_speed, humid, and visib. Use the data.table syntax to chain the inquiry.
+```{r}
+weather[flights, on=.(year,month, day, hour, origin)][
+  carrier=="UA" & flight==1714 & month==1 & day==1,.(year,month, day, hour, origin, carrier, flight, temp, wind_speed, humid, visib)]
+```
+
+## Summary
+
+* We reviewed the 4 types of join: inner join, full join, left/right join. The most commonly used is th left/right join because we need to add information from one dataset to the main dataset 
+
+* We learn the merge() to join datasets: the syntax for adding dt2 to dt1 is: merge(dt1, dt2, by.x="name1", by.y="name2", all.x=TRUE)
+
+* We learn the data.table syntax for joining data.table: dt2[dt1, on=.(name)]. 
+
+* We learn to chain the join and computation with data.table syntax DT[...][...][...]
+
+So far, we have learned how to manipulate big data with data.table package.  What we have learned so far should cover you for most of the common data manipulation in a real job. I hope you are amazed and empowered by the data.table packages.
+
+
+

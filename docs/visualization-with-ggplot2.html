@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 14 Visualization with ggplot2 | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 14 Visualization with ggplot2 | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 14 Visualization with ggplot2 | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-08-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-cleaning-ii.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2.html"><a href="visualization-with-ggplot2.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="visualization-with-ggplot2" class="section level1">
+<h1><span class="header-section-number">Chapter 14</span> Visualization with ggplot2</h1>
+<p>Base R has several systems for making graphs, but ggplot2 is one of the most elegant and most versatile. With ggplot2, you can do more faster by learning one system and applying it in many places. ggplot2 is probably the one of the most downloaded and well-known R-package.</p>
+<p>Install the ggplot2 package.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="visualization-with-ggplot2.html#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
+<p>Load the package into R:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="visualization-with-ggplot2.html#cb2-1"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.0.5</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="visualization-with-ggplot2.html#cb4-1"></a><span class="kw">library</span>(data.table)</span></code></pre></div>
+<pre><code>## Warning: package &#39;data.table&#39; was built under R version 4.0.5</code></pre>
+<p>For the purpose of illustration, we will use the mpg dataset bundled in ggplot2 packaged:</p>
+<ul>
+<li>mpg: This dataset contains Auto models which was released between 1999 and 2008. It shows their fuel economy data.</li>
+</ul>
+<p>Let’s take a quick look at the mpg datasets:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="visualization-with-ggplot2.html#cb6-1"></a><span class="kw">head</span>(mpg) </span></code></pre></div>
+<pre><code>## # A tibble: 6 x 11
+##   manufacturer model displ  year   cyl trans      drv     cty   hwy fl    class 
+##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 audi         a4      1.8  1999     4 auto(l5)   f        18    29 p     compa~
+## 2 audi         a4      1.8  1999     4 manual(m5) f        21    29 p     compa~
+## 3 audi         a4      2    2008     4 manual(m6) f        20    31 p     compa~
+## 4 audi         a4      2    2008     4 auto(av)   f        21    30 p     compa~
+## 5 audi         a4      2.8  1999     6 auto(l5)   f        16    26 p     compa~
+## 6 audi         a4      2.8  1999     6 manual(m5) f        18    26 p     compa~</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="visualization-with-ggplot2.html#cb8-1"></a><span class="kw">str</span>(mpg)</span></code></pre></div>
+<pre><code>## tibble [234 x 11] (S3: tbl_df/tbl/data.frame)
+##  $ manufacturer: chr [1:234] &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; ...
+##  $ model       : chr [1:234] &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; ...
+##  $ displ       : num [1:234] 1.8 1.8 2 2 2.8 2.8 3.1 1.8 1.8 2 ...
+##  $ year        : int [1:234] 1999 1999 2008 2008 1999 1999 2008 1999 1999 2008 ...
+##  $ cyl         : int [1:234] 4 4 4 4 6 6 6 4 4 4 ...
+##  $ trans       : chr [1:234] &quot;auto(l5)&quot; &quot;manual(m5)&quot; &quot;manual(m6)&quot; &quot;auto(av)&quot; ...
+##  $ drv         : chr [1:234] &quot;f&quot; &quot;f&quot; &quot;f&quot; &quot;f&quot; ...
+##  $ cty         : int [1:234] 18 21 20 21 16 18 18 18 16 20 ...
+##  $ hwy         : int [1:234] 29 29 31 30 26 26 27 26 25 28 ...
+##  $ fl          : chr [1:234] &quot;p&quot; &quot;p&quot; &quot;p&quot; &quot;p&quot; ...
+##  $ class       : chr [1:234] &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; ...</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="visualization-with-ggplot2.html#cb10-1"></a>mpg=<span class="kw">as.data.table</span>(mpg)</span></code></pre></div>
+<p>You may notice that mpg is a tibble (another extended version of data.frame). This is a data structure implement by Hadley Wickham as part of the tidyverse package. But as mentioned, we will stick to the data.table format.</p>
+<div id="scatter-plot" class="section level2">
+<h2><span class="header-section-number">14.1</span> Scatter plot</h2>
+<p>Let’s use our first graph to answer a question: do cars with big engines use more fuel than cars with small engines? You probably already have an answer, but try to make your answer precise. What does the relationship between engine size and fuel efficiency look like?</p>
+<p>In the mpg dateset, displ measures a car’s engine size, in cu.in.. hwy measures its highway fuel efficiency, in miles per gallon. We will make a scatter plot between hwy and displ.</p>
+<p>The scatter plot is the graph to show relationship between two variables. Let’s see how to make scatter plot using base R.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="visualization-with-ggplot2.html#cb11-1"></a><span class="kw">plot</span>(mpg<span class="op">$</span>displ,mpg<span class="op">$</span>hwy)  </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+In base R, plot(x,y) plot a scatter plot with x on x-axis and y-axis; and displays the plot on the screen. However, ggplot2 creates a plot object that is very flexible to modify.</p>
+<p>Now, let’s see the how to make scatter plot with ggplot2.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="visualization-with-ggplot2.html#cb12-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb12-2"><a href="visualization-with-ggplot2.html#cb12-2"></a><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+As we can see, there is a negative linear relationship between hwy and displ. In other words, cars with big engines use more fuel.</p>
+<p>Here is what each part of the code does:</p>
+<ul>
+<li><p>ggplot(mpg, aes(x=displ, y=hwy)) will draw a blank canvas, using data.frame mpg. aes(displ, hwy) is the mapping argument, which maps data to the visual elements in the plot. In this case, it maps displ on x-axis and hwy on the y-axis.</p></li>
+<li><ul>
+<li>is telling R that the code is not finished and the remaining code is in next line.</li>
+</ul></li>
+<li><p>geom_point() plots scatter plot (i.e., points) on top the canvas, with x and y are inherited in ggplot().</p></li>
+</ul>
+<p>The geom_point() is the function for creating scatter plot. Like geom_point(), there are other geom function to create bar charts, box charts, which we will talk later. The geom function like geom_point() takes the mapping argument, which maps the data (e.g., displ, hwy) to particular aesthetic elements of a chart (e.g., x-axis, y-axis). In the above code, geom_point() inherited the aes() from the ggplot().</p>
+<p>Now, let’s break the code see what happens:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="visualization-with-ggplot2.html#cb13-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy)) </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>As mentioned, ggplot() creates an empty plot canvas, on which you can add plots layer by layer.</p>
+<p>Unlike base R, ggplot2 creates the plot as an object and we can easily modify that object. Now, we will save the ggplot() result and then modify it by adding layer.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="visualization-with-ggplot2.html#cb14-1"></a><span class="co"># create a plot object and save it to variable g</span></span>
+<span id="cb14-2"><a href="visualization-with-ggplot2.html#cb14-2"></a>g&lt;-<span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy))   </span>
+<span id="cb14-3"><a href="visualization-with-ggplot2.html#cb14-3"></a></span>
+<span id="cb14-4"><a href="visualization-with-ggplot2.html#cb14-4"></a><span class="co"># modify variable g by adding the scatter plot layer</span></span>
+<span id="cb14-5"><a href="visualization-with-ggplot2.html#cb14-5"></a>g <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>As see, plots can be saved as variables, which can be added two later on using the + operator. This is really useful if you want to make multiple related plots from a common base.</p>
+<p>A general template for making graphs with ggplot2 is as follow. To make a graph, replace the bracketed sections in the following code with a dataset, a geom function, and a collection of aesthetic mappings:</p>
+<p>ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) + <GEOM_FUNCTION>(data = <DATA>, mapping = aes(<MAPPINGS>))</p>
+<p>Notice that each GEOM_FUNCTION can also have its own data and aesthetic mapping to customize its corresponding layer. This provides a very flexible way of customize your charts.</p>
+<p>The rest of this chapter will show you how to complete and extend this template to make different types of graphs.</p>
+<p>Scatterplot is great to visualize relationship between two variables. But sometime we want to show three or even more variable at the same time. For example, we want to see how auto class (class) affects the relationship between hwy and displ. You can convey this information about your data by mapping the aesthetics in your plot to the variables in your dataset. For example, you can map the colors of your points to the class variable to reveal the class of each car.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="visualization-with-ggplot2.html#cb15-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span> hwy, <span class="dt">color=</span>class)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb15-2"><a href="visualization-with-ggplot2.html#cb15-2"></a><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>This chart is quite revealing because we see that 2seater seems to be the outlier of the linear relationship between hwy/displ. This is mostly because 2seater is like roadster with big engines.</p>
+<p>These are the aesthetics you can consider within aes() in this chapter: x, y, color, fill, size, alpha, and shape. One common convention is that you don’t name the x and y arguments to aes(), since they almost always come first, but you do name other arguments.</p>
+<p>If we instead assign color to cyl variable (# of cylinder), we see the legend is on a continuous scale from 4-8. But we know cylinder only takes discrete value. We need to convert cyl to factor (the data type to represent categorical variable in R) and the resulting chart is more informative.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="visualization-with-ggplot2.html#cb16-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(displ, hwy, <span class="dt">color=</span>cyl)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb16-2"><a href="visualization-with-ggplot2.html#cb16-2"></a><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="visualization-with-ggplot2.html#cb17-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(displ, hwy, <span class="dt">color=</span><span class="kw">as.factor</span>(cyl))) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb17-2"><a href="visualization-with-ggplot2.html#cb17-2"></a><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+<p>Notice that how different data type would affect the appearance of the chart. It is very critical to prepare the data in the right format before any analysis. We have talked about cleaning data in the previous chapter.</p>
+<p>Next, we want to customize the x/y-axis and legend to make it more informative</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="visualization-with-ggplot2.html#cb18-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(displ, hwy, <span class="dt">color=</span>class)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb18-2"><a href="visualization-with-ggplot2.html#cb18-2"></a><span class="st"> </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb18-3"><a href="visualization-with-ggplot2.html#cb18-3"></a><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;displacement&quot;</span>, <span class="dt">y=</span><span class="st">&quot;highway miles per gallon&quot;</span>, <span class="dt">color=</span><span class="st">&quot;type of vehicle&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>We can also use the shape of point to indicate the class.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="visualization-with-ggplot2.html#cb19-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>( displ, hwy, <span class="dt">shape=</span>class)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb19-2"><a href="visualization-with-ggplot2.html#cb19-2"></a><span class="st"> </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb19-3"><a href="visualization-with-ggplot2.html#cb19-3"></a><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;displacement&quot;</span>, <span class="dt">y=</span><span class="st">&quot;miles per gallon&quot;</span>, <span class="dt">shape=</span><span class="st">&quot;type of vehicle&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: The shape palette can deal with a maximum of 6 discrete values because
+## more than 6 becomes difficult to discriminate; you have 7. Consider
+## specifying shapes manually if you must have them.</code></pre>
+<pre><code>## Warning: Removed 62 rows containing missing values (geom_point).</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Note: that shape can deal with a maximum of 6 discrete values; try to use color if you have more than 6 discrete value for a categorical variable.</p>
+<p>If we want to include a continuous variable into the chart, i.e., including cty (miles per gallon in city) of a car, we can use the size aes() element.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="visualization-with-ggplot2.html#cb22-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>( displ,  hwy, <span class="dt">size=</span>cty)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb22-2"><a href="visualization-with-ggplot2.html#cb22-2"></a><span class="st"> </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb22-3"><a href="visualization-with-ggplot2.html#cb22-3"></a><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;displacement&quot;</span>, <span class="dt">y=</span><span class="st">&quot;miles per gallon&quot;</span>) <span class="op">+</span></span>
+<span id="cb22-4"><a href="visualization-with-ggplot2.html#cb22-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)  <span class="co"># remove the legend</span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>In this plot, the size of the circle represents the cty of the car.</p>
+<p>One way to add additional variables is with aesthetics (e.g., color, fill, shape, size). Another way, particularly useful for categorical variables, is to split your plot into facets (i.e., subplots) each of which displays one subset of the data. It also reduces the complexity of a chart and allow readers to focus on one category at a time.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="visualization-with-ggplot2.html#cb23-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(displ, hwy, <span class="dt">color=</span>class)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb23-2"><a href="visualization-with-ggplot2.html#cb23-2"></a><span class="st"> </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb23-3"><a href="visualization-with-ggplot2.html#cb23-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;displacement&quot;</span>, <span class="dt">y=</span><span class="st">&quot;miles per gallon&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb23-4"><a href="visualization-with-ggplot2.html#cb23-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></span>
+<span id="cb23-5"><a href="visualization-with-ggplot2.html#cb23-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>class, <span class="dt">nrow =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>This chart clearly shows that compact has great advantage in fuel economy.</p>
+<p>To facet your plot on the combination of two discrete variables, add facet_grid() to your plot call. The first argument of facet_grid() is a formula. This time the formula should contain two variable names separated by a ~:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="visualization-with-ggplot2.html#cb24-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb24-2"><a href="visualization-with-ggplot2.html#cb24-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(displ, hwy)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb24-3"><a href="visualization-with-ggplot2.html#cb24-3"></a><span class="st">  </span><span class="kw">facet_grid</span>(class <span class="op">~</span><span class="st"> </span>trans)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="visualization-with-ggplot2.html#cb25-1"></a><span class="co"># class ~ trans: indicates to break the chart into a grid where y-axis is class and x-axis is trans (4, 5, 6, 8)</span></span></code></pre></div>
+</div>
+<div id="line-fitting" class="section level2">
+<h2><span class="header-section-number">14.2</span> line-fitting</h2>
+<p>Next, we will add a fitted line to the scatter plot. The fitted line is a great way to visualize the potential linear/nonlinear relationship between two variables. To add a fitted line, we simply include the geom_smooth() on top of the chart.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="visualization-with-ggplot2.html#cb26-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(displ, hwy)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb26-2"><a href="visualization-with-ggplot2.html#cb26-2"></a><span class="st"> </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb26-3"><a href="visualization-with-ggplot2.html#cb26-3"></a><span class="st"> </span><span class="kw">geom_smooth</span>()   <span class="co"># fit scatter plot using the default method LOESS (locally estimated scatterplot smoothing)</span></span></code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>The band round the fitted line is the 95% prediction interval (i.e., with 95% probability, the hwy for an Auto with given displ should fall in such interval). To remove the interval, we can set se=FALSE as below:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="visualization-with-ggplot2.html#cb28-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(displ, hwy)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb28-2"><a href="visualization-with-ggplot2.html#cb28-2"></a><span class="st"> </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb28-3"><a href="visualization-with-ggplot2.html#cb28-3"></a><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">se=</span><span class="ot">FALSE</span>)   <span class="co"># fit scatter plot using the default method LOESS (locally estimated scatterplot smoothing)</span></span></code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>The fitted curve is bended upwards, due to the few outlier on the up-right corner (i.e., the 2seaters auto class). This creates a FALSE visual impression that hwy actually is improved when the engine is sufficiently large. To correct such FALSE impression, we can remove the outliers when adding the geom_smooth() layer.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="visualization-with-ggplot2.html#cb30-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(displ, hwy)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb30-2"><a href="visualization-with-ggplot2.html#cb30-2"></a><span class="st"> </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb30-3"><a href="visualization-with-ggplot2.html#cb30-3"></a><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">data =</span> mpg[mpg<span class="op">$</span>class<span class="op">!=</span><span class="st">&quot;2seater&quot;</span>,], <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy))   <span class="co"># remove the 2seater class as outlier when fitting the scatter plot</span></span></code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>Once the outliers are removed, the fitted line is no longer bended upwords. In the code above, geom_smooth() override the data and aesthetic inherited from ggplot(), and use its own data and aesthetic. This shows the great flexibility of ggplot2.</p>
+<p>In many case, we want to fit the scatter plot with linear line due to is clear interpretation. We can easily do that by changing the fitting method to “lm”.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="visualization-with-ggplot2.html#cb32-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="kw">aes</span>(displ, hwy)) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb32-2"><a href="visualization-with-ggplot2.html#cb32-2"></a><span class="st"> </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb32-3"><a href="visualization-with-ggplot2.html#cb32-3"></a><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">se=</span><span class="ot">FALSE</span>, <span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)<span class="op">+</span><span class="st">  </span><span class="co"># fit the scatter plot with linear line</span></span>
+<span id="cb32-4"><a href="visualization-with-ggplot2.html#cb32-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">data =</span> mpg[mpg<span class="op">$</span>class<span class="op">!=</span><span class="st">&quot;2seater&quot;</span>,], <span class="kw">aes</span>(<span class="dt">x=</span>displ, <span class="dt">y=</span>hwy),<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>, <span class="dt">se=</span><span class="ot">FALSE</span>, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>)     <span class="co"># fit the scatter plot with linear line without outliers</span></span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>If you have multiple geoms, then mapping an aesthetic to data variable inside the call to ggplot() will change all the geoms. It is also possible to make changes to individual geoms by passing arguments to the geom_*() functions.</p>
+</div>
+<div id="overplotting" class="section level2">
+<h2><span class="header-section-number">14.3</span> Overplotting</h2>
+<p>Did you notice that the plot displays only 126 points, even though there are 234 observations in the dataset? Also, no a single point overlay each other in the above chart. The values of hwy and displ are rounded so the points appear on a grid and many points overlap each other. This problem is known as overplotting.</p>
+<p>You can avoid this gridding by setting the position adjustment to “jitter.” position = “jitter” adds a small amount of random noise to each point. This spreads the points out because no two points are likely to receive the same amount of random noise:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="visualization-with-ggplot2.html#cb34-1"></a><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(displ, hwy)) <span class="op">+</span></span>
+<span id="cb34-2"><a href="visualization-with-ggplot2.html#cb34-2"></a><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">position=</span><span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.4</span>)  <span class="co"># alpha sets the transparency of the point</span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>geom_point() has an alpha argument that controls the opacity of the points. A value of 1 (the default) means that the points are totally opaque; a value of 0 means the points are totally transparent (and therefore invisible). Values in between specify transparency.</p>
+<p>we must always consider overplotting, particularly in the following four situations:</p>
+<ul>
+<li><p>Large datasets</p></li>
+<li><p>Aligned values on a single axis</p></li>
+<li><p>Low-precision data</p></li>
+<li><p>Integer data</p></li>
+</ul>
+<p>For example, the diamonds datast (also bundled with ggplot2 package) contains over 50,000 diamonds in terms their price, carat, clarity ….. You can plot the scatter plot for between carat and price for the diamonds dataset.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="visualization-with-ggplot2.html#cb35-1"></a><span class="kw">ggplot</span>(diamonds,<span class="kw">aes</span>(<span class="dt">x=</span>carat, <span class="dt">y=</span>price))<span class="op">+</span></span>
+<span id="cb35-2"><a href="visualization-with-ggplot2.html#cb35-2"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>This is a very large dataset, it is a best practice to set position=“jitter” to aviod over ploting.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="visualization-with-ggplot2.html#cb36-1"></a><span class="kw">ggplot</span>(diamonds,<span class="kw">aes</span>(<span class="dt">x=</span>carat, <span class="dt">y=</span>price))<span class="op">+</span></span>
+<span id="cb36-2"><a href="visualization-with-ggplot2.html#cb36-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position=</span><span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.2</span>)   </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>As seen in above chart, the jitter plot gives a strong visual clue of where most data is clustered.</p>
+<p>We can also customize the random disturbance in the point position using position_fitter(width), where width indicates how much random disturbance in the points.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="visualization-with-ggplot2.html#cb37-1"></a><span class="kw">ggplot</span>(diamonds,<span class="kw">aes</span>(<span class="dt">x=</span>carat, <span class="dt">y=</span>price))<span class="op">+</span><span class="st"> </span></span>
+<span id="cb37-2"><a href="visualization-with-ggplot2.html#cb37-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="fl">0.2</span>), <span class="dt">alpha=</span><span class="fl">0.1</span>)  <span class="co"># setting the width to 0.2</span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+<div id="bar-chart-and-statistical-transformation" class="section level2">
+<h2><span class="header-section-number">14.4</span> Bar chart and statistical transformation</h2>
+<p>Now, suppose we want to plot the number of Auto produced by each manufacturer using a bar chart. This can be done directly with geom_bar() function.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="visualization-with-ggplot2.html#cb38-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>mpg)<span class="op">+</span></span>
+<span id="cb38-2"><a href="visualization-with-ggplot2.html#cb38-2"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">x=</span>manufacturer))   </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>On the x-axis, the chart displays manufacturer, a variable from mpg dataset. On the y-axis, it displays count, but count is not a variable in mpg! Where does count come from? Many graphs, like scatterplots, plot the raw values of your dataset. Other graphs, like bar charts, calculate new values to plot:</p>
+<ul>
+<li><p>Bar charts, histograms, and frequency polygons bin your data and then plot bin counts, the number of points that fall in each bin.</p></li>
+<li><p>geom_smooth fit a model to your data and then plot predictions from the model.</p></li>
+<li><p>Boxplots compute a robust summary of the distribution and display a specially formatted box.</p></li>
+</ul>
+<p>The algorithm used to calculate new values for a graph is called a stat, short for statistical transformation.</p>
+<p>Let’s look at one example. The sample data shows the teaching evaluation of the three SCMA courses.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="visualization-with-ggplot2.html#cb39-1"></a>myData=<span class="kw">data.frame</span>(<span class="dt">course=</span><span class="kw">c</span>(<span class="st">&quot;SCMA350&quot;</span>, <span class="st">&quot;SCMA450&quot;</span>,<span class="st">&quot;SCMA451&quot;</span>),</span>
+<span id="cb39-2"><a href="visualization-with-ggplot2.html#cb39-2"></a>                  <span class="dt">evaluation=</span><span class="kw">c</span>(<span class="fl">3.8</span>,<span class="fl">4.1</span>,<span class="fl">4.1</span>))</span>
+<span id="cb39-3"><a href="visualization-with-ggplot2.html#cb39-3"></a>myData</span></code></pre></div>
+<pre><code>##    course evaluation
+## 1 SCMA350        3.8
+## 2 SCMA450        4.1
+## 3 SCMA451        4.1</code></pre>
+<p>We want to plot the evaluation score of each course on a bar chart.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="visualization-with-ggplot2.html#cb41-1"></a><span class="co"># this will generate a count for each category and plot count on y-axis.</span></span>
+<span id="cb41-2"><a href="visualization-with-ggplot2.html#cb41-2"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>myData)<span class="op">+</span></span>
+<span id="cb41-3"><a href="visualization-with-ggplot2.html#cb41-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>course))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>The y-axis is count; in other words, the code above counts the occurance of each course and plot that on the y-axis. To plot the evaluation data as it is, we need to set the y-axis as evaluation and set stat function as “identity”.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="visualization-with-ggplot2.html#cb42-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>myData)<span class="op">+</span></span>
+<span id="cb42-2"><a href="visualization-with-ggplot2.html#cb42-2"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>course, <span class="dt">y=</span>evaluation), <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>stat = “identity” tells the program to plot the data as it is, rather than generating the counts.</p>
+<p>Now, plot a bar chart to show the average hwy for each manufacturer. In this case, we need to use the stat function for computing average.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="visualization-with-ggplot2.html#cb43-1"></a><span class="co"># Plot a horizontal bar chart</span></span>
+<span id="cb43-2"><a href="visualization-with-ggplot2.html#cb43-2"></a><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> manufacturer , <span class="dt">y =</span> hwy)) <span class="op">+</span></span>
+<span id="cb43-3"><a href="visualization-with-ggplot2.html#cb43-3"></a><span class="st">  </span><span class="co"># Add a bar summary stat of means, colored skyblue</span></span>
+<span id="cb43-4"><a href="visualization-with-ggplot2.html#cb43-4"></a><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;skyblue&quot;</span>) </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>We can switch the x-axis and y-axis of a vertical bar chart so that the label for each manufacturer does not overlay each other.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="visualization-with-ggplot2.html#cb44-1"></a><span class="co"># Plot a horizontal bar chart</span></span>
+<span id="cb44-2"><a href="visualization-with-ggplot2.html#cb44-2"></a><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> manufacturer , <span class="dt">y =</span> hwy)) <span class="op">+</span></span>
+<span id="cb44-3"><a href="visualization-with-ggplot2.html#cb44-3"></a><span class="st">  </span><span class="co"># Add a bar summary stat of means, colored skyblue</span></span>
+<span id="cb44-4"><a href="visualization-with-ggplot2.html#cb44-4"></a><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;skyblue&quot;</span>, <span class="dt">color=</span><span class="st">&quot;skyblue&quot;</span>) <span class="op">+</span></span>
+<span id="cb44-5"><a href="visualization-with-ggplot2.html#cb44-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;manufacturer&quot;</span>, <span class="dt">y=</span><span class="st">&quot;highway miles per gallon&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="co"># add x/y labels</span></span>
+<span id="cb44-6"><a href="visualization-with-ggplot2.html#cb44-6"></a><span class="st">  </span><span class="kw">coord_flip</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>Or we can switch the x-y axis in the aes() mapping:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="visualization-with-ggplot2.html#cb45-1"></a><span class="co"># Plot a horizontal bar chart</span></span>
+<span id="cb45-2"><a href="visualization-with-ggplot2.html#cb45-2"></a><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> hwy, <span class="dt">y =</span> manufacturer)) <span class="op">+</span></span>
+<span id="cb45-3"><a href="visualization-with-ggplot2.html#cb45-3"></a><span class="st">  </span><span class="co"># Add a bar summary stat of means, colored skyblue</span></span>
+<span id="cb45-4"><a href="visualization-with-ggplot2.html#cb45-4"></a><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;skyblue&quot;</span>, <span class="dt">color=</span><span class="st">&quot;skyblue&quot;</span>) <span class="op">+</span></span>
+<span id="cb45-5"><a href="visualization-with-ggplot2.html#cb45-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;highway miles per gallon&quot;</span>, <span class="dt">y=</span><span class="st">&quot;manufacturer&quot;</span>) <span class="co"># add x/y labels</span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>We can add more detail information to the chart by showing each points through geom_point()</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="visualization-with-ggplot2.html#cb46-1"></a><span class="co"># Plot a horizontal bar chart</span></span>
+<span id="cb46-2"><a href="visualization-with-ggplot2.html#cb46-2"></a><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> manufacturer , <span class="dt">y =</span> hwy)) <span class="op">+</span></span>
+<span id="cb46-3"><a href="visualization-with-ggplot2.html#cb46-3"></a><span class="st">  </span></span>
+<span id="cb46-4"><a href="visualization-with-ggplot2.html#cb46-4"></a><span class="st">  </span><span class="co"># Add a bar summary stat of means, colored skyblue</span></span>
+<span id="cb46-5"><a href="visualization-with-ggplot2.html#cb46-5"></a><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;skyblue&quot;</span>, <span class="dt">color=</span><span class="st">&quot;skyblue&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>)<span class="op">+</span></span>
+<span id="cb46-6"><a href="visualization-with-ggplot2.html#cb46-6"></a></span>
+<span id="cb46-7"><a href="visualization-with-ggplot2.html#cb46-7"></a><span class="st">  </span><span class="co"># add points to show the hwy of each Auto under the same manufacturer</span></span>
+<span id="cb46-8"><a href="visualization-with-ggplot2.html#cb46-8"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position=</span><span class="kw">position_jitter</span>(<span class="dt">width =</span> <span class="fl">0.1</span>), <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb46-9"><a href="visualization-with-ggplot2.html#cb46-9"></a><span class="st">  </span></span>
+<span id="cb46-10"><a href="visualization-with-ggplot2.html#cb46-10"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;manufacturer&quot;</span>, <span class="dt">y=</span><span class="st">&quot;highway miles per gallon&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="co"># add x/y labels</span></span>
+<span id="cb46-11"><a href="visualization-with-ggplot2.html#cb46-11"></a><span class="st">  </span><span class="kw">coord_flip</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+</div>
+<div id="stacked-par" class="section level2">
+<h2><span class="header-section-number">14.5</span> stacked par</h2>
+<p>In some cases, we want to show the composition of each bar. Stacked bar chart is for this purpose.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="visualization-with-ggplot2.html#cb47-1"></a><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">y =</span> manufacturer, <span class="dt">fill =</span> class))<span class="op">+</span></span>
+<span id="cb47-2"><a href="visualization-with-ggplot2.html#cb47-2"></a><span class="st">  </span><span class="kw">geom_bar</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>The above charts shows how many types of car each manufacturer has.</p>
+<p>We can also stack bar side-by-side.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="visualization-with-ggplot2.html#cb48-1"></a><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span>hwy, <span class="dt">y =</span> manufacturer, <span class="dt">fill=</span>class)) <span class="op">+</span></span>
+<span id="cb48-2"><a href="visualization-with-ggplot2.html#cb48-2"></a><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge2</span>(<span class="dt">width =</span> <span class="dv">4</span>, <span class="dt">preserve =</span> <span class="st">&quot;single&quot;</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p>Again, we can facet the plot into subplot to show each sub-category.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="visualization-with-ggplot2.html#cb49-1"></a><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span>hwy, <span class="dt">y =</span> manufacturer, <span class="dt">fill=</span>class))<span class="op">+</span></span>
+<span id="cb49-2"><a href="visualization-with-ggplot2.html#cb49-2"></a><span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>)<span class="op">+</span></span>
+<span id="cb49-3"><a href="visualization-with-ggplot2.html#cb49-3"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>class, <span class="dt">nrow=</span><span class="dv">7</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="visualization-with-ggplot2.html#cb50-1"></a><span class="kw">ggsave</span>(<span class="st">&quot;Mydata.png&quot;</span>, <span class="dt">width =</span><span class="dv">10</span>, <span class="dt">height =</span> <span class="dv">27</span>, <span class="dt">units=</span><span class="st">&#39;cm&#39;</span>)</span></code></pre></div>
+</div>
+<div id="histogram" class="section level2">
+<h2><span class="header-section-number">14.6</span> Histogram</h2>
+<p>Histogram is a great to see the distribution of a variable.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="visualization-with-ggplot2.html#cb51-1"></a><span class="kw">ggplot</span>(mpg, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>hwy)) <span class="op">+</span></span>
+<span id="cb51-2"><a href="visualization-with-ggplot2.html#cb51-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>, <span class="dt">alpha=</span><span class="fl">0.8</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;gray&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>Histogram by group using facet_wrap() function</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="visualization-with-ggplot2.html#cb52-1"></a><span class="kw">ggplot</span>(mpg, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>hwy)) <span class="op">+</span></span>
+<span id="cb52-2"><a href="visualization-with-ggplot2.html#cb52-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;gray&quot;</span>)<span class="op">+</span></span>
+<span id="cb52-3"><a href="visualization-with-ggplot2.html#cb52-3"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>drv, <span class="dt">nrow =</span> <span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb52-4"><a href="visualization-with-ggplot2.html#cb52-4"></a><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">ratio=</span><span class="fl">0.3</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+</div>
+<div id="boxplot" class="section level2">
+<h2><span class="header-section-number">14.7</span> boxplot</h2>
+<p>Boxplot is a great way to show the median as well as its spread of a variable.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="visualization-with-ggplot2.html#cb53-1"></a><span class="kw">ggplot</span>(mpg, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>class, <span class="dt">y=</span>hwy)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb53-2"><a href="visualization-with-ggplot2.html#cb53-2"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+</div>
+<div id="line-chart" class="section level2">
+<h2><span class="header-section-number">14.8</span> line chart</h2>
+<p>Line chart is usually used to show how a variable change over time.
+We will use the economics dataset which contains the US economic time series.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="visualization-with-ggplot2.html#cb54-1"></a><span class="kw">head</span>(economics)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 6
+##   date         pce    pop psavert uempmed unemploy
+##   &lt;date&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+## 1 1967-07-01  507. 198712    12.6     4.5     2944
+## 2 1967-08-01  510. 198911    12.6     4.7     2945
+## 3 1967-09-01  516. 199113    11.9     4.6     2958
+## 4 1967-10-01  512. 199311    12.9     4.9     3143
+## 5 1967-11-01  517. 199498    12.8     4.7     3066
+## 6 1967-12-01  525. 199657    11.8     4.8     3018</code></pre>
+<p>Use a line chart to show how uempmed(unemployment rate) evolve over time:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="visualization-with-ggplot2.html#cb56-1"></a><span class="kw">ggplot</span>(economics, <span class="kw">aes</span>(date, uempmed)) <span class="op">+</span></span>
+<span id="cb56-2"><a href="visualization-with-ggplot2.html#cb56-2"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">alpha =</span> <span class="fl">0.7</span>) <span class="op">+</span></span>
+<span id="cb56-3"><a href="visualization-with-ggplot2.html#cb56-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;date&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;unemployment rate&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>Use a line chart to show how pce(personal consumption expenditures, in billions $) evolve over time:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="visualization-with-ggplot2.html#cb57-1"></a><span class="kw">ggplot</span>(economics, <span class="kw">aes</span>(date, pce)) <span class="op">+</span></span>
+<span id="cb57-2"><a href="visualization-with-ggplot2.html#cb57-2"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">alpha =</span> <span class="fl">0.7</span>) <span class="op">+</span></span>
+<span id="cb57-3"><a href="visualization-with-ggplot2.html#cb57-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;date&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;personal consumption expenditures&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+</div>
+<div id="use-theme-to-customize-the-appearance-of-your-chart." class="section level2">
+<h2><span class="header-section-number">14.9</span> use theme to customize the appearance of your chart.</h2>
+<p>Many plot elements have multiple properties that can be set. For example, line elements in the plot such as axes and gridlines have a color, a thickness (size), and a line type (solid line, dashed, or dotted). To set the style of a line, you use element_line(). For example, to make the axis lines into red, dashed lines, you would use the following.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="visualization-with-ggplot2.html#cb58-1"></a>g=<span class="kw">ggplot</span>(economics, <span class="kw">aes</span>(date, pce)) <span class="op">+</span></span>
+<span id="cb58-2"><a href="visualization-with-ggplot2.html#cb58-2"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">alpha =</span> <span class="fl">0.7</span>) <span class="op">+</span></span>
+<span id="cb58-3"><a href="visualization-with-ggplot2.html#cb58-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;date&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;personal consumption expenditures&quot;</span>)</span>
+<span id="cb58-4"><a href="visualization-with-ggplot2.html#cb58-4"></a></span>
+<span id="cb58-5"><a href="visualization-with-ggplot2.html#cb58-5"></a>g <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.line =</span> <span class="kw">element_line</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;solid&quot;</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>Built-in themes: In addition to making your own themes, there are several out-of-the-box solutions that may save you lots of time.</p>
+<ul>
+<li><p>theme_gray() is the default.</p></li>
+<li><p>theme_bw() is useful when you use transparency.</p></li>
+<li><p>theme_classic() is more traditional.</p></li>
+<li><p>theme_void() removes everything but the data.</p></li>
+</ul>
+<p>The theme_classic() is the my go-to-theme.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="visualization-with-ggplot2.html#cb59-1"></a>g<span class="op">+</span><span class="kw">theme_classic</span>() </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>When the x/y axis goes too high, we may want to compress the axis through log-transformation.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="visualization-with-ggplot2.html#cb60-1"></a>g<span class="op">+</span><span class="st"> </span></span>
+<span id="cb60-2"><a href="visualization-with-ggplot2.html#cb60-2"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb60-3"><a href="visualization-with-ggplot2.html#cb60-3"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">trans=</span><span class="st">&#39;log10&#39;</span>) <span class="co"># this code log transform y axis</span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+</div>
+<div id="summary-9" class="section level2">
+<h2><span class="header-section-number">14.10</span> Summary</h2>
+<ul>
+<li><p>The general syntax for ggplot() is:
+ggplot(data = <strong>DATA</strong>, mapping = aes(<strong>MAPPINGS</strong>)) +
+<strong>GEOM_FUNCTION</strong>(data = <strong>DATA</strong>, mapping = aes(<strong>MAPPINGS</strong>))</p></li>
+<li><p>To make a graph, replace the <strong>bold</strong> sections in the above code with a dataset, a geom function, and a collection of aesthetic mappings.</p></li>
+<li><p>We use geom_point() function to make scatter plot: Scatter plot can plot two variables on the x/y axis.</p></li>
+<li><p>To include more information on scatter plot, we can use aesthetic (e.g., color, fill, shape, size). It is the best practice to map discrete variables to color, fill, shape, while continuous variable to size. We can also use facet to create sub-plot for each sub-category.</p></li>
+<li><p>Use geom_smooth() to add fitted line to the scatter plot.</p></li>
+<li><p>Set position=“jitter” to add random disturbance to avoid overplotting.</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-cleaning-ii.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/13-ggplot2_1.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Best Subset Model Selection with Training/Test Set
+
+
+```{r, include=FALSE}
+# Load packages into R:
+library(data.table)
+library(ggplot2)
+library(corrplot)
+library(leaps)
+```
+
+As mentioned, it is not always best to include every variable into the linear regression model. We need to select the best subset of variables to include. The best subset algorithm exhausts every possible combination to select the best model of each size. However, this algorithm cannot be scaled up, so we use forward selection, which will add variables sequentially.
+
+The forward model selection will generate $p$ different models with distinct model size from $1, 2, ..., p$, where $p$ is the total number of independent variables. Thus, we need to choose the best model among these $p$ models.
+
+Previously, we used adj-R2, Cp, AIC and BIC for model selection. In this chapter, we will use training and test set to select the best model.
+
+## Create training/test set
+There is no definitive rule on how much proportation of data goes to training set or test set. A typical rule of thumb is 80% of data goes to training set and 20% goes to test set. 
+```{r}
+Boston=fread("data/Boston.csv")             # load the data into R
+Boston[,location:=factor(location)]
+Boston[,chas:=factor(chas)]
+
+num_row=nrow(Boston)  # check the number of rows
+
+# Random select the training set
+set.seed(1) # set the rand seed to ensure replicability 
+
+train_size=round(0.8*num_row,0)  # set the size of training set
+
+# randomly select train_size=300 numbers from the sequence of 1 to nrow(Boston)=506
+train=sample(1:num_row, train_size, replace=FALSE)
+
+# the training set: Boston[train]
+head(Boston[train])
+
+# the test set: Boston[-train]
+head(Boston[-train])
+```
+
+## Evaluate the Best subset regression through training/test set
+```{r}
+# find best subset based on training data
+fwd_fit=regsubsets(medv~., data=Boston[train,], nvmax=18, method="forward")
+fwd_fit_sum=summary(fwd_fit)
+fwd_fit_sum
+```
+Again, summary(fwd_fit) narrows down to 16 different models with distinct model size. Now let's examine which model results in the best out-of-sample predication over the test set.
+
+Construct test set in the same format of training set:
+```{r}
+test_set=model.matrix(medv ~ .,data=Boston[-train,])  
+head(test_set)
+```
+Note: model.matrix() is a function to create a matrix which has the same columns as the regression dataset based on a formula. 
+
+Compute the out-of-sample prediction error based on test set:
+```{r}
+#Initialize the vector for saving the mse (mean square error) err over the test set:
+test_set_mse=rep(NA,16)   
+
+for(i in 1:16){
+  
+  coefi=coef(fwd_fit,id=i)
+  
+  # compute the out-of-sample prediction for model i
+  pred=test_set[,names(coefi)]%*%coefi
+  
+  # compute the MSE for model i
+  test_set_mse[i]=mean((Boston$medv[-train]-pred)^2)
+
+}
+
+```
+
+Calculate rMSE and choose the best model to minimize rMSE:
+```{r}
+test_set_rmse=sqrt(test_set_mse)
+
+plot(test_set_rmse,ylab="Root MSE", type="b")
+
+opt_id=which.min(test_set_rmse) 
+
+points(opt_id,test_set_rmse[opt_id],pch=20,col="red")
+```
+Observation: which model to choose? -- the model with 11 variables, it minimizes the out-of-sample prediction.
+
+
+```{r}
+# obtain the model parameter for the best model
+coef(fwd_fit,id=opt_id)
+```
+
+Plot the optimal out-of-sample prediction:
+```{r}
+coefi=coef(fwd_fit,id=opt_id)
+opt_pred=test_set[,names(coefi)]%*%coefi
+
+plot(Boston$lstat[-train], Boston$medv[-train])
+points(Boston$lstat[-train], opt_pred,col="blue")
+
+# Mean Absolute Error
+mean(abs(Boston$medv[-train]-opt_pred))
+
+# Mean Absolute Percent Error
+mean(abs(Boston$medv[-train]-opt_pred)/Boston$medv[-train])
+```
+
+
+
+## Exercise
+```{r}
+# pre-process the data to include log-transformation, polynoimal terms
+formula=as.formula(medv~.-lstat+log(lstat))
+
+# find best subset based on training data
+fwd_fit=regsubsets(formula, data=Boston[train,], nvmax=18, method="forward")
+fwd_fit_sum=summary(fwd_fit)
+fwd_fit_sum
+
+# Construct test set in the same format of training set:
+test_set=model.matrix(formula, data=Boston[-train,])  
+head(test_set)
+```
+Note: model.matrix() is a function to create a matrix which has the same columns as the regression dataset based on a formula. 
+
+Compute the out-of-sample prediction error based on test set:
+```{r}
+#Initialize the vector for saving the mse (mean square error) err over the test set:
+test_set_mse=rep(NA,16)   
+
+for(i in 1:16){
+  
+  coefi=coef(fwd_fit,id=i)
+  pred=test_set[,names(coefi)]%*%coefi
+  test_set_mse[i]=mean((Boston$medv[-train]-pred)^2)
+
+}
+
+```
+
+Calculate rMSE and choose the best model to minimize rMSE:
+```{r}
+test_set_rmse=sqrt(test_set_mse)
+
+plot(test_set_rmse,ylab="Root MSE", type="b")
+
+opt_id=which.min(test_set_rmse) 
+
+points(opt_id,test_set_rmse[opt_id],pch=20,col="red")
+```
+
+Plot the optimal out-of-sample prediction:
+```{r}
+# obtain the model parameter for the best model
+coefi=coef(fwd_fit,id=opt_id)
+
+opt_pred=test_set[,names(coefi)]%*%coefi
+  
+plot(Boston$lstat[-train], Boston$medv[-train])
+points(Boston$lstat[-train], opt_pred,col="blue")
+
+# Mean Absolute Error
+mean(abs(Boston$medv[-train]-opt_pred))
+
+# Mean Absolute Percent Error
+mean(abs(Boston$medv[-train]-opt_pred)/Boston$medv[-train])
+
+```
+
+
+

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 10 Join Mutliple Datasets | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 10 Join Mutliple Datasets | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 10 Join Mutliple Datasets | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="use-data.table-package-for-big-data-ii.html"/>
+<link rel="next" href="put-it-together-explore-big-data-with-data.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2 I</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html"><i class="fa fa-check"></i><b>15</b> Visualization with ggplot2 II</a><ul>
+<li class="chapter" data-level="15.1" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#bar-chart-and-statistical-transformation-1"><i class="fa fa-check"></i><b>15.1</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="15.2" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#stacked-par-1"><i class="fa fa-check"></i><b>15.2</b> stacked par</a></li>
+<li class="chapter" data-level="15.3" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#histogram-1"><i class="fa fa-check"></i><b>15.3</b> Histogram</a></li>
+<li class="chapter" data-level="15.4" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#boxplot-1"><i class="fa fa-check"></i><b>15.4</b> boxplot</a></li>
+<li class="chapter" data-level="15.5" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#line-chart-1"><i class="fa fa-check"></i><b>15.5</b> line chart</a></li>
+<li class="chapter" data-level="15.6" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#use-theme-to-customize-the-appearance-of-your-chart.-1"><i class="fa fa-check"></i><b>15.6</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="15.7" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#summary-10"><i class="fa fa-check"></i><b>15.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html"><i class="fa fa-check"></i><b>16</b> Visualization with ggplot2 III</a><ul>
+<li class="chapter" data-level="16.1" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-world-map"><i class="fa fa-check"></i><b>16.1</b> Draw world map</a></li>
+<li class="chapter" data-level="16.2" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-map"><i class="fa fa-check"></i><b>16.2</b> Draw US map</a></li>
+<li class="chapter" data-level="16.3" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-county-map"><i class="fa fa-check"></i><b>16.3</b> draw US county map</a></li>
+<li class="chapter" data-level="16.4" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#summary-11"><i class="fa fa-check"></i><b>16.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html"><i class="fa fa-check"></i><b>17</b> Visualization with ggplot2 - Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-of-scatter-plot-to-show-how-two-variables-evolve-over-time-simultaneously"><i class="fa fa-check"></i><b>17.1</b> Animation of scatter plot to show how two variables evolve over time simultaneously</a></li>
+<li class="chapter" data-level="17.2" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#use-a-line-chart-to-show-how-gdppercap-evolve-over-time"><i class="fa fa-check"></i><b>17.2</b> Use a line chart to show how gdpPercap evolve over time</a></li>
+<li class="chapter" data-level="17.3" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-with-bar-chart"><i class="fa fa-check"></i><b>17.3</b> Animation with Bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>18</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="18.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#examine-and-explore-the-data"><i class="fa fa-check"></i><b>18.1</b> Examine and explore the data</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#correlation-matrix"><i class="fa fa-check"></i><b>18.1.1</b> Correlation matrix</a></li>
+<li class="chapter" data-level="18.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#scatter-plot-1"><i class="fa fa-check"></i><b>18.1.2</b> Scatter plot</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#develop-simple-linear-regression-model"><i class="fa fa-check"></i><b>18.2</b> Develop simple linear regression model</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>18.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="18.2.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#how-to-interpret-the-coefficient-estimates"><i class="fa fa-check"></i><b>18.2.2</b> How to interpret the coefficient estimates?</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#overall-model-fittness"><i class="fa fa-check"></i><b>18.3</b> Overall model fittness</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-diagnoise"><i class="fa fa-check"></i><b>18.3.1</b> Regression Diagnoise</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#use-estimated-model-for-prediction"><i class="fa fa-check"></i><b>18.4</b> Use estimated model for prediction</a></li>
+<li class="chapter" data-level="18.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#summary-12"><i class="fa fa-check"></i><b>18.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html"><i class="fa fa-check"></i><b>19</b> Log Tranformation and Polynomial Terms</a><ul>
+<li class="chapter" data-level="19.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#log-transformation"><i class="fa fa-check"></i><b>19.1</b> Log-transformation</a></li>
+<li class="chapter" data-level="19.2" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#quadratic-regression"><i class="fa fa-check"></i><b>19.2</b> Quadratic regression</a></li>
+<li class="chapter" data-level="19.3" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#polynomial-regression"><i class="fa fa-check"></i><b>19.3</b> Polynomial regression</a></li>
+<li class="chapter" data-level="19.4" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#summary-13"><i class="fa fa-check"></i><b>19.4</b> Summary</a></li>
+<li class="chapter" data-level="19.5" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#exercise-3"><i class="fa fa-check"></i><b>19.5</b> Exercise</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#solution"><i class="fa fa-check"></i><b>19.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html"><i class="fa fa-check"></i><b>20</b> Mutiple Linear Regression</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#mutiple-linear-regression-1"><i class="fa fa-check"></i><b>20.1</b> Mutiple linear regression</a></li>
+<li class="chapter" data-level="20.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#categorical-variables"><i class="fa fa-check"></i><b>20.2</b> Categorical variables</a></li>
+<li class="chapter" data-level="20.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#interprate-coefficients---keeping-all-other-variables-the-same"><i class="fa fa-check"></i><b>20.3</b> Interprate coefficients - Keeping all other variables the same</a></li>
+<li class="chapter" data-level="20.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#multicollinearity"><i class="fa fa-check"></i><b>20.4</b> Multicollinearity</a></li>
+<li class="chapter" data-level="20.5" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#excerise"><i class="fa fa-check"></i><b>20.5</b> Excerise</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#examine-the-frequency-of-chas"><i class="fa fa-check"></i><b>20.5.1</b> Examine the frequency of chas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#visualize-the-house-price-with-ggplot2"><i class="fa fa-check"></i><b>20.5.2</b> Visualize the house price with ggplot2</a></li>
+<li class="chapter" data-level="20.5.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#estimate-the-linear-regression-model"><i class="fa fa-check"></i><b>20.5.3</b> estimate the linear regression model</a></li>
+<li class="chapter" data-level="20.5.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#plot-the-fitted-line"><i class="fa fa-check"></i><b>20.5.4</b> plot the fitted line</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html"><i class="fa fa-check"></i><b>21</b> Best Subset Model Selection</a><ul>
+<li class="chapter" data-level="21.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#best-subset-model-selection-1"><i class="fa fa-check"></i><b>21.1</b> Best Subset Model Selection</a></li>
+<li class="chapter" data-level="21.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#deterimining-the-best-model-with-adj-r2-cp-aic-and-bic"><i class="fa fa-check"></i><b>21.2</b> Deterimining the best model with adj-R2, Cp, AIC, and BIC</a><ul>
+<li class="chapter" data-level="21.2.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#r-squared-is-not-a-good-criteria-for-model-selection"><i class="fa fa-check"></i><b>21.2.1</b> R-squared is not a good criteria for model selection</a></li>
+<li class="chapter" data-level="21.2.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-adjusted-r2"><i class="fa fa-check"></i><b>21.2.2</b> Select the best model using Adjusted R2</a></li>
+<li class="chapter" data-level="21.2.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-cp"><i class="fa fa-check"></i><b>21.2.3</b> Select the best model using Cp</a></li>
+<li class="chapter" data-level="21.2.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-bic"><i class="fa fa-check"></i><b>21.2.4</b> Select the best model using BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#forwardbackward-selection"><i class="fa fa-check"></i><b>21.3</b> Forward/Backward selection</a></li>
+<li class="chapter" data-level="21.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#summary-14"><i class="fa fa-check"></i><b>21.4</b> Summary:</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>22</b> Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#create-trainingtest-set"><i class="fa fa-check"></i><b>22.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="22.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-selection"><i class="fa fa-check"></i><b>22.2</b> Model selection</a><ul>
+<li class="chapter" data-level="22.2.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#estimate-the-model-using-training-set"><i class="fa fa-check"></i><b>22.2.1</b> estimate the model using training set</a></li>
+<li class="chapter" data-level="22.2.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#evaluate-the-models-out-of-sample-prediction-using-test-set"><i class="fa fa-check"></i><b>22.2.2</b> evaluate the models’ out-of-sample prediction using test set</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-4-has-the-problem-of-over-fitting"><i class="fa fa-check"></i><b>22.3</b> Model 4 has the problem of over-fitting</a></li>
+<li class="chapter" data-level="22.4" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#other-commonly-used-metrics-for-prediction-performance"><i class="fa fa-check"></i><b>22.4</b> Other Commonly Used Metrics for Prediction performance</a></li>
+<li class="chapter" data-level="22.5" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#summary-15"><i class="fa fa-check"></i><b>22.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>23</b> Best Subset Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="23.1" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#create-trainingtest-set-1"><i class="fa fa-check"></i><b>23.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="23.2" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#evaluate-the-best-subset-regression-through-trainingtest-set"><i class="fa fa-check"></i><b>23.2</b> Evaluate the Best subset regression through training/test set</a></li>
+<li class="chapter" data-level="23.3" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#exercise-4"><i class="fa fa-check"></i><b>23.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="decision-tree.html"><a href="decision-tree.html"><i class="fa fa-check"></i><b>24</b> Decision Tree</a></li>
+<li class="chapter" data-level="25" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html"><i class="fa fa-check"></i><b>25</b> Maching Learning with Caret</a><ul>
+<li class="chapter" data-level="25.1" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest"><i class="fa fa-check"></i><b>25.1</b> Random Forest</a></li>
+<li class="chapter" data-level="25.2" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest-1"><i class="fa fa-check"></i><b>25.2</b> Random Forest</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="join-mutliple-datasets" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> Join Mutliple Datasets</h1>
+<p>It’s rare that data scientists work with only a single table of data during a project. Typically you have many tables of data, and you must combine them to answer the questions that you’re interested in. Collectively, multiple tables of data are called relational data because it is the relations, not just the individual datasets, that are important.</p>
+<p>As an illustration, in addition to the flights dataset, we will use</p>
+<ul>
+<li><p>“planes.csv”, which contains the information about the airplane for each flights in the “flights.csv” dataset</p></li>
+<li><p>and “weather.csv” dataset, which contains the weather information for the time period when “flights.csv” is collected.</p></li>
+</ul>
+<p>First thing first, we need to load the data.table into R.</p>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="join-mutliple-datasets.html#cb461-1"></a><span class="kw">library</span>(data.table)</span></code></pre></div>
+<p>Let’s read these three data file into R using fread() and examine these datasets.</p>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="join-mutliple-datasets.html#cb462-1"></a>flights=<span class="kw">fread</span>(<span class="st">&quot;data/flights.csv&quot;</span>)</span>
+<span id="cb462-2"><a href="join-mutliple-datasets.html#cb462-2"></a><span class="kw">str</span>(flights)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   336776 obs. of  19 variables:
+##  $ year          : int  2013 2013 2013 2013 2013 2013 2013 2013 2013 2013 ...
+##  $ month         : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ day           : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ dep_time      : int  517 533 542 544 554 554 555 557 557 558 ...
+##  $ sched_dep_time: int  515 529 540 545 600 558 600 600 600 600 ...
+##  $ dep_delay     : int  2 4 2 -1 -6 -4 -5 -3 -3 -2 ...
+##  $ arr_time      : int  830 850 923 1004 812 740 913 709 838 753 ...
+##  $ sched_arr_time: int  819 830 850 1022 837 728 854 723 846 745 ...
+##  $ arr_delay     : int  11 20 33 -18 -25 12 19 -14 -8 8 ...
+##  $ carrier       : chr  &quot;UA&quot; &quot;UA&quot; &quot;AA&quot; &quot;B6&quot; ...
+##  $ flight        : int  1545 1714 1141 725 461 1696 507 5708 79 301 ...
+##  $ tailnum       : chr  &quot;N14228&quot; &quot;N24211&quot; &quot;N619AA&quot; &quot;N804JB&quot; ...
+##  $ origin        : chr  &quot;EWR&quot; &quot;LGA&quot; &quot;JFK&quot; &quot;JFK&quot; ...
+##  $ dest          : chr  &quot;IAH&quot; &quot;IAH&quot; &quot;MIA&quot; &quot;BQN&quot; ...
+##  $ air_time      : int  227 227 160 183 116 150 158 53 140 138 ...
+##  $ distance      : int  1400 1416 1089 1576 762 719 1065 229 944 733 ...
+##  $ hour          : int  5 5 5 5 6 5 6 6 6 6 ...
+##  $ minute        : int  15 29 40 45 0 58 0 0 0 0 ...
+##  $ time_hour     : POSIXct, format: &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="join-mutliple-datasets.html#cb464-1"></a>weather=<span class="kw">fread</span>(<span class="st">&quot;data/weather.csv&quot;</span>)</span>
+<span id="cb464-2"><a href="join-mutliple-datasets.html#cb464-2"></a><span class="kw">str</span>(weather)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   26115 obs. of  15 variables:
+##  $ origin    : chr  &quot;EWR&quot; &quot;EWR&quot; &quot;EWR&quot; &quot;EWR&quot; ...
+##  $ year      : int  2013 2013 2013 2013 2013 2013 2013 2013 2013 2013 ...
+##  $ month     : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ day       : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ hour      : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ temp      : num  39 39 39 39.9 39 ...
+##  $ dewp      : num  26.1 27 28 28 28 ...
+##  $ humid     : num  59.4 61.6 64.4 62.2 64.4 ...
+##  $ wind_dir  : int  270 250 240 250 260 240 240 250 260 260 ...
+##  $ wind_speed: num  10.36 8.06 11.51 12.66 12.66 ...
+##  $ wind_gust : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ precip    : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ pressure  : num  1012 1012 1012 1012 1012 ...
+##  $ visib     : num  10 10 10 10 10 10 10 10 10 10 ...
+##  $ time_hour : POSIXct, format: &quot;2013-01-01 01:00:00&quot; &quot;2013-01-01 02:00:00&quot; ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<p>Weather is uniquely identify by “origin, year, month, day, hour”; it records the weather at particular origin airport at particular hour of a day. Generally, each dataset should have a set of variables (also called key) to uniquely identify an observation.</p>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="join-mutliple-datasets.html#cb466-1"></a>planes=<span class="kw">fread</span>(<span class="st">&quot;data/planes.csv&quot;</span>)</span>
+<span id="cb466-2"><a href="join-mutliple-datasets.html#cb466-2"></a><span class="kw">str</span>(planes)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   3322 obs. of  9 variables:
+##  $ tailnum     : chr  &quot;N10156&quot; &quot;N102UW&quot; &quot;N103US&quot; &quot;N104UW&quot; ...
+##  $ year        : int  2004 1998 1999 1999 2002 1999 1999 1999 1999 1999 ...
+##  $ type        : chr  &quot;Fixed wing multi engine&quot; &quot;Fixed wing multi engine&quot; &quot;Fixed wing multi engine&quot; &quot;Fixed wing multi engine&quot; ...
+##  $ manufacturer: chr  &quot;EMBRAER&quot; &quot;AIRBUS INDUSTRIE&quot; &quot;AIRBUS INDUSTRIE&quot; &quot;AIRBUS INDUSTRIE&quot; ...
+##  $ model       : chr  &quot;EMB-145XR&quot; &quot;A320-214&quot; &quot;A320-214&quot; &quot;A320-214&quot; ...
+##  $ engines     : int  2 2 2 2 2 2 2 2 2 2 ...
+##  $ seats       : int  55 182 182 182 55 182 182 182 182 182 ...
+##  $ speed       : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ engine      : chr  &quot;Turbo-fan&quot; &quot;Turbo-fan&quot; &quot;Turbo-fan&quot; &quot;Turbo-fan&quot; ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<p>The key of planes dataset is tailnum, the unique ID of a plane.</p>
+<div id="join-files-using-merge" class="section level3">
+<h3><span class="header-section-number">10.0.1</span> Join files using merge()</h3>
+<p>The merge() function also exists in data.frame to merge data.frames. data.table also implement this function so that we can use the merge() function to join two data.table.</p>
+<p>Between we talk about the syntax of merge(), we need to understand the 4 different types of join.</p>
+<ul>
+<li><p>inner join</p></li>
+<li><p>full join</p></li>
+<li><p>left join</p></li>
+<li><p>right join</p></li>
+</ul>
+<p>Don’t be overwhelmed! They are actually very similar. The general syntax of merge() is:</p>
+<p>merge(x = dt1, y = dt2, by.x = “name”, by.y = “name”, all.x=FALSE, all.y=FALSE)</p>
+<p>The 4 cases of all.x and all.y corresponds to 4 different types of join. Note that the default value of all.x and all.y are FALSE.</p>
+</div>
+<div id="inner-join" class="section level3">
+<h3><span class="header-section-number">10.0.2</span> inner join</h3>
+<p>We will start with an example.</p>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="join-mutliple-datasets.html#cb468-1"></a>tmp=<span class="kw">merge</span>(flights, planes, <span class="dt">by.x=</span><span class="st">&quot;tailnum&quot;</span>, <span class="dt">by.y=</span><span class="st">&quot;tailnum&quot;</span>)</span>
+<span id="cb468-2"><a href="join-mutliple-datasets.html#cb468-2"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    tailnum year.x month day dep_time sched_dep_time dep_delay arr_time
+## 1:  N10156   2013     1  10      626            630        -4      802
+## 2:  N10156   2013     1  10     1120           1032        48     1320
+## 3:  N10156   2013     1  10     1619           1540        39     1831
+## 4:  N10156   2013     1  11      632            634        -2      810
+## 5:  N10156   2013     1  11     1116           1120        -4     1328
+## 6:  N10156   2013     1  11     1845           1819        26     1959
+##    sched_arr_time arr_delay carrier flight origin dest air_time distance hour
+## 1:            800         2      EV   4560    EWR  PIT       60      319    6
+## 2:           1240        40      EV   4269    EWR  CHS       99      628   10
+## 3:           1744        47      EV   4667    EWR  MSP      175     1008   15
+## 4:            822       -12      EV   4334    EWR  CMH       81      463    6
+## 5:           1336        -8      EV   4298    EWR  MCI      171     1092   11
+## 6:           1932        27      EV   4520    EWR  PWM       49      284   18
+##    minute           time_hour year.y                    type manufacturer
+## 1:     30 2013-01-10 06:00:00   2004 Fixed wing multi engine      EMBRAER
+## 2:     32 2013-01-10 10:00:00   2004 Fixed wing multi engine      EMBRAER
+## 3:     40 2013-01-10 15:00:00   2004 Fixed wing multi engine      EMBRAER
+## 4:     34 2013-01-11 06:00:00   2004 Fixed wing multi engine      EMBRAER
+## 5:     20 2013-01-11 11:00:00   2004 Fixed wing multi engine      EMBRAER
+## 6:     19 2013-01-11 18:00:00   2004 Fixed wing multi engine      EMBRAER
+##        model engines seats speed    engine
+## 1: EMB-145XR       2    55    NA Turbo-fan
+## 2: EMB-145XR       2    55    NA Turbo-fan
+## 3: EMB-145XR       2    55    NA Turbo-fan
+## 4: EMB-145XR       2    55    NA Turbo-fan
+## 5: EMB-145XR       2    55    NA Turbo-fan
+## 6: EMB-145XR       2    55    NA Turbo-fan</code></pre>
+<p>This is the inner join: only observations with tailnum in both data.table are kept. The unmatched observation is not kept. You can check the dimension of the merged data.table. You will find that the number of observation in the merged data is smaller than both flights and planes. This is because unmatched rows will be removed.</p>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="join-mutliple-datasets.html#cb470-1"></a><span class="kw">dim</span>(tmp)</span></code></pre></div>
+<pre><code>## [1] 284170     27</code></pre>
+<p>Since “tailnum” has the same column name in both data.table, we can simplify the code as</p>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="join-mutliple-datasets.html#cb472-1"></a>tmp=<span class="kw">merge</span>(flights, planes, <span class="dt">by=</span><span class="st">&quot;tailnum&quot;</span>)</span></code></pre></div>
+<p>If you examine tmp carefully, you will find the new variable year.x and year.y. This is because year appears in both flights and planes dataset; when merge these two datasets, we need to differentiate which dataset the year variable is from. Based on argument position, flight is at x and plane is at y, thus R will automatically rename the variables of same name to mark their sources.</p>
+</div>
+<div id="full-join" class="section level3">
+<h3><span class="header-section-number">10.0.3</span> full join</h3>
+<p>Full join keeps all observations that are in either data.table. The code is exactly the same except letting all.x=TRUE and all.y=TRUE, meaning the merge will keep all observation from x and all observation from y.</p>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="join-mutliple-datasets.html#cb473-1"></a>tmp=<span class="kw">merge</span>(flights, planes, <span class="dt">by=</span><span class="st">&quot;tailnum&quot;</span>, <span class="dt">all.x =</span> <span class="ot">TRUE</span>, <span class="dt">all.y =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="left-joinright-join" class="section level3">
+<h3><span class="header-section-number">10.0.4</span> left join/right join</h3>
+<p>Left join adds information from the right data.table to the left data.table. E.g., we want to add the plane information to the flights dataset.</p>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="join-mutliple-datasets.html#cb474-1"></a>tmp=<span class="kw">merge</span>(flights, planes, <span class="dt">by=</span><span class="st">&quot;tailnum&quot;</span>, <span class="dt">all.x =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>Since we want to add information to flights, therefore, we will keep all flights information; Thus, in the above code, we set all.x=TRUE.</p>
+<p>Right join is essentially the same with left join; we can always switch the position of x and y data.table to achieve the same goal.</p>
+<p>left/right join is the most common join in data analysis, because we constantly need to add information to the main dataset.</p>
+</div>
+<div id="merge-dataset-using-data.table-syntax" class="section level2">
+<h2><span class="header-section-number">10.1</span> Merge dataset using data.table syntax</h2>
+<p>The data.table syntax for joining is as below:</p>
+<p>DT2[DT1, on=.(name)]</p>
+<p>The code will add information from DT2 to DT1, and the variable to match DT1 and DT2 is name. The default join in data.table is right join.</p>
+<p>If the variable name are different in DT1 and DT2, we can modify the code as:</p>
+<p>DT2[DT1, on=c(name2=“name1”)]</p>
+<p>Let’s look at an example: add the planes information to the flights dataset.</p>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="join-mutliple-datasets.html#cb475-1"></a>tmp=planes[flights, on=.(tailnum)]</span>
+<span id="cb475-2"><a href="join-mutliple-datasets.html#cb475-2"></a><span class="kw">dim</span>(tmp)</span></code></pre></div>
+<pre><code>## [1] 336776     27</code></pre>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="join-mutliple-datasets.html#cb477-1"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    tailnum year                    type manufacturer     model engines seats
+## 1:  N14228 1999 Fixed wing multi engine       BOEING   737-824       2   149
+## 2:  N24211 1998 Fixed wing multi engine       BOEING   737-824       2   149
+## 3:  N619AA 1990 Fixed wing multi engine       BOEING   757-223       2   178
+## 4:  N804JB 2012 Fixed wing multi engine       AIRBUS  A320-232       2   200
+## 5:  N668DN 1991 Fixed wing multi engine       BOEING   757-232       2   178
+## 6:  N39463 2012 Fixed wing multi engine       BOEING 737-924ER       2   191
+##    speed    engine i.year month day dep_time sched_dep_time dep_delay arr_time
+## 1:    NA Turbo-fan   2013     1   1      517            515         2      830
+## 2:    NA Turbo-fan   2013     1   1      533            529         4      850
+## 3:    NA Turbo-fan   2013     1   1      542            540         2      923
+## 4:    NA Turbo-fan   2013     1   1      544            545        -1     1004
+## 5:    NA Turbo-fan   2013     1   1      554            600        -6      812
+## 6:    NA Turbo-fan   2013     1   1      554            558        -4      740
+##    sched_arr_time arr_delay carrier flight origin dest air_time distance hour
+## 1:            819        11      UA   1545    EWR  IAH      227     1400    5
+## 2:            830        20      UA   1714    LGA  IAH      227     1416    5
+## 3:            850        33      AA   1141    JFK  MIA      160     1089    5
+## 4:           1022       -18      B6    725    JFK  BQN      183     1576    5
+## 5:            837       -25      DL    461    LGA  ATL      116      762    6
+## 6:            728        12      UA   1696    EWR  ORD      150      719    5
+##    minute           time_hour
+## 1:     15 2013-01-01 05:00:00
+## 2:     29 2013-01-01 05:00:00
+## 3:     40 2013-01-01 05:00:00
+## 4:     45 2013-01-01 05:00:00
+## 5:      0 2013-01-01 06:00:00
+## 6:     58 2013-01-01 05:00:00</code></pre>
+<p>The dimension of the merged dataset indicates that all rows of flights dataset are kept. This is because we are adding plane information to the flights dataset. Be really careful about the where to put the main dataset (should be inside the [] because the default is right join).</p>
+<p>Examing the merged dataset, you will find a new variable i.year, which indicates the year from flights dataset (because flights is in the i argument position).</p>
+<p>For inner join, i.e., removing unmatched rows, we can set nomatch=0, as shown below:</p>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="join-mutliple-datasets.html#cb479-1"></a>tmp=planes[flights, on=.(tailnum), nomatch=<span class="dv">0</span>]</span>
+<span id="cb479-2"><a href="join-mutliple-datasets.html#cb479-2"></a><span class="kw">dim</span>(tmp)</span></code></pre></div>
+<pre><code>## [1] 284170     27</code></pre>
+<p>Full join is not possible with the data.table syntax, use the merge() function instead. You must be wondering why we need another way of joining data.table. This is because, with the data.table syntax, we can chain the inquiry like this DT[…][…][…].</p>
+</div>
+<div id="chaining-join-and-data-manipulation" class="section level2">
+<h2><span class="header-section-number">10.2</span> Chaining Join and Data Manipulation</h2>
+<p>data.table expressions can be chained in sequence: DT[…][…][…]. This enables us to join multiple data.table and then manipulate the merged data.table for insights.</p>
+<p>E.g., we want to compute the market share of airplane manufacturers in terms of the number flights using the airplanes made by the manufacturers. We need to first include the manufacturer information to the flights dataset and then compute the count statistics.</p>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="join-mutliple-datasets.html#cb481-1"></a>planes[flights, on=.(tailnum)][,.(<span class="dt">count=</span>.N), by=manufacturer]</span></code></pre></div>
+<pre><code>##                      manufacturer count
+##  1:                        BOEING 82912
+##  2:                        AIRBUS 47302
+##  3:              AIRBUS INDUSTRIE 40891
+##  4:                      CANADAIR  1594
+##  5:                          &lt;NA&gt; 52606
+##  6: MCDONNELL DOUGLAS AIRCRAFT CO  8932
+##  7:                       EMBRAER 66068
+##  8: MCDONNELL DOUGLAS CORPORATION  1259
+##  9:                BOMBARDIER INC 28272
+## 10:             MCDONNELL DOUGLAS  3998
+## 11:          GULFSTREAM AEROSPACE   499
+## 12:                        CESSNA   658
+## 13:            HURLEY JAMES LARRY    17
+## 14:            CIRRUS DESIGN CORP   291
+## 15:                         PIPER   162
+## 16:                FRIEDEMANN JON    63
+## 17:        ROBINSON HELICOPTER CO   286
+## 18:                   PAIR MIKE E    25
+## 19:                 BARKER JACK L   252
+## 20:               LAMBERT RICHARD    54
+## 21:                    MARZ BARRY    44
+## 22:                  CANADAIR LTD   103
+## 23:                         BEECH    47
+## 24:         AMERICAN AIRCRAFT INC    42
+## 25:               LEBLANC GLENN T    40
+## 26:                  STEWART MACO    55
+## 27:                   DEHAVILLAND    63
+## 28:            AVIAT AIRCRAFT INC    18
+## 29:                    AGUSTA SPA    32
+## 30:                  KILDALL GARY    51
+## 31:                          BELL    65
+## 32:                   LEARJET INC    19
+## 33:                       DOUGLAS    22
+## 34:                      SIKORSKY    27
+## 35:        AVIONS MARCEL DASSAULT     4
+## 36:                   JOHN G HESS     3
+##                      manufacturer count</code></pre>
+<p>E.g., we want to know the average seat avialable between each origin,dest pair, which shows how well the two nodes are connected. The seats information is in the planes dataset, thus we need to first add planes to the flights dataset.</p>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="join-mutliple-datasets.html#cb483-1"></a>tmp=planes[flights, on=.(tailnum)][,.(<span class="dt">avg_seat=</span><span class="kw">mean</span>(seats,<span class="dt">na.rm =</span> <span class="ot">TRUE</span>)), by=.(origin, dest)]</span>
+<span id="cb483-2"><a href="join-mutliple-datasets.html#cb483-2"></a></span>
+<span id="cb483-3"><a href="join-mutliple-datasets.html#cb483-3"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    origin dest avg_seat
+## 1:    EWR  IAH 190.9485
+## 2:    LGA  IAH 170.4513
+## 3:    JFK  MIA 180.9665
+## 4:    JFK  BQN 196.6559
+## 5:    LGA  ATL 148.1784
+## 6:    EWR  ORD 176.6021</code></pre>
+</div>
+<div id="exercise-2" class="section level2">
+<h2><span class="header-section-number">10.3</span> Exercise</h2>
+<p>Suppose you are developing a system that can check the weather condition at each flight. One important task is to add the weather information to the flights dataset. Note that the key of the weather dataset is: year, month, day, hour, origin; in other words, this set of variable uniquely identify an observation in weather dataset.</p>
+<p>You can do that using merge() function:</p>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="join-mutliple-datasets.html#cb485-1"></a>tmp=<span class="kw">merge</span>(flights, weather, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;year&quot;</span>,<span class="st">&quot;month&quot;</span>,<span class="st">&quot;day&quot;</span>,<span class="st">&quot;hour&quot;</span>,<span class="st">&quot;origin&quot;</span>), <span class="dt">all.x =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb485-2"><a href="join-mutliple-datasets.html#cb485-2"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    year month day hour origin dep_time sched_dep_time dep_delay arr_time
+## 1: 2013     1   1    5    EWR      517            515         2      830
+## 2: 2013     1   1    5    EWR      554            558        -4      740
+## 3: 2013     1   1    5    JFK      542            540         2      923
+## 4: 2013     1   1    5    JFK      544            545        -1     1004
+## 5: 2013     1   1    5    JFK      559            559         0      702
+## 6: 2013     1   1    5    LGA      533            529         4      850
+##    sched_arr_time arr_delay carrier flight tailnum dest air_time distance
+## 1:            819        11      UA   1545  N14228  IAH      227     1400
+## 2:            728        12      UA   1696  N39463  ORD      150      719
+## 3:            850        33      AA   1141  N619AA  MIA      160     1089
+## 4:           1022       -18      B6    725  N804JB  BQN      183     1576
+## 5:            706        -4      B6   1806  N708JB  BOS       44      187
+## 6:            830        20      UA   1714  N24211  IAH      227     1416
+##    minute         time_hour.x  temp  dewp humid wind_dir wind_speed wind_gust
+## 1:     15 2013-01-01 05:00:00 39.02 28.04 64.43      260   12.65858        NA
+## 2:     58 2013-01-01 05:00:00 39.02 28.04 64.43      260   12.65858        NA
+## 3:     40 2013-01-01 05:00:00 39.02 26.96 61.63      260   14.96014        NA
+## 4:     45 2013-01-01 05:00:00 39.02 26.96 61.63      260   14.96014        NA
+## 5:     59 2013-01-01 05:00:00 39.02 26.96 61.63      260   14.96014        NA
+## 6:     29 2013-01-01 05:00:00 39.92 24.98 54.81      250   14.96014  21.86482
+##    precip pressure visib         time_hour.y
+## 1:      0   1011.9    10 2013-01-01 05:00:00
+## 2:      0   1011.9    10 2013-01-01 05:00:00
+## 3:      0   1012.1    10 2013-01-01 05:00:00
+## 4:      0   1012.1    10 2013-01-01 05:00:00
+## 5:      0   1012.1    10 2013-01-01 05:00:00
+## 6:      0   1011.4    10 2013-01-01 05:00:00</code></pre>
+<p>We can plot the dep_delay against the weather condition (e.g., humid) at the origin airport to see whether there is a relationship between these two</p>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="join-mutliple-datasets.html#cb487-1"></a><span class="co"># load the ggplot2 package into R</span></span>
+<span id="cb487-2"><a href="join-mutliple-datasets.html#cb487-2"></a><span class="kw">library</span>(ggplot2)  </span>
+<span id="cb487-3"><a href="join-mutliple-datasets.html#cb487-3"></a></span>
+<span id="cb487-4"><a href="join-mutliple-datasets.html#cb487-4"></a><span class="co"># scatter plot with humid on x, dep_delay on y</span></span>
+<span id="cb487-5"><a href="join-mutliple-datasets.html#cb487-5"></a><span class="kw">ggplot</span>(tmp, <span class="kw">aes</span>(humid,dep_delay, <span class="dt">col=</span>origin))<span class="op">+</span></span>
+<span id="cb487-6"><a href="join-mutliple-datasets.html#cb487-6"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 9800 rows containing missing values (geom_point).</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-207-1.png" width="672" />
+What is your observation of the chart? 1) it seems to suggest a higher humidity is associated with a longer departure delay; 2) however, there also exist many departure delay in a non-humid weather, which will be attributed to other factors.</p>
+<p>Or you can do that using the data.table syntax:</p>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="join-mutliple-datasets.html#cb489-1"></a><span class="co"># note that the main data.table is inside []</span></span>
+<span id="cb489-2"><a href="join-mutliple-datasets.html#cb489-2"></a>tmp=weather[flights, on=.(year,month, day, hour, origin)]</span>
+<span id="cb489-3"><a href="join-mutliple-datasets.html#cb489-3"></a><span class="kw">dim</span>(tmp)</span></code></pre></div>
+<pre><code>## [1] 336776     29</code></pre>
+<p>Now, suppose a customer is inquiring the scheduled departure time and the weather condition for flights UA1714 for the date 2013-01-01. You will inquire the flight and return the temp, wind_speed, humid, and visib. Use the data.table syntax to chain the inquiry.</p>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="join-mutliple-datasets.html#cb491-1"></a>weather[flights, on=.(year,month, day, hour, origin)][</span>
+<span id="cb491-2"><a href="join-mutliple-datasets.html#cb491-2"></a>  carrier<span class="op">==</span><span class="st">&quot;UA&quot;</span> <span class="op">&amp;</span><span class="st"> </span>flight<span class="op">==</span><span class="dv">1714</span> <span class="op">&amp;</span><span class="st"> </span>month<span class="op">==</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>day<span class="op">==</span><span class="dv">1</span>,.(year,month, day, hour, origin, carrier, flight, temp, wind_speed, humid, visib)]</span></code></pre></div>
+<pre><code>##    year month day hour origin carrier flight  temp wind_speed humid visib
+## 1: 2013     1   1    5    LGA      UA   1714 39.92   14.96014 54.81    10</code></pre>
+</div>
+<div id="summary-5" class="section level2">
+<h2><span class="header-section-number">10.4</span> Summary</h2>
+<ul>
+<li><p>We reviewed the 4 types of join: inner join, full join, left/right join. The most commonly used is th left/right join because we need to add information from one dataset to the main dataset</p></li>
+<li><p>We learn the merge() to join datasets: the syntax for adding dt2 to dt1 is: merge(dt1, dt2, by.x=“name1”, by.y=“name2”, all.x=TRUE)</p></li>
+<li><p>We learn the data.table syntax for joining data.table: dt2[dt1, on=.(name)].</p></li>
+<li><p>We learn to chain the join and computation with data.table syntax DT[…][…][…]</p></li>
+</ul>
+<p>So far, we have learned how to manipulate big data with data.table package. What we have learned so far should cover you for most of the common data manipulation in a real job. I hope you are amazed and empowered by the data.table packages.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="use-data.table-package-for-big-data-ii.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="put-it-together-explore-big-data-with-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/09-datatable_III.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

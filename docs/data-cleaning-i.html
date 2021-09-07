@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 12 Data Cleaning I | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 12 Data Cleaning I | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 12 Data Cleaning I | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="put-it-together-explore-big-data-with-data.html"/>
+<link rel="next" href="data-cleaning-ii.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2 I</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html"><i class="fa fa-check"></i><b>15</b> Visualization with ggplot2 II</a><ul>
+<li class="chapter" data-level="15.1" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#bar-chart-and-statistical-transformation-1"><i class="fa fa-check"></i><b>15.1</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="15.2" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#stacked-par-1"><i class="fa fa-check"></i><b>15.2</b> stacked par</a></li>
+<li class="chapter" data-level="15.3" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#histogram-1"><i class="fa fa-check"></i><b>15.3</b> Histogram</a></li>
+<li class="chapter" data-level="15.4" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#boxplot-1"><i class="fa fa-check"></i><b>15.4</b> boxplot</a></li>
+<li class="chapter" data-level="15.5" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#line-chart-1"><i class="fa fa-check"></i><b>15.5</b> line chart</a></li>
+<li class="chapter" data-level="15.6" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#use-theme-to-customize-the-appearance-of-your-chart.-1"><i class="fa fa-check"></i><b>15.6</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="15.7" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#summary-10"><i class="fa fa-check"></i><b>15.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html"><i class="fa fa-check"></i><b>16</b> Visualization with ggplot2 III</a><ul>
+<li class="chapter" data-level="16.1" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-world-map"><i class="fa fa-check"></i><b>16.1</b> Draw world map</a></li>
+<li class="chapter" data-level="16.2" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-map"><i class="fa fa-check"></i><b>16.2</b> Draw US map</a></li>
+<li class="chapter" data-level="16.3" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-county-map"><i class="fa fa-check"></i><b>16.3</b> draw US county map</a></li>
+<li class="chapter" data-level="16.4" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#summary-11"><i class="fa fa-check"></i><b>16.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html"><i class="fa fa-check"></i><b>17</b> Visualization with ggplot2 - Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-of-scatter-plot-to-show-how-two-variables-evolve-over-time-simultaneously"><i class="fa fa-check"></i><b>17.1</b> Animation of scatter plot to show how two variables evolve over time simultaneously</a></li>
+<li class="chapter" data-level="17.2" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#use-a-line-chart-to-show-how-gdppercap-evolve-over-time"><i class="fa fa-check"></i><b>17.2</b> Use a line chart to show how gdpPercap evolve over time</a></li>
+<li class="chapter" data-level="17.3" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-with-bar-chart"><i class="fa fa-check"></i><b>17.3</b> Animation with Bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>18</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="18.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#examine-and-explore-the-data"><i class="fa fa-check"></i><b>18.1</b> Examine and explore the data</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#correlation-matrix"><i class="fa fa-check"></i><b>18.1.1</b> Correlation matrix</a></li>
+<li class="chapter" data-level="18.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#scatter-plot-1"><i class="fa fa-check"></i><b>18.1.2</b> Scatter plot</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#develop-simple-linear-regression-model"><i class="fa fa-check"></i><b>18.2</b> Develop simple linear regression model</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>18.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="18.2.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#how-to-interpret-the-coefficient-estimates"><i class="fa fa-check"></i><b>18.2.2</b> How to interpret the coefficient estimates?</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#overall-model-fittness"><i class="fa fa-check"></i><b>18.3</b> Overall model fittness</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-diagnoise"><i class="fa fa-check"></i><b>18.3.1</b> Regression Diagnoise</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#use-estimated-model-for-prediction"><i class="fa fa-check"></i><b>18.4</b> Use estimated model for prediction</a></li>
+<li class="chapter" data-level="18.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#summary-12"><i class="fa fa-check"></i><b>18.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html"><i class="fa fa-check"></i><b>19</b> Log Tranformation and Polynomial Terms</a><ul>
+<li class="chapter" data-level="19.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#log-transformation"><i class="fa fa-check"></i><b>19.1</b> Log-transformation</a></li>
+<li class="chapter" data-level="19.2" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#quadratic-regression"><i class="fa fa-check"></i><b>19.2</b> Quadratic regression</a></li>
+<li class="chapter" data-level="19.3" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#polynomial-regression"><i class="fa fa-check"></i><b>19.3</b> Polynomial regression</a></li>
+<li class="chapter" data-level="19.4" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#summary-13"><i class="fa fa-check"></i><b>19.4</b> Summary</a></li>
+<li class="chapter" data-level="19.5" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#exercise-3"><i class="fa fa-check"></i><b>19.5</b> Exercise</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#solution"><i class="fa fa-check"></i><b>19.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html"><i class="fa fa-check"></i><b>20</b> Mutiple Linear Regression</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#mutiple-linear-regression-1"><i class="fa fa-check"></i><b>20.1</b> Mutiple linear regression</a></li>
+<li class="chapter" data-level="20.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#categorical-variables"><i class="fa fa-check"></i><b>20.2</b> Categorical variables</a></li>
+<li class="chapter" data-level="20.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#interprate-coefficients---keeping-all-other-variables-the-same"><i class="fa fa-check"></i><b>20.3</b> Interprate coefficients - Keeping all other variables the same</a></li>
+<li class="chapter" data-level="20.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#multicollinearity"><i class="fa fa-check"></i><b>20.4</b> Multicollinearity</a></li>
+<li class="chapter" data-level="20.5" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#excerise"><i class="fa fa-check"></i><b>20.5</b> Excerise</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#examine-the-frequency-of-chas"><i class="fa fa-check"></i><b>20.5.1</b> Examine the frequency of chas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#visualize-the-house-price-with-ggplot2"><i class="fa fa-check"></i><b>20.5.2</b> Visualize the house price with ggplot2</a></li>
+<li class="chapter" data-level="20.5.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#estimate-the-linear-regression-model"><i class="fa fa-check"></i><b>20.5.3</b> estimate the linear regression model</a></li>
+<li class="chapter" data-level="20.5.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#plot-the-fitted-line"><i class="fa fa-check"></i><b>20.5.4</b> plot the fitted line</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html"><i class="fa fa-check"></i><b>21</b> Best Subset Model Selection</a><ul>
+<li class="chapter" data-level="21.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#best-subset-model-selection-1"><i class="fa fa-check"></i><b>21.1</b> Best Subset Model Selection</a></li>
+<li class="chapter" data-level="21.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#deterimining-the-best-model-with-adj-r2-cp-aic-and-bic"><i class="fa fa-check"></i><b>21.2</b> Deterimining the best model with adj-R2, Cp, AIC, and BIC</a><ul>
+<li class="chapter" data-level="21.2.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#r-squared-is-not-a-good-criteria-for-model-selection"><i class="fa fa-check"></i><b>21.2.1</b> R-squared is not a good criteria for model selection</a></li>
+<li class="chapter" data-level="21.2.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-adjusted-r2"><i class="fa fa-check"></i><b>21.2.2</b> Select the best model using Adjusted R2</a></li>
+<li class="chapter" data-level="21.2.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-cp"><i class="fa fa-check"></i><b>21.2.3</b> Select the best model using Cp</a></li>
+<li class="chapter" data-level="21.2.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-bic"><i class="fa fa-check"></i><b>21.2.4</b> Select the best model using BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#forwardbackward-selection"><i class="fa fa-check"></i><b>21.3</b> Forward/Backward selection</a></li>
+<li class="chapter" data-level="21.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#summary-14"><i class="fa fa-check"></i><b>21.4</b> Summary:</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>22</b> Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#create-trainingtest-set"><i class="fa fa-check"></i><b>22.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="22.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-selection"><i class="fa fa-check"></i><b>22.2</b> Model selection</a><ul>
+<li class="chapter" data-level="22.2.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#estimate-the-model-using-training-set"><i class="fa fa-check"></i><b>22.2.1</b> estimate the model using training set</a></li>
+<li class="chapter" data-level="22.2.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#evaluate-the-models-out-of-sample-prediction-using-test-set"><i class="fa fa-check"></i><b>22.2.2</b> evaluate the models’ out-of-sample prediction using test set</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-4-has-the-problem-of-over-fitting"><i class="fa fa-check"></i><b>22.3</b> Model 4 has the problem of over-fitting</a></li>
+<li class="chapter" data-level="22.4" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#other-commonly-used-metrics-for-prediction-performance"><i class="fa fa-check"></i><b>22.4</b> Other Commonly Used Metrics for Prediction performance</a></li>
+<li class="chapter" data-level="22.5" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#summary-15"><i class="fa fa-check"></i><b>22.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>23</b> Best Subset Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="23.1" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#create-trainingtest-set-1"><i class="fa fa-check"></i><b>23.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="23.2" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#evaluate-the-best-subset-regression-through-trainingtest-set"><i class="fa fa-check"></i><b>23.2</b> Evaluate the Best subset regression through training/test set</a></li>
+<li class="chapter" data-level="23.3" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#exercise-4"><i class="fa fa-check"></i><b>23.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="decision-tree.html"><a href="decision-tree.html"><i class="fa fa-check"></i><b>24</b> Decision Tree</a></li>
+<li class="chapter" data-level="25" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html"><i class="fa fa-check"></i><b>25</b> Maching Learning with Caret</a><ul>
+<li class="chapter" data-level="25.1" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest"><i class="fa fa-check"></i><b>25.1</b> Random Forest</a></li>
+<li class="chapter" data-level="25.2" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest-1"><i class="fa fa-check"></i><b>25.2</b> Random Forest</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-cleaning-i" class="section level1">
+<h1><span class="header-section-number">Chapter 12</span> Data Cleaning I</h1>
+<p>Guess what, data scientists spend 80% of their time cleaning data! When you are in a real job, the data you get to work with can be very messy. However, we do not typically teach how to clean data in class but provide students with clean data that is ready for analysis. I am compelled to teach you how to clean data, because, again, 80% of the time, we will be cleaning data. You will find the skills of cleaning data will be of great help later in your work. Thus, data cleaning, although may be tedious, will pay off in the near future.</p>
+<p>This chapter provides a very basic introduction to cleaning data in R using the data.table, lubridate, and stringr packages. After taking the course you’ll be able to go from raw data to awesome insights as quickly and painlessly as possible!</p>
+<p>There are two main characteristics of a clean data: 1). each row represents an observation and each column represents a variable/attribute associated with the observation. 2). The columns are in the right variable mode (e.g., numbers are numeric, date are date not character, categorical variables are factors).</p>
+<p>Although this sounds really intuitive and simple, most raw datasets are not like that, potentially due to the way the data are collected.</p>
+<p>There are three basic steps to clean a messy data:</p>
+<ul>
+<li><p>exploring raw data to diagnose the places to be cleaned</p></li>
+<li><p>tidying data to make rows as observations, columns as variables.</p></li>
+<li><p>preparing data for analysis (converting columns into the right variable type)
+We will go over each of these steps in this chapter.</p></li>
+</ul>
+<p>Run the code to install the packages (only need to run once):</p>
+<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="data-cleaning-i.html#cb543-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>)   <span class="co"># dealing date variable</span></span>
+<span id="cb543-2"><a href="data-cleaning-i.html#cb543-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;stringr&quot;</span>)     <span class="co"># dealing strings/character</span></span>
+<span id="cb543-3"><a href="data-cleaning-i.html#cb543-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;tidyr&quot;</span>)       <span class="co"># tidying data</span></span>
+<span id="cb543-4"><a href="data-cleaning-i.html#cb543-4"></a><span class="kw">install.packages</span>(<span class="st">&quot;data.table&quot;</span>)</span></code></pre></div>
+<p>Run the code to load the packages into R:</p>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="data-cleaning-i.html#cb544-1"></a><span class="kw">library</span>(lubridate)</span>
+<span id="cb544-2"><a href="data-cleaning-i.html#cb544-2"></a><span class="kw">library</span>(stringr)</span>
+<span id="cb544-3"><a href="data-cleaning-i.html#cb544-3"></a><span class="kw">library</span>(tidyr)</span></code></pre></div>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## 
+## Attaching package: &#39;tidyr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:magrittr&#39;:
+## 
+##     extract</code></pre>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="data-cleaning-i.html#cb548-1"></a><span class="kw">library</span>(data.table)</span></code></pre></div>
+<p>For the purpose of illustration, we will use a messy, real-world dataset containing an entire year’s worth of weather data from Boston (i.e., “weather_boston.csv”). Among other things, you’ll be presented with variables that contain column names, column names that should be values, numbers coded as character strings, and values that are missing, extreme, and downright erroneous!</p>
+<p>First thing first, let’s read the weather_boston.csv data into R.</p>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="data-cleaning-i.html#cb549-1"></a><span class="co"># use fread() to read csv into R as data.table</span></span>
+<span id="cb549-2"><a href="data-cleaning-i.html#cb549-2"></a>weather_boston&lt;-<span class="kw">fread</span>(<span class="st">&quot;data/weather_boston.csv&quot;</span>)  </span></code></pre></div>
+<div id="exploring-the-raw-data" class="section level2">
+<h2><span class="header-section-number">12.1</span> Exploring the raw data</h2>
+<p>It is critical to explore the raw data, understand its structure and diagnose why the data is messy. We can explore the raw data through the following means.</p>
+<ul>
+<li><p>understand the structure of the data</p></li>
+<li><p>look at the data</p></li>
+<li><p>visualize the data</p></li>
+</ul>
+<div id="understand-the-structure-of-the-data" class="section level3">
+<h3><span class="header-section-number">12.1.1</span> Understand the structure of the data</h3>
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="data-cleaning-i.html#cb550-1"></a><span class="kw">class</span>(weather_boston) <span class="co"># view its class</span></span></code></pre></div>
+<pre><code>## [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="data-cleaning-i.html#cb552-1"></a><span class="kw">dim</span>(weather_boston)    <span class="co"># view its dimensions</span></span></code></pre></div>
+<pre><code>## [1] 286  34</code></pre>
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="data-cleaning-i.html#cb554-1"></a><span class="kw">names</span>(weather_boston)  <span class="co"># check the column names (variable names)</span></span></code></pre></div>
+<pre><code>##  [1] &quot;year&quot;    &quot;month&quot;   &quot;measure&quot; &quot;X1&quot;      &quot;X2&quot;      &quot;X3&quot;      &quot;X4&quot;     
+##  [8] &quot;X5&quot;      &quot;X6&quot;      &quot;X7&quot;      &quot;X8&quot;      &quot;X9&quot;      &quot;X10&quot;     &quot;X11&quot;    
+## [15] &quot;X12&quot;     &quot;X13&quot;     &quot;X14&quot;     &quot;X15&quot;     &quot;X16&quot;     &quot;X17&quot;     &quot;X18&quot;    
+## [22] &quot;X19&quot;     &quot;X20&quot;     &quot;X21&quot;     &quot;X22&quot;     &quot;X23&quot;     &quot;X24&quot;     &quot;X25&quot;    
+## [29] &quot;X26&quot;     &quot;X27&quot;     &quot;X28&quot;     &quot;X29&quot;     &quot;X30&quot;     &quot;X31&quot;</code></pre>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="data-cleaning-i.html#cb556-1"></a><span class="kw">str</span>(weather_boston)    <span class="co"># examine the structure of the data</span></span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   286 obs. of  34 variables:
+##  $ year   : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
+##  $ month  : int  12 12 12 12 12 12 12 12 12 12 ...
+##  $ measure: chr  &quot;Max.TemperatureF&quot; &quot;Mean.TemperatureF&quot; &quot;Min.TemperatureF&quot; &quot;Max.Dew.PointF&quot; ...
+##  $ X1     : chr  &quot;64&quot; &quot;52&quot; &quot;39&quot; &quot;46&quot; ...
+##  $ X2     : chr  &quot;42&quot; &quot;38&quot; &quot;33&quot; &quot;40&quot; ...
+##  $ X3     : chr  &quot;51&quot; &quot;44&quot; &quot;37&quot; &quot;49&quot; ...
+##  $ X4     : chr  &quot;43&quot; &quot;37&quot; &quot;30&quot; &quot;24&quot; ...
+##  $ X5     : chr  &quot;42&quot; &quot;34&quot; &quot;26&quot; &quot;37&quot; ...
+##  $ X6     : chr  &quot;45&quot; &quot;42&quot; &quot;38&quot; &quot;45&quot; ...
+##  $ X7     : chr  &quot;38&quot; &quot;30&quot; &quot;21&quot; &quot;36&quot; ...
+##  $ X8     : chr  &quot;29&quot; &quot;24&quot; &quot;18&quot; &quot;28&quot; ...
+##  $ X9     : chr  &quot;49&quot; &quot;39&quot; &quot;29&quot; &quot;49&quot; ...
+##  $ X10    : chr  &quot;48&quot; &quot;43&quot; &quot;38&quot; &quot;45&quot; ...
+##  $ X11    : chr  &quot;39&quot; &quot;36&quot; &quot;32&quot; &quot;37&quot; ...
+##  $ X12    : chr  &quot;39&quot; &quot;35&quot; &quot;31&quot; &quot;28&quot; ...
+##  $ X13    : chr  &quot;42&quot; &quot;37&quot; &quot;32&quot; &quot;28&quot; ...
+##  $ X14    : chr  &quot;45&quot; &quot;39&quot; &quot;33&quot; &quot;29&quot; ...
+##  $ X15    : chr  &quot;42&quot; &quot;37&quot; &quot;32&quot; &quot;33&quot; ...
+##  $ X16    : chr  &quot;44&quot; &quot;40&quot; &quot;35&quot; &quot;42&quot; ...
+##  $ X17    : chr  &quot;49&quot; &quot;45&quot; &quot;41&quot; &quot;46&quot; ...
+##  $ X18    : chr  &quot;44&quot; &quot;40&quot; &quot;36&quot; &quot;34&quot; ...
+##  $ X19    : chr  &quot;37&quot; &quot;33&quot; &quot;29&quot; &quot;25&quot; ...
+##  $ X20    : chr  &quot;36&quot; &quot;32&quot; &quot;27&quot; &quot;30&quot; ...
+##  $ X21    : chr  &quot;36&quot; &quot;33&quot; &quot;30&quot; &quot;30&quot; ...
+##  $ X22    : chr  &quot;44&quot; &quot;39&quot; &quot;33&quot; &quot;39&quot; ...
+##  $ X23    : chr  &quot;47&quot; &quot;45&quot; &quot;42&quot; &quot;45&quot; ...
+##  $ X24    : chr  &quot;46&quot; &quot;44&quot; &quot;41&quot; &quot;46&quot; ...
+##  $ X25    : chr  &quot;59&quot; &quot;52&quot; &quot;44&quot; &quot;58&quot; ...
+##  $ X26    : chr  &quot;50&quot; &quot;44&quot; &quot;37&quot; &quot;31&quot; ...
+##  $ X27    : chr  &quot;52&quot; &quot;45&quot; &quot;38&quot; &quot;34&quot; ...
+##  $ X28    : chr  &quot;52&quot; &quot;46&quot; &quot;40&quot; &quot;42&quot; ...
+##  $ X29    : chr  &quot;41&quot; &quot;36&quot; &quot;30&quot; &quot;26&quot; ...
+##  $ X30    : chr  &quot;30&quot; &quot;26&quot; &quot;22&quot; &quot;10&quot; ...
+##  $ X31    : chr  &quot;30&quot; &quot;25&quot; &quot;20&quot; &quot;8&quot; ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="data-cleaning-i.html#cb558-1"></a><span class="kw">summary</span>(weather_boston) <span class="co"># examine potential outliers and missing values</span></span></code></pre></div>
+<pre><code>##       year          month          measure               X1           
+##  Min.   :2014   Min.   : 1.000   Length:286         Length:286        
+##  1st Qu.:2015   1st Qu.: 4.000   Class :character   Class :character  
+##  Median :2015   Median : 7.000   Mode  :character   Mode  :character  
+##  Mean   :2015   Mean   : 6.923                                        
+##  3rd Qu.:2015   3rd Qu.:10.000                                        
+##  Max.   :2015   Max.   :12.000                                        
+##       X2                 X3                 X4                 X5           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##       X6                 X7                 X8                 X9           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X10                X11                X12                X13           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X14                X15                X16                X17           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X18                X19                X20                X21           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X22                X23                X24                X25           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X26                X27                X28                X29           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X30                X31           
+##  Length:286         Length:286        
+##  Class :character   Class :character  
+##  Mode  :character   Mode  :character  
+##                                       
+##                                       
+## </code></pre>
+</div>
+<div id="visulize-the-data-in-tabular-form" class="section level3">
+<h3><span class="header-section-number">12.1.2</span> Visulize the data in Tabular form</h3>
+<p>There is no substitute to actually “see” the data. First, let’s see the data in a tabular form.</p>
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="data-cleaning-i.html#cb560-1"></a><span class="kw">head</span>(weather_boston)  <span class="co"># view the first 6 rows of the data</span></span></code></pre></div>
+<pre><code>##    year month           measure X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14
+## 1: 2014    12  Max.TemperatureF 64 42 51 43 42 45 38 29 49  48  39  39  42  45
+## 2: 2014    12 Mean.TemperatureF 52 38 44 37 34 42 30 24 39  43  36  35  37  39
+## 3: 2014    12  Min.TemperatureF 39 33 37 30 26 38 21 18 29  38  32  31  32  33
+## 4: 2014    12    Max.Dew.PointF 46 40 49 24 37 45 36 28 49  45  37  28  28  29
+## 5: 2014    12    MeanDew.PointF 40 27 42 21 25 40 20 16 41  39  31  27  26  27
+## 6: 2014    12     Min.DewpointF 26 17 24 13 12 36 -3  3 28  37  27  25  24  25
+##    X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31
+## 1:  42  44  49  44  37  36  36  44  47  46  59  50  52  52  41  30  30
+## 2:  37  40  45  40  33  32  33  39  45  44  52  44  45  46  36  26  25
+## 3:  32  35  41  36  29  27  30  33  42  41  44  37  38  40  30  22  20
+## 4:  33  42  46  34  25  30  30  39  45  46  58  31  34  42  26  10   8
+## 5:  29  36  41  30  22  24  27  34  42  44  43  29  31  35  20   4   5
+## 6:  27  30  32  26  20  20  25  25  37  41  29  28  29  27  10  -6   1</code></pre>
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="data-cleaning-i.html#cb562-1"></a><span class="kw">head</span>(weather_boston, <span class="dv">10</span>)   <span class="co"># view the first 10 rows of the data</span></span></code></pre></div>
+<pre><code>##     year month                  measure    X1    X2   X3    X4    X5    X6
+##  1: 2014    12         Max.TemperatureF    64    42   51    43    42    45
+##  2: 2014    12        Mean.TemperatureF    52    38   44    37    34    42
+##  3: 2014    12         Min.TemperatureF    39    33   37    30    26    38
+##  4: 2014    12           Max.Dew.PointF    46    40   49    24    37    45
+##  5: 2014    12           MeanDew.PointF    40    27   42    21    25    40
+##  6: 2014    12            Min.DewpointF    26    17   24    13    12    36
+##  7: 2014    12             Max.Humidity    74    92  100    69    85   100
+##  8: 2014    12            Mean.Humidity    63    72   79    54    66    93
+##  9: 2014    12             Min.Humidity    52    51   57    39    47    85
+## 10: 2014    12 Max.Sea.Level.PressureIn 30.45 30.71 30.4 30.56 30.68 30.42
+##        X7    X8    X9   X10   X11   X12   X13   X14   X15   X16   X17   X18
+##  1:    38    29    49    48    39    39    42    45    42    44    49    44
+##  2:    30    24    39    43    36    35    37    39    37    40    45    40
+##  3:    21    18    29    38    32    31    32    33    32    35    41    36
+##  4:    36    28    49    45    37    28    28    29    33    42    46    34
+##  5:    20    16    41    39    31    27    26    27    29    36    41    30
+##  6:    -3     3    28    37    27    25    24    25    27    30    32    26
+##  7:    92    92   100   100    92    85    75    82    89    96   100    89
+##  8:    61    70    93    95    87    75    65    68    75    85    85    73
+##  9:    29    47    86    89    82    64    55    53    60    73    70    57
+## 10: 30.69 30.77 30.51 29.58 29.81 29.88 29.86 29.91 30.15 30.17 29.91 29.87
+##       X19   X20   X21  X22   X23   X24   X25   X26   X27   X28   X29   X30
+##  1:    37    36    36   44    47    46    59    50    52    52    41    30
+##  2:    33    32    33   39    45    44    52    44    45    46    36    26
+##  3:    29    27    30   33    42    41    44    37    38    40    30    22
+##  4:    25    30    30   39    45    46    58    31    34    42    26    10
+##  5:    22    24    27   34    42    44    43    29    31    35    20     4
+##  6:    20    20    25   25    37    41    29    28    29    27    10    -6
+##  7:    69    89    85   89   100   100   100    70    70    76    64    50
+##  8:    63    79    77   79    91    98    75    60    60    65    51    38
+##  9:    56    69    69   69    82    96    49    49    50    53    37    26
+## 10: 30.15 30.31 30.37 30.4 30.31 30.13 29.96 30.16 30.22 29.99 30.22 30.36
+##       X31
+##  1:    30
+##  2:    25
+##  3:    20
+##  4:     8
+##  5:     5
+##  6:     1
+##  7:    57
+##  8:    44
+##  9:    31
+## 10: 30.32</code></pre>
+<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="data-cleaning-i.html#cb564-1"></a><span class="kw">tail</span>(weather_boston)     <span class="co"># view the last 6 rows of the data</span></span></code></pre></div>
+<pre><code>##    year month            measure   X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13
+## 1: 2015    12 Mean.Wind.SpeedMPH    6                                        
+## 2: 2015    12  Max.Gust.SpeedMPH   17                                        
+## 3: 2015    12    PrecipitationIn 0.14                                        
+## 4: 2015    12         CloudCover    7                                        
+## 5: 2015    12             Events Rain                                        
+## 6: 2015    12     WindDirDegrees  109                                        
+##    X14 X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31
+## 1:                                                                        
+## 2:                                                                        
+## 3:                                                                        
+## 4:                                                                        
+## 5:                                                                        
+## 6:</code></pre>
+<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="data-cleaning-i.html#cb566-1"></a><span class="kw">tail</span>(weather_boston, <span class="dv">10</span>)    <span class="co"># view the last 10 rows of the data</span></span></code></pre></div>
+<pre><code>##     year month              measure   X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12
+##  1: 2015    12  Max.VisibilityMiles   10                                    
+##  2: 2015    12 Mean.VisibilityMiles    8                                    
+##  3: 2015    12  Min.VisibilityMiles    1                                    
+##  4: 2015    12    Max.Wind.SpeedMPH   15                                    
+##  5: 2015    12   Mean.Wind.SpeedMPH    6                                    
+##  6: 2015    12    Max.Gust.SpeedMPH   17                                    
+##  7: 2015    12      PrecipitationIn 0.14                                    
+##  8: 2015    12           CloudCover    7                                    
+##  9: 2015    12               Events Rain                                    
+## 10: 2015    12       WindDirDegrees  109                                    
+##     X13 X14 X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31
+##  1:                                                                            
+##  2:                                                                            
+##  3:                                                                            
+##  4:                                                                            
+##  5:                                                                            
+##  6:                                                                            
+##  7:                                                                            
+##  8:                                                                            
+##  9:                                                                            
+## 10:</code></pre>
+<p>Among other things, we see that the weather_boston dataset suffers from one of the most common symptoms of messy data: column names are values. In particular, the column names X1-X31 represent days of the month, which should really be values of a new variable called day. As a result, each row is not an individual observation, but a combined observation of 31 days. Also, variables are not orginaized by columns. The measure column indicates that the multiple measure are stacked by rows. We will tidy this data into the correct form later.</p>
+</div>
+<div id="visualize-the-raw-data-through-charts" class="section level3">
+<h3><span class="header-section-number">12.1.3</span> Visualize the raw data through charts</h3>
+<p>Histgoram is a great tool to see the range and distribution of the data. It provides a great way to identify potential outliers in your data.</p>
+<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="data-cleaning-i.html#cb568-1"></a><span class="kw">hist</span>(<span class="kw">as.numeric</span>(weather_boston<span class="op">$</span>X1))</span></code></pre></div>
+<pre><code>## Warning in hist(as.numeric(weather_boston$X1)): NAs introduced by coercion</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-232-1.png" width="672" /></p>
+<p>We can also look at the scatter plot between two variable to check their relationship.</p>
+<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb570-1"><a href="data-cleaning-i.html#cb570-1"></a><span class="kw">plot</span>(<span class="kw">as.numeric</span>(weather_boston<span class="op">$</span>X1), <span class="kw">as.numeric</span>(weather_boston<span class="op">$</span>X2))</span></code></pre></div>
+<pre><code>## Warning in plot(as.numeric(weather_boston$X1), as.numeric(weather_boston$X2)):
+## NAs introduced by coercion</code></pre>
+<pre><code>## Warning in xy.coords(x, y, xlabel, ylabel, log): NAs introduced by coercion</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-233-1.png" width="672" /></p>
+<p>We can also look at the boxplot</p>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="data-cleaning-i.html#cb573-1"></a><span class="kw">boxplot</span>(<span class="kw">as.numeric</span>(weather_boston<span class="op">$</span>X1))</span></code></pre></div>
+<pre><code>## Warning in boxplot(as.numeric(weather_boston$X1)): NAs introduced by coercion</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-234-1.png" width="672" /></p>
+</div>
+</div>
+<div id="tidying-data" class="section level2">
+<h2><span class="header-section-number">12.2</span> Tidying data</h2>
+<p>What is tidy data? For any statistical analysis or visualization, the data needs to be in the right form: each row represents an observation and each column represents a variable/attribute associated with the observation. Data analyst spend huge amount of time to get data ready in this format. Nevertheless, the tidy data concept is proposed and formalized by Hadley Wickham in the Journal of Statistical Software recently.
+Here is the link to the paper: <a href="https://vita.had.co.nz/papers/tidy-data.pdf" class="uri">https://vita.had.co.nz/papers/tidy-data.pdf</a></p>
+<p>Here is an example of tidy data.</p>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="data-cleaning-i.html#cb575-1"></a>country&lt;-<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;United Stat&quot;</span>, <span class="st">&quot;Japan&quot;</span>, <span class="st">&quot;China&quot;</span>), <span class="dt">times=</span><span class="dv">3</span>)</span>
+<span id="cb575-2"><a href="data-cleaning-i.html#cb575-2"></a>abbr&lt;-<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;US&quot;</span>, <span class="st">&quot;JP&quot;</span>, <span class="st">&quot;CH&quot;</span>), <span class="dt">times=</span><span class="dv">3</span>)</span>
+<span id="cb575-3"><a href="data-cleaning-i.html#cb575-3"></a>year&lt;-<span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">2017</span><span class="op">:</span><span class="dv">2019</span>),<span class="dt">each=</span><span class="dv">3</span>)</span>
+<span id="cb575-4"><a href="data-cleaning-i.html#cb575-4"></a>GDP&lt;-<span class="kw">c</span>(<span class="dv">400</span>,<span class="dv">200</span>,<span class="dv">290</span>,<span class="dv">420</span>,<span class="dv">210</span>,<span class="dv">310</span>,<span class="dv">450</span>,<span class="dv">230</span>,<span class="dv">320</span>)</span>
+<span id="cb575-5"><a href="data-cleaning-i.html#cb575-5"></a>unemployrate&lt;-<span class="kw">c</span>(<span class="st">&quot;4%&quot;</span>,<span class="st">&quot;3%&quot;</span>,<span class="st">&quot;2%&quot;</span>,<span class="st">&quot;4.1%&quot;</span>,<span class="st">&quot;3.3%&quot;</span>,<span class="st">&quot;2.5%&quot;</span>,<span class="st">&quot;3.9%&quot;</span>,<span class="st">&quot;3.2%&quot;</span>,<span class="st">&quot;2.9%&quot;</span>)</span>
+<span id="cb575-6"><a href="data-cleaning-i.html#cb575-6"></a>GDP_tidy&lt;-<span class="kw">data.table</span>(country,abbr,year,GDP,unemployrate)</span>
+<span id="cb575-7"><a href="data-cleaning-i.html#cb575-7"></a>GDP_tidy</span></code></pre></div>
+<pre><code>##        country abbr year GDP unemployrate
+## 1: United Stat   US 2017 400           4%
+## 2:       Japan   JP 2017 200           3%
+## 3:       China   CH 2017 290           2%
+## 4: United Stat   US 2018 420         4.1%
+## 5:       Japan   JP 2018 210         3.3%
+## 6:       China   CH 2018 310         2.5%
+## 7: United Stat   US 2019 450         3.9%
+## 8:       Japan   JP 2019 230         3.2%
+## 9:       China   CH 2019 320         2.9%</code></pre>
+<p>The GDP_tidy is an example is a simple tidy data. By name, we know this data is about GDP of country. Each row represents an observation: we observe the GDP and unemployment of a particular country in a particular year. Thus, each column represents one attribute of the observation: which country is observed; in which year it is observed, and what is the observed GDP amount.</p>
+<p>Here is an example of non-tidy data.</p>
+<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="data-cleaning-i.html#cb577-1"></a>country&lt;-<span class="kw">c</span>(<span class="st">&quot;United Stat/US&quot;</span>, <span class="st">&quot;Japan/JP&quot;</span>, <span class="st">&quot;China/CH&quot;</span>)</span>
+<span id="cb577-2"><a href="data-cleaning-i.html#cb577-2"></a>GDP_<span class="dv">2017</span>&lt;-<span class="kw">c</span>(<span class="dv">400</span>,<span class="dv">200</span>,<span class="dv">290</span>)</span>
+<span id="cb577-3"><a href="data-cleaning-i.html#cb577-3"></a>GDP_<span class="dv">2018</span>&lt;-<span class="kw">c</span>(<span class="dv">420</span>,<span class="dv">210</span>,<span class="dv">310</span>)</span>
+<span id="cb577-4"><a href="data-cleaning-i.html#cb577-4"></a>GDP_<span class="dv">2019</span>&lt;-<span class="kw">c</span>(<span class="dv">450</span>,<span class="dv">230</span>,<span class="dv">320</span>)</span>
+<span id="cb577-5"><a href="data-cleaning-i.html#cb577-5"></a>unemployrate_<span class="dv">2017</span>=<span class="kw">c</span>(<span class="st">&quot;4%&quot;</span>, <span class="st">&quot;3%&quot;</span>,<span class="st">&quot;2%&quot;</span>)</span>
+<span id="cb577-6"><a href="data-cleaning-i.html#cb577-6"></a>unemployrate_<span class="dv">2018</span>=<span class="kw">c</span>(<span class="st">&quot;4.1%&quot;</span>, <span class="st">&quot;3.3%&quot;</span>,<span class="st">&quot;2.5%&quot;</span>)</span>
+<span id="cb577-7"><a href="data-cleaning-i.html#cb577-7"></a>unemployrate_<span class="dv">2019</span>=<span class="kw">c</span>(<span class="st">&quot;3.9%&quot;</span>, <span class="st">&quot;3.2%&quot;</span>,<span class="st">&quot;2.9%&quot;</span>)</span>
+<span id="cb577-8"><a href="data-cleaning-i.html#cb577-8"></a></span>
+<span id="cb577-9"><a href="data-cleaning-i.html#cb577-9"></a>GDP_messy&lt;-<span class="kw">data.table</span>(country,GDP_<span class="dv">2017</span>,GDP_<span class="dv">2018</span>,GDP_<span class="dv">2019</span>,unemployrate_<span class="dv">2017</span>,unemployrate_<span class="dv">2018</span>,unemployrate_<span class="dv">2019</span>)</span>
+<span id="cb577-10"><a href="data-cleaning-i.html#cb577-10"></a>GDP_messy</span></code></pre></div>
+<pre><code>##           country GDP_2017 GDP_2018 GDP_2019 unemployrate_2017
+## 1: United Stat/US      400      420      450                4%
+## 2:       Japan/JP      200      210      230                3%
+## 3:       China/CH      290      310      320                2%
+##    unemployrate_2018 unemployrate_2019
+## 1:              4.1%              3.9%
+## 2:              3.3%              3.2%
+## 3:              2.5%              2.9%</code></pre>
+<p>This is a non-tidy data because the attribute of an observation (i.e., the year when the observation is observed) is represented in the column.</p>
+<p>Next, we will use the melt() and dcast() function in data.table package to tidy data. There are some other packages (e.g., tidyr) for this purpose. We choose to use the data.table function for consistence. Also, the data.table is very fast and memory efficient, making it well-suited to handling large data sets.</p>
+<div id="melt" class="section level3">
+<h3><span class="header-section-number">12.2.1</span> melt()</h3>
+<p>A common problem is a dataset where some of the column names are not names of variables, but values of a variable.</p>
+<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="data-cleaning-i.html#cb579-1"></a>country&lt;-<span class="kw">c</span>(<span class="st">&quot;United Stat/US&quot;</span>, <span class="st">&quot;Japan/JP&quot;</span>, <span class="st">&quot;China/CH&quot;</span>)</span>
+<span id="cb579-2"><a href="data-cleaning-i.html#cb579-2"></a>abbr&lt;-<span class="kw">c</span>(<span class="st">&quot;US&quot;</span>, <span class="st">&quot;JP&quot;</span>, <span class="st">&quot;CH&quot;</span>)</span>
+<span id="cb579-3"><a href="data-cleaning-i.html#cb579-3"></a>GDP_<span class="dv">2017</span>&lt;-<span class="kw">c</span>(<span class="dv">400</span>,<span class="dv">200</span>,<span class="dv">290</span>)</span>
+<span id="cb579-4"><a href="data-cleaning-i.html#cb579-4"></a>GDP_<span class="dv">2018</span>&lt;-<span class="kw">c</span>(<span class="dv">420</span>,<span class="dv">210</span>,<span class="dv">310</span>)</span>
+<span id="cb579-5"><a href="data-cleaning-i.html#cb579-5"></a>GDP_<span class="dv">2019</span>&lt;-<span class="kw">c</span>(<span class="dv">450</span>,<span class="dv">230</span>,<span class="dv">320</span>)</span>
+<span id="cb579-6"><a href="data-cleaning-i.html#cb579-6"></a></span>
+<span id="cb579-7"><a href="data-cleaning-i.html#cb579-7"></a>GDP_messy&lt;-<span class="kw">data.table</span>(country,abbr, GDP_<span class="dv">2017</span>,GDP_<span class="dv">2018</span>,GDP_<span class="dv">2019</span>)</span>
+<span id="cb579-8"><a href="data-cleaning-i.html#cb579-8"></a>GDP_messy</span></code></pre></div>
+<pre><code>##           country abbr GDP_2017 GDP_2018 GDP_2019
+## 1: United Stat/US   US      400      420      450
+## 2:       Japan/JP   JP      200      210      230
+## 3:       China/CH   CH      290      310      320</code></pre>
+<p>The dataset GDP_messy from the following code as an example. The column GDP_2017, GDP_2018 and GDP_2019 represent the value of the year when it is observed.</p>
+<p>melt() is design to collect the information in those columns name as a new variable.</p>
+<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="data-cleaning-i.html#cb581-1"></a>GDP1&lt;-<span class="kw">melt</span>(GDP_messy, <span class="dt">id =</span><span class="st">&quot;country&quot;</span>, <span class="dt">measure =</span><span class="kw">c</span>(<span class="st">&quot;GDP_2017&quot;</span>,<span class="st">&quot;GDP_2018&quot;</span>,<span class="st">&quot;GDP_2019&quot;</span>), <span class="dt">variable.name =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">value.name =</span> <span class="st">&quot;GDP&quot;</span>)</span>
+<span id="cb581-2"><a href="data-cleaning-i.html#cb581-2"></a>GDP1</span></code></pre></div>
+<pre><code>##           country     year GDP
+## 1: United Stat/US GDP_2017 400
+## 2:       Japan/JP GDP_2017 200
+## 3:       China/CH GDP_2017 290
+## 4: United Stat/US GDP_2018 420
+## 5:       Japan/JP GDP_2018 210
+## 6:       China/CH GDP_2018 310
+## 7: United Stat/US GDP_2019 450
+## 8:       Japan/JP GDP_2019 230
+## 9:       China/CH GDP_2019 320</code></pre>
+<p>The code above collect the colunme name GDP_2017, GDP_2018, GDP_2019 into a new variable (and renamed as year); and put the corresponding value into the value variable (and renamed as GDP). The general format for melt() is as follow:
+melt(
+data.table,
+id= c("“), # id variable for origin data, will be kept in the new data
+measure = c(”“), # columns to be melt
+variable.name =”year“, # name of new variable to place original column name
+value.name =”GDP", # name of new variable to place original column value
+)</p>
+<p>Note that: 1) the melt() function takes only data.table not data.frame as argument; 2) melt() function will return a data.table as a result; 3) the variables not included the id.vars will not be kept in the new data.table.</p>
+<p>We can also use pattern argument:</p>
+<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb583-1"><a href="data-cleaning-i.html#cb583-1"></a>GDP_tidy =<span class="st"> </span><span class="kw">melt</span>(GDP_messy, <span class="dt">id=</span><span class="st">&quot;country&quot;</span>, <span class="dt">measure =</span> <span class="kw">patterns</span>(<span class="st">&#39;GDP_&#39;</span>),<span class="dt">variable.name =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">value.name =</span> <span class="st">&quot;GDP&quot;</span>)</span>
+<span id="cb583-2"><a href="data-cleaning-i.html#cb583-2"></a>GDP_tidy</span></code></pre></div>
+<pre><code>##           country     year GDP
+## 1: United Stat/US GDP_2017 400
+## 2:       Japan/JP GDP_2017 200
+## 3:       China/CH GDP_2017 290
+## 4: United Stat/US GDP_2018 420
+## 5:       Japan/JP GDP_2018 210
+## 6:       China/CH GDP_2018 310
+## 7: United Stat/US GDP_2019 450
+## 8:       Japan/JP GDP_2019 230
+## 9:       China/CH GDP_2019 320</code></pre>
+<p>In the above code, instead of specifying the measure =c(“GDP_2017”,“GDP_2018”,“GDP_2019”), which share the same pattern of “GDP_”, we can use measure=patterns(‘GDP_’) to specify these columns.</p>
+<p>To clean the data, we need extract the 4-digit year from the year column. This can be done from the following code:</p>
+<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb585-1"><a href="data-cleaning-i.html#cb585-1"></a>GDP_tidy[,year2<span class="op">:</span><span class="er">=</span><span class="kw">str_sub</span>(year,<span class="dv">5</span>,<span class="dv">9</span>)]</span>
+<span id="cb585-2"><a href="data-cleaning-i.html#cb585-2"></a>GDP_tidy</span></code></pre></div>
+<pre><code>##           country     year GDP year2
+## 1: United Stat/US GDP_2017 400  2017
+## 2:       Japan/JP GDP_2017 200  2017
+## 3:       China/CH GDP_2017 290  2017
+## 4: United Stat/US GDP_2018 420  2018
+## 5:       Japan/JP GDP_2018 210  2018
+## 6:       China/CH GDP_2018 310  2018
+## 7: United Stat/US GDP_2019 450  2019
+## 8:       Japan/JP GDP_2019 230  2019
+## 9:       China/CH GDP_2019 320  2019</code></pre>
+<p>str_sub(year,5,9) extract the substring from the character vector year, where the position of the substring is from 5th char to the 9th char.</p>
+</div>
+<div id="dcast" class="section level3">
+<h3><span class="header-section-number">12.2.2</span> dcast()</h3>
+<p>The opposite of melt() is dcast(), which takes key-values pairs and spreads them across multiple columns. This is useful when values in a column should actually be column names (i.e. variables).</p>
+<p>Let’s look at one example:</p>
+<div class="sourceCode" id="cb587"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb587-1"><a href="data-cleaning-i.html#cb587-1"></a>country&lt;-<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;United Stat/US&quot;</span>, <span class="st">&quot;Japan/JP&quot;</span>, <span class="st">&quot;China/CH&quot;</span>), <span class="dt">times=</span><span class="dv">6</span>)</span>
+<span id="cb587-2"><a href="data-cleaning-i.html#cb587-2"></a>measure&lt;-<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;GDP&quot;</span>,<span class="st">&quot;unemployrate&quot;</span>), <span class="dt">each=</span><span class="dv">3</span><span class="op">*</span><span class="dv">3</span>)</span>
+<span id="cb587-3"><a href="data-cleaning-i.html#cb587-3"></a>year&lt;-<span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">2017</span>,<span class="dv">2018</span>,<span class="dv">2019</span>), <span class="dt">each=</span><span class="dv">3</span>,<span class="dt">times=</span><span class="dv">2</span>)</span>
+<span id="cb587-4"><a href="data-cleaning-i.html#cb587-4"></a>amount&lt;-<span class="kw">c</span>(<span class="st">&quot;400&quot;</span>,<span class="st">&quot;200&quot;</span>,<span class="st">&quot;290&quot;</span>,<span class="st">&quot;420&quot;</span>,<span class="st">&quot;210&quot;</span>,<span class="st">&quot;310&quot;</span>,<span class="st">&quot;450&quot;</span>,<span class="st">&quot;230&quot;</span>,<span class="st">&quot;320&quot;</span>,<span class="st">&quot;4%&quot;</span>, <span class="st">&quot;3%&quot;</span>, <span class="st">&quot;2%&quot;</span>,<span class="st">&quot;4.1%&quot;</span>, <span class="st">&quot;3.3%&quot;</span>, <span class="st">&quot;2.5%&quot;</span>, <span class="st">&quot;3.9%&quot;</span>, <span class="st">&quot;3.2%&quot;</span> ,<span class="st">&quot;2.9%&quot;</span>)</span>
+<span id="cb587-5"><a href="data-cleaning-i.html#cb587-5"></a>GPD_messy=<span class="kw">data.table</span>(country,year,measure, amount)</span>
+<span id="cb587-6"><a href="data-cleaning-i.html#cb587-6"></a>GPD_messy</span></code></pre></div>
+<pre><code>##            country year      measure amount
+##  1: United Stat/US 2017          GDP    400
+##  2:       Japan/JP 2017          GDP    200
+##  3:       China/CH 2017          GDP    290
+##  4: United Stat/US 2018          GDP    420
+##  5:       Japan/JP 2018          GDP    210
+##  6:       China/CH 2018          GDP    310
+##  7: United Stat/US 2019          GDP    450
+##  8:       Japan/JP 2019          GDP    230
+##  9:       China/CH 2019          GDP    320
+## 10: United Stat/US 2017 unemployrate     4%
+## 11:       Japan/JP 2017 unemployrate     3%
+## 12:       China/CH 2017 unemployrate     2%
+## 13: United Stat/US 2018 unemployrate   4.1%
+## 14:       Japan/JP 2018 unemployrate   3.3%
+## 15:       China/CH 2018 unemployrate   2.5%
+## 16: United Stat/US 2019 unemployrate   3.9%
+## 17:       Japan/JP 2019 unemployrate   3.2%
+## 18:       China/CH 2019 unemployrate   2.9%</code></pre>
+<p>As see, in GPD_messy, the column “measure” should be variable name: (GDP nd unemployrate are stacked in one column). We need to allocate this column into two columns. The folowing code with dcast() achieves this purpose:</p>
+<div class="sourceCode" id="cb589"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb589-1"><a href="data-cleaning-i.html#cb589-1"></a>GDP_tidy&lt;-<span class="kw">dcast</span>(GPD_messy, country<span class="op">+</span>year<span class="op">~</span>measure, <span class="dt">value.var=</span><span class="st">&quot;amount&quot;</span>)</span>
+<span id="cb589-2"><a href="data-cleaning-i.html#cb589-2"></a>GDP_tidy</span></code></pre></div>
+<pre><code>##           country year GDP unemployrate
+## 1:       China/CH 2017 290           2%
+## 2:       China/CH 2018 310         2.5%
+## 3:       China/CH 2019 320         2.9%
+## 4:       Japan/JP 2017 200           3%
+## 5:       Japan/JP 2018 210         3.3%
+## 6:       Japan/JP 2019 230         3.2%
+## 7: United Stat/US 2017 400           4%
+## 8: United Stat/US 2018 420         4.1%
+## 9: United Stat/US 2019 450         3.9%</code></pre>
+<p>In the above code, country+year~measure is called formula. Here it means that each country+year pair will consists a row in the new data.table, the variables in the original “measure” column will be the new columns. value.var=“amount” indicates that the value of the new columns is populated by the value in the orignal “amount” column.</p>
+<p>The general syntax for dcast() function is as below: dcast(data, formula, value.var).</p>
+</div>
+</div>
+<div id="preparing-data-for-analysis" class="section level2">
+<h2><span class="header-section-number">12.3</span> Preparing data for analysis</h2>
+<p>Now that we have tidy the data, we need to futher clean it so that it is ready for statistical analysis or visualization. The most important task in this step is to make sure each column is in the right format (i.e., numbers are numeric, date is represented in date, categorical variables are represented in factors, characters are characters, logical are logical)</p>
+<div id="type-conversions" class="section level3">
+<h3><span class="header-section-number">12.3.1</span> Type conversions</h3>
+<p>It is often necessary to change, or coerce, the way that variables in a dataset are stored. This could be because of the way they were read into R (with read.csv(), for example) or perhaps the function you are using to analyze the data requires variables to be coded a certain way.</p>
+<p>The common type conversions in R include:</p>
+<div class="sourceCode" id="cb591"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb591-1"><a href="data-cleaning-i.html#cb591-1"></a><span class="kw">as.character</span>(<span class="dv">2016</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2016&quot;</code></pre>
+<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb593-1"><a href="data-cleaning-i.html#cb593-1"></a><span class="kw">as.numeric</span>(<span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb595-1"><a href="data-cleaning-i.html#cb595-1"></a><span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="st">&quot;level A&quot;</span>, <span class="st">&quot;level B&quot;</span>, <span class="st">&quot;leval A&quot;</span>, <span class="st">&quot;leval A&quot;</span>))</span></code></pre></div>
+<pre><code>## [1] level A level B leval A leval A
+## Levels: leval A level A level B</code></pre>
+<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb597-1"><a href="data-cleaning-i.html#cb597-1"></a><span class="kw">as.logical</span>(<span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>Only certain coercions are allowed, but the rules for what works are generally pretty intuitive. For example, trying to convert a character string to a number gives a missing value NA:</p>
+<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="data-cleaning-i.html#cb599-1"></a><span class="kw">as.numeric</span>(<span class="st">&quot;some text&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>There are a few less intuitive results. For example, under the hood, the logical values TRUE and FALSE are coded as 1 and 0, respectively. Therefore, as.logical(1) returns TRUE and as.numeric(TRUE) returns 1.</p>
+<div class="sourceCode" id="cb602"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb602-1"><a href="data-cleaning-i.html#cb602-1"></a><span class="kw">as.logical</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb604"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb604-1"><a href="data-cleaning-i.html#cb604-1"></a><span class="kw">as.numeric</span>(<span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="working-with-dates" class="section level3">
+<h3><span class="header-section-number">12.3.2</span> Working with dates</h3>
+<p>Dates can be a challenge to work with in any programming language, but thanks to the lubridate package, working with dates in R isn’t so bad. Since this module is about cleaning data, we only cover the most basic functions from lubridate to help us standardize the format of dates and times in our data. But this will cover most of the situations you face in real world.</p>
+<p>These functions combine the letters y, m, d, h, m, s, which stand for year, month, day, hour, minute, and second, respectively. The order of the letters in the function should match the order of the date/time you are attempting to read in, although not all combinations are valid. Notice that the functions are “smart” in that they are capable of parsing multiple formats.</p>
+<div class="sourceCode" id="cb606"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb606-1"><a href="data-cleaning-i.html#cb606-1"></a><span class="co"># Experiment with basic lubridate functions</span></span>
+<span id="cb606-2"><a href="data-cleaning-i.html#cb606-2"></a><span class="kw">ymd</span>(<span class="st">&quot;2015-08-25&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2015-08-25&quot;</code></pre>
+<div class="sourceCode" id="cb608"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb608-1"><a href="data-cleaning-i.html#cb608-1"></a><span class="kw">class</span>(<span class="kw">ymd</span>(<span class="st">&quot;2015-08-25&quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;Date&quot;</code></pre>
+<div class="sourceCode" id="cb610"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb610-1"><a href="data-cleaning-i.html#cb610-1"></a><span class="kw">ymd</span>(<span class="st">&quot;2015 August 25&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2015-08-25&quot;</code></pre>
+<div class="sourceCode" id="cb612"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb612-1"><a href="data-cleaning-i.html#cb612-1"></a><span class="kw">mdy</span>(<span class="st">&quot;August 25, 2015&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2015-08-25&quot;</code></pre>
+<div class="sourceCode" id="cb614"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb614-1"><a href="data-cleaning-i.html#cb614-1"></a><span class="kw">hms</span>(<span class="st">&quot;13:33:09&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;13H 33M 9S&quot;</code></pre>
+<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb616-1"><a href="data-cleaning-i.html#cb616-1"></a><span class="kw">ymd_hms</span>(<span class="st">&quot;2015/08/25 13.33.09&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2015-08-25 13:33:09 UTC&quot;</code></pre>
+<p>As see, the these functions from lubridate package is quite smart to understand the general date in various form and return the standardized date.</p>
+</div>
+<div id="string-character-manipulation" class="section level3">
+<h3><span class="header-section-number">12.3.3</span> String (character) manipulation</h3>
+<p>Here we introduce you to string manipulation in R. In many situation we have to deal with textual data, e.g., customer review, address, tweets, ….</p>
+<p>We will use the stringr package for string manipulation, which is written Hadley Wickham. Base R contains many functions to work with strings but we’ll avoid them because they can be inconsistent, which makes them hard to remember. Instead we’ll use functions from stringr. These have more intuitive names, and all start with str_.</p>
+<p>Examine the length of a string:</p>
+<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="data-cleaning-i.html#cb618-1"></a><span class="kw">str_length</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;data science&quot;</span>, <span class="ot">NA</span>))</span></code></pre></div>
+<pre><code>## [1]  1 12 NA</code></pre>
+<p>Combine two or more strings (we have used paste() in base R for this):</p>
+<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="data-cleaning-i.html#cb620-1"></a><span class="kw">str_c</span>(<span class="st">&quot;Leon&quot;</span>, <span class="st">&quot;Xu&quot;</span>, <span class="dt">sep=</span><span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Leon Xu&quot;</code></pre>
+<div class="sourceCode" id="cb622"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb622-1"><a href="data-cleaning-i.html#cb622-1"></a><span class="kw">str_c</span>(<span class="dv">2019</span>, <span class="st">&quot;Mar&quot;</span>, <span class="dv">24</span>, <span class="dt">sep=</span><span class="st">&quot;-&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2019-Mar-24&quot;</code></pre>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="data-cleaning-i.html#cb624-1"></a><span class="kw">str_c</span>(<span class="st">&quot;https://www.zillow.com/&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;page1&quot;</span>,<span class="st">&quot;page2&quot;</span>,<span class="st">&quot;page3&quot;</span>), <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;https://www.zillow.com/page1&quot; &quot;https://www.zillow.com/page2&quot;
+## [3] &quot;https://www.zillow.com/page3&quot;</code></pre>
+<p>subsetting strings: you can extract parts of a string use str_sub(). Subsetting a string is the most used operations to deal with strings. E.g., to extract zip from address. It takes a general form like this: str_sub(string, start, end)</p>
+<div class="sourceCode" id="cb626"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb626-1"><a href="data-cleaning-i.html#cb626-1"></a>address=<span class="st">&quot;7313 Sherman Street, Licoln, NE 68506&quot;</span></span>
+<span id="cb626-2"><a href="data-cleaning-i.html#cb626-2"></a>len=<span class="kw">str_length</span>(address)</span>
+<span id="cb626-3"><a href="data-cleaning-i.html#cb626-3"></a></span>
+<span id="cb626-4"><a href="data-cleaning-i.html#cb626-4"></a><span class="kw">str_sub</span>(address,  len<span class="dv">-4</span>, len)</span></code></pre></div>
+<pre><code>## [1] &quot;68506&quot;</code></pre>
+<p>str_replace() and str_replace_all() allow you to replace matches with new strings. The general syntax is: str_replace(string, pattern, replacement)</p>
+<div class="sourceCode" id="cb628"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb628-1"><a href="data-cleaning-i.html#cb628-1"></a>x&lt;-<span class="kw">c</span>(<span class="st">&quot;apple?&quot;</span>,<span class="st">&quot;pear4&quot;</span>,<span class="st">&quot;banana&quot;</span>)</span>
+<span id="cb628-2"><a href="data-cleaning-i.html#cb628-2"></a></span>
+<span id="cb628-3"><a href="data-cleaning-i.html#cb628-3"></a><span class="kw">str_replace</span>(x,<span class="st">&quot;a&quot;</span>,<span class="st">&quot;A&quot;</span>)   <span class="co"># replace the first match</span></span></code></pre></div>
+<pre><code>## [1] &quot;Apple?&quot; &quot;peAr4&quot;  &quot;bAnana&quot;</code></pre>
+<div class="sourceCode" id="cb630"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb630-1"><a href="data-cleaning-i.html#cb630-1"></a><span class="kw">str_replace_all</span>(x,<span class="st">&quot;a&quot;</span>,<span class="st">&quot;A&quot;</span>)  <span class="co"># replace all match</span></span></code></pre></div>
+<pre><code>## [1] &quot;Apple?&quot; &quot;peAr4&quot;  &quot;bAnAnA&quot;</code></pre>
+<p>Trim all leading and trailing whitespace</p>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb632-1"><a href="data-cleaning-i.html#cb632-1"></a><span class="kw">str_trim</span>(<span class="kw">c</span>(<span class="st">&quot;   Filip &quot;</span>, <span class="st">&quot;Nick  &quot;</span>, <span class="st">&quot; Jonathan&quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;Filip&quot;    &quot;Nick&quot;     &quot;Jonathan&quot;</code></pre>
+<p>Pad these strings with leading zeros</p>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb634-1"><a href="data-cleaning-i.html#cb634-1"></a><span class="kw">str_pad</span>(<span class="kw">c</span>(<span class="st">&quot;23485W&quot;</span>, <span class="st">&quot;8823453Q&quot;</span>, <span class="st">&quot;994Z&quot;</span>), <span class="dt">width=</span><span class="dv">7</span>, <span class="dt">side=</span><span class="st">&#39;left&#39;</span>, <span class="dt">pad=</span><span class="st">&quot;0&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;023485W&quot;  &quot;8823453Q&quot; &quot;000994Z&quot;</code></pre>
+<p>tolower() turn all letter in string into lower case.</p>
+<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb636-1"><a href="data-cleaning-i.html#cb636-1"></a><span class="kw">tolower</span>(<span class="st">&quot;University of Nebraska&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;university of nebraska&quot;</code></pre>
+<p>toupper() turn all letter in string into upper case.</p>
+<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="data-cleaning-i.html#cb638-1"></a><span class="kw">toupper</span>(<span class="st">&quot;University of Nebraska&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;UNIVERSITY OF NEBRASKA&quot;</code></pre>
+</div>
+</div>
+<div id="missing-and-special-values-in-r" class="section level2">
+<h2><span class="header-section-number">12.4</span> Missing and special values in R</h2>
+<p>Missing values in R should be represented by NA.</p>
+<p>If missing values are properly coded as NA, the is.na() function will help you find them.</p>
+<p>Unfortunately you will not always be so lucky. Before you can deal with missing values, you have to find them in the data.
+Otherwise, if your dataset is too big to just look at the whole thing, you may need to try searching for some of the usual suspects like "“,”#N/A", etc to identify the missing value.</p>
+<p>Let’s examine the example to see the missing values.</p>
+<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="data-cleaning-i.html#cb640-1"></a>x&lt;-<span class="kw">data.table</span>(<span class="dt">x1=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="ot">NA</span>,<span class="dv">9</span>), <span class="dt">x2=</span><span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">23</span>,<span class="dv">9</span>,<span class="ot">NA</span>))</span>
+<span id="cb640-2"><a href="data-cleaning-i.html#cb640-2"></a>x</span></code></pre></div>
+<pre><code>##    x1 x2
+## 1:  2 NA
+## 2:  5 23
+## 3: NA  9
+## 4:  9 NA</code></pre>
+<p>is.na() return for each element in the data.table, it returns TRUE/FALSE to indicate whether the data is missing.</p>
+<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb642-1"><a href="data-cleaning-i.html#cb642-1"></a><span class="kw">is.na</span>(x)</span></code></pre></div>
+<pre><code>##         x1    x2
+## [1,] FALSE  TRUE
+## [2,] FALSE FALSE
+## [3,]  TRUE FALSE
+## [4,] FALSE  TRUE</code></pre>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb644-1"><a href="data-cleaning-i.html#cb644-1"></a><span class="co"># since TRUE is stored as 1 and FALSE is stored as 0, we can use sum() to count to total number of missing value</span></span>
+<span id="cb644-2"><a href="data-cleaning-i.html#cb644-2"></a><span class="kw">sum</span>(<span class="kw">is.na</span>(x))</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb646"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb646-1"><a href="data-cleaning-i.html#cb646-1"></a><span class="co"># use which() returns the index of missing elements in each column</span></span>
+<span id="cb646-2"><a href="data-cleaning-i.html#cb646-2"></a><span class="kw">which</span>(<span class="kw">is.na</span>(x<span class="op">$</span>x1))</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb648-1"><a href="data-cleaning-i.html#cb648-1"></a><span class="kw">which</span>(<span class="kw">is.na</span>(x<span class="op">$</span>x2))</span></code></pre></div>
+<pre><code>## [1] 1 4</code></pre>
+<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb650-1"><a href="data-cleaning-i.html#cb650-1"></a><span class="co"># Use complete.cases() to see which rows have no missing values</span></span>
+<span id="cb650-2"><a href="data-cleaning-i.html#cb650-2"></a><span class="kw">complete.cases</span>(x)</span></code></pre></div>
+<pre><code>## [1] FALSE  TRUE FALSE FALSE</code></pre>
+<p>For each row in x, complete.cases(x) returns TRUE/FALSE if the corresponding row has’t/has missing value.</p>
+<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb652-1"><a href="data-cleaning-i.html#cb652-1"></a><span class="co"># Use na.omit() to remove all rows with any missing values</span></span>
+<span id="cb652-2"><a href="data-cleaning-i.html#cb652-2"></a><span class="kw">na.omit</span>(x)</span></code></pre></div>
+<pre><code>##    x1 x2
+## 1:  5 23</code></pre>
+<p>na.omit() remove all rows that contain missing value. The resulting data will have no missing value.</p>
+</div>
+<div id="outliers-obvious-error-and-missing-value" class="section level2">
+<h2><span class="header-section-number">12.5</span> Outliers, obvious error and missing value</h2>
+<p>When dealing with strange values in your data, you often must decide whether they are just extreme or actually error. Extreme values show up all over the place, but you, the data analyst, must figure out when they are plausible and when they are not.</p>
+<p>One quick way to see the outlier is to visulize your data. The summary() and hist() and boxplot() are useful for this purpose.</p>
+<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb654-1"><a href="data-cleaning-i.html#cb654-1"></a><span class="co"># Look at a summary() of a variable</span></span>
+<span id="cb654-2"><a href="data-cleaning-i.html#cb654-2"></a><span class="kw">summary</span>(<span class="kw">as.numeric</span>(weather_boston<span class="op">$</span>X1))</span></code></pre></div>
+<pre><code>## Warning in summary(as.numeric(weather_boston$X1)): NAs introduced by coercion</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##   -6.00   10.00   29.99   38.70   50.00  332.00      17</code></pre>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb657-1"><a href="data-cleaning-i.html#cb657-1"></a><span class="co"># View a histogram of a variable</span></span>
+<span id="cb657-2"><a href="data-cleaning-i.html#cb657-2"></a><span class="kw">hist</span>(<span class="kw">as.numeric</span>(weather_boston<span class="op">$</span>X1), <span class="dt">breaks=</span><span class="dv">30</span>)</span></code></pre></div>
+<pre><code>## Warning in hist(as.numeric(weather_boston$X1), breaks = 30): NAs introduced by
+## coercion</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-259-1.png" width="672" /></p>
+<p>Another useful way of looking at strange values is with boxplots. Simply put, boxplots draw a box around the middle 50% of values for a given variable, with a bolded horizontal line drawn at the median. Values that fall far from the bulk of the data points (i.e. outliers) are denoted by open circles.</p>
+<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb659-1"><a href="data-cleaning-i.html#cb659-1"></a><span class="co"># view a boxplot</span></span>
+<span id="cb659-2"><a href="data-cleaning-i.html#cb659-2"></a><span class="kw">boxplot</span>(<span class="kw">as.numeric</span>(weather_boston<span class="op">$</span>X1))</span></code></pre></div>
+<pre><code>## Warning in boxplot(as.numeric(weather_boston$X1)): NAs introduced by coercion</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-260-1.png" width="672" /></p>
+</div>
+<div id="summary-7" class="section level2">
+<h2><span class="header-section-number">12.6</span> Summary</h2>
+<ul>
+<li><p>80% of the data scientist’s time is to clean data.</p></li>
+<li><p>Three steps to clean data: 1) exploring raw data to for diagnosis; 2) tidy the data using melt() and dcast() 3) convert columns into the right variable type.</p></li>
+<li><p>A tidy data means each row represents an observation, and each column represents a variable (attribute) about an observation. When columns names contains variable information, we should use melt(); when multiple variables are stacked into rows, we should use dcast().</p></li>
+<li><p>Convert each column into the correct variable types using as.character(), as.numeric(), as.factor(), as.logical().</p></li>
+<li><p>Use lubridate and stringr package to work with date and string variables.</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="put-it-together-explore-big-data-with-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-cleaning-ii.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/11-datacleaning_I.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

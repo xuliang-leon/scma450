@@ -1,0 +1,195 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Maching Learning with Caret
+
+The caret package (short for Classification And REgression Training) contains functions to streamline the model training process for complex regression and classification problems. It integrates all activities related to model development in a streamlined workflow for nearly every major ML algorithm available in R.
+
+In particular, we will use random forest algorithm through caret for prediction.  
+
+```{r, eval=FALSE}
+install.packages(c("caret","ranger","rpart","rattle"))
+```
+ 
+
+```{r, message=FALSE, warning=FALSE}
+library(data.table)
+library(leaps)
+
+library(rpart)    # build decision tree 
+library(rattle)   # plot decision tree
+library(ranger)   # random forest
+library(caret)
+
+library(stringr)
+```
+
+A random forest is a machine learning technique that’s used to solve regression and classification problems. It utilizes ensemble learning, which is a technique that combines many classifiers to provide solutions to complex problems. In a simple non-technique terms, the random forest algorithm builds multiple decision trees with different structures. Each tree has its own prediction. The final prediction is to aggregate the decision from all trees.
+
+For binary outcome, the aggregation is done through majority vote; For continuous outcome, the aggregation is through averaging. 
+
+
+## Random Forest
+Use random forest algorithm to predict house price
+```{r}
+Boston=fread("data/Boston.csv")
+Boston[,location:=factor(location)]
+Boston[,chas:=factor(chas)]
+
+nrow(Boston)  # check the number of rows
+# set the rand seed to ensure replicability 
+set.seed(1) 
+# set the size of training set
+train_size=round(0.8*nrow(Boston),0)  
+# randomly select 405 numbers from sequence of 1 to 506
+train=sample(1:nrow(Boston), train_size, replace=FALSE)
+
+model1 <- train(
+  log(medv)~., 
+  Boston[train],
+  method = "ranger"
+)
+
+plot(model1)
+
+pred = exp(predict(model1, Boston[-train]))
+error = pred - Boston[-train]$medv
+
+# Calculate RMSE
+rmse= sqrt(mean(error ^ 2))
+  
+# Mean Absolute Error
+mae=mean(abs(Boston[-train]$medv-pred))
+  
+# Mean Absolute Percent Error
+mape=mean(abs(Boston[-train]$medv-pred)/Boston[-train]$medv)
+c(rmse,mae, mape)
+
+# plot the actual and prediction
+plot(Boston[-train]$medv,pred)
+
+```
+
+
+
+
+Use random forest algorithm to predict survival of titanic passengers
+```{r}
+train <- fread('data/titanic/train.csv')
+test <- fread("data/titanic/test.csv")
+full=rbind(train, test, fill=TRUE)
+
+head(full)
+
+# clean data
+table(full$Embarked)
+full[Embarked=="", Embarked:="S"]   # replace missing Embarked with the most frequent value
+
+## examine the cabin information
+table(full$Cabin)
+full[Cabin=="",Cabin:="N"]  # if Cabin is missing, replace with N
+full[,Cabin:=str_extract(Cabin,"[:alpha:]")]   # extract the first letter of Cabin number
+full[Cabin%in%c("G","T"),Cabin:="N"]           # Cabin G and T do not have enough observation and reset to "N"
+table(full$Cabin)
+
+
+# check the missing value pattern
+summary(full)
+
+# We have a lot of missing data in the Age feature (263/1309)
+# examine rows with missing age
+full[is.na(Age)] %>% head()
+full=full[, Age2:=mean(Age,na.rm=TRUE)][is.na(Age), Age:=Age2][,-c("Age2")]  # replace missing age with average
+
+# replace missing fare with average fare
+full[is.na(Fare)]
+full=full[, Fare2:=mean(Fare,na.rm=TRUE)][is.na(Fare), Fare:=Fare2][,-c("Fare2")]
+
+# The title of the passenger can affect his survive:
+# extract title 
+full[,Title := gsub('(.*, )|(\\..*)', '', Name)]
+full[Title %in% c('Mlle','Ms','Mme','Lady','Dona'), Title:= 'Miss'] 
+full[Title %in% c('Capt','Col','Don','Dr','Jonkheer','Major','Rev','Sir','the Countess'), Title:= 'Officer']
+
+
+# Let's see how many unique levels for each variables
+apply(full,2, function(x) length(unique(x)))
+
+# Group Parch and SibSp into categorical variables
+table(full$Parch)
+table(full$SibSp)
+full[,Parch2:=ifelse(Parch>2,3,Parch), by=.(PassengerId)]
+full[,SibSp2:=ifelse(SibSp>4,4,SibSp), by=.(PassengerId)]
+
+
+# Let's move the features Survived, Pclass, Sex, Embarked to be factors
+cols<-c("Pclass","Sex","Embarked","Title","Cabin","SibSp2","Parch2")
+full[,(cols):=lapply(.SD, as.factor),.SDcols=cols]
+
+full[,Survived:=factor(Survived,levels=c(0,1), labels = c("D","S"))]
+summary(full)
+
+```
+
+
+
+## Random Forest
+```{r}
+LT=nrow(train)
+LT2=nrow(full)
+
+formula=Survived~ Pclass+Sex+Age+Fare+Cabin+Title+SibSp2+Parch2
+
+# Create trainControl object: myControl
+myControl <- trainControl(
+  method = "cv",
+  number = 5,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE, # IMPORTANT!
+  verboseIter = TRUE
+)
+
+# Train glm with custom trainControl: model
+model <- train(
+  formula, 
+  tuneLength = 4,
+  full[1:LT], 
+  method = "ranger",
+  trControl = myControl
+)
+
+# Print model to console 
+# Higher AUC (area under curve is better model)
+plot(model)
+
+# in-sample prediction
+p=predict(model, full, type = "prob")
+
+p_survival=ifelse(p$S>0.5, 1, 0)
+
+# Create confusion matrix
+confusionMatrix(factor(p_survival[1:LT]),factor(train$Survived))
+
+# sensitivity: correct negative
+# Specificity: correct positive rate
+
+# out-of-sample prediction
+submission=data.frame(PassengerId=test$PassengerId, Survived=p_survival[(LT+1):LT2])
+fwrite(submission,"data/titanic/submission.csv")
+
+```
+
+The overall in-sample prediction accuracy is 94.2%, meaning our prediction in 94.2% cases are correct. The accuracy should be broken into two additional measures: sensitivity and specificity. 
+
+* Sensitivity is the metric that evaluates a model's ability to predict true positives of each available category. In our case, we predict 97.45% of the death (the case of 0). 
+* Specificity: the proportion of observed negatives that were predicted to be negatives. In our case, we predict 88.89% of the survival (the case of 1). 
+
+Now, we can submit the prediction to kaggle and our score is 0.75837, which is ranked 47668. In order to improve the ranking, there are typically two ways: 
+
+* feature engineering: preprocess the column in the model
+* try a different prediction model.
+
+You will learn more predictive model in more advanced classes. 
+

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 R markdown for documentation | Notes for SCMA450: Data Modeling and Computing</title>
   <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 R markdown for documentation | Notes for SCMA450: Data Modeling and Computing" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Dr. Liang (Leon) Xu" />
 
 
-<meta name="date" content="2021-08-25" />
+<meta name="date" content="2021-09-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,8 @@
   
   
 <link rel="prev" href="flow-control.html"/>
-<link rel="next" href="use-data-table-package-for-big-data.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="next" href="use-data.table-package-for-big-data-i.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -200,30 +200,200 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
 <li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data</a><ul>
-<li class="chapter" data-level="8.1" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
-<li class="chapter" data-level="8.2" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
-<li class="chapter" data-level="8.2.1" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
-<li class="chapter" data-level="8.4" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
-<li class="chapter" data-level="8.4.1" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
-<li class="chapter" data-level="8.4.2" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
-<li class="chapter" data-level="8.4.3" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
-<li class="chapter" data-level="8.5.1" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
-<li class="chapter" data-level="8.5.2" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
-<li class="chapter" data-level="8.5.3" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
-<li class="chapter" data-level="8.5.4" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
-<li class="chapter" data-level="8.5.5" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
-<li class="chapter" data-level="8.5.6" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
-<li class="chapter" data-level="8.5.7" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
 </ul></li>
-<li class="chapter" data-level="8.6" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
-<li class="chapter" data-level="8.7" data-path="use-data-table-package-for-big-data.html"><a href="use-data-table-package-for-big-data.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2 I</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html"><i class="fa fa-check"></i><b>15</b> Visualization with ggplot2 II</a><ul>
+<li class="chapter" data-level="15.1" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#bar-chart-and-statistical-transformation-1"><i class="fa fa-check"></i><b>15.1</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="15.2" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#stacked-par-1"><i class="fa fa-check"></i><b>15.2</b> stacked par</a></li>
+<li class="chapter" data-level="15.3" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#histogram-1"><i class="fa fa-check"></i><b>15.3</b> Histogram</a></li>
+<li class="chapter" data-level="15.4" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#boxplot-1"><i class="fa fa-check"></i><b>15.4</b> boxplot</a></li>
+<li class="chapter" data-level="15.5" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#line-chart-1"><i class="fa fa-check"></i><b>15.5</b> line chart</a></li>
+<li class="chapter" data-level="15.6" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#use-theme-to-customize-the-appearance-of-your-chart.-1"><i class="fa fa-check"></i><b>15.6</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="15.7" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#summary-10"><i class="fa fa-check"></i><b>15.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html"><i class="fa fa-check"></i><b>16</b> Visualization with ggplot2 III</a><ul>
+<li class="chapter" data-level="16.1" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-world-map"><i class="fa fa-check"></i><b>16.1</b> Draw world map</a></li>
+<li class="chapter" data-level="16.2" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-map"><i class="fa fa-check"></i><b>16.2</b> Draw US map</a></li>
+<li class="chapter" data-level="16.3" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-county-map"><i class="fa fa-check"></i><b>16.3</b> draw US county map</a></li>
+<li class="chapter" data-level="16.4" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#summary-11"><i class="fa fa-check"></i><b>16.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html"><i class="fa fa-check"></i><b>17</b> Visualization with ggplot2 - Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-of-scatter-plot-to-show-how-two-variables-evolve-over-time-simultaneously"><i class="fa fa-check"></i><b>17.1</b> Animation of scatter plot to show how two variables evolve over time simultaneously</a></li>
+<li class="chapter" data-level="17.2" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#use-a-line-chart-to-show-how-gdppercap-evolve-over-time"><i class="fa fa-check"></i><b>17.2</b> Use a line chart to show how gdpPercap evolve over time</a></li>
+<li class="chapter" data-level="17.3" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-with-bar-chart"><i class="fa fa-check"></i><b>17.3</b> Animation with Bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>18</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="18.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#examine-and-explore-the-data"><i class="fa fa-check"></i><b>18.1</b> Examine and explore the data</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#correlation-matrix"><i class="fa fa-check"></i><b>18.1.1</b> Correlation matrix</a></li>
+<li class="chapter" data-level="18.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#scatter-plot-1"><i class="fa fa-check"></i><b>18.1.2</b> Scatter plot</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#develop-simple-linear-regression-model"><i class="fa fa-check"></i><b>18.2</b> Develop simple linear regression model</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>18.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="18.2.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#how-to-interpret-the-coefficient-estimates"><i class="fa fa-check"></i><b>18.2.2</b> How to interpret the coefficient estimates?</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#overall-model-fittness"><i class="fa fa-check"></i><b>18.3</b> Overall model fittness</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-diagnoise"><i class="fa fa-check"></i><b>18.3.1</b> Regression Diagnoise</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#use-estimated-model-for-prediction"><i class="fa fa-check"></i><b>18.4</b> Use estimated model for prediction</a></li>
+<li class="chapter" data-level="18.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#summary-12"><i class="fa fa-check"></i><b>18.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html"><i class="fa fa-check"></i><b>19</b> Log Tranformation and Polynomial Terms</a><ul>
+<li class="chapter" data-level="19.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#log-transformation"><i class="fa fa-check"></i><b>19.1</b> Log-transformation</a></li>
+<li class="chapter" data-level="19.2" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#quadratic-regression"><i class="fa fa-check"></i><b>19.2</b> Quadratic regression</a></li>
+<li class="chapter" data-level="19.3" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#polynomial-regression"><i class="fa fa-check"></i><b>19.3</b> Polynomial regression</a></li>
+<li class="chapter" data-level="19.4" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#summary-13"><i class="fa fa-check"></i><b>19.4</b> Summary</a></li>
+<li class="chapter" data-level="19.5" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#exercise-3"><i class="fa fa-check"></i><b>19.5</b> Exercise</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#solution"><i class="fa fa-check"></i><b>19.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html"><i class="fa fa-check"></i><b>20</b> Mutiple Linear Regression</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#mutiple-linear-regression-1"><i class="fa fa-check"></i><b>20.1</b> Mutiple linear regression</a></li>
+<li class="chapter" data-level="20.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#categorical-variables"><i class="fa fa-check"></i><b>20.2</b> Categorical variables</a></li>
+<li class="chapter" data-level="20.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#interprate-coefficients---keeping-all-other-variables-the-same"><i class="fa fa-check"></i><b>20.3</b> Interprate coefficients - Keeping all other variables the same</a></li>
+<li class="chapter" data-level="20.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#multicollinearity"><i class="fa fa-check"></i><b>20.4</b> Multicollinearity</a></li>
+<li class="chapter" data-level="20.5" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#excerise"><i class="fa fa-check"></i><b>20.5</b> Excerise</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#examine-the-frequency-of-chas"><i class="fa fa-check"></i><b>20.5.1</b> Examine the frequency of chas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#visualize-the-house-price-with-ggplot2"><i class="fa fa-check"></i><b>20.5.2</b> Visualize the house price with ggplot2</a></li>
+<li class="chapter" data-level="20.5.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#estimate-the-linear-regression-model"><i class="fa fa-check"></i><b>20.5.3</b> estimate the linear regression model</a></li>
+<li class="chapter" data-level="20.5.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#plot-the-fitted-line"><i class="fa fa-check"></i><b>20.5.4</b> plot the fitted line</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html"><i class="fa fa-check"></i><b>21</b> Best Subset Model Selection</a><ul>
+<li class="chapter" data-level="21.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#best-subset-model-selection-1"><i class="fa fa-check"></i><b>21.1</b> Best Subset Model Selection</a></li>
+<li class="chapter" data-level="21.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#deterimining-the-best-model-with-adj-r2-cp-aic-and-bic"><i class="fa fa-check"></i><b>21.2</b> Deterimining the best model with adj-R2, Cp, AIC, and BIC</a><ul>
+<li class="chapter" data-level="21.2.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#r-squared-is-not-a-good-criteria-for-model-selection"><i class="fa fa-check"></i><b>21.2.1</b> R-squared is not a good criteria for model selection</a></li>
+<li class="chapter" data-level="21.2.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-adjusted-r2"><i class="fa fa-check"></i><b>21.2.2</b> Select the best model using Adjusted R2</a></li>
+<li class="chapter" data-level="21.2.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-cp"><i class="fa fa-check"></i><b>21.2.3</b> Select the best model using Cp</a></li>
+<li class="chapter" data-level="21.2.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-bic"><i class="fa fa-check"></i><b>21.2.4</b> Select the best model using BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#forwardbackward-selection"><i class="fa fa-check"></i><b>21.3</b> Forward/Backward selection</a></li>
+<li class="chapter" data-level="21.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#summary-14"><i class="fa fa-check"></i><b>21.4</b> Summary:</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>22</b> Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#create-trainingtest-set"><i class="fa fa-check"></i><b>22.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="22.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-selection"><i class="fa fa-check"></i><b>22.2</b> Model selection</a><ul>
+<li class="chapter" data-level="22.2.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#estimate-the-model-using-training-set"><i class="fa fa-check"></i><b>22.2.1</b> estimate the model using training set</a></li>
+<li class="chapter" data-level="22.2.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#evaluate-the-models-out-of-sample-prediction-using-test-set"><i class="fa fa-check"></i><b>22.2.2</b> evaluate the models’ out-of-sample prediction using test set</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-4-has-the-problem-of-over-fitting"><i class="fa fa-check"></i><b>22.3</b> Model 4 has the problem of over-fitting</a></li>
+<li class="chapter" data-level="22.4" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#other-commonly-used-metrics-for-prediction-performance"><i class="fa fa-check"></i><b>22.4</b> Other Commonly Used Metrics for Prediction performance</a></li>
+<li class="chapter" data-level="22.5" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#summary-15"><i class="fa fa-check"></i><b>22.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>23</b> Best Subset Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="23.1" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#create-trainingtest-set-1"><i class="fa fa-check"></i><b>23.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="23.2" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#evaluate-the-best-subset-regression-through-trainingtest-set"><i class="fa fa-check"></i><b>23.2</b> Evaluate the Best subset regression through training/test set</a></li>
+<li class="chapter" data-level="23.3" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#exercise-4"><i class="fa fa-check"></i><b>23.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="decision-tree.html"><a href="decision-tree.html"><i class="fa fa-check"></i><b>24</b> Decision Tree</a></li>
+<li class="chapter" data-level="25" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html"><i class="fa fa-check"></i><b>25</b> Maching Learning with Caret</a><ul>
+<li class="chapter" data-level="25.1" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest"><i class="fa fa-check"></i><b>25.1</b> Random Forest</a></li>
+<li class="chapter" data-level="25.2" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest-1"><i class="fa fa-check"></i><b>25.2</b> Random Forest</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
 
@@ -272,7 +442,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>While version 1 is a boring game because you have already know the outcome of the game. In order not to have the pre-determined outcome, we need to let you and computer randomly choose from “rock, paper, scissors”. There is a convenient function in R for random sampling:</p>
 <p>sample(vector, n, replace=TRUE) samples n elements from vector with replacement. With replacement means that the sampled element is put back for the next sampling. E.g.,</p>
 <div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="r-markdown-for-documentation.html#cb349-1"></a><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;rock&quot;</span>,<span class="st">&quot;paper&quot;</span>,<span class="st">&quot;scissors&quot;</span>), <span class="dv">4</span>, <span class="dt">replace=</span><span class="ot">TRUE</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;paper&quot; &quot;paper&quot; &quot;paper&quot; &quot;paper&quot;</code></pre>
+<pre><code>## [1] &quot;scissors&quot; &quot;paper&quot;    &quot;rock&quot;     &quot;scissors&quot;</code></pre>
 </div>
 <div id="verison-2" class="section level2">
 <h2><span class="header-section-number">7.3</span> verison 2</h2>
@@ -417,7 +587,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="flow-control.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="use-data-table-package-for-big-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="use-data.table-package-for-big-data-i.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -461,6 +631,10 @@ gitbook.start({
 "text": null
 },
 "download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }

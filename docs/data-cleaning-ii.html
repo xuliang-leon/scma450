@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 13 Data Cleaning II | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 13 Data Cleaning II | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 13 Data Cleaning II | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-cleaning-i.html"/>
+<link rel="next" href="visualization-with-ggplot2-i.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2 I</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html"><i class="fa fa-check"></i><b>15</b> Visualization with ggplot2 II</a><ul>
+<li class="chapter" data-level="15.1" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#bar-chart-and-statistical-transformation-1"><i class="fa fa-check"></i><b>15.1</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="15.2" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#stacked-par-1"><i class="fa fa-check"></i><b>15.2</b> stacked par</a></li>
+<li class="chapter" data-level="15.3" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#histogram-1"><i class="fa fa-check"></i><b>15.3</b> Histogram</a></li>
+<li class="chapter" data-level="15.4" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#boxplot-1"><i class="fa fa-check"></i><b>15.4</b> boxplot</a></li>
+<li class="chapter" data-level="15.5" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#line-chart-1"><i class="fa fa-check"></i><b>15.5</b> line chart</a></li>
+<li class="chapter" data-level="15.6" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#use-theme-to-customize-the-appearance-of-your-chart.-1"><i class="fa fa-check"></i><b>15.6</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="15.7" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#summary-10"><i class="fa fa-check"></i><b>15.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html"><i class="fa fa-check"></i><b>16</b> Visualization with ggplot2 III</a><ul>
+<li class="chapter" data-level="16.1" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-world-map"><i class="fa fa-check"></i><b>16.1</b> Draw world map</a></li>
+<li class="chapter" data-level="16.2" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-map"><i class="fa fa-check"></i><b>16.2</b> Draw US map</a></li>
+<li class="chapter" data-level="16.3" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-county-map"><i class="fa fa-check"></i><b>16.3</b> draw US county map</a></li>
+<li class="chapter" data-level="16.4" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#summary-11"><i class="fa fa-check"></i><b>16.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html"><i class="fa fa-check"></i><b>17</b> Visualization with ggplot2 - Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-of-scatter-plot-to-show-how-two-variables-evolve-over-time-simultaneously"><i class="fa fa-check"></i><b>17.1</b> Animation of scatter plot to show how two variables evolve over time simultaneously</a></li>
+<li class="chapter" data-level="17.2" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#use-a-line-chart-to-show-how-gdppercap-evolve-over-time"><i class="fa fa-check"></i><b>17.2</b> Use a line chart to show how gdpPercap evolve over time</a></li>
+<li class="chapter" data-level="17.3" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-with-bar-chart"><i class="fa fa-check"></i><b>17.3</b> Animation with Bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>18</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="18.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#examine-and-explore-the-data"><i class="fa fa-check"></i><b>18.1</b> Examine and explore the data</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#correlation-matrix"><i class="fa fa-check"></i><b>18.1.1</b> Correlation matrix</a></li>
+<li class="chapter" data-level="18.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#scatter-plot-1"><i class="fa fa-check"></i><b>18.1.2</b> Scatter plot</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#develop-simple-linear-regression-model"><i class="fa fa-check"></i><b>18.2</b> Develop simple linear regression model</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>18.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="18.2.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#how-to-interpret-the-coefficient-estimates"><i class="fa fa-check"></i><b>18.2.2</b> How to interpret the coefficient estimates?</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#overall-model-fittness"><i class="fa fa-check"></i><b>18.3</b> Overall model fittness</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-diagnoise"><i class="fa fa-check"></i><b>18.3.1</b> Regression Diagnoise</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#use-estimated-model-for-prediction"><i class="fa fa-check"></i><b>18.4</b> Use estimated model for prediction</a></li>
+<li class="chapter" data-level="18.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#summary-12"><i class="fa fa-check"></i><b>18.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html"><i class="fa fa-check"></i><b>19</b> Log Tranformation and Polynomial Terms</a><ul>
+<li class="chapter" data-level="19.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#log-transformation"><i class="fa fa-check"></i><b>19.1</b> Log-transformation</a></li>
+<li class="chapter" data-level="19.2" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#quadratic-regression"><i class="fa fa-check"></i><b>19.2</b> Quadratic regression</a></li>
+<li class="chapter" data-level="19.3" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#polynomial-regression"><i class="fa fa-check"></i><b>19.3</b> Polynomial regression</a></li>
+<li class="chapter" data-level="19.4" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#summary-13"><i class="fa fa-check"></i><b>19.4</b> Summary</a></li>
+<li class="chapter" data-level="19.5" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#exercise-3"><i class="fa fa-check"></i><b>19.5</b> Exercise</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#solution"><i class="fa fa-check"></i><b>19.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html"><i class="fa fa-check"></i><b>20</b> Mutiple Linear Regression</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#mutiple-linear-regression-1"><i class="fa fa-check"></i><b>20.1</b> Mutiple linear regression</a></li>
+<li class="chapter" data-level="20.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#categorical-variables"><i class="fa fa-check"></i><b>20.2</b> Categorical variables</a></li>
+<li class="chapter" data-level="20.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#interprate-coefficients---keeping-all-other-variables-the-same"><i class="fa fa-check"></i><b>20.3</b> Interprate coefficients - Keeping all other variables the same</a></li>
+<li class="chapter" data-level="20.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#multicollinearity"><i class="fa fa-check"></i><b>20.4</b> Multicollinearity</a></li>
+<li class="chapter" data-level="20.5" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#excerise"><i class="fa fa-check"></i><b>20.5</b> Excerise</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#examine-the-frequency-of-chas"><i class="fa fa-check"></i><b>20.5.1</b> Examine the frequency of chas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#visualize-the-house-price-with-ggplot2"><i class="fa fa-check"></i><b>20.5.2</b> Visualize the house price with ggplot2</a></li>
+<li class="chapter" data-level="20.5.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#estimate-the-linear-regression-model"><i class="fa fa-check"></i><b>20.5.3</b> estimate the linear regression model</a></li>
+<li class="chapter" data-level="20.5.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#plot-the-fitted-line"><i class="fa fa-check"></i><b>20.5.4</b> plot the fitted line</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html"><i class="fa fa-check"></i><b>21</b> Best Subset Model Selection</a><ul>
+<li class="chapter" data-level="21.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#best-subset-model-selection-1"><i class="fa fa-check"></i><b>21.1</b> Best Subset Model Selection</a></li>
+<li class="chapter" data-level="21.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#deterimining-the-best-model-with-adj-r2-cp-aic-and-bic"><i class="fa fa-check"></i><b>21.2</b> Deterimining the best model with adj-R2, Cp, AIC, and BIC</a><ul>
+<li class="chapter" data-level="21.2.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#r-squared-is-not-a-good-criteria-for-model-selection"><i class="fa fa-check"></i><b>21.2.1</b> R-squared is not a good criteria for model selection</a></li>
+<li class="chapter" data-level="21.2.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-adjusted-r2"><i class="fa fa-check"></i><b>21.2.2</b> Select the best model using Adjusted R2</a></li>
+<li class="chapter" data-level="21.2.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-cp"><i class="fa fa-check"></i><b>21.2.3</b> Select the best model using Cp</a></li>
+<li class="chapter" data-level="21.2.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-bic"><i class="fa fa-check"></i><b>21.2.4</b> Select the best model using BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#forwardbackward-selection"><i class="fa fa-check"></i><b>21.3</b> Forward/Backward selection</a></li>
+<li class="chapter" data-level="21.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#summary-14"><i class="fa fa-check"></i><b>21.4</b> Summary:</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>22</b> Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#create-trainingtest-set"><i class="fa fa-check"></i><b>22.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="22.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-selection"><i class="fa fa-check"></i><b>22.2</b> Model selection</a><ul>
+<li class="chapter" data-level="22.2.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#estimate-the-model-using-training-set"><i class="fa fa-check"></i><b>22.2.1</b> estimate the model using training set</a></li>
+<li class="chapter" data-level="22.2.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#evaluate-the-models-out-of-sample-prediction-using-test-set"><i class="fa fa-check"></i><b>22.2.2</b> evaluate the models’ out-of-sample prediction using test set</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-4-has-the-problem-of-over-fitting"><i class="fa fa-check"></i><b>22.3</b> Model 4 has the problem of over-fitting</a></li>
+<li class="chapter" data-level="22.4" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#other-commonly-used-metrics-for-prediction-performance"><i class="fa fa-check"></i><b>22.4</b> Other Commonly Used Metrics for Prediction performance</a></li>
+<li class="chapter" data-level="22.5" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#summary-15"><i class="fa fa-check"></i><b>22.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>23</b> Best Subset Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="23.1" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#create-trainingtest-set-1"><i class="fa fa-check"></i><b>23.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="23.2" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#evaluate-the-best-subset-regression-through-trainingtest-set"><i class="fa fa-check"></i><b>23.2</b> Evaluate the Best subset regression through training/test set</a></li>
+<li class="chapter" data-level="23.3" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#exercise-4"><i class="fa fa-check"></i><b>23.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="decision-tree.html"><a href="decision-tree.html"><i class="fa fa-check"></i><b>24</b> Decision Tree</a></li>
+<li class="chapter" data-level="25" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html"><i class="fa fa-check"></i><b>25</b> Maching Learning with Caret</a><ul>
+<li class="chapter" data-level="25.1" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest"><i class="fa fa-check"></i><b>25.1</b> Random Forest</a></li>
+<li class="chapter" data-level="25.2" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest-1"><i class="fa fa-check"></i><b>25.2</b> Random Forest</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-cleaning-ii" class="section level1">
+<h1><span class="header-section-number">Chapter 13</span> Data Cleaning II</h1>
+<p>In this chapter, we will continue the discussion on how to clean data through an example of cleaning the messy dataset: weather_boston.</p>
+<p>Run the code to install the packages (only need to run once):</p>
+<div class="sourceCode" id="cb661"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb661-1"><a href="data-cleaning-ii.html#cb661-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>)   <span class="co"># dealing date variable</span></span>
+<span id="cb661-2"><a href="data-cleaning-ii.html#cb661-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;stringr&quot;</span>)     <span class="co"># dealing strings/character</span></span>
+<span id="cb661-3"><a href="data-cleaning-ii.html#cb661-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;tidyr&quot;</span>)       <span class="co"># tidying data</span></span>
+<span id="cb661-4"><a href="data-cleaning-ii.html#cb661-4"></a><span class="kw">install.packages</span>(<span class="st">&quot;data.table&quot;</span>)</span></code></pre></div>
+<p>Run the code to load the packages into R:</p>
+<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb662-1"><a href="data-cleaning-ii.html#cb662-1"></a><span class="kw">library</span>(lubridate)</span>
+<span id="cb662-2"><a href="data-cleaning-ii.html#cb662-2"></a><span class="kw">library</span>(stringr)</span>
+<span id="cb662-3"><a href="data-cleaning-ii.html#cb662-3"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb662-4"><a href="data-cleaning-ii.html#cb662-4"></a><span class="kw">library</span>(data.table)</span></code></pre></div>
+<p>Just a recap: the three basic steps to clean a messy data include:</p>
+<ul>
+<li><p>exploring raw data to diagnose the places to be cleaned</p></li>
+<li><p>tidying data to make rows as observations, columns as variables.</p></li>
+<li><p>preparing data for analysis (converting columns into the right variable type)</p></li>
+</ul>
+<p>First thing first, let’s read the weather_boston.csv data into R.</p>
+<div class="sourceCode" id="cb663"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb663-1"><a href="data-cleaning-ii.html#cb663-1"></a><span class="co"># use fread() to read csv into R as data.table</span></span>
+<span id="cb663-2"><a href="data-cleaning-ii.html#cb663-2"></a>weather_boston&lt;-<span class="kw">fread</span>(<span class="st">&quot;data/weather_boston.csv&quot;</span>)  </span></code></pre></div>
+<div id="explore-the-raw-data" class="section level2">
+<h2><span class="header-section-number">13.1</span> Explore the raw data</h2>
+<p>Before diving into our data cleaning routine, we must first understand the basic structure of the data. This involves looking at things like the class() of the data object to make sure it’s what we expect (generally a data.table) in addition to checking its dimensions with dim() and the column names with names()</p>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb664-1"><a href="data-cleaning-ii.html#cb664-1"></a><span class="co"># Verify that weather_boston is a data.frame</span></span>
+<span id="cb664-2"><a href="data-cleaning-ii.html#cb664-2"></a><span class="kw">class</span>(weather_boston)</span></code></pre></div>
+<pre><code>## [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb666"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb666-1"><a href="data-cleaning-ii.html#cb666-1"></a><span class="co"># Check the dimensions</span></span>
+<span id="cb666-2"><a href="data-cleaning-ii.html#cb666-2"></a><span class="kw">dim</span>(weather_boston)</span></code></pre></div>
+<pre><code>## [1] 286  34</code></pre>
+<div class="sourceCode" id="cb668"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb668-1"><a href="data-cleaning-ii.html#cb668-1"></a><span class="co"># View the column names</span></span>
+<span id="cb668-2"><a href="data-cleaning-ii.html#cb668-2"></a><span class="kw">names</span>(weather_boston)</span></code></pre></div>
+<pre><code>##  [1] &quot;year&quot;    &quot;month&quot;   &quot;measure&quot; &quot;X1&quot;      &quot;X2&quot;      &quot;X3&quot;      &quot;X4&quot;     
+##  [8] &quot;X5&quot;      &quot;X6&quot;      &quot;X7&quot;      &quot;X8&quot;      &quot;X9&quot;      &quot;X10&quot;     &quot;X11&quot;    
+## [15] &quot;X12&quot;     &quot;X13&quot;     &quot;X14&quot;     &quot;X15&quot;     &quot;X16&quot;     &quot;X17&quot;     &quot;X18&quot;    
+## [22] &quot;X19&quot;     &quot;X20&quot;     &quot;X21&quot;     &quot;X22&quot;     &quot;X23&quot;     &quot;X24&quot;     &quot;X25&quot;    
+## [29] &quot;X26&quot;     &quot;X27&quot;     &quot;X28&quot;     &quot;X29&quot;     &quot;X30&quot;     &quot;X31&quot;</code></pre>
+</div>
+<div id="summarize-the-data" class="section level2">
+<h2><span class="header-section-number">13.2</span> Summarize the data</h2>
+<p>Next up is to look at some summaries of the data. This is where functions like str(), glimpse() from dplyr, and summary() come in handy.</p>
+<div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb670-1"><a href="data-cleaning-ii.html#cb670-1"></a><span class="co"># View the structure of the data</span></span>
+<span id="cb670-2"><a href="data-cleaning-ii.html#cb670-2"></a><span class="kw">str</span>(weather_boston)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   286 obs. of  34 variables:
+##  $ year   : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
+##  $ month  : int  12 12 12 12 12 12 12 12 12 12 ...
+##  $ measure: chr  &quot;Max.TemperatureF&quot; &quot;Mean.TemperatureF&quot; &quot;Min.TemperatureF&quot; &quot;Max.Dew.PointF&quot; ...
+##  $ X1     : chr  &quot;64&quot; &quot;52&quot; &quot;39&quot; &quot;46&quot; ...
+##  $ X2     : chr  &quot;42&quot; &quot;38&quot; &quot;33&quot; &quot;40&quot; ...
+##  $ X3     : chr  &quot;51&quot; &quot;44&quot; &quot;37&quot; &quot;49&quot; ...
+##  $ X4     : chr  &quot;43&quot; &quot;37&quot; &quot;30&quot; &quot;24&quot; ...
+##  $ X5     : chr  &quot;42&quot; &quot;34&quot; &quot;26&quot; &quot;37&quot; ...
+##  $ X6     : chr  &quot;45&quot; &quot;42&quot; &quot;38&quot; &quot;45&quot; ...
+##  $ X7     : chr  &quot;38&quot; &quot;30&quot; &quot;21&quot; &quot;36&quot; ...
+##  $ X8     : chr  &quot;29&quot; &quot;24&quot; &quot;18&quot; &quot;28&quot; ...
+##  $ X9     : chr  &quot;49&quot; &quot;39&quot; &quot;29&quot; &quot;49&quot; ...
+##  $ X10    : chr  &quot;48&quot; &quot;43&quot; &quot;38&quot; &quot;45&quot; ...
+##  $ X11    : chr  &quot;39&quot; &quot;36&quot; &quot;32&quot; &quot;37&quot; ...
+##  $ X12    : chr  &quot;39&quot; &quot;35&quot; &quot;31&quot; &quot;28&quot; ...
+##  $ X13    : chr  &quot;42&quot; &quot;37&quot; &quot;32&quot; &quot;28&quot; ...
+##  $ X14    : chr  &quot;45&quot; &quot;39&quot; &quot;33&quot; &quot;29&quot; ...
+##  $ X15    : chr  &quot;42&quot; &quot;37&quot; &quot;32&quot; &quot;33&quot; ...
+##  $ X16    : chr  &quot;44&quot; &quot;40&quot; &quot;35&quot; &quot;42&quot; ...
+##  $ X17    : chr  &quot;49&quot; &quot;45&quot; &quot;41&quot; &quot;46&quot; ...
+##  $ X18    : chr  &quot;44&quot; &quot;40&quot; &quot;36&quot; &quot;34&quot; ...
+##  $ X19    : chr  &quot;37&quot; &quot;33&quot; &quot;29&quot; &quot;25&quot; ...
+##  $ X20    : chr  &quot;36&quot; &quot;32&quot; &quot;27&quot; &quot;30&quot; ...
+##  $ X21    : chr  &quot;36&quot; &quot;33&quot; &quot;30&quot; &quot;30&quot; ...
+##  $ X22    : chr  &quot;44&quot; &quot;39&quot; &quot;33&quot; &quot;39&quot; ...
+##  $ X23    : chr  &quot;47&quot; &quot;45&quot; &quot;42&quot; &quot;45&quot; ...
+##  $ X24    : chr  &quot;46&quot; &quot;44&quot; &quot;41&quot; &quot;46&quot; ...
+##  $ X25    : chr  &quot;59&quot; &quot;52&quot; &quot;44&quot; &quot;58&quot; ...
+##  $ X26    : chr  &quot;50&quot; &quot;44&quot; &quot;37&quot; &quot;31&quot; ...
+##  $ X27    : chr  &quot;52&quot; &quot;45&quot; &quot;38&quot; &quot;34&quot; ...
+##  $ X28    : chr  &quot;52&quot; &quot;46&quot; &quot;40&quot; &quot;42&quot; ...
+##  $ X29    : chr  &quot;41&quot; &quot;36&quot; &quot;30&quot; &quot;26&quot; ...
+##  $ X30    : chr  &quot;30&quot; &quot;26&quot; &quot;22&quot; &quot;10&quot; ...
+##  $ X31    : chr  &quot;30&quot; &quot;25&quot; &quot;20&quot; &quot;8&quot; ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb672-1"><a href="data-cleaning-ii.html#cb672-1"></a><span class="co"># View a summary of the data</span></span>
+<span id="cb672-2"><a href="data-cleaning-ii.html#cb672-2"></a><span class="kw">summary</span>(weather_boston)</span></code></pre></div>
+<pre><code>##       year          month          measure               X1           
+##  Min.   :2014   Min.   : 1.000   Length:286         Length:286        
+##  1st Qu.:2015   1st Qu.: 4.000   Class :character   Class :character  
+##  Median :2015   Median : 7.000   Mode  :character   Mode  :character  
+##  Mean   :2015   Mean   : 6.923                                        
+##  3rd Qu.:2015   3rd Qu.:10.000                                        
+##  Max.   :2015   Max.   :12.000                                        
+##       X2                 X3                 X4                 X5           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##       X6                 X7                 X8                 X9           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X10                X11                X12                X13           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X14                X15                X16                X17           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X18                X19                X20                X21           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X22                X23                X24                X25           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X26                X27                X28                X29           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X30                X31           
+##  Length:286         Length:286        
+##  Class :character   Class :character  
+##  Mode  :character   Mode  :character  
+##                                       
+##                                       
+## </code></pre>
+<div id="take-a-closer-look" class="section level3">
+<h3><span class="header-section-number">13.2.1</span> Take a closer look</h3>
+<p>After understanding the structure of the data and looking at some brief summaries, it often helps to preview the actual data. The functions head() and tail() allow you to view the top and bottom 6 rows of the data, respectively. You can show more rows by assigning a second argument.</p>
+<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb674-1"><a href="data-cleaning-ii.html#cb674-1"></a><span class="co"># View first 6 rows</span></span>
+<span id="cb674-2"><a href="data-cleaning-ii.html#cb674-2"></a><span class="kw">head</span>(weather_boston)</span></code></pre></div>
+<pre><code>##    year month           measure X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14
+## 1: 2014    12  Max.TemperatureF 64 42 51 43 42 45 38 29 49  48  39  39  42  45
+## 2: 2014    12 Mean.TemperatureF 52 38 44 37 34 42 30 24 39  43  36  35  37  39
+## 3: 2014    12  Min.TemperatureF 39 33 37 30 26 38 21 18 29  38  32  31  32  33
+## 4: 2014    12    Max.Dew.PointF 46 40 49 24 37 45 36 28 49  45  37  28  28  29
+## 5: 2014    12    MeanDew.PointF 40 27 42 21 25 40 20 16 41  39  31  27  26  27
+## 6: 2014    12     Min.DewpointF 26 17 24 13 12 36 -3  3 28  37  27  25  24  25
+##    X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31
+## 1:  42  44  49  44  37  36  36  44  47  46  59  50  52  52  41  30  30
+## 2:  37  40  45  40  33  32  33  39  45  44  52  44  45  46  36  26  25
+## 3:  32  35  41  36  29  27  30  33  42  41  44  37  38  40  30  22  20
+## 4:  33  42  46  34  25  30  30  39  45  46  58  31  34  42  26  10   8
+## 5:  29  36  41  30  22  24  27  34  42  44  43  29  31  35  20   4   5
+## 6:  27  30  32  26  20  20  25  25  37  41  29  28  29  27  10  -6   1</code></pre>
+<div class="sourceCode" id="cb676"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb676-1"><a href="data-cleaning-ii.html#cb676-1"></a><span class="co"># View first 8 rows</span></span>
+<span id="cb676-2"><a href="data-cleaning-ii.html#cb676-2"></a><span class="kw">head</span>(weather_boston, <span class="dv">8</span>)</span></code></pre></div>
+<pre><code>##    year month           measure X1 X2  X3 X4 X5  X6 X7 X8  X9 X10 X11 X12 X13
+## 1: 2014    12  Max.TemperatureF 64 42  51 43 42  45 38 29  49  48  39  39  42
+## 2: 2014    12 Mean.TemperatureF 52 38  44 37 34  42 30 24  39  43  36  35  37
+## 3: 2014    12  Min.TemperatureF 39 33  37 30 26  38 21 18  29  38  32  31  32
+## 4: 2014    12    Max.Dew.PointF 46 40  49 24 37  45 36 28  49  45  37  28  28
+## 5: 2014    12    MeanDew.PointF 40 27  42 21 25  40 20 16  41  39  31  27  26
+## 6: 2014    12     Min.DewpointF 26 17  24 13 12  36 -3  3  28  37  27  25  24
+## 7: 2014    12      Max.Humidity 74 92 100 69 85 100 92 92 100 100  92  85  75
+## 8: 2014    12     Mean.Humidity 63 72  79 54 66  93 61 70  93  95  87  75  65
+##    X14 X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31
+## 1:  45  42  44  49  44  37  36  36  44  47  46  59  50  52  52  41  30  30
+## 2:  39  37  40  45  40  33  32  33  39  45  44  52  44  45  46  36  26  25
+## 3:  33  32  35  41  36  29  27  30  33  42  41  44  37  38  40  30  22  20
+## 4:  29  33  42  46  34  25  30  30  39  45  46  58  31  34  42  26  10   8
+## 5:  27  29  36  41  30  22  24  27  34  42  44  43  29  31  35  20   4   5
+## 6:  25  27  30  32  26  20  20  25  25  37  41  29  28  29  27  10  -6   1
+## 7:  82  89  96 100  89  69  89  85  89 100 100 100  70  70  76  64  50  57
+## 8:  68  75  85  85  73  63  79  77  79  91  98  75  60  60  65  51  38  44</code></pre>
+<div class="sourceCode" id="cb678"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb678-1"><a href="data-cleaning-ii.html#cb678-1"></a><span class="co"># View the last 6 rows</span></span>
+<span id="cb678-2"><a href="data-cleaning-ii.html#cb678-2"></a><span class="kw">tail</span>(weather_boston)</span></code></pre></div>
+<pre><code>##    year month            measure   X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13
+## 1: 2015    12 Mean.Wind.SpeedMPH    6                                        
+## 2: 2015    12  Max.Gust.SpeedMPH   17                                        
+## 3: 2015    12    PrecipitationIn 0.14                                        
+## 4: 2015    12         CloudCover    7                                        
+## 5: 2015    12             Events Rain                                        
+## 6: 2015    12     WindDirDegrees  109                                        
+##    X14 X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31
+## 1:                                                                        
+## 2:                                                                        
+## 3:                                                                        
+## 4:                                                                        
+## 5:                                                                        
+## 6:</code></pre>
+</div>
+</div>
+<div id="tidy-the-data" class="section level2">
+<h2><span class="header-section-number">13.3</span> Tidy the data</h2>
+<p>The first symptoms of the data is that column names are values. In particular, the column names X1-X31 represent days of the month, which should really be values of a new variable called day.</p>
+<p>We can use melt() function exactly this scenario.</p>
+<div class="sourceCode" id="cb680"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb680-1"><a href="data-cleaning-ii.html#cb680-1"></a>weather_boston2 =<span class="st"> </span><span class="kw">melt</span>(weather_boston, <span class="dt">id=</span><span class="kw">c</span>(<span class="st">&quot;year&quot;</span>,<span class="st">&quot;month&quot;</span>,<span class="st">&quot;measure&quot;</span>), <span class="dt">measure=</span><span class="kw">patterns</span>(<span class="st">&quot;X&quot;</span>), <span class="dt">variable.name =</span> <span class="st">&quot;day&quot;</span>, <span class="dt">value.name=</span> <span class="st">&quot;value&quot;</span>)  </span>
+<span id="cb680-2"><a href="data-cleaning-ii.html#cb680-2"></a></span>
+<span id="cb680-3"><a href="data-cleaning-ii.html#cb680-3"></a><span class="co"># View the head</span></span>
+<span id="cb680-4"><a href="data-cleaning-ii.html#cb680-4"></a><span class="kw">head</span>(weather_boston2)</span></code></pre></div>
+<pre><code>##    year month           measure day value
+## 1: 2014    12  Max.TemperatureF  X1    64
+## 2: 2014    12 Mean.TemperatureF  X1    52
+## 3: 2014    12  Min.TemperatureF  X1    39
+## 4: 2014    12    Max.Dew.PointF  X1    46
+## 5: 2014    12    MeanDew.PointF  X1    40
+## 6: 2014    12     Min.DewpointF  X1    26</code></pre>
+<p>The resulting data now suffers from another common symptom of messy data: values are variable names. Specifically, values in the measure column should be variables (i.e. column names) in our dataset.</p>
+<p>The dcast() function is designed to help with this.</p>
+<div class="sourceCode" id="cb682"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb682-1"><a href="data-cleaning-ii.html#cb682-1"></a>weather_boston3 &lt;-<span class="st"> </span><span class="kw">dcast</span>(weather_boston2, year<span class="op">+</span>month<span class="op">+</span>day<span class="op">~</span>measure, <span class="dt">value.var =</span> <span class="st">&quot;value&quot;</span>)</span>
+<span id="cb682-2"><a href="data-cleaning-ii.html#cb682-2"></a></span>
+<span id="cb682-3"><a href="data-cleaning-ii.html#cb682-3"></a><span class="kw">head</span>(weather_boston3)</span></code></pre></div>
+<pre><code>##    year month day CloudCover    Events Max.Dew.PointF Max.Gust.SpeedMPH
+## 1: 2014    12  X1          6      Rain             46                29
+## 2: 2014    12  X2          7 Rain-Snow             40                29
+## 3: 2014    12  X3          8      Rain             49                38
+## 4: 2014    12  X4          3                       24                33
+## 5: 2014    12  X5          5      Rain             37                26
+## 6: 2014    12  X6          8      Rain             45                25
+##    Max.Humidity Max.Sea.Level.PressureIn Max.TemperatureF Max.VisibilityMiles
+## 1:           74                    30.45               64                  10
+## 2:           92                    30.71               42                  10
+## 3:          100                     30.4               51                  10
+## 4:           69                    30.56               43                  10
+## 5:           85                    30.68               42                  10
+## 6:          100                    30.42               45                  10
+##    Max.Wind.SpeedMPH Mean.Humidity Mean.Sea.Level.PressureIn Mean.TemperatureF
+## 1:                22            63                     30.13                52
+## 2:                24            72                     30.59                38
+## 3:                29            79                     30.07                44
+## 4:                25            54                     30.33                37
+## 5:                22            66                     30.59                34
+## 6:                22            93                     30.24                42
+##    Mean.VisibilityMiles Mean.Wind.SpeedMPH MeanDew.PointF Min.DewpointF
+## 1:                   10                 13             40            26
+## 2:                    8                 15             27            17
+## 3:                    5                 12             42            24
+## 4:                   10                 12             21            13
+## 5:                   10                 10             25            12
+## 6:                    4                  8             40            36
+##    Min.Humidity Min.Sea.Level.PressureIn Min.TemperatureF Min.VisibilityMiles
+## 1:           52                    30.01               39                  10
+## 2:           51                     30.4               33                   2
+## 3:           57                    29.87               37                   1
+## 4:           39                    30.09               30                  10
+## 5:           47                    30.45               26                   5
+## 6:           85                    30.16               38                   0
+##    PrecipitationIn WindDirDegrees
+## 1:            0.01            268
+## 2:            0.10             62
+## 3:            0.44            254
+## 4:            0.00            292
+## 5:            0.11             61
+## 6:            1.09            313</code></pre>
+<p>Now, the data is tidy: each row is an observation, each column is a variable.</p>
+</div>
+<div id="prepare-for-analysis" class="section level2">
+<h2><span class="header-section-number">13.4</span> prepare for analysis</h2>
+<div id="clean-up-dates" class="section level3">
+<h3><span class="header-section-number">13.4.1</span> Clean up dates</h3>
+<p>Now that the weather_boston dataset adheres to tidy data principles, the next step is to prepare it for analysis. We’ll start by combining the year, month, and day columns and recoding the resulting character column as a date. We can use a combination of base R, stringr, and lubridate to accomplish this task.</p>
+<div class="sourceCode" id="cb684"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb684-1"><a href="data-cleaning-ii.html#cb684-1"></a><span class="co"># Remove X&#39;s from day column</span></span>
+<span id="cb684-2"><a href="data-cleaning-ii.html#cb684-2"></a>weather_boston3[,day<span class="op">:</span><span class="er">=</span><span class="kw">str_replace</span>(day, <span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>)]  </span>
+<span id="cb684-3"><a href="data-cleaning-ii.html#cb684-3"></a><span class="kw">head</span>(weather_boston3)</span></code></pre></div>
+<pre><code>##    year month day CloudCover    Events Max.Dew.PointF Max.Gust.SpeedMPH
+## 1: 2014    12   1          6      Rain             46                29
+## 2: 2014    12   2          7 Rain-Snow             40                29
+## 3: 2014    12   3          8      Rain             49                38
+## 4: 2014    12   4          3                       24                33
+## 5: 2014    12   5          5      Rain             37                26
+## 6: 2014    12   6          8      Rain             45                25
+##    Max.Humidity Max.Sea.Level.PressureIn Max.TemperatureF Max.VisibilityMiles
+## 1:           74                    30.45               64                  10
+## 2:           92                    30.71               42                  10
+## 3:          100                     30.4               51                  10
+## 4:           69                    30.56               43                  10
+## 5:           85                    30.68               42                  10
+## 6:          100                    30.42               45                  10
+##    Max.Wind.SpeedMPH Mean.Humidity Mean.Sea.Level.PressureIn Mean.TemperatureF
+## 1:                22            63                     30.13                52
+## 2:                24            72                     30.59                38
+## 3:                29            79                     30.07                44
+## 4:                25            54                     30.33                37
+## 5:                22            66                     30.59                34
+## 6:                22            93                     30.24                42
+##    Mean.VisibilityMiles Mean.Wind.SpeedMPH MeanDew.PointF Min.DewpointF
+## 1:                   10                 13             40            26
+## 2:                    8                 15             27            17
+## 3:                    5                 12             42            24
+## 4:                   10                 12             21            13
+## 5:                   10                 10             25            12
+## 6:                    4                  8             40            36
+##    Min.Humidity Min.Sea.Level.PressureIn Min.TemperatureF Min.VisibilityMiles
+## 1:           52                    30.01               39                  10
+## 2:           51                     30.4               33                   2
+## 3:           57                    29.87               37                   1
+## 4:           39                    30.09               30                  10
+## 5:           47                    30.45               26                   5
+## 6:           85                    30.16               38                   0
+##    PrecipitationIn WindDirDegrees
+## 1:            0.01            268
+## 2:            0.10             62
+## 3:            0.44            254
+## 4:            0.00            292
+## 5:            0.11             61
+## 6:            1.09            313</code></pre>
+<p>Convert date column to proper date format using lubridates’s ymd()</p>
+<div class="sourceCode" id="cb686"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb686-1"><a href="data-cleaning-ii.html#cb686-1"></a><span class="co"># combine year, month day to be a date variable </span></span>
+<span id="cb686-2"><a href="data-cleaning-ii.html#cb686-2"></a>weather_boston3[,date<span class="op">:</span><span class="er">=</span><span class="kw">ymd</span>(<span class="kw">str_c</span>(year,month,day, <span class="dt">sep=</span><span class="st">&quot;-&quot;</span>))]  </span></code></pre></div>
+<pre><code>## Warning: 7 failed to parse.</code></pre>
+<div class="sourceCode" id="cb688"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb688-1"><a href="data-cleaning-ii.html#cb688-1"></a><span class="co"># examine the rows with missing date</span></span>
+<span id="cb688-2"><a href="data-cleaning-ii.html#cb688-2"></a>weather_boston3[<span class="kw">is.na</span>(date)]</span></code></pre></div>
+<pre><code>##    year month day CloudCover Events Max.Dew.PointF Max.Gust.SpeedMPH
+## 1: 2015     2  29                                                   
+## 2: 2015     2  30                                                   
+## 3: 2015     2  31                                                   
+## 4: 2015     4  31                                                   
+## 5: 2015     6  31                                                   
+## 6: 2015     9  31                                                   
+## 7: 2015    11  31                                                   
+##    Max.Humidity Max.Sea.Level.PressureIn Max.TemperatureF Max.VisibilityMiles
+## 1:                                                                           
+## 2:                                                                           
+## 3:                                                                           
+## 4:                                                                           
+## 5:                                                                           
+## 6:                                                                           
+## 7:                                                                           
+##    Max.Wind.SpeedMPH Mean.Humidity Mean.Sea.Level.PressureIn Mean.TemperatureF
+## 1:                                                                            
+## 2:                                                                            
+## 3:                                                                            
+## 4:                                                                            
+## 5:                                                                            
+## 6:                                                                            
+## 7:                                                                            
+##    Mean.VisibilityMiles Mean.Wind.SpeedMPH MeanDew.PointF Min.DewpointF
+## 1:                                                                     
+## 2:                                                                     
+## 3:                                                                     
+## 4:                                                                     
+## 5:                                                                     
+## 6:                                                                     
+## 7:                                                                     
+##    Min.Humidity Min.Sea.Level.PressureIn Min.TemperatureF Min.VisibilityMiles
+## 1:                                                                           
+## 2:                                                                           
+## 3:                                                                           
+## 4:                                                                           
+## 5:                                                                           
+## 6:                                                                           
+## 7:                                                                           
+##    PrecipitationIn WindDirDegrees date
+## 1:                                &lt;NA&gt;
+## 2:                                &lt;NA&gt;
+## 3:                                &lt;NA&gt;
+## 4:                                &lt;NA&gt;
+## 5:                                &lt;NA&gt;
+## 6:                                &lt;NA&gt;
+## 7:                                &lt;NA&gt;</code></pre>
+<div class="sourceCode" id="cb690"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb690-1"><a href="data-cleaning-ii.html#cb690-1"></a><span class="co"># remove rows with missing date</span></span>
+<span id="cb690-2"><a href="data-cleaning-ii.html#cb690-2"></a>weather_boston4=weather_boston3[<span class="op">!</span><span class="kw">is.na</span>(date)] </span></code></pre></div>
+</div>
+<div id="a-closer-look-at-column-types" class="section level3">
+<h3><span class="header-section-number">13.4.2</span> A closer look at column types</h3>
+<p>It’s important for analysis that variables are coded appropriately. This is not yet the case with our weather_boston data. Recall that functions such as as.numeric() and as.character() can be used to coerce variables into different types.</p>
+<p>It’s important to keep in mind that coercion are not always successful, particularly if there’s some data in a column that you don’t expect. For example, the following will cause problems:</p>
+<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb691-1"><a href="data-cleaning-ii.html#cb691-1"></a><span class="kw">as.numeric</span>(<span class="kw">c</span>(<span class="dv">4</span>, <span class="fl">6.44</span>, <span class="st">&quot;some string&quot;</span>, <span class="dv">222</span>))</span></code></pre></div>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre><code>## [1]   4.00   6.44     NA 222.00</code></pre>
+<p>If you run the code above in the console, you’ll get a warning message saying that R introduced an NA in the process of coercing to numeric. This is because it doesn’t know how to make a number out of a string (“some string”). Watch out for this in our weather_boston data!</p>
+<div class="sourceCode" id="cb694"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb694-1"><a href="data-cleaning-ii.html#cb694-1"></a><span class="kw">str</span>(weather_boston4)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   396 obs. of  26 variables:
+##  $ year                     : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
+##  $ month                    : int  12 12 12 12 12 12 12 12 12 12 ...
+##  $ day                      : chr  &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##  $ CloudCover               : chr  &quot;6&quot; &quot;7&quot; &quot;8&quot; &quot;3&quot; ...
+##  $ Events                   : chr  &quot;Rain&quot; &quot;Rain-Snow&quot; &quot;Rain&quot; &quot;&quot; ...
+##  $ Max.Dew.PointF           : chr  &quot;46&quot; &quot;40&quot; &quot;49&quot; &quot;24&quot; ...
+##  $ Max.Gust.SpeedMPH        : chr  &quot;29&quot; &quot;29&quot; &quot;38&quot; &quot;33&quot; ...
+##  $ Max.Humidity             : chr  &quot;74&quot; &quot;92&quot; &quot;100&quot; &quot;69&quot; ...
+##  $ Max.Sea.Level.PressureIn : chr  &quot;30.45&quot; &quot;30.71&quot; &quot;30.4&quot; &quot;30.56&quot; ...
+##  $ Max.TemperatureF         : chr  &quot;64&quot; &quot;42&quot; &quot;51&quot; &quot;43&quot; ...
+##  $ Max.VisibilityMiles      : chr  &quot;10&quot; &quot;10&quot; &quot;10&quot; &quot;10&quot; ...
+##  $ Max.Wind.SpeedMPH        : chr  &quot;22&quot; &quot;24&quot; &quot;29&quot; &quot;25&quot; ...
+##  $ Mean.Humidity            : chr  &quot;63&quot; &quot;72&quot; &quot;79&quot; &quot;54&quot; ...
+##  $ Mean.Sea.Level.PressureIn: chr  &quot;30.13&quot; &quot;30.59&quot; &quot;30.07&quot; &quot;30.33&quot; ...
+##  $ Mean.TemperatureF        : chr  &quot;52&quot; &quot;38&quot; &quot;44&quot; &quot;37&quot; ...
+##  $ Mean.VisibilityMiles     : chr  &quot;10&quot; &quot;8&quot; &quot;5&quot; &quot;10&quot; ...
+##  $ Mean.Wind.SpeedMPH       : chr  &quot;13&quot; &quot;15&quot; &quot;12&quot; &quot;12&quot; ...
+##  $ MeanDew.PointF           : chr  &quot;40&quot; &quot;27&quot; &quot;42&quot; &quot;21&quot; ...
+##  $ Min.DewpointF            : chr  &quot;26&quot; &quot;17&quot; &quot;24&quot; &quot;13&quot; ...
+##  $ Min.Humidity             : chr  &quot;52&quot; &quot;51&quot; &quot;57&quot; &quot;39&quot; ...
+##  $ Min.Sea.Level.PressureIn : chr  &quot;30.01&quot; &quot;30.4&quot; &quot;29.87&quot; &quot;30.09&quot; ...
+##  $ Min.TemperatureF         : chr  &quot;39&quot; &quot;33&quot; &quot;37&quot; &quot;30&quot; ...
+##  $ Min.VisibilityMiles      : chr  &quot;10&quot; &quot;2&quot; &quot;1&quot; &quot;10&quot; ...
+##  $ PrecipitationIn          : chr  &quot;0.01&quot; &quot;0.10&quot; &quot;0.44&quot; &quot;0.00&quot; ...
+##  $ WindDirDegrees           : chr  &quot;268&quot; &quot;62&quot; &quot;254&quot; &quot;292&quot; ...
+##  $ date                     : Date, format: &quot;2014-12-01&quot; &quot;2014-12-02&quot; ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##  - attr(*, &quot;sorted&quot;)= chr [1:2] &quot;year&quot; &quot;month&quot;</code></pre>
+<p>Thus, all of these character variables (except for events) need to be convert to numeric.</p>
+<p>Now, see what happens if we try to convert PrecipitationIn to numeric</p>
+<div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb696-1"><a href="data-cleaning-ii.html#cb696-1"></a><span class="kw">as.numeric</span>(weather_boston4<span class="op">$</span>PrecipitationIn)</span></code></pre></div>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre><code>##   [1] 0.01 0.10 0.44 0.00 0.11 1.09 0.13 0.03 2.90 0.28 0.02   NA   NA 0.00 0.00
+##  [16]   NA 0.43 0.01 0.00   NA   NA 0.05 0.25 0.56 0.14 0.00 0.00 0.01 0.00 0.00
+##  [31] 0.00 0.00 0.00 0.62 0.57 0.00 0.02   NA 0.00 0.01 0.00 0.00 0.20 0.00   NA
+##  [46] 0.12 0.00 0.00 0.15 0.00 0.00 0.00   NA 0.00 0.71 0.00 0.10 0.95 0.01   NA
+##  [61] 0.06 0.05 0.00 0.78 0.00 0.00 0.09   NA 0.07 0.37 0.88 0.05 0.01 0.03 0.00
+##  [76] 0.23 0.39 0.00 0.02 0.01 0.06 0.00 0.17 0.11 0.00   NA 0.07 0.02 0.00 0.00
+##  [91] 0.17 0.01 0.26 0.02   NA 0.00 0.00   NA 0.00 0.06 0.01 0.00 0.00 0.80 0.27
+## [106] 0.00 0.14 0.00 0.00 0.05 0.09 0.00 0.00 0.00 0.04 0.80 0.21 0.12 0.00   NA
+## [121] 0.00 0.00 0.00 0.03 0.39 0.00 0.00 0.03 0.26 0.09 0.09 0.00 0.00 0.00 0.01
+## [136] 0.00 0.00 0.06 0.00 0.00 0.61 0.54   NA 0.00   NA 0.00 0.00 0.10 0.07 0.00
+## [151] 0.00 0.00 0.00 0.00 0.00 0.02 0.00 0.00 0.00 0.00 0.00 0.00 0.02 0.00 0.00
+## [166] 0.00   NA 0.00 0.00 0.27 0.00 0.00   NA 0.00 0.00   NA 0.00 0.00   NA 0.00
+## [181] 0.00 0.91 0.38 0.74 0.00 0.00   NA 0.09 0.00   NA   NA 0.00 0.00 0.00   NA
+## [196] 0.00 0.40   NA 0.00 0.00 0.00 0.04 1.72 0.00 0.01 0.00 0.00   NA 0.20 1.43
+## [211]   NA 0.00 0.50 0.00 0.00   NA 0.00 0.00 0.02   NA 0.15 1.12 0.00 0.00 0.00
+## [226] 0.03   NA 0.00   NA 0.14   NA   NA   NA 0.00 0.00 0.01 0.00   NA 0.06 0.00
+## [241] 0.00 0.02 0.00   NA 0.00 0.00 0.49 0.00 0.00 0.00 0.00 0.00 0.00 0.83 0.00
+## [256] 0.00 0.00 0.08 0.00 0.00 0.14 0.00 0.00 0.63   NA 0.02   NA 0.00   NA 0.00
+## [271] 0.00 0.00 0.00 0.00 0.00 0.00 0.01   NA 0.00 0.00 0.00 0.20 0.00 0.17 0.66
+## [286] 0.01 0.38 0.00 0.00 0.00 0.00 0.00 0.00   NA 0.00 0.00 0.00 0.00 0.00 0.00
+## [301] 0.00 0.00 0.04 2.46   NA 0.08 0.01 0.00 0.00 0.00 0.00 0.00 0.34 0.00 0.00
+## [316] 0.00 0.12 0.00 0.00   NA   NA   NA 0.00   NA 0.07   NA 0.00 0.00 0.03 0.00
+## [331] 0.00 0.36 0.73 0.00 0.00   NA 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.07
+## [346] 0.54 0.04 0.01 0.00 0.00 0.00 0.00 0.00   NA 0.86 0.00 0.30 0.04 0.00 0.00
+## [361] 0.00 0.00 0.21 0.00 0.00 0.14   NA   NA   NA   NA   NA   NA   NA   NA   NA
+## [376]   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA   NA
+## [391]   NA   NA   NA   NA   NA   NA</code></pre>
+<p>Note that some NA is created. This is because there are strings in the PrecipitationIn column. To find that out, we can use table() to get the frequency count of each value in PrecipitationIn.</p>
+<div class="sourceCode" id="cb699"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb699-1"><a href="data-cleaning-ii.html#cb699-1"></a><span class="kw">table</span>(weather_boston4<span class="op">$</span>PrecipitationIn)</span></code></pre></div>
+<pre><code>## 
+##      0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 
+##   30  190   16   10    6    5    4    5    5    2    5    3    2    3    1    5 
+## 0.15 0.17 0.20 0.21 0.23 0.25 0.26 0.27 0.28 0.30 0.34 0.36 0.37 0.38 0.39 0.40 
+##    2    3    3    2    1    1    2    2    1    1    1    1    1    2    2    1 
+## 0.43 0.44 0.49 0.50 0.54 0.56 0.57 0.61 0.62 0.63 0.66 0.71 0.73 0.74 0.78 0.80 
+##    1    1    1    1    2    1    1    1    1    1    1    1    1    1    1    2 
+## 0.83 0.86 0.88 0.91 0.95 1.09 1.12 1.43 1.72 2.46 2.90    T 
+##    1    1    1    1    1    1    1    1    1    1    1   49</code></pre>
+<p>Here, “T” was used to denote a trace amount (i.e. too small to be accurately measured) of precipitation in the PrecipitationIn column. In order to coerce this column to numeric, you’ll need to deal with this somehow. To keep things simple, we will just replace “T” with zero, as a string (“0”).</p>
+<div class="sourceCode" id="cb701"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb701-1"><a href="data-cleaning-ii.html#cb701-1"></a><span class="co"># replace &quot;T&quot; with &quot;0&quot; in the PrecipitationIn column</span></span>
+<span id="cb701-2"><a href="data-cleaning-ii.html#cb701-2"></a>weather_boston4<span class="op">$</span>PrecipitationIn&lt;-<span class="kw">str_replace</span>(weather_boston4<span class="op">$</span>PrecipitationIn,<span class="st">&quot;T&quot;</span>,<span class="st">&quot;0&quot;</span>)</span>
+<span id="cb701-3"><a href="data-cleaning-ii.html#cb701-3"></a></span>
+<span id="cb701-4"><a href="data-cleaning-ii.html#cb701-4"></a><span class="co"># convert string to numeric using :=</span></span>
+<span id="cb701-5"><a href="data-cleaning-ii.html#cb701-5"></a>weather_boston4[,weather_boston4<span class="op">:</span><span class="er">=</span><span class="kw">as.numeric</span>(PrecipitationIn) ]</span></code></pre></div>
+<p>If we want to convert multiple column to numeric simultaneously:</p>
+<div class="sourceCode" id="cb702"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb702-1"><a href="data-cleaning-ii.html#cb702-1"></a><span class="co"># obtain the column names which you want to convert to numeric</span></span>
+<span id="cb702-2"><a href="data-cleaning-ii.html#cb702-2"></a>col_names=<span class="kw">names</span>(weather_boston4)[<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">6</span><span class="op">:</span><span class="dv">25</span>)]</span>
+<span id="cb702-3"><a href="data-cleaning-ii.html#cb702-3"></a></span>
+<span id="cb702-4"><a href="data-cleaning-ii.html#cb702-4"></a><span class="co"># convert the to numeric</span></span>
+<span id="cb702-5"><a href="data-cleaning-ii.html#cb702-5"></a>weather_boston4[,(col_names)<span class="op">:</span><span class="er">=</span><span class="kw">lapply</span>(.SD,  as.numeric), .SDcols=col_names]</span>
+<span id="cb702-6"><a href="data-cleaning-ii.html#cb702-6"></a><span class="kw">str</span>(weather_boston4)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   396 obs. of  27 variables:
+##  $ year                     : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
+##  $ month                    : int  12 12 12 12 12 12 12 12 12 12 ...
+##  $ day                      : num  1 2 3 4 5 6 7 8 9 10 ...
+##  $ CloudCover               : num  6 7 8 3 5 8 6 8 8 8 ...
+##  $ Events                   : chr  &quot;Rain&quot; &quot;Rain-Snow&quot; &quot;Rain&quot; &quot;&quot; ...
+##  $ Max.Dew.PointF           : num  46 40 49 24 37 45 36 28 49 45 ...
+##  $ Max.Gust.SpeedMPH        : num  29 29 38 33 26 25 32 28 52 29 ...
+##  $ Max.Humidity             : num  74 92 100 69 85 100 92 92 100 100 ...
+##  $ Max.Sea.Level.PressureIn : num  30.4 30.7 30.4 30.6 30.7 ...
+##  $ Max.TemperatureF         : num  64 42 51 43 42 45 38 29 49 48 ...
+##  $ Max.VisibilityMiles      : num  10 10 10 10 10 10 10 10 10 10 ...
+##  $ Max.Wind.SpeedMPH        : num  22 24 29 25 22 22 25 21 38 23 ...
+##  $ Mean.Humidity            : num  63 72 79 54 66 93 61 70 93 95 ...
+##  $ Mean.Sea.Level.PressureIn: num  30.1 30.6 30.1 30.3 30.6 ...
+##  $ Mean.TemperatureF        : num  52 38 44 37 34 42 30 24 39 43 ...
+##  $ Mean.VisibilityMiles     : num  10 8 5 10 10 4 10 8 2 3 ...
+##  $ Mean.Wind.SpeedMPH       : num  13 15 12 12 10 8 15 13 20 13 ...
+##  $ MeanDew.PointF           : num  40 27 42 21 25 40 20 16 41 39 ...
+##  $ Min.DewpointF            : num  26 17 24 13 12 36 -3 3 28 37 ...
+##  $ Min.Humidity             : num  52 51 57 39 47 85 29 47 86 89 ...
+##  $ Min.Sea.Level.PressureIn : num  30 30.4 29.9 30.1 30.4 ...
+##  $ Min.TemperatureF         : num  39 33 37 30 26 38 21 18 29 38 ...
+##  $ Min.VisibilityMiles      : num  10 2 1 10 5 0 5 2 1 1 ...
+##  $ PrecipitationIn          : num  0.01 0.1 0.44 0 0.11 1.09 0.13 0.03 2.9 0.28 ...
+##  $ WindDirDegrees           : num  268 62 254 292 61 313 350 354 38 357 ...
+##  $ date                     : Date, format: &quot;2014-12-01&quot; &quot;2014-12-02&quot; ...
+##  $ weather_boston4          : num  0.01 0.1 0.44 0 0.11 1.09 0.13 0.03 2.9 0.28 ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##  - attr(*, &quot;sorted&quot;)= chr [1:2] &quot;year&quot; &quot;month&quot;</code></pre>
+<p>In the above code, LHS:=RHS is the data.table syntax for updating columns. On the LHS, we specify the columns to be updated using the col_names (note, do not forget to the ()). The RHS side is more comples: First, .SD is the special character in data.table to represent the subset of data and .SDcols=col_names specifies which variables should be in the subset of data by column names.</p>
+<p>The syntax for lapply() is as follow: lapply(X, FUN)
+Arguments:
+-X: A vector or an object
+-FUN: Function applied to each element of x</p>
+</div>
+<div id="missing-extreme-and-unexpected-values" class="section level3">
+<h3><span class="header-section-number">13.4.3</span> Missing, extreme and unexpected values</h3>
+<p>Return whether a data frame element is missing: is.na()</p>
+<div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb704-1"><a href="data-cleaning-ii.html#cb704-1"></a><span class="co"># Count missing values</span></span>
+<span id="cb704-2"><a href="data-cleaning-ii.html#cb704-2"></a><span class="kw">sum</span>(<span class="kw">is.na</span>(weather_boston4))</span></code></pre></div>
+<pre><code>## [1] 666</code></pre>
+<div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb706-1"><a href="data-cleaning-ii.html#cb706-1"></a><span class="co"># Find missing values</span></span>
+<span id="cb706-2"><a href="data-cleaning-ii.html#cb706-2"></a><span class="kw">summary</span>(<span class="kw">is.na</span>(weather_boston4))</span></code></pre></div>
+<pre><code>##     year           month            day          CloudCover     
+##  Mode :logical   Mode :logical   Mode :logical   Mode :logical  
+##  FALSE:396       FALSE:396       FALSE:396       FALSE:366      
+##                                                  TRUE :30       
+##    Events        Max.Dew.PointF  Max.Gust.SpeedMPH Max.Humidity   
+##  Mode :logical   Mode :logical   Mode :logical     Mode :logical  
+##  FALSE:396       FALSE:366       FALSE:360         FALSE:366      
+##                  TRUE :30        TRUE :36          TRUE :30       
+##  Max.Sea.Level.PressureIn Max.TemperatureF Max.VisibilityMiles
+##  Mode :logical            Mode :logical    Mode :logical      
+##  FALSE:366                FALSE:366        FALSE:366          
+##  TRUE :30                 TRUE :30         TRUE :30           
+##  Max.Wind.SpeedMPH Mean.Humidity   Mean.Sea.Level.PressureIn Mean.TemperatureF
+##  Mode :logical     Mode :logical   Mode :logical             Mode :logical    
+##  FALSE:366         FALSE:366       FALSE:366                 FALSE:366        
+##  TRUE :30          TRUE :30        TRUE :30                  TRUE :30         
+##  Mean.VisibilityMiles Mean.Wind.SpeedMPH MeanDew.PointF  Min.DewpointF  
+##  Mode :logical        Mode :logical      Mode :logical   Mode :logical  
+##  FALSE:366            FALSE:366          FALSE:366       FALSE:366      
+##  TRUE :30             TRUE :30           TRUE :30        TRUE :30       
+##  Min.Humidity    Min.Sea.Level.PressureIn Min.TemperatureF Min.VisibilityMiles
+##  Mode :logical   Mode :logical            Mode :logical    Mode :logical      
+##  FALSE:366       FALSE:366                FALSE:366        FALSE:366          
+##  TRUE :30        TRUE :30                 TRUE :30         TRUE :30           
+##  PrecipitationIn WindDirDegrees     date         weather_boston4
+##  Mode :logical   Mode :logical   Mode :logical   Mode :logical  
+##  FALSE:366       FALSE:366       FALSE:396       FALSE:366      
+##  TRUE :30        TRUE :30                        TRUE :30</code></pre>
+<div class="sourceCode" id="cb708"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb708-1"><a href="data-cleaning-ii.html#cb708-1"></a><span class="co"># Find indices of NAs in Max.Gust.SpeedMPH</span></span>
+<span id="cb708-2"><a href="data-cleaning-ii.html#cb708-2"></a>( ind&lt;-<span class="kw">which</span>(<span class="kw">is.na</span>(weather_boston4<span class="op">$</span>Max.Gust.SpeedMPH )) )</span></code></pre></div>
+<pre><code>##  [1] 169 185 251 275 316 338 367 368 369 370 371 372 373 374 375 376 377 378 379
+## [20] 380 381 382 383 384 385 386 387 388 389 390 391 392 393 394 395 396</code></pre>
+<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb710-1"><a href="data-cleaning-ii.html#cb710-1"></a><span class="co"># Look at the full rows for records missing Max.Gust.SpeedMPH</span></span>
+<span id="cb710-2"><a href="data-cleaning-ii.html#cb710-2"></a>weather_boston4[ind,]</span></code></pre></div>
+<pre><code>##     year month day CloudCover Events Max.Dew.PointF Max.Gust.SpeedMPH
+##  1: 2015     5  18          6    Fog             52                NA
+##  2: 2015     6   3          7                    48                NA
+##  3: 2015     8   8          4                    61                NA
+##  4: 2015     9   1          1                    63                NA
+##  5: 2015    10  12          0                    56                NA
+##  6: 2015    11   3          1                    44                NA
+##  7: 2015    12   2         NA                    NA                NA
+##  8: 2015    12   3         NA                    NA                NA
+##  9: 2015    12   4         NA                    NA                NA
+## 10: 2015    12   5         NA                    NA                NA
+## 11: 2015    12   6         NA                    NA                NA
+## 12: 2015    12   7         NA                    NA                NA
+## 13: 2015    12   8         NA                    NA                NA
+## 14: 2015    12   9         NA                    NA                NA
+## 15: 2015    12  10         NA                    NA                NA
+## 16: 2015    12  11         NA                    NA                NA
+## 17: 2015    12  12         NA                    NA                NA
+## 18: 2015    12  13         NA                    NA                NA
+## 19: 2015    12  14         NA                    NA                NA
+## 20: 2015    12  15         NA                    NA                NA
+## 21: 2015    12  16         NA                    NA                NA
+## 22: 2015    12  17         NA                    NA                NA
+## 23: 2015    12  18         NA                    NA                NA
+## 24: 2015    12  19         NA                    NA                NA
+## 25: 2015    12  20         NA                    NA                NA
+## 26: 2015    12  21         NA                    NA                NA
+## 27: 2015    12  22         NA                    NA                NA
+## 28: 2015    12  23         NA                    NA                NA
+## 29: 2015    12  24         NA                    NA                NA
+## 30: 2015    12  25         NA                    NA                NA
+## 31: 2015    12  26         NA                    NA                NA
+## 32: 2015    12  27         NA                    NA                NA
+## 33: 2015    12  28         NA                    NA                NA
+## 34: 2015    12  29         NA                    NA                NA
+## 35: 2015    12  30         NA                    NA                NA
+## 36: 2015    12  31         NA                    NA                NA
+##     year month day CloudCover Events Max.Dew.PointF Max.Gust.SpeedMPH
+##     Max.Humidity Max.Sea.Level.PressureIn Max.TemperatureF Max.VisibilityMiles
+##  1:          100                    30.30               58                  10
+##  2:           93                    30.31               56                  10
+##  3:           87                    30.02               76                  10
+##  4:           78                    30.06               79                  10
+##  5:           89                    29.86               76                  10
+##  6:           82                    30.25               73                  10
+##  7:           NA                       NA               NA                  NA
+##  8:           NA                       NA               NA                  NA
+##  9:           NA                       NA               NA                  NA
+## 10:           NA                       NA               NA                  NA
+## 11:           NA                       NA               NA                  NA
+## 12:           NA                       NA               NA                  NA
+## 13:           NA                       NA               NA                  NA
+## 14:           NA                       NA               NA                  NA
+## 15:           NA                       NA               NA                  NA
+## 16:           NA                       NA               NA                  NA
+## 17:           NA                       NA               NA                  NA
+## 18:           NA                       NA               NA                  NA
+## 19:           NA                       NA               NA                  NA
+## 20:           NA                       NA               NA                  NA
+## 21:           NA                       NA               NA                  NA
+## 22:           NA                       NA               NA                  NA
+## 23:           NA                       NA               NA                  NA
+## 24:           NA                       NA               NA                  NA
+## 25:           NA                       NA               NA                  NA
+## 26:           NA                       NA               NA                  NA
+## 27:           NA                       NA               NA                  NA
+## 28:           NA                       NA               NA                  NA
+## 29:           NA                       NA               NA                  NA
+## 30:           NA                       NA               NA                  NA
+## 31:           NA                       NA               NA                  NA
+## 32:           NA                       NA               NA                  NA
+## 33:           NA                       NA               NA                  NA
+## 34:           NA                       NA               NA                  NA
+## 35:           NA                       NA               NA                  NA
+## 36:           NA                       NA               NA                  NA
+##     Max.Humidity Max.Sea.Level.PressureIn Max.TemperatureF Max.VisibilityMiles
+##     Max.Wind.SpeedMPH Mean.Humidity Mean.Sea.Level.PressureIn Mean.TemperatureF
+##  1:                16            79                     30.23                54
+##  2:                14            82                     30.24                52
+##  3:                14            68                     29.99                69
+##  4:                15            65                     30.02                74
+##  5:                15            65                     29.80                64
+##  6:                16            57                     30.13                60
+##  7:                NA            NA                        NA                NA
+##  8:                NA            NA                        NA                NA
+##  9:                NA            NA                        NA                NA
+## 10:                NA            NA                        NA                NA
+## 11:                NA            NA                        NA                NA
+## 12:                NA            NA                        NA                NA
+## 13:                NA            NA                        NA                NA
+## 14:                NA            NA                        NA                NA
+## 15:                NA            NA                        NA                NA
+## 16:                NA            NA                        NA                NA
+## 17:                NA            NA                        NA                NA
+## 18:                NA            NA                        NA                NA
+## 19:                NA            NA                        NA                NA
+## 20:                NA            NA                        NA                NA
+## 21:                NA            NA                        NA                NA
+## 22:                NA            NA                        NA                NA
+## 23:                NA            NA                        NA                NA
+## 24:                NA            NA                        NA                NA
+## 25:                NA            NA                        NA                NA
+## 26:                NA            NA                        NA                NA
+## 27:                NA            NA                        NA                NA
+## 28:                NA            NA                        NA                NA
+## 29:                NA            NA                        NA                NA
+## 30:                NA            NA                        NA                NA
+## 31:                NA            NA                        NA                NA
+## 32:                NA            NA                        NA                NA
+## 33:                NA            NA                        NA                NA
+## 34:                NA            NA                        NA                NA
+## 35:                NA            NA                        NA                NA
+## 36:                NA            NA                        NA                NA
+##     Max.Wind.SpeedMPH Mean.Humidity Mean.Sea.Level.PressureIn Mean.TemperatureF
+##     Mean.VisibilityMiles Mean.Wind.SpeedMPH MeanDew.PointF Min.DewpointF
+##  1:                    8                 10             48            43
+##  2:                   10                  7             45            43
+##  3:                   10                  6             57            54
+##  4:                   10                  9             62            59
+##  5:                   10                  8             51            48
+##  6:                   10                  8             42            40
+##  7:                   NA                 NA             NA            NA
+##  8:                   NA                 NA             NA            NA
+##  9:                   NA                 NA             NA            NA
+## 10:                   NA                 NA             NA            NA
+## 11:                   NA                 NA             NA            NA
+## 12:                   NA                 NA             NA            NA
+## 13:                   NA                 NA             NA            NA
+## 14:                   NA                 NA             NA            NA
+## 15:                   NA                 NA             NA            NA
+## 16:                   NA                 NA             NA            NA
+## 17:                   NA                 NA             NA            NA
+## 18:                   NA                 NA             NA            NA
+## 19:                   NA                 NA             NA            NA
+## 20:                   NA                 NA             NA            NA
+## 21:                   NA                 NA             NA            NA
+## 22:                   NA                 NA             NA            NA
+## 23:                   NA                 NA             NA            NA
+## 24:                   NA                 NA             NA            NA
+## 25:                   NA                 NA             NA            NA
+## 26:                   NA                 NA             NA            NA
+## 27:                   NA                 NA             NA            NA
+## 28:                   NA                 NA             NA            NA
+## 29:                   NA                 NA             NA            NA
+## 30:                   NA                 NA             NA            NA
+## 31:                   NA                 NA             NA            NA
+## 32:                   NA                 NA             NA            NA
+## 33:                   NA                 NA             NA            NA
+## 34:                   NA                 NA             NA            NA
+## 35:                   NA                 NA             NA            NA
+## 36:                   NA                 NA             NA            NA
+##     Mean.VisibilityMiles Mean.Wind.SpeedMPH MeanDew.PointF Min.DewpointF
+##     Min.Humidity Min.Sea.Level.PressureIn Min.TemperatureF Min.VisibilityMiles
+##  1:           57                    30.12               49                   0
+##  2:           71                    30.19               47                  10
+##  3:           49                    29.95               61                  10
+##  4:           52                    29.96               69                  10
+##  5:           41                    29.74               51                  10
+##  6:           31                    30.06               47                  10
+##  7:           NA                       NA               NA                  NA
+##  8:           NA                       NA               NA                  NA
+##  9:           NA                       NA               NA                  NA
+## 10:           NA                       NA               NA                  NA
+## 11:           NA                       NA               NA                  NA
+## 12:           NA                       NA               NA                  NA
+## 13:           NA                       NA               NA                  NA
+## 14:           NA                       NA               NA                  NA
+## 15:           NA                       NA               NA                  NA
+## 16:           NA                       NA               NA                  NA
+## 17:           NA                       NA               NA                  NA
+## 18:           NA                       NA               NA                  NA
+## 19:           NA                       NA               NA                  NA
+## 20:           NA                       NA               NA                  NA
+## 21:           NA                       NA               NA                  NA
+## 22:           NA                       NA               NA                  NA
+## 23:           NA                       NA               NA                  NA
+## 24:           NA                       NA               NA                  NA
+## 25:           NA                       NA               NA                  NA
+## 26:           NA                       NA               NA                  NA
+## 27:           NA                       NA               NA                  NA
+## 28:           NA                       NA               NA                  NA
+## 29:           NA                       NA               NA                  NA
+## 30:           NA                       NA               NA                  NA
+## 31:           NA                       NA               NA                  NA
+## 32:           NA                       NA               NA                  NA
+## 33:           NA                       NA               NA                  NA
+## 34:           NA                       NA               NA                  NA
+## 35:           NA                       NA               NA                  NA
+## 36:           NA                       NA               NA                  NA
+##     Min.Humidity Min.Sea.Level.PressureIn Min.TemperatureF Min.VisibilityMiles
+##     PrecipitationIn WindDirDegrees       date weather_boston4
+##  1:               0             72 2015-05-18               0
+##  2:               0             90 2015-06-03               0
+##  3:               0             45 2015-08-08               0
+##  4:               0             54 2015-09-01               0
+##  5:               0            199 2015-10-12               0
+##  6:               0            281 2015-11-03               0
+##  7:              NA             NA 2015-12-02              NA
+##  8:              NA             NA 2015-12-03              NA
+##  9:              NA             NA 2015-12-04              NA
+## 10:              NA             NA 2015-12-05              NA
+## 11:              NA             NA 2015-12-06              NA
+## 12:              NA             NA 2015-12-07              NA
+## 13:              NA             NA 2015-12-08              NA
+## 14:              NA             NA 2015-12-09              NA
+## 15:              NA             NA 2015-12-10              NA
+## 16:              NA             NA 2015-12-11              NA
+## 17:              NA             NA 2015-12-12              NA
+## 18:              NA             NA 2015-12-13              NA
+## 19:              NA             NA 2015-12-14              NA
+## 20:              NA             NA 2015-12-15              NA
+## 21:              NA             NA 2015-12-16              NA
+## 22:              NA             NA 2015-12-17              NA
+## 23:              NA             NA 2015-12-18              NA
+## 24:              NA             NA 2015-12-19              NA
+## 25:              NA             NA 2015-12-20              NA
+## 26:              NA             NA 2015-12-21              NA
+## 27:              NA             NA 2015-12-22              NA
+## 28:              NA             NA 2015-12-23              NA
+## 29:              NA             NA 2015-12-24              NA
+## 30:              NA             NA 2015-12-25              NA
+## 31:              NA             NA 2015-12-26              NA
+## 32:              NA             NA 2015-12-27              NA
+## 33:              NA             NA 2015-12-28              NA
+## 34:              NA             NA 2015-12-29              NA
+## 35:              NA             NA 2015-12-30              NA
+## 36:              NA             NA 2015-12-31              NA
+##     PrecipitationIn WindDirDegrees       date weather_boston4</code></pre>
+<p>Now, we will look at one obvious error</p>
+<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb712-1"><a href="data-cleaning-ii.html#cb712-1"></a><span class="kw">summary</span>(weather_boston4)</span></code></pre></div>
+<pre><code>##       year          month             day          CloudCover   
+##  Min.   :2014   Min.   : 1.000   Min.   : 1.00   Min.   :0.000  
+##  1st Qu.:2015   1st Qu.: 4.000   1st Qu.: 8.00   1st Qu.:3.000  
+##  Median :2015   Median : 7.000   Median :16.00   Median :5.000  
+##  Mean   :2015   Mean   : 6.955   Mean   :15.74   Mean   :4.708  
+##  3rd Qu.:2015   3rd Qu.:10.000   3rd Qu.:23.00   3rd Qu.:7.000  
+##  Max.   :2015   Max.   :12.000   Max.   :31.00   Max.   :8.000  
+##                                                  NA&#39;s   :30     
+##     Events          Max.Dew.PointF  Max.Gust.SpeedMPH  Max.Humidity    
+##  Length:396         Min.   :-6.00   Min.   : 0.00     Min.   :  39.00  
+##  Class :character   1st Qu.:32.00   1st Qu.:21.00     1st Qu.:  73.25  
+##  Mode  :character   Median :47.50   Median :25.50     Median :  86.00  
+##                     Mean   :45.48   Mean   :26.99     Mean   :  85.69  
+##                     3rd Qu.:61.00   3rd Qu.:31.25     3rd Qu.:  93.00  
+##                     Max.   :75.00   Max.   :94.00     Max.   :1000.00  
+##                     NA&#39;s   :30      NA&#39;s   :36        NA&#39;s   :30       
+##  Max.Sea.Level.PressureIn Max.TemperatureF Max.VisibilityMiles
+##  Min.   :29.58            Min.   :18.00    Min.   : 2.000     
+##  1st Qu.:30.00            1st Qu.:42.00    1st Qu.:10.000     
+##  Median :30.14            Median :60.00    Median :10.000     
+##  Mean   :30.16            Mean   :58.93    Mean   : 9.907     
+##  3rd Qu.:30.31            3rd Qu.:76.00    3rd Qu.:10.000     
+##  Max.   :30.88            Max.   :96.00    Max.   :10.000     
+##  NA&#39;s   :30               NA&#39;s   :30       NA&#39;s   :30         
+##  Max.Wind.SpeedMPH Mean.Humidity   Mean.Sea.Level.PressureIn Mean.TemperatureF
+##  Min.   : 8.00     Min.   :28.00   Min.   :29.49             Min.   : 8.00    
+##  1st Qu.:16.00     1st Qu.:56.00   1st Qu.:29.87             1st Qu.:36.25    
+##  Median :20.00     Median :66.00   Median :30.03             Median :53.50    
+##  Mean   :20.62     Mean   :66.02   Mean   :30.04             Mean   :51.40    
+##  3rd Qu.:24.00     3rd Qu.:76.75   3rd Qu.:30.19             3rd Qu.:68.00    
+##  Max.   :38.00     Max.   :98.00   Max.   :30.77             Max.   :84.00    
+##  NA&#39;s   :30        NA&#39;s   :30      NA&#39;s   :30                NA&#39;s   :30       
+##  Mean.VisibilityMiles Mean.Wind.SpeedMPH MeanDew.PointF   Min.DewpointF   
+##  Min.   :-1.000       Min.   : 4.00      Min.   :-11.00   Min.   :-18.00  
+##  1st Qu.: 8.000       1st Qu.: 8.00      1st Qu.: 24.00   1st Qu.: 16.25  
+##  Median :10.000       Median :10.00      Median : 41.00   Median : 35.00  
+##  Mean   : 8.861       Mean   :10.68      Mean   : 38.96   Mean   : 32.25  
+##  3rd Qu.:10.000       3rd Qu.:13.00      3rd Qu.: 56.00   3rd Qu.: 51.00  
+##  Max.   :10.000       Max.   :22.00      Max.   : 71.00   Max.   : 68.00  
+##  NA&#39;s   :30           NA&#39;s   :30         NA&#39;s   :30       NA&#39;s   :30      
+##   Min.Humidity   Min.Sea.Level.PressureIn Min.TemperatureF Min.VisibilityMiles
+##  Min.   :16.00   Min.   :29.16            Min.   :-3.00    Min.   : 0.000     
+##  1st Qu.:35.00   1st Qu.:29.76            1st Qu.:30.00    1st Qu.: 2.000     
+##  Median :46.00   Median :29.94            Median :46.00    Median :10.000     
+##  Mean   :48.31   Mean   :29.93            Mean   :43.33    Mean   : 6.716     
+##  3rd Qu.:60.00   3rd Qu.:30.09            3rd Qu.:60.00    3rd Qu.:10.000     
+##  Max.   :96.00   Max.   :30.64            Max.   :74.00    Max.   :10.000     
+##  NA&#39;s   :30      NA&#39;s   :30               NA&#39;s   :30       NA&#39;s   :30         
+##  PrecipitationIn  WindDirDegrees       date            weather_boston4 
+##  Min.   :0.0000   Min.   :  1.0   Min.   :2014-12-01   Min.   :0.0000  
+##  1st Qu.:0.0000   1st Qu.:113.0   1st Qu.:2015-03-09   1st Qu.:0.0000  
+##  Median :0.0000   Median :222.0   Median :2015-06-16   Median :0.0000  
+##  Mean   :0.1016   Mean   :200.1   Mean   :2015-06-16   Mean   :0.1016  
+##  3rd Qu.:0.0400   3rd Qu.:275.0   3rd Qu.:2015-09-23   3rd Qu.:0.0400  
+##  Max.   :2.9000   Max.   :360.0   Max.   :2015-12-31   Max.   :2.9000  
+##  NA&#39;s   :30       NA&#39;s   :30                           NA&#39;s   :30</code></pre>
+<p>you may notice the max humidity is 1000, which is an obvious error since humidity is measured in percentage from 1-100. In fact, this is a input error, and the value should be 100. We can make a histogram for Max.Humidity.</p>
+<div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb714-1"><a href="data-cleaning-ii.html#cb714-1"></a><span class="kw">hist</span>(weather_boston4<span class="op">$</span>Max.Humidity,<span class="dt">breaks=</span><span class="dv">100</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-279-1.png" width="672" /></p>
+<p>We can also make a boxplot for Max.Humidity.</p>
+<div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb715-1"><a href="data-cleaning-ii.html#cb715-1"></a><span class="kw">boxplot</span>(weather_boston4<span class="op">$</span>Max.Humidity)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-280-1.png" width="672" />
+Change the Max.Humidity from 1000 to 100.</p>
+<div class="sourceCode" id="cb716"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb716-1"><a href="data-cleaning-ii.html#cb716-1"></a>weather_boston4[Max.Humidity<span class="op">==</span><span class="dv">1000</span>,Max.Humidity<span class="op">:</span><span class="er">=</span><span class="dv">100</span>]</span>
+<span id="cb716-2"><a href="data-cleaning-ii.html#cb716-2"></a><span class="kw">hist</span>(weather_boston4<span class="op">$</span>Max.Humidity)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-281-1.png" width="672" />
+In the above code, Max.Humidity==1000 selects the rows which Max.Humidity==1000, and Max.Humidity:=100 updates the Max.Humidity for the selected rows.</p>
+<p>Another obvious error: You’ve discovered and repaired one obvious error in the data, but it appears that there’s another. Sometimes you get lucky and can infer the correct or intended value from the other data. For example, if you know the minimum and maximum values of a particular metric on a given day…</p>
+<div class="sourceCode" id="cb717"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb717-1"><a href="data-cleaning-ii.html#cb717-1"></a><span class="kw">summary</span>(weather_boston4<span class="op">$</span>Mean.VisibilityMiles)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##  -1.000   8.000  10.000   8.861  10.000  10.000      30</code></pre>
+<p>We cannot have negative visibility miles. This is likely to be an input error and it should 1. Let’s change -1 to 1.</p>
+<div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb719-1"><a href="data-cleaning-ii.html#cb719-1"></a>weather_boston4[Mean.VisibilityMiles<span class="op">==-</span><span class="dv">1</span>, Mean.VisibilityMiles<span class="op">:</span><span class="er">=</span><span class="dv">1</span>]</span>
+<span id="cb719-2"><a href="data-cleaning-ii.html#cb719-2"></a><span class="kw">hist</span>(weather_boston4<span class="op">$</span>Mean.VisibilityMiles)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-283-1.png" width="672" /></p>
+<p>Check other possible extreme values</p>
+<div class="sourceCode" id="cb720"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb720-1"><a href="data-cleaning-ii.html#cb720-1"></a><span class="co"># Look at histogram for MeanDew.PointF</span></span>
+<span id="cb720-2"><a href="data-cleaning-ii.html#cb720-2"></a><span class="kw">hist</span>(weather_boston4<span class="op">$</span>MeanDew.PointF)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-284-1.png" width="672" /></p>
+<div class="sourceCode" id="cb721"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb721-1"><a href="data-cleaning-ii.html#cb721-1"></a><span class="co"># Look at histogram for Min.TemperatureF</span></span>
+<span id="cb721-2"><a href="data-cleaning-ii.html#cb721-2"></a><span class="kw">hist</span>(weather_boston4<span class="op">$</span>Min.TemperatureF)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-284-2.png" width="672" /></p>
+<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb722-1"><a href="data-cleaning-ii.html#cb722-1"></a><span class="co"># Compare to histogram for Mean.TemperatureF</span></span>
+<span id="cb722-2"><a href="data-cleaning-ii.html#cb722-2"></a><span class="kw">hist</span>(weather_boston4<span class="op">$</span>Mean.TemperatureF)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-284-3.png" width="672" /></p>
+</div>
+<div id="finishing-touches" class="section level3">
+<h3><span class="header-section-number">13.4.4</span> Finishing touches</h3>
+<p>Before officially calling our weather_boston data clean, we want to put a couple of finishing touches on the data. These are a bit more subjective and may not be necessary for analysis, but they will make the data easier for others to interpret, which is generally a good thing.</p>
+<p>There are a number of stylistic conventions in the R language. Depending on who you ask, these conventions may vary. Because the period (.) has special meaning in certain situations, we generally recommend using underscores (_) to separate words in variable names. We also prefer all lowercase letters so that no one has to remember which letters are uppercase or lowercase.</p>
+<p>Finally, the events column (renamed to be all lowercase in the first instruction) contains an empty string ("") for any day on which there was no significant weather event such as rain, fog, a thunderstorm, etc. However, if it’s the first time you’re seeing these data, it may not be obvious that this is the case, so it’s best for us to be explicit and replace the empty strings with something more meaningful.</p>
+<div class="sourceCode" id="cb723"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb723-1"><a href="data-cleaning-ii.html#cb723-1"></a><span class="co"># Clean up column names</span></span>
+<span id="cb723-2"><a href="data-cleaning-ii.html#cb723-2"></a><span class="kw">names</span>(weather_boston4) =<span class="st"> </span><span class="kw">tolower</span>(<span class="kw">names</span>(weather_boston4))</span>
+<span id="cb723-3"><a href="data-cleaning-ii.html#cb723-3"></a></span>
+<span id="cb723-4"><a href="data-cleaning-ii.html#cb723-4"></a><span class="kw">names</span>(weather_boston4)=<span class="kw">str_replace_all</span>(<span class="kw">names</span>(weather_boston4),<span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>,<span class="st">&quot;_&quot;</span>)  </span></code></pre></div>
+<p>Note that str_replace_all(names(weather_boston4),“.”,“<em>") will not replace "." with "</em>” becuase . is a special operator in R, we need to use \ in front of “.” such that the code know we are not refer . as the special operator, but literal “.”</p>
+<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb724-1"><a href="data-cleaning-ii.html#cb724-1"></a><span class="co"># Replace empty cells in events column</span></span>
+<span id="cb724-2"><a href="data-cleaning-ii.html#cb724-2"></a>weather_boston4[events <span class="op">==</span><span class="st"> &quot;&quot;</span>, events<span class="op">:</span><span class="er">=</span><span class="st"> &quot;none&quot;</span>]</span>
+<span id="cb724-3"><a href="data-cleaning-ii.html#cb724-3"></a><span class="kw">table</span>(weather_boston4<span class="op">$</span>events)</span></code></pre></div>
+<pre><code>## 
+##                        Fog                   Fog-Rain 
+##                          6                          8 
+## Fog-Rain-Hail-Thunderstorm              Fog-Rain-Snow 
+##                          1                          4 
+##      Fog-Rain-Thunderstorm                   Fog-Snow 
+##                          3                          7 
+##                       none                       Rain 
+##                        231                         90 
+##                  Rain-Snow          Rain-Thunderstorm 
+##                         10                          4 
+##                       Snow               Thunderstorm 
+##                         31                          1</code></pre>
+<p>Print the first 6 rows of weather_boston4. Enjoy examining your great accomplishment of cleaning a messy data!</p>
+<div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb726-1"><a href="data-cleaning-ii.html#cb726-1"></a><span class="kw">head</span>(weather_boston4[<span class="kw">order</span>(year,month,day)])</span></code></pre></div>
+<pre><code>##    year month day cloudcover    events max_dew_pointf max_gust_speedmph
+## 1: 2014    12   1          6      Rain             46                29
+## 2: 2014    12   2          7 Rain-Snow             40                29
+## 3: 2014    12   3          8      Rain             49                38
+## 4: 2014    12   4          3      none             24                33
+## 5: 2014    12   5          5      Rain             37                26
+## 6: 2014    12   6          8      Rain             45                25
+##    max_humidity max_sea_level_pressurein max_temperaturef max_visibilitymiles
+## 1:           74                    30.45               64                  10
+## 2:           92                    30.71               42                  10
+## 3:          100                    30.40               51                  10
+## 4:           69                    30.56               43                  10
+## 5:           85                    30.68               42                  10
+## 6:          100                    30.42               45                  10
+##    max_wind_speedmph mean_humidity mean_sea_level_pressurein mean_temperaturef
+## 1:                22            63                     30.13                52
+## 2:                24            72                     30.59                38
+## 3:                29            79                     30.07                44
+## 4:                25            54                     30.33                37
+## 5:                22            66                     30.59                34
+## 6:                22            93                     30.24                42
+##    mean_visibilitymiles mean_wind_speedmph meandew_pointf min_dewpointf
+## 1:                   10                 13             40            26
+## 2:                    8                 15             27            17
+## 3:                    5                 12             42            24
+## 4:                   10                 12             21            13
+## 5:                   10                 10             25            12
+## 6:                    4                  8             40            36
+##    min_humidity min_sea_level_pressurein min_temperaturef min_visibilitymiles
+## 1:           52                    30.01               39                  10
+## 2:           51                    30.40               33                   2
+## 3:           57                    29.87               37                   1
+## 4:           39                    30.09               30                  10
+## 5:           47                    30.45               26                   5
+## 6:           85                    30.16               38                   0
+##    precipitationin winddirdegrees       date weather_boston4
+## 1:            0.01            268 2014-12-01            0.01
+## 2:            0.10             62 2014-12-02            0.10
+## 3:            0.44            254 2014-12-03            0.44
+## 4:            0.00            292 2014-12-04            0.00
+## 5:            0.11             61 2014-12-05            0.11
+## 6:            1.09            313 2014-12-06            1.09</code></pre>
+<p>Remove intermediate datasets to save memory space. This is particular important when working with big data.</p>
+<div class="sourceCode" id="cb728"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb728-1"><a href="data-cleaning-ii.html#cb728-1"></a><span class="kw">remove</span>(weather_boston2, weather_boston3)</span></code></pre></div>
+</div>
+</div>
+<div id="summary-8" class="section level2">
+<h2><span class="header-section-number">13.5</span> Summary</h2>
+<ul>
+<li><p>We go through the three steps to clean data with an example of weather_boston: 1) exploring raw data to for diagnosis; 2) tidy the data using melt() and dcast() 3) convert columns into the right variable type.</p></li>
+<li><p>We use melt() and dcast() to tidy the data.</p></li>
+<li><p>Convert variables into the right variable type using teh data.table syntax.</p></li>
+</ul>
+<p>In real work, we may encounter different messy data. We should use the learned knowledge to describe the messy data, and clean the data.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-cleaning-i.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualization-with-ggplot2-i.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/12-datacleaning_II.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

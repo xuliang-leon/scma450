@@ -1,0 +1,162 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Log Tranformation and Polynomial Terms
+
+```{r, include=FALSE}
+# Load packages into R:
+library(data.table)
+library(corrplot)
+```
+
+In the previous chapter, we estimated a linear line to approximate the relationship between medv and lstat. However, the approximation is not perfect because the scatter plot seems to suggests a non-linear relationship betwee medv and lstat. 
+
+```{r}
+Boston=fread("data/Boston.csv")
+plot(Boston$lstat,Boston$medv, 
+     xlab ="lstat: percent of low income population in the neighborhood", 
+     ylab = "medv: house price")
+fit1=lm(medv~lstat, data=Boston)
+points(Boston$lstat, fitted(fit1), col="blue")
+```
+
+The above plot suggests that our linear model underestimated medv when lstat is either very small or very large. 
+
+There are two possible solutions to mitigate this issue: 
+
+* log-transformation
+* quadratic and polynomial terms
+
+## Log-transformation
+Log-transformation can be used when the dependent/independent variable is right skewed, meaning the variable does not cluster around the center (i.e., the bell shape), but has more mass on the right of the spectrum. A good way to check whether an variable is skewed is through histogram:   
+```{r}
+hist(Boston$lstat, breaks = 40)
+```
+
+The histogram shows that lstat is right skewed since most of the mass is leaning towards right).
+
+Now, let's try log-transform the variable lstat and examine its histogram:
+```{r}
+hist(log(Boston$lstat), breaks = 40)
+```
+
+Also notice that, as a result of log-transformation, the variation in the variable is reduced (the range of lstat is 0-40; but log(lstat) is 0.5-4). Thus, the log-transformation is also widely used for reducing the variation in the data.
+
+When the data is left-skewed, we need to use Box-cox transformation (which we will not discuss here).
+
+Here is what the regression looks like when we log-transform the lstat variable.
+```{r}
+fit2=lm(medv~log(lstat), data=Boston)
+summary(fit2) 
+```
+
+We can use summary() to take a quick looked the regression results. As seen, the fitted line is: 
+$$medvFit=52.12-12.48*log(lstat)$$
+
+Let's plot the fitted line to see the difference.
+```{r}
+# fitted() is the function to get the fitted value
+plot(Boston$lstat, Boston$medv)
+points(Boston$lstat, fitted(fit1), col="blue", type = "l")
+points(Boston$lstat, fitted(fit2), col="red", cex=0.5)
+```
+After the log transformation, the model captures the non-linear relationship between medv and lstat, and seems to provide a better fit to the data. The underestimation at both the left/right end is to some extent mitigated.
+
+## Quadratic regression
+Alternatively, we can add the quadratic terms to capture the nonlinear relationship between medv and lstat.
+
+Formally, the quadratic regression is denoted as below:
+$$y=\beta_0+\beta_1x+\beta_2x^2+\epsilon$$
+Here the quadratic term $x^2$ is included to capture the non-linear relationship between x and y. In R, the quadratic term is represented by I(x^2). 
+```{r}
+fit3=lm(medv~lstat+I(lstat^2),data=Boston)
+summary(fit3)
+```
+According the estimated result, the fitted line is:
+$$medvFit= 42.86-2.33*lstat+0.04*lstat^2$$
+
+Now, let's plot the fitted line to see the difference.
+```{r}
+plot(Boston$lstat, Boston$medv)
+points(Boston$lstat, fitted(fit1), col="blue", type = "l")
+points(Boston$lstat, fitted(fit2), col="red", cex=0.5)
+points(Boston$lstat, fitted(fit3), col="green", cex=0.5)
+```
+
+The quadartic model corrects (probably over corrects) the underestimation of medv when lstat is too small or too large. However, it may overestimate medv when lstat is large. Thus, we may want to add higher order polynomial terms to aviod that.
+
+## Polynomial regression
+Polynomial is a genearlization of quadratic regression. Formally, the $k^{th}$ order polynomial regression model is generally denoted as below:
+$$y=\beta_0+\beta_1x+\beta_2x^2+\beta_3x^3+...+\beta_kx^k+\epsilon$$
+The polynomial terms $x^2$, ...,$x^k$ are used to capture the non-linear relationship between x and y.
+
+This can be easily estimated in R:
+```{r}
+# 6th order polynomial regression
+fit4=lm(medv~poly(lstat,6), data=Boston)  
+summary(fit4)
+```
+
+Now, let's plot the fitted line to see the difference.
+```{r}
+# fitted() is the function to get the fitted value
+plot(Boston$lstat, Boston$medv)
+points(Boston$lstat, fitted(fit1), col="blue", type = "l")
+points(Boston$lstat, fitted(fit2), col="red", cex=0.5)
+points(Boston$lstat, fitted(fit3), col="green", cex=0.5)
+points(Boston$lstat, fitted(fit4), col="yellow", cex=0.5)
+```
+The $6^{th}$ order polynomial regression seems to provide a good fit to the data. 
+
+You may be wondering, now we have four different model to predict medv. For a given lstat, each model predicts a differnt medv. Which model should we trust? Which model is the best model? We will come back to this question in the model selection chapter.
+
+## Summary
+
+* log-transformation can correct the right-skewness of the variable, and reduce variation in the variable.
+* We can use log-transformation and polynoimal terms to capture non-linear relationship between dependent variable and independent variables.
+
+
+## Exercise
+Use nox (nitrogen oxides concentration (parts per 10 million)) to explain medv through a linear regression model, i.e., 
+$$medv=\beta_0+\beta_1 nox+\epsilon$$
+You need to try the following models:
+
+* Model 1: linear regression without any transformation
+* Model 2: log-transformation on nox
+* Model 3: add quadartic term of nox
+* Model 4: $10^{th}$ order polynomial regression
+
+### Solution
+Let's first examine the data visually.
+```{r}
+corr=cor(Boston[,c("medv","nox")])
+corrplot.mixed(corr, number.cex = .7, tl.cex=0.8)
+```
+
+```{r}
+plot(Boston$nox, Boston$medv)
+```
+
+There seems to exist a negative linear relationship between nox and medv: house price in region with higher nox (more air pollution) has lower price.
+
+Let's quantify such linear relationship:
+```{r}
+# estimate four different models
+fit1=lm(formula=medv~nox, data=Boston)
+fit2=lm(formula=medv~log(nox), data=Boston)
+fit3=lm(formula=medv~nox+I(nox^2), data=Boston)
+fit4=lm(formula=medv~poly(nox,10), data=Boston)
+
+# generate the fitted value for each model
+plot(Boston$nox, Boston$medv)
+points(Boston$nox, fitted(fit1), col="blue", type = "l")
+points(Boston$nox, fitted(fit2), col="red", cex=0.5)
+points(Boston$nox, fitted(fit3), col="green", cex=0.5)
+points(Boston$nox, fitted(fit4), col="yellow", cex=0.5)
+```
+
+It seems model 1-3 provide similar fit, however model 4 (polynomial-10) seems to have a problem of over-fitting: the model is too specific to the training data, and cannot be generalizable for out-of-sample prediction. Thus, it is not always the best to have a complicated model. We will come back to the problem of over-fitting in the model selection chapter.
+
+

@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 25 Maching Learning with Caret | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 25 Maching Learning with Caret | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 25 Maching Learning with Caret | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="decision-tree.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2 I</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html"><i class="fa fa-check"></i><b>15</b> Visualization with ggplot2 II</a><ul>
+<li class="chapter" data-level="15.1" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#bar-chart-and-statistical-transformation-1"><i class="fa fa-check"></i><b>15.1</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="15.2" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#stacked-par-1"><i class="fa fa-check"></i><b>15.2</b> stacked par</a></li>
+<li class="chapter" data-level="15.3" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#histogram-1"><i class="fa fa-check"></i><b>15.3</b> Histogram</a></li>
+<li class="chapter" data-level="15.4" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#boxplot-1"><i class="fa fa-check"></i><b>15.4</b> boxplot</a></li>
+<li class="chapter" data-level="15.5" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#line-chart-1"><i class="fa fa-check"></i><b>15.5</b> line chart</a></li>
+<li class="chapter" data-level="15.6" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#use-theme-to-customize-the-appearance-of-your-chart.-1"><i class="fa fa-check"></i><b>15.6</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="15.7" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#summary-10"><i class="fa fa-check"></i><b>15.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html"><i class="fa fa-check"></i><b>16</b> Visualization with ggplot2 III</a><ul>
+<li class="chapter" data-level="16.1" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-world-map"><i class="fa fa-check"></i><b>16.1</b> Draw world map</a></li>
+<li class="chapter" data-level="16.2" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-map"><i class="fa fa-check"></i><b>16.2</b> Draw US map</a></li>
+<li class="chapter" data-level="16.3" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-county-map"><i class="fa fa-check"></i><b>16.3</b> draw US county map</a></li>
+<li class="chapter" data-level="16.4" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#summary-11"><i class="fa fa-check"></i><b>16.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html"><i class="fa fa-check"></i><b>17</b> Visualization with ggplot2 - Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-of-scatter-plot-to-show-how-two-variables-evolve-over-time-simultaneously"><i class="fa fa-check"></i><b>17.1</b> Animation of scatter plot to show how two variables evolve over time simultaneously</a></li>
+<li class="chapter" data-level="17.2" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#use-a-line-chart-to-show-how-gdppercap-evolve-over-time"><i class="fa fa-check"></i><b>17.2</b> Use a line chart to show how gdpPercap evolve over time</a></li>
+<li class="chapter" data-level="17.3" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-with-bar-chart"><i class="fa fa-check"></i><b>17.3</b> Animation with Bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>18</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="18.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#examine-and-explore-the-data"><i class="fa fa-check"></i><b>18.1</b> Examine and explore the data</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#correlation-matrix"><i class="fa fa-check"></i><b>18.1.1</b> Correlation matrix</a></li>
+<li class="chapter" data-level="18.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#scatter-plot-1"><i class="fa fa-check"></i><b>18.1.2</b> Scatter plot</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#develop-simple-linear-regression-model"><i class="fa fa-check"></i><b>18.2</b> Develop simple linear regression model</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>18.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="18.2.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#how-to-interpret-the-coefficient-estimates"><i class="fa fa-check"></i><b>18.2.2</b> How to interpret the coefficient estimates?</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#overall-model-fittness"><i class="fa fa-check"></i><b>18.3</b> Overall model fittness</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-diagnoise"><i class="fa fa-check"></i><b>18.3.1</b> Regression Diagnoise</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#use-estimated-model-for-prediction"><i class="fa fa-check"></i><b>18.4</b> Use estimated model for prediction</a></li>
+<li class="chapter" data-level="18.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#summary-12"><i class="fa fa-check"></i><b>18.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html"><i class="fa fa-check"></i><b>19</b> Log Tranformation and Polynomial Terms</a><ul>
+<li class="chapter" data-level="19.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#log-transformation"><i class="fa fa-check"></i><b>19.1</b> Log-transformation</a></li>
+<li class="chapter" data-level="19.2" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#quadratic-regression"><i class="fa fa-check"></i><b>19.2</b> Quadratic regression</a></li>
+<li class="chapter" data-level="19.3" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#polynomial-regression"><i class="fa fa-check"></i><b>19.3</b> Polynomial regression</a></li>
+<li class="chapter" data-level="19.4" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#summary-13"><i class="fa fa-check"></i><b>19.4</b> Summary</a></li>
+<li class="chapter" data-level="19.5" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#exercise-3"><i class="fa fa-check"></i><b>19.5</b> Exercise</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#solution"><i class="fa fa-check"></i><b>19.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html"><i class="fa fa-check"></i><b>20</b> Mutiple Linear Regression</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#mutiple-linear-regression-1"><i class="fa fa-check"></i><b>20.1</b> Mutiple linear regression</a></li>
+<li class="chapter" data-level="20.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#categorical-variables"><i class="fa fa-check"></i><b>20.2</b> Categorical variables</a></li>
+<li class="chapter" data-level="20.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#interprate-coefficients---keeping-all-other-variables-the-same"><i class="fa fa-check"></i><b>20.3</b> Interprate coefficients - Keeping all other variables the same</a></li>
+<li class="chapter" data-level="20.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#multicollinearity"><i class="fa fa-check"></i><b>20.4</b> Multicollinearity</a></li>
+<li class="chapter" data-level="20.5" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#excerise"><i class="fa fa-check"></i><b>20.5</b> Excerise</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#examine-the-frequency-of-chas"><i class="fa fa-check"></i><b>20.5.1</b> Examine the frequency of chas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#visualize-the-house-price-with-ggplot2"><i class="fa fa-check"></i><b>20.5.2</b> Visualize the house price with ggplot2</a></li>
+<li class="chapter" data-level="20.5.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#estimate-the-linear-regression-model"><i class="fa fa-check"></i><b>20.5.3</b> estimate the linear regression model</a></li>
+<li class="chapter" data-level="20.5.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#plot-the-fitted-line"><i class="fa fa-check"></i><b>20.5.4</b> plot the fitted line</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html"><i class="fa fa-check"></i><b>21</b> Best Subset Model Selection</a><ul>
+<li class="chapter" data-level="21.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#best-subset-model-selection-1"><i class="fa fa-check"></i><b>21.1</b> Best Subset Model Selection</a></li>
+<li class="chapter" data-level="21.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#deterimining-the-best-model-with-adj-r2-cp-aic-and-bic"><i class="fa fa-check"></i><b>21.2</b> Deterimining the best model with adj-R2, Cp, AIC, and BIC</a><ul>
+<li class="chapter" data-level="21.2.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#r-squared-is-not-a-good-criteria-for-model-selection"><i class="fa fa-check"></i><b>21.2.1</b> R-squared is not a good criteria for model selection</a></li>
+<li class="chapter" data-level="21.2.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-adjusted-r2"><i class="fa fa-check"></i><b>21.2.2</b> Select the best model using Adjusted R2</a></li>
+<li class="chapter" data-level="21.2.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-cp"><i class="fa fa-check"></i><b>21.2.3</b> Select the best model using Cp</a></li>
+<li class="chapter" data-level="21.2.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-bic"><i class="fa fa-check"></i><b>21.2.4</b> Select the best model using BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#forwardbackward-selection"><i class="fa fa-check"></i><b>21.3</b> Forward/Backward selection</a></li>
+<li class="chapter" data-level="21.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#summary-14"><i class="fa fa-check"></i><b>21.4</b> Summary:</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>22</b> Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#create-trainingtest-set"><i class="fa fa-check"></i><b>22.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="22.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-selection"><i class="fa fa-check"></i><b>22.2</b> Model selection</a><ul>
+<li class="chapter" data-level="22.2.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#estimate-the-model-using-training-set"><i class="fa fa-check"></i><b>22.2.1</b> estimate the model using training set</a></li>
+<li class="chapter" data-level="22.2.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#evaluate-the-models-out-of-sample-prediction-using-test-set"><i class="fa fa-check"></i><b>22.2.2</b> evaluate the models’ out-of-sample prediction using test set</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-4-has-the-problem-of-over-fitting"><i class="fa fa-check"></i><b>22.3</b> Model 4 has the problem of over-fitting</a></li>
+<li class="chapter" data-level="22.4" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#other-commonly-used-metrics-for-prediction-performance"><i class="fa fa-check"></i><b>22.4</b> Other Commonly Used Metrics for Prediction performance</a></li>
+<li class="chapter" data-level="22.5" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#summary-15"><i class="fa fa-check"></i><b>22.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>23</b> Best Subset Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="23.1" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#create-trainingtest-set-1"><i class="fa fa-check"></i><b>23.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="23.2" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#evaluate-the-best-subset-regression-through-trainingtest-set"><i class="fa fa-check"></i><b>23.2</b> Evaluate the Best subset regression through training/test set</a></li>
+<li class="chapter" data-level="23.3" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#exercise-4"><i class="fa fa-check"></i><b>23.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="decision-tree.html"><a href="decision-tree.html"><i class="fa fa-check"></i><b>24</b> Decision Tree</a></li>
+<li class="chapter" data-level="25" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html"><i class="fa fa-check"></i><b>25</b> Maching Learning with Caret</a><ul>
+<li class="chapter" data-level="25.1" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest"><i class="fa fa-check"></i><b>25.1</b> Random Forest</a></li>
+<li class="chapter" data-level="25.2" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest-1"><i class="fa fa-check"></i><b>25.2</b> Random Forest</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="maching-learning-with-caret" class="section level1">
+<h1><span class="header-section-number">Chapter 25</span> Maching Learning with Caret</h1>
+<p>The caret package (short for Classification And REgression Training) contains functions to streamline the model training process for complex regression and classification problems. It integrates all activities related to model development in a streamlined workflow for nearly every major ML algorithm available in R.</p>
+<p>In particular, we will use random forest algorithm through caret for prediction.</p>
+<div class="sourceCode" id="cb1128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1128-1"><a href="maching-learning-with-caret.html#cb1128-1"></a><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;caret&quot;</span>,<span class="st">&quot;ranger&quot;</span>,<span class="st">&quot;rpart&quot;</span>,<span class="st">&quot;rattle&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1129-1"><a href="maching-learning-with-caret.html#cb1129-1"></a><span class="kw">library</span>(data.table)</span>
+<span id="cb1129-2"><a href="maching-learning-with-caret.html#cb1129-2"></a><span class="kw">library</span>(leaps)</span>
+<span id="cb1129-3"><a href="maching-learning-with-caret.html#cb1129-3"></a></span>
+<span id="cb1129-4"><a href="maching-learning-with-caret.html#cb1129-4"></a><span class="kw">library</span>(rpart)    <span class="co"># build decision tree </span></span>
+<span id="cb1129-5"><a href="maching-learning-with-caret.html#cb1129-5"></a><span class="kw">library</span>(rattle)   <span class="co"># plot decision tree</span></span>
+<span id="cb1129-6"><a href="maching-learning-with-caret.html#cb1129-6"></a><span class="kw">library</span>(ranger)   <span class="co"># random forest</span></span>
+<span id="cb1129-7"><a href="maching-learning-with-caret.html#cb1129-7"></a><span class="kw">library</span>(caret)</span>
+<span id="cb1129-8"><a href="maching-learning-with-caret.html#cb1129-8"></a></span>
+<span id="cb1129-9"><a href="maching-learning-with-caret.html#cb1129-9"></a><span class="kw">library</span>(stringr)</span></code></pre></div>
+<p>A random forest is a machine learning technique that’s used to solve regression and classification problems. It utilizes ensemble learning, which is a technique that combines many classifiers to provide solutions to complex problems. In a simple non-technique terms, the random forest algorithm builds multiple decision trees with different structures. Each tree has its own prediction. The final prediction is to aggregate the decision from all trees.</p>
+<p>For binary outcome, the aggregation is done through majority vote; For continuous outcome, the aggregation is through averaging.</p>
+<div id="random-forest" class="section level2">
+<h2><span class="header-section-number">25.1</span> Random Forest</h2>
+<p>Use random forest algorithm to predict house price</p>
+<div class="sourceCode" id="cb1130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1130-1"><a href="maching-learning-with-caret.html#cb1130-1"></a>Boston=<span class="kw">fread</span>(<span class="st">&quot;data/Boston.csv&quot;</span>)</span>
+<span id="cb1130-2"><a href="maching-learning-with-caret.html#cb1130-2"></a>Boston[,location<span class="op">:</span><span class="er">=</span><span class="kw">factor</span>(location)]</span>
+<span id="cb1130-3"><a href="maching-learning-with-caret.html#cb1130-3"></a>Boston[,chas<span class="op">:</span><span class="er">=</span><span class="kw">factor</span>(chas)]</span>
+<span id="cb1130-4"><a href="maching-learning-with-caret.html#cb1130-4"></a></span>
+<span id="cb1130-5"><a href="maching-learning-with-caret.html#cb1130-5"></a><span class="kw">nrow</span>(Boston)  <span class="co"># check the number of rows</span></span></code></pre></div>
+<pre><code>## [1] 506</code></pre>
+<div class="sourceCode" id="cb1132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1132-1"><a href="maching-learning-with-caret.html#cb1132-1"></a><span class="co"># set the rand seed to ensure replicability </span></span>
+<span id="cb1132-2"><a href="maching-learning-with-caret.html#cb1132-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>) </span>
+<span id="cb1132-3"><a href="maching-learning-with-caret.html#cb1132-3"></a><span class="co"># set the size of training set</span></span>
+<span id="cb1132-4"><a href="maching-learning-with-caret.html#cb1132-4"></a>train_size=<span class="kw">round</span>(<span class="fl">0.8</span><span class="op">*</span><span class="kw">nrow</span>(Boston),<span class="dv">0</span>)  </span>
+<span id="cb1132-5"><a href="maching-learning-with-caret.html#cb1132-5"></a><span class="co"># randomly select 405 numbers from sequence of 1 to 506</span></span>
+<span id="cb1132-6"><a href="maching-learning-with-caret.html#cb1132-6"></a>train=<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Boston), train_size, <span class="dt">replace=</span><span class="ot">FALSE</span>)</span>
+<span id="cb1132-7"><a href="maching-learning-with-caret.html#cb1132-7"></a></span>
+<span id="cb1132-8"><a href="maching-learning-with-caret.html#cb1132-8"></a>model1 &lt;-<span class="st"> </span><span class="kw">train</span>(</span>
+<span id="cb1132-9"><a href="maching-learning-with-caret.html#cb1132-9"></a>  <span class="kw">log</span>(medv)<span class="op">~</span>., </span>
+<span id="cb1132-10"><a href="maching-learning-with-caret.html#cb1132-10"></a>  Boston[train],</span>
+<span id="cb1132-11"><a href="maching-learning-with-caret.html#cb1132-11"></a>  <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span></span>
+<span id="cb1132-12"><a href="maching-learning-with-caret.html#cb1132-12"></a>)</span>
+<span id="cb1132-13"><a href="maching-learning-with-caret.html#cb1132-13"></a></span>
+<span id="cb1132-14"><a href="maching-learning-with-caret.html#cb1132-14"></a><span class="kw">plot</span>(model1)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-512-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1133-1"><a href="maching-learning-with-caret.html#cb1133-1"></a>pred =<span class="st"> </span><span class="kw">exp</span>(<span class="kw">predict</span>(model1, Boston[<span class="op">-</span>train]))</span>
+<span id="cb1133-2"><a href="maching-learning-with-caret.html#cb1133-2"></a>error =<span class="st"> </span>pred <span class="op">-</span><span class="st"> </span>Boston[<span class="op">-</span>train]<span class="op">$</span>medv</span>
+<span id="cb1133-3"><a href="maching-learning-with-caret.html#cb1133-3"></a></span>
+<span id="cb1133-4"><a href="maching-learning-with-caret.html#cb1133-4"></a><span class="co"># Calculate RMSE</span></span>
+<span id="cb1133-5"><a href="maching-learning-with-caret.html#cb1133-5"></a>rmse=<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">mean</span>(error <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))</span>
+<span id="cb1133-6"><a href="maching-learning-with-caret.html#cb1133-6"></a>  </span>
+<span id="cb1133-7"><a href="maching-learning-with-caret.html#cb1133-7"></a><span class="co"># Mean Absolute Error</span></span>
+<span id="cb1133-8"><a href="maching-learning-with-caret.html#cb1133-8"></a>mae=<span class="kw">mean</span>(<span class="kw">abs</span>(Boston[<span class="op">-</span>train]<span class="op">$</span>medv<span class="op">-</span>pred))</span>
+<span id="cb1133-9"><a href="maching-learning-with-caret.html#cb1133-9"></a>  </span>
+<span id="cb1133-10"><a href="maching-learning-with-caret.html#cb1133-10"></a><span class="co"># Mean Absolute Percent Error</span></span>
+<span id="cb1133-11"><a href="maching-learning-with-caret.html#cb1133-11"></a>mape=<span class="kw">mean</span>(<span class="kw">abs</span>(Boston[<span class="op">-</span>train]<span class="op">$</span>medv<span class="op">-</span>pred)<span class="op">/</span>Boston[<span class="op">-</span>train]<span class="op">$</span>medv)</span>
+<span id="cb1133-12"><a href="maching-learning-with-caret.html#cb1133-12"></a><span class="kw">c</span>(rmse,mae, mape)</span></code></pre></div>
+<pre><code>## [1] 3.5733190 2.2802331 0.1166085</code></pre>
+<div class="sourceCode" id="cb1135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1135-1"><a href="maching-learning-with-caret.html#cb1135-1"></a><span class="co"># plot the actual and prediction</span></span>
+<span id="cb1135-2"><a href="maching-learning-with-caret.html#cb1135-2"></a><span class="kw">plot</span>(Boston[<span class="op">-</span>train]<span class="op">$</span>medv,pred)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-512-2.png" width="672" /></p>
+<p>Use random forest algorithm to predict survival of titanic passengers</p>
+<div class="sourceCode" id="cb1136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1136-1"><a href="maching-learning-with-caret.html#cb1136-1"></a>train &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&#39;data/titanic/train.csv&#39;</span>)</span>
+<span id="cb1136-2"><a href="maching-learning-with-caret.html#cb1136-2"></a>test &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;data/titanic/test.csv&quot;</span>)</span>
+<span id="cb1136-3"><a href="maching-learning-with-caret.html#cb1136-3"></a>full=<span class="kw">rbind</span>(train, test, <span class="dt">fill=</span><span class="ot">TRUE</span>)</span>
+<span id="cb1136-4"><a href="maching-learning-with-caret.html#cb1136-4"></a></span>
+<span id="cb1136-5"><a href="maching-learning-with-caret.html#cb1136-5"></a><span class="kw">head</span>(full)</span></code></pre></div>
+<pre><code>##    PassengerId Survived Pclass
+## 1:           1        0      3
+## 2:           2        1      1
+## 3:           3        1      3
+## 4:           4        1      1
+## 5:           5        0      3
+## 6:           6        0      3
+##                                                   Name    Sex Age SibSp Parch
+## 1:                             Braund, Mr. Owen Harris   male  22     1     0
+## 2: Cumings, Mrs. John Bradley (Florence Briggs Thayer) female  38     1     0
+## 3:                              Heikkinen, Miss. Laina female  26     0     0
+## 4:        Futrelle, Mrs. Jacques Heath (Lily May Peel) female  35     1     0
+## 5:                            Allen, Mr. William Henry   male  35     0     0
+## 6:                                    Moran, Mr. James   male  NA     0     0
+##              Ticket    Fare Cabin Embarked
+## 1:        A/5 21171  7.2500              S
+## 2:         PC 17599 71.2833   C85        C
+## 3: STON/O2. 3101282  7.9250              S
+## 4:           113803 53.1000  C123        S
+## 5:           373450  8.0500              S
+## 6:           330877  8.4583              Q</code></pre>
+<div class="sourceCode" id="cb1138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1138-1"><a href="maching-learning-with-caret.html#cb1138-1"></a><span class="co"># clean data</span></span>
+<span id="cb1138-2"><a href="maching-learning-with-caret.html#cb1138-2"></a><span class="kw">table</span>(full<span class="op">$</span>Embarked)</span></code></pre></div>
+<pre><code>## 
+##       C   Q   S 
+##   2 270 123 914</code></pre>
+<div class="sourceCode" id="cb1140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1140-1"><a href="maching-learning-with-caret.html#cb1140-1"></a>full[Embarked<span class="op">==</span><span class="st">&quot;&quot;</span>, Embarked<span class="op">:</span><span class="er">=</span><span class="st">&quot;S&quot;</span>]   <span class="co"># replace missing Embarked with the most frequent value</span></span>
+<span id="cb1140-2"><a href="maching-learning-with-caret.html#cb1140-2"></a></span>
+<span id="cb1140-3"><a href="maching-learning-with-caret.html#cb1140-3"></a><span class="co">## examine the cabin information</span></span>
+<span id="cb1140-4"><a href="maching-learning-with-caret.html#cb1140-4"></a><span class="kw">table</span>(full<span class="op">$</span>Cabin)</span></code></pre></div>
+<pre><code>## 
+##                             A10             A11             A14             A16 
+##            1014               1               1               1               1 
+##             A18             A19             A20             A21             A23 
+##               1               1               1               1               1 
+##             A24             A26             A29             A31             A32 
+##               1               1               1               1               1 
+##             A34             A36              A5              A6              A7 
+##               3               1               1               1               1 
+##              A9             B10            B101            B102             B11 
+##               1               1               1               1               1 
+##             B18             B19             B20             B22             B24 
+##               2               1               2               2               1 
+##             B26             B28              B3             B30             B35 
+##               1               2               1               1               2 
+##             B36             B37             B38             B39              B4 
+##               1               1               1               1               1 
+##             B41             B42             B45             B49              B5 
+##               2               1               2               2               2 
+##             B50     B51 B53 B55     B52 B54 B56 B57 B59 B63 B66         B58 B60 
+##               1               3               1               5               3 
+##             B61             B69             B71             B73             B77 
+##               1               2               2               1               2 
+##             B78             B79             B80         B82 B84             B86 
+##               2               1               1               1               1 
+##             B94         B96 B98            C101            C103            C104 
+##               1               4               3               1               1 
+##            C105            C106            C110            C111            C116 
+##               1               2               1               1               2 
+##            C118            C123            C124            C125            C126 
+##               1               2               2               2               2 
+##            C128            C130            C132            C148              C2 
+##               1               1               1               1               2 
+##         C22 C26     C23 C25 C27             C28             C30             C31 
+##               4               6               1               1               2 
+##             C32             C39             C45             C46             C47 
+##               2               1               1               2               1 
+##             C49             C50             C51             C52             C53 
+##               1               1               1               2               1 
+##             C54         C55 C57              C6         C62 C64             C65 
+##               2               2               2               2               2 
+##             C68              C7             C70             C78             C80 
+##               2               2               1               4               2 
+##             C82             C83             C85             C86             C87 
+##               1               2               2               2               1 
+##             C89             C90             C91             C92             C93 
+##               2               1               1               2               2 
+##             C95             C97             C99               D         D10 D12 
+##               1               1               1               4               2 
+##             D11             D15             D17             D19             D20 
+##               1               2               2               2               2 
+##             D21             D22             D26             D28             D30 
+##               2               1               2               2               2 
+##             D33             D34             D35             D36             D37 
+##               2               1               2               2               2 
+##             D38             D40             D43             D45             D46 
+##               1               1               1               1               1 
+##             D47             D48             D49             D50             D56 
+##               1               1               1               1               1 
+##              D6              D7              D9             E10            E101 
+##               1               1               1               1               3 
+##             E12            E121             E17             E24             E25 
+##               1               2               1               2               2 
+##             E31             E33             E34             E36             E38 
+##               2               2               3               1               1 
+##         E39 E41             E40             E44             E45             E46 
+##               1               1               2               1               2 
+##             E49             E50             E52             E58             E60 
+##               1               2               1               1               1 
+##             E63             E67             E68             E77              E8 
+##               1               2               1               1               2 
+##               F           F E46           F E57           F E69           F G63 
+##               1               1               1               1               2 
+##           F G73              F2             F33             F38              F4 
+##               2               4               4               1               4 
+##              G6               T 
+##               5               1</code></pre>
+<div class="sourceCode" id="cb1142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1142-1"><a href="maching-learning-with-caret.html#cb1142-1"></a>full[Cabin<span class="op">==</span><span class="st">&quot;&quot;</span>,Cabin<span class="op">:</span><span class="er">=</span><span class="st">&quot;N&quot;</span>]  <span class="co"># if Cabin is missing, replace with N</span></span>
+<span id="cb1142-2"><a href="maching-learning-with-caret.html#cb1142-2"></a>full[,Cabin<span class="op">:</span><span class="er">=</span><span class="kw">str_extract</span>(Cabin,<span class="st">&quot;[:alpha:]&quot;</span>)]   <span class="co"># extract the first letter of Cabin number</span></span>
+<span id="cb1142-3"><a href="maching-learning-with-caret.html#cb1142-3"></a>full[Cabin<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;G&quot;</span>,<span class="st">&quot;T&quot;</span>),Cabin<span class="op">:</span><span class="er">=</span><span class="st">&quot;N&quot;</span>]           <span class="co"># Cabin G and T do not have enough observation and reset to &quot;N&quot;</span></span>
+<span id="cb1142-4"><a href="maching-learning-with-caret.html#cb1142-4"></a><span class="kw">table</span>(full<span class="op">$</span>Cabin)</span></code></pre></div>
+<pre><code>## 
+##    A    B    C    D    E    F    N 
+##   22   65   94   46   41   21 1020</code></pre>
+<div class="sourceCode" id="cb1144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1144-1"><a href="maching-learning-with-caret.html#cb1144-1"></a><span class="co"># check the missing value pattern</span></span>
+<span id="cb1144-2"><a href="maching-learning-with-caret.html#cb1144-2"></a><span class="kw">summary</span>(full)</span></code></pre></div>
+<pre><code>##   PassengerId      Survived          Pclass          Name          
+##  Min.   :   1   Min.   :0.0000   Min.   :1.000   Length:1309       
+##  1st Qu.: 328   1st Qu.:0.0000   1st Qu.:2.000   Class :character  
+##  Median : 655   Median :0.0000   Median :3.000   Mode  :character  
+##  Mean   : 655   Mean   :0.3838   Mean   :2.295                     
+##  3rd Qu.: 982   3rd Qu.:1.0000   3rd Qu.:3.000                     
+##  Max.   :1309   Max.   :1.0000   Max.   :3.000                     
+##                 NA&#39;s   :418                                        
+##      Sex                 Age            SibSp            Parch      
+##  Length:1309        Min.   : 0.17   Min.   :0.0000   Min.   :0.000  
+##  Class :character   1st Qu.:21.00   1st Qu.:0.0000   1st Qu.:0.000  
+##  Mode  :character   Median :28.00   Median :0.0000   Median :0.000  
+##                     Mean   :29.88   Mean   :0.4989   Mean   :0.385  
+##                     3rd Qu.:39.00   3rd Qu.:1.0000   3rd Qu.:0.000  
+##                     Max.   :80.00   Max.   :8.0000   Max.   :9.000  
+##                     NA&#39;s   :263                                     
+##     Ticket               Fare            Cabin             Embarked        
+##  Length:1309        Min.   :  0.000   Length:1309        Length:1309       
+##  Class :character   1st Qu.:  7.896   Class :character   Class :character  
+##  Mode  :character   Median : 14.454   Mode  :character   Mode  :character  
+##                     Mean   : 33.295                                        
+##                     3rd Qu.: 31.275                                        
+##                     Max.   :512.329                                        
+##                     NA&#39;s   :1</code></pre>
+<div class="sourceCode" id="cb1146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1146-1"><a href="maching-learning-with-caret.html#cb1146-1"></a><span class="co"># We have a lot of missing data in the Age feature (263/1309)</span></span>
+<span id="cb1146-2"><a href="maching-learning-with-caret.html#cb1146-2"></a><span class="co"># examine rows with missing age</span></span>
+<span id="cb1146-3"><a href="maching-learning-with-caret.html#cb1146-3"></a>full[<span class="kw">is.na</span>(Age)] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</span></code></pre></div>
+<pre><code>##    PassengerId Survived Pclass                            Name    Sex Age SibSp
+## 1:           6        0      3                Moran, Mr. James   male  NA     0
+## 2:          18        1      2    Williams, Mr. Charles Eugene   male  NA     0
+## 3:          20        1      3         Masselmani, Mrs. Fatima female  NA     0
+## 4:          27        0      3         Emir, Mr. Farred Chehab   male  NA     0
+## 5:          29        1      3 O&#39;Dwyer, Miss. Ellen &quot;&quot;Nellie&quot;&quot; female  NA     0
+## 6:          30        0      3             Todoroff, Mr. Lalio   male  NA     0
+##    Parch Ticket    Fare Cabin Embarked
+## 1:     0 330877  8.4583     N        Q
+## 2:     0 244373 13.0000     N        S
+## 3:     0   2649  7.2250     N        C
+## 4:     0   2631  7.2250     N        C
+## 5:     0 330959  7.8792     N        Q
+## 6:     0 349216  7.8958     N        S</code></pre>
+<div class="sourceCode" id="cb1148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1148-1"><a href="maching-learning-with-caret.html#cb1148-1"></a>full=full[, Age2<span class="op">:</span><span class="er">=</span><span class="kw">mean</span>(Age,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)][<span class="kw">is.na</span>(Age), Age<span class="op">:</span><span class="er">=</span>Age2][,<span class="op">-</span><span class="kw">c</span>(<span class="st">&quot;Age2&quot;</span>)]  <span class="co"># replace missing age with average</span></span>
+<span id="cb1148-2"><a href="maching-learning-with-caret.html#cb1148-2"></a></span>
+<span id="cb1148-3"><a href="maching-learning-with-caret.html#cb1148-3"></a><span class="co"># replace missing fare with average fare</span></span>
+<span id="cb1148-4"><a href="maching-learning-with-caret.html#cb1148-4"></a>full[<span class="kw">is.na</span>(Fare)]</span></code></pre></div>
+<pre><code>##    PassengerId Survived Pclass               Name  Sex  Age SibSp Parch Ticket
+## 1:        1044       NA      3 Storey, Mr. Thomas male 60.5     0     0   3701
+##    Fare Cabin Embarked
+## 1:   NA     N        S</code></pre>
+<div class="sourceCode" id="cb1150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1150-1"><a href="maching-learning-with-caret.html#cb1150-1"></a>full=full[, Fare2<span class="op">:</span><span class="er">=</span><span class="kw">mean</span>(Fare,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)][<span class="kw">is.na</span>(Fare), Fare<span class="op">:</span><span class="er">=</span>Fare2][,<span class="op">-</span><span class="kw">c</span>(<span class="st">&quot;Fare2&quot;</span>)]</span>
+<span id="cb1150-2"><a href="maching-learning-with-caret.html#cb1150-2"></a></span>
+<span id="cb1150-3"><a href="maching-learning-with-caret.html#cb1150-3"></a><span class="co"># The title of the passenger can affect his survive:</span></span>
+<span id="cb1150-4"><a href="maching-learning-with-caret.html#cb1150-4"></a><span class="co"># extract title </span></span>
+<span id="cb1150-5"><a href="maching-learning-with-caret.html#cb1150-5"></a>full[,Title <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">gsub</span>(<span class="st">&#39;(.*, )|(</span><span class="ch">\\</span><span class="st">..*)&#39;</span>, <span class="st">&#39;&#39;</span>, Name)]</span>
+<span id="cb1150-6"><a href="maching-learning-with-caret.html#cb1150-6"></a>full[Title <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Mlle&#39;</span>,<span class="st">&#39;Ms&#39;</span>,<span class="st">&#39;Mme&#39;</span>,<span class="st">&#39;Lady&#39;</span>,<span class="st">&#39;Dona&#39;</span>), Title<span class="op">:</span><span class="er">=</span><span class="st"> &#39;Miss&#39;</span>] </span>
+<span id="cb1150-7"><a href="maching-learning-with-caret.html#cb1150-7"></a>full[Title <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Capt&#39;</span>,<span class="st">&#39;Col&#39;</span>,<span class="st">&#39;Don&#39;</span>,<span class="st">&#39;Dr&#39;</span>,<span class="st">&#39;Jonkheer&#39;</span>,<span class="st">&#39;Major&#39;</span>,<span class="st">&#39;Rev&#39;</span>,<span class="st">&#39;Sir&#39;</span>,<span class="st">&#39;the Countess&#39;</span>), Title<span class="op">:</span><span class="er">=</span><span class="st"> &#39;Officer&#39;</span>]</span>
+<span id="cb1150-8"><a href="maching-learning-with-caret.html#cb1150-8"></a></span>
+<span id="cb1150-9"><a href="maching-learning-with-caret.html#cb1150-9"></a></span>
+<span id="cb1150-10"><a href="maching-learning-with-caret.html#cb1150-10"></a><span class="co"># Let&#39;s see how many unique levels for each variables</span></span>
+<span id="cb1150-11"><a href="maching-learning-with-caret.html#cb1150-11"></a><span class="kw">apply</span>(full,<span class="dv">2</span>, <span class="cf">function</span>(x) <span class="kw">length</span>(<span class="kw">unique</span>(x)))</span></code></pre></div>
+<pre><code>## PassengerId    Survived      Pclass        Name         Sex         Age 
+##        1309           3           3        1307           2          99 
+##       SibSp       Parch      Ticket        Fare       Cabin    Embarked 
+##           7           8         929         282           7           3 
+##       Title 
+##           5</code></pre>
+<div class="sourceCode" id="cb1152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1152-1"><a href="maching-learning-with-caret.html#cb1152-1"></a><span class="co"># Group Parch and SibSp into categorical variables</span></span>
+<span id="cb1152-2"><a href="maching-learning-with-caret.html#cb1152-2"></a><span class="kw">table</span>(full<span class="op">$</span>Parch)</span></code></pre></div>
+<pre><code>## 
+##    0    1    2    3    4    5    6    9 
+## 1002  170  113    8    6    6    2    2</code></pre>
+<div class="sourceCode" id="cb1154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1154-1"><a href="maching-learning-with-caret.html#cb1154-1"></a><span class="kw">table</span>(full<span class="op">$</span>SibSp)</span></code></pre></div>
+<pre><code>## 
+##   0   1   2   3   4   5   8 
+## 891 319  42  20  22   6   9</code></pre>
+<div class="sourceCode" id="cb1156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1156-1"><a href="maching-learning-with-caret.html#cb1156-1"></a>full[,Parch2<span class="op">:</span><span class="er">=</span><span class="kw">ifelse</span>(Parch<span class="op">&gt;</span><span class="dv">2</span>,<span class="dv">3</span>,Parch), by=.(PassengerId)]</span>
+<span id="cb1156-2"><a href="maching-learning-with-caret.html#cb1156-2"></a>full[,SibSp2<span class="op">:</span><span class="er">=</span><span class="kw">ifelse</span>(SibSp<span class="op">&gt;</span><span class="dv">4</span>,<span class="dv">4</span>,SibSp), by=.(PassengerId)]</span>
+<span id="cb1156-3"><a href="maching-learning-with-caret.html#cb1156-3"></a></span>
+<span id="cb1156-4"><a href="maching-learning-with-caret.html#cb1156-4"></a></span>
+<span id="cb1156-5"><a href="maching-learning-with-caret.html#cb1156-5"></a><span class="co"># Let&#39;s move the features Survived, Pclass, Sex, Embarked to be factors</span></span>
+<span id="cb1156-6"><a href="maching-learning-with-caret.html#cb1156-6"></a>cols&lt;-<span class="kw">c</span>(<span class="st">&quot;Pclass&quot;</span>,<span class="st">&quot;Sex&quot;</span>,<span class="st">&quot;Embarked&quot;</span>,<span class="st">&quot;Title&quot;</span>,<span class="st">&quot;Cabin&quot;</span>,<span class="st">&quot;SibSp2&quot;</span>,<span class="st">&quot;Parch2&quot;</span>)</span>
+<span id="cb1156-7"><a href="maching-learning-with-caret.html#cb1156-7"></a>full[,(cols)<span class="op">:</span><span class="er">=</span><span class="kw">lapply</span>(.SD, as.factor),.SDcols=cols]</span>
+<span id="cb1156-8"><a href="maching-learning-with-caret.html#cb1156-8"></a></span>
+<span id="cb1156-9"><a href="maching-learning-with-caret.html#cb1156-9"></a>full[,Survived<span class="op">:</span><span class="er">=</span><span class="kw">factor</span>(Survived,<span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;D&quot;</span>,<span class="st">&quot;S&quot;</span>))]</span>
+<span id="cb1156-10"><a href="maching-learning-with-caret.html#cb1156-10"></a><span class="kw">summary</span>(full)</span></code></pre></div>
+<pre><code>##   PassengerId   Survived   Pclass      Name               Sex     
+##  Min.   :   1   D   :549   1:323   Length:1309        female:466  
+##  1st Qu.: 328   S   :342   2:277   Class :character   male  :843  
+##  Median : 655   NA&#39;s:418   3:709   Mode  :character               
+##  Mean   : 655                                                     
+##  3rd Qu.: 982                                                     
+##  Max.   :1309                                                     
+##                                                                   
+##       Age            SibSp            Parch          Ticket         
+##  Min.   : 0.17   Min.   :0.0000   Min.   :0.000   Length:1309       
+##  1st Qu.:22.00   1st Qu.:0.0000   1st Qu.:0.000   Class :character  
+##  Median :29.88   Median :0.0000   Median :0.000   Mode  :character  
+##  Mean   :29.88   Mean   :0.4989   Mean   :0.385                     
+##  3rd Qu.:35.00   3rd Qu.:1.0000   3rd Qu.:0.000                     
+##  Max.   :80.00   Max.   :8.0000   Max.   :9.000                     
+##                                                                     
+##       Fare         Cabin    Embarked     Title     Parch2   SibSp2 
+##  Min.   :  0.000   A:  22   C:270    Master : 61   0:1002   0:891  
+##  1st Qu.:  7.896   B:  65   Q:123    Miss   :267   1: 170   1:319  
+##  Median : 14.454   C:  94   S:916    Mr     :757   2: 113   2: 42  
+##  Mean   : 33.295   D:  46            Mrs    :197   3:  24   3: 20  
+##  3rd Qu.: 31.275   E:  41            Officer: 27            4: 37  
+##  Max.   :512.329   F:  21                                          
+##                    N:1020</code></pre>
+</div>
+<div id="random-forest-1" class="section level2">
+<h2><span class="header-section-number">25.2</span> Random Forest</h2>
+<div class="sourceCode" id="cb1158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1158-1"><a href="maching-learning-with-caret.html#cb1158-1"></a>LT=<span class="kw">nrow</span>(train)</span>
+<span id="cb1158-2"><a href="maching-learning-with-caret.html#cb1158-2"></a>LT2=<span class="kw">nrow</span>(full)</span>
+<span id="cb1158-3"><a href="maching-learning-with-caret.html#cb1158-3"></a></span>
+<span id="cb1158-4"><a href="maching-learning-with-caret.html#cb1158-4"></a>formula=Survived<span class="op">~</span><span class="st"> </span>Pclass<span class="op">+</span>Sex<span class="op">+</span>Age<span class="op">+</span>Fare<span class="op">+</span>Cabin<span class="op">+</span>Title<span class="op">+</span>SibSp2<span class="op">+</span>Parch2</span>
+<span id="cb1158-5"><a href="maching-learning-with-caret.html#cb1158-5"></a></span>
+<span id="cb1158-6"><a href="maching-learning-with-caret.html#cb1158-6"></a><span class="co"># Create trainControl object: myControl</span></span>
+<span id="cb1158-7"><a href="maching-learning-with-caret.html#cb1158-7"></a>myControl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(</span>
+<span id="cb1158-8"><a href="maching-learning-with-caret.html#cb1158-8"></a>  <span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,</span>
+<span id="cb1158-9"><a href="maching-learning-with-caret.html#cb1158-9"></a>  <span class="dt">number =</span> <span class="dv">5</span>,</span>
+<span id="cb1158-10"><a href="maching-learning-with-caret.html#cb1158-10"></a>  <span class="dt">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb1158-11"><a href="maching-learning-with-caret.html#cb1158-11"></a>  <span class="dt">classProbs =</span> <span class="ot">TRUE</span>, <span class="co"># IMPORTANT!</span></span>
+<span id="cb1158-12"><a href="maching-learning-with-caret.html#cb1158-12"></a>  <span class="dt">verboseIter =</span> <span class="ot">TRUE</span></span>
+<span id="cb1158-13"><a href="maching-learning-with-caret.html#cb1158-13"></a>)</span>
+<span id="cb1158-14"><a href="maching-learning-with-caret.html#cb1158-14"></a></span>
+<span id="cb1158-15"><a href="maching-learning-with-caret.html#cb1158-15"></a><span class="co"># Train glm with custom trainControl: model</span></span>
+<span id="cb1158-16"><a href="maching-learning-with-caret.html#cb1158-16"></a>model &lt;-<span class="st"> </span><span class="kw">train</span>(</span>
+<span id="cb1158-17"><a href="maching-learning-with-caret.html#cb1158-17"></a>  formula, </span>
+<span id="cb1158-18"><a href="maching-learning-with-caret.html#cb1158-18"></a>  <span class="dt">tuneLength =</span> <span class="dv">4</span>,</span>
+<span id="cb1158-19"><a href="maching-learning-with-caret.html#cb1158-19"></a>  full[<span class="dv">1</span><span class="op">:</span>LT], </span>
+<span id="cb1158-20"><a href="maching-learning-with-caret.html#cb1158-20"></a>  <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</span>
+<span id="cb1158-21"><a href="maching-learning-with-caret.html#cb1158-21"></a>  <span class="dt">trControl =</span> myControl</span>
+<span id="cb1158-22"><a href="maching-learning-with-caret.html#cb1158-22"></a>)</span></code></pre></div>
+<pre><code>## Warning in train.default(x, y, weights = w, ...): The metric &quot;Accuracy&quot; was not
+## in the result set. ROC will be used instead.</code></pre>
+<pre><code>## + Fold1: mtry= 2, min.node.size=1, splitrule=gini 
+## - Fold1: mtry= 2, min.node.size=1, splitrule=gini 
+## + Fold1: mtry= 8, min.node.size=1, splitrule=gini 
+## - Fold1: mtry= 8, min.node.size=1, splitrule=gini 
+## + Fold1: mtry=15, min.node.size=1, splitrule=gini 
+## - Fold1: mtry=15, min.node.size=1, splitrule=gini 
+## + Fold1: mtry=22, min.node.size=1, splitrule=gini 
+## - Fold1: mtry=22, min.node.size=1, splitrule=gini 
+## + Fold1: mtry= 2, min.node.size=1, splitrule=extratrees 
+## - Fold1: mtry= 2, min.node.size=1, splitrule=extratrees 
+## + Fold1: mtry= 8, min.node.size=1, splitrule=extratrees 
+## - Fold1: mtry= 8, min.node.size=1, splitrule=extratrees 
+## + Fold1: mtry=15, min.node.size=1, splitrule=extratrees 
+## - Fold1: mtry=15, min.node.size=1, splitrule=extratrees 
+## + Fold1: mtry=22, min.node.size=1, splitrule=extratrees 
+## - Fold1: mtry=22, min.node.size=1, splitrule=extratrees 
+## + Fold2: mtry= 2, min.node.size=1, splitrule=gini 
+## - Fold2: mtry= 2, min.node.size=1, splitrule=gini 
+## + Fold2: mtry= 8, min.node.size=1, splitrule=gini 
+## - Fold2: mtry= 8, min.node.size=1, splitrule=gini 
+## + Fold2: mtry=15, min.node.size=1, splitrule=gini 
+## - Fold2: mtry=15, min.node.size=1, splitrule=gini 
+## + Fold2: mtry=22, min.node.size=1, splitrule=gini 
+## - Fold2: mtry=22, min.node.size=1, splitrule=gini 
+## + Fold2: mtry= 2, min.node.size=1, splitrule=extratrees 
+## - Fold2: mtry= 2, min.node.size=1, splitrule=extratrees 
+## + Fold2: mtry= 8, min.node.size=1, splitrule=extratrees 
+## - Fold2: mtry= 8, min.node.size=1, splitrule=extratrees 
+## + Fold2: mtry=15, min.node.size=1, splitrule=extratrees 
+## - Fold2: mtry=15, min.node.size=1, splitrule=extratrees 
+## + Fold2: mtry=22, min.node.size=1, splitrule=extratrees 
+## - Fold2: mtry=22, min.node.size=1, splitrule=extratrees 
+## + Fold3: mtry= 2, min.node.size=1, splitrule=gini 
+## - Fold3: mtry= 2, min.node.size=1, splitrule=gini 
+## + Fold3: mtry= 8, min.node.size=1, splitrule=gini 
+## - Fold3: mtry= 8, min.node.size=1, splitrule=gini 
+## + Fold3: mtry=15, min.node.size=1, splitrule=gini 
+## - Fold3: mtry=15, min.node.size=1, splitrule=gini 
+## + Fold3: mtry=22, min.node.size=1, splitrule=gini 
+## - Fold3: mtry=22, min.node.size=1, splitrule=gini 
+## + Fold3: mtry= 2, min.node.size=1, splitrule=extratrees 
+## - Fold3: mtry= 2, min.node.size=1, splitrule=extratrees 
+## + Fold3: mtry= 8, min.node.size=1, splitrule=extratrees 
+## - Fold3: mtry= 8, min.node.size=1, splitrule=extratrees 
+## + Fold3: mtry=15, min.node.size=1, splitrule=extratrees 
+## - Fold3: mtry=15, min.node.size=1, splitrule=extratrees 
+## + Fold3: mtry=22, min.node.size=1, splitrule=extratrees 
+## - Fold3: mtry=22, min.node.size=1, splitrule=extratrees 
+## + Fold4: mtry= 2, min.node.size=1, splitrule=gini 
+## - Fold4: mtry= 2, min.node.size=1, splitrule=gini 
+## + Fold4: mtry= 8, min.node.size=1, splitrule=gini 
+## - Fold4: mtry= 8, min.node.size=1, splitrule=gini 
+## + Fold4: mtry=15, min.node.size=1, splitrule=gini 
+## - Fold4: mtry=15, min.node.size=1, splitrule=gini 
+## + Fold4: mtry=22, min.node.size=1, splitrule=gini 
+## - Fold4: mtry=22, min.node.size=1, splitrule=gini 
+## + Fold4: mtry= 2, min.node.size=1, splitrule=extratrees 
+## - Fold4: mtry= 2, min.node.size=1, splitrule=extratrees 
+## + Fold4: mtry= 8, min.node.size=1, splitrule=extratrees 
+## - Fold4: mtry= 8, min.node.size=1, splitrule=extratrees 
+## + Fold4: mtry=15, min.node.size=1, splitrule=extratrees 
+## - Fold4: mtry=15, min.node.size=1, splitrule=extratrees 
+## + Fold4: mtry=22, min.node.size=1, splitrule=extratrees 
+## - Fold4: mtry=22, min.node.size=1, splitrule=extratrees 
+## + Fold5: mtry= 2, min.node.size=1, splitrule=gini 
+## - Fold5: mtry= 2, min.node.size=1, splitrule=gini 
+## + Fold5: mtry= 8, min.node.size=1, splitrule=gini 
+## - Fold5: mtry= 8, min.node.size=1, splitrule=gini 
+## + Fold5: mtry=15, min.node.size=1, splitrule=gini 
+## - Fold5: mtry=15, min.node.size=1, splitrule=gini 
+## + Fold5: mtry=22, min.node.size=1, splitrule=gini 
+## - Fold5: mtry=22, min.node.size=1, splitrule=gini 
+## + Fold5: mtry= 2, min.node.size=1, splitrule=extratrees 
+## - Fold5: mtry= 2, min.node.size=1, splitrule=extratrees 
+## + Fold5: mtry= 8, min.node.size=1, splitrule=extratrees 
+## - Fold5: mtry= 8, min.node.size=1, splitrule=extratrees 
+## + Fold5: mtry=15, min.node.size=1, splitrule=extratrees 
+## - Fold5: mtry=15, min.node.size=1, splitrule=extratrees 
+## + Fold5: mtry=22, min.node.size=1, splitrule=extratrees 
+## - Fold5: mtry=22, min.node.size=1, splitrule=extratrees 
+## Aggregating results
+## Selecting tuning parameters
+## Fitting mtry = 8, splitrule = gini, min.node.size = 1 on full training set</code></pre>
+<div class="sourceCode" id="cb1161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1161-1"><a href="maching-learning-with-caret.html#cb1161-1"></a><span class="co"># Print model to console </span></span>
+<span id="cb1161-2"><a href="maching-learning-with-caret.html#cb1161-2"></a><span class="co"># Higher AUC (area under curve is better model)</span></span>
+<span id="cb1161-3"><a href="maching-learning-with-caret.html#cb1161-3"></a><span class="kw">plot</span>(model)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-514-1.png" width="672" /></p>
+<div class="sourceCode" id="cb1162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1162-1"><a href="maching-learning-with-caret.html#cb1162-1"></a><span class="co"># in-sample prediction</span></span>
+<span id="cb1162-2"><a href="maching-learning-with-caret.html#cb1162-2"></a>p=<span class="kw">predict</span>(model, full, <span class="dt">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb1162-3"><a href="maching-learning-with-caret.html#cb1162-3"></a></span>
+<span id="cb1162-4"><a href="maching-learning-with-caret.html#cb1162-4"></a>p_survival=<span class="kw">ifelse</span>(p<span class="op">$</span>S<span class="op">&gt;</span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb1162-5"><a href="maching-learning-with-caret.html#cb1162-5"></a></span>
+<span id="cb1162-6"><a href="maching-learning-with-caret.html#cb1162-6"></a><span class="co"># Create confusion matrix</span></span>
+<span id="cb1162-7"><a href="maching-learning-with-caret.html#cb1162-7"></a><span class="kw">confusionMatrix</span>(<span class="kw">factor</span>(p_survival[<span class="dv">1</span><span class="op">:</span>LT]),<span class="kw">factor</span>(train<span class="op">$</span>Survived))</span></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction   0   1
+##          0 536  39
+##          1  13 303
+##                                           
+##                Accuracy : 0.9416          
+##                  95% CI : (0.9242, 0.9561)
+##     No Information Rate : 0.6162          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.8748          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.0005265       
+##                                           
+##             Sensitivity : 0.9763          
+##             Specificity : 0.8860          
+##          Pos Pred Value : 0.9322          
+##          Neg Pred Value : 0.9589          
+##              Prevalence : 0.6162          
+##          Detection Rate : 0.6016          
+##    Detection Prevalence : 0.6453          
+##       Balanced Accuracy : 0.9311          
+##                                           
+##        &#39;Positive&#39; Class : 0               
+## </code></pre>
+<div class="sourceCode" id="cb1164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1164-1"><a href="maching-learning-with-caret.html#cb1164-1"></a><span class="co"># sensitivity: correct negative</span></span>
+<span id="cb1164-2"><a href="maching-learning-with-caret.html#cb1164-2"></a><span class="co"># Specificity: correct positive rate</span></span>
+<span id="cb1164-3"><a href="maching-learning-with-caret.html#cb1164-3"></a></span>
+<span id="cb1164-4"><a href="maching-learning-with-caret.html#cb1164-4"></a><span class="co"># out-of-sample prediction</span></span>
+<span id="cb1164-5"><a href="maching-learning-with-caret.html#cb1164-5"></a>submission=<span class="kw">data.frame</span>(<span class="dt">PassengerId=</span>test<span class="op">$</span>PassengerId, <span class="dt">Survived=</span>p_survival[(LT<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span>LT2])</span>
+<span id="cb1164-6"><a href="maching-learning-with-caret.html#cb1164-6"></a><span class="kw">fwrite</span>(submission,<span class="st">&quot;data/titanic/submission.csv&quot;</span>)</span></code></pre></div>
+<p>The overall in-sample prediction accuracy is 94.2%, meaning our prediction in 94.2% cases are correct. The accuracy should be broken into two additional measures: sensitivity and specificity.</p>
+<ul>
+<li>Sensitivity is the metric that evaluates a model’s ability to predict true positives of each available category. In our case, we predict 97.45% of the death (the case of 0).</li>
+<li>Specificity: the proportion of observed negatives that were predicted to be negatives. In our case, we predict 88.89% of the survival (the case of 1).</li>
+</ul>
+<p>Now, we can submit the prediction to kaggle and our score is 0.75837, which is ranked 47668. In order to improve the ranking, there are typically two ways:</p>
+<ul>
+<li>feature engineering: preprocess the column in the model</li>
+<li>try a different prediction model.</li>
+</ul>
+<p>You will learn more predictive model in more advanced classes.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="decision-tree.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/24-MLwithCaret.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

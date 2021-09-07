@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Use data.table Package for Big Data II | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Use data.table Package for Big Data II | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Use data.table Package for Big Data II | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-08-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="references.html"/>
+<link rel="next" href="join-mutliple-datasets.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html"><i class="fa fa-check"></i><b>11</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="11.1" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>11.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="11.2" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>11.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="11.3" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>11.3</b> Visualize the raw data through charts</a></li>
+<li class="chapter" data-level="11.4" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html#melt"><i class="fa fa-check"></i><b>11.4</b> melt()</a></li>
+<li class="chapter" data-level="11.5" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html#dcast"><i class="fa fa-check"></i><b>11.5</b> dcast()</a></li>
+<li class="chapter" data-level="11.6" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html#type-conversions"><i class="fa fa-check"></i><b>11.6</b> Type conversions</a></li>
+<li class="chapter" data-level="11.7" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html#working-with-dates"><i class="fa fa-check"></i><b>11.7</b> Working with dates</a></li>
+<li class="chapter" data-level="11.8" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html#string-character-manipulation"><i class="fa fa-check"></i><b>11.8</b> String (character) manipulation</a></li>
+<li class="chapter" data-level="11.9" data-path="exploring-the-raw-data.html"><a href="exploring-the-raw-data.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>11.9</b> Missing and special values in R</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="use-data.table-package-for-big-data-ii" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Use data.table Package for Big Data II</h1>
+<p>Here we will look at some advanced use of data.table. You will be amazed by the power of data.table for data analysis.</p>
+<p>Again, we need to first load data.table package first.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="use-data-table-package-for-big-data-ii.html#cb1-1"></a><span class="kw">library</span>(data.table)</span></code></pre></div>
+<p>As a quick review, we have learned to use fread() to read csv file into R as data.table; or use data.table() to convert an existing data.frame into a data.table.</p>
+<p>data.table provides a simple, consistent, user-friendly syntax for data manipulation. The general form of data.table syntax is:</p>
+<p>DT[i, j, by]</p>
+<p>where</p>
+<ul>
+<li><p>DT is a data.table.</p></li>
+<li><p>by: grouped by what?</p></li>
+<li><p>j: what to do?</p></li>
+<li><p>i: on which rows?</p></li>
+</ul>
+<p>In this chapter,we will explore the advanced use of data.table, using the flights dataset as an illustration.</p>
+<p>Let’s read flights.csv into R using fread() function in data.table package.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="use-data-table-package-for-big-data-ii.html#cb2-1"></a>flights=<span class="kw">fread</span>(<span class="st">&quot;data/flights.csv&quot;</span>)</span></code></pre></div>
+<div id="use-chaining-to-avoid-intermediate-result" class="section level2">
+<h2><span class="header-section-number">9.1</span> Use Chaining to Avoid Intermediate Result</h2>
+<p>Let’s reconsider the task of getting the total number of flights for each origin, destination pair for carrier “AA”:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="use-data-table-package-for-big-data-ii.html#cb3-1"></a>tmp &lt;-<span class="st"> </span>flights[carrier <span class="op">==</span><span class="st"> &quot;AA&quot;</span>, .(<span class="dt">count=</span>.N), by =<span class="st"> </span>.(origin, dest)]</span></code></pre></div>
+<p>How can we order tmp using the columns origin in ascending order, and destination in descending order? We can store the intermediate result in a data.table, and then apply order(origin, -dest) on that data.table. It seems fairly straightforward.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="use-data-table-package-for-big-data-ii.html#cb4-1"></a>tmp &lt;-<span class="st"> </span>tmp[<span class="kw">order</span>(origin, <span class="op">-</span>dest)]</span>
+<span id="cb4-2"><a href="use-data-table-package-for-big-data-ii.html#cb4-2"></a><span class="kw">head</span>(tmp,<span class="dv">8</span>)</span></code></pre></div>
+<pre><code>##    origin dest count
+## 1:    EWR  MIA  1068
+## 2:    EWR  LAX   365
+## 3:    EWR  DFW  2054
+## 4:    JFK  TPA   311
+## 5:    JFK  STT   303
+## 6:    JFK  SJU  1099
+## 7:    JFK  SFO  1422
+## 8:    JFK  SEA   365</code></pre>
+<p>This requires having to create an intermediate data.table and then overwriting that data.table. The intermediate data.table has no other use. When you are working on big data, these intermediate data will soon consumes your computer memory and makes the code slow to run.</p>
+<p>We can do better and avoid this intermediate data.table altogether by chaining expressions. For the above task, we can:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="use-data-table-package-for-big-data-ii.html#cb6-1"></a>tmp &lt;-<span class="st"> </span>flights[carrier <span class="op">==</span><span class="st"> &quot;AA&quot;</span>, .(<span class="dt">count=</span>.N), by =<span class="st"> </span>.(origin, dest)][<span class="kw">order</span>(origin, <span class="op">-</span>dest)]</span>
+<span id="cb6-2"><a href="use-data-table-package-for-big-data-ii.html#cb6-2"></a></span>
+<span id="cb6-3"><a href="use-data-table-package-for-big-data-ii.html#cb6-3"></a><span class="co"># print the first 8 rows of ans</span></span>
+<span id="cb6-4"><a href="use-data-table-package-for-big-data-ii.html#cb6-4"></a><span class="kw">head</span>(tmp, <span class="dv">8</span>)</span></code></pre></div>
+<pre><code>##    origin dest count
+## 1:    EWR  MIA  1068
+## 2:    EWR  LAX   365
+## 3:    EWR  DFW  2054
+## 4:    JFK  TPA   311
+## 5:    JFK  STT   303
+## 6:    JFK  SJU  1099
+## 7:    JFK  SFO  1422
+## 8:    JFK  SEA   365</code></pre>
+<p>Let’s look at this code. [carrier == “AA”, .(count=.N), by = .(origin, dest)] is first executed; followed by [order(origin, -dest)]. We do not need to create an intermediate result.</p>
+<p>In general, we can tack expressions one after another, forming a chain of operations, i.e., DT[ … ][ … ][ … ].</p>
+<p>The chaining operation is very important in R to speedup the R code and has been implemented in many other packages, e.g., the pipe, %&gt;%, from the magrittr package. We will take about the chaining with pipe operator %&gt;% in later chapters.</p>
+<p>Let’s look at the another example: Find the origin, dest pair with the longest average air_time.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="use-data-table-package-for-big-data-ii.html#cb8-1"></a>flights[,.(<span class="dt">avg_air_time=</span><span class="kw">mean</span>(air_time)), by=.(origin, dest)][<span class="kw">order</span>(<span class="op">-</span>avg_air_time)][<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</span></code></pre></div>
+<pre><code>##    origin dest avg_air_time
+## 1:    JFK  HNL     623.0877
+## 2:    EWR  ANC     413.1250
+## 3:    JFK  JAC     275.5000</code></pre>
+<p>The result shows that the longest flight pair is JFK-HNL (Hawaii). Chaining allows you to answer questions like this with one simple line of code! Really cool!</p>
+<p>Now, let’s spend sometime examine the code. The first expression [,.(avg_air_time=mean(air_time)), by=.(origin, dest)] is excuted first, and the new data.table is created in the memory. Since avg_air_time is created, the second expression [order(-avg_air_time)] can use this new variable avg_air_time for sorting. The third expression then filtering the top three observations.</p>
+</div>
+<div id="uniquen" class="section level2">
+<h2><span class="header-section-number">9.2</span> uniqueN()</h2>
+<p>uniqueN() is a handy function that returns an integer value containing the number of unique
+values in the input object. It accepts vectors as well as data.frames and data.tables as its argument.</p>
+<p>E.g., we want to find out how many unique id in this vector: student_id=c(1,2,3,4,1,2)</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="use-data-table-package-for-big-data-ii.html#cb10-1"></a>student_id=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb10-2"><a href="use-data-table-package-for-big-data-ii.html#cb10-2"></a><span class="kw">uniqueN</span>(student_id)</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<p>In data.table, we can use uniqueN() together with by to get summary statistics such as: how many direct flights are at each origin airport? In other words, how many unique destination for each origin?</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="use-data-table-package-for-big-data-ii.html#cb12-1"></a>flights[, <span class="kw">uniqueN</span>(dest), by=.(origin)]</span></code></pre></div>
+<pre><code>##    origin V1
+## 1:    EWR 86
+## 2:    LGA 68
+## 3:    JFK 70</code></pre>
+<p>Thus, we know that EWR airport has direct flights to 86 other airports.</p>
+</div>
+<div id="subset-of-data-.sd" class="section level2">
+<h2><span class="header-section-number">9.3</span> Subset of Data: .SD[]</h2>
+<p>.SD is a special symbol which stands for Subset of Data. It contains subset of data corresponding to each group; which itself is a data.table.</p>
+<p>Why we need this? Let’s look at one example: You want to the find out, for each origin, dest pair, which flight has the longest arr_delay? Intuitively, we know you should sort the data according to origin, dest, arr_delay.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="use-data-table-package-for-big-data-ii.html#cb14-1"></a>flights[<span class="kw">order</span>(origin,dest,<span class="op">-</span>arr_delay)]</span></code></pre></div>
+<p>To help you see result of the above code, let’s print the first few rows and a few columns (origin, dest, month, day, arr_delay).</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="use-data-table-package-for-big-data-ii.html#cb15-1"></a><span class="kw">head</span>( flights[<span class="kw">order</span>(origin,dest,<span class="op">-</span>arr_delay)][,.(origin,dest,month,day,arr_delay)] )</span></code></pre></div>
+<pre><code>##    origin dest month day arr_delay
+## 1:    EWR  ALB     1  25       328
+## 2:    EWR  ALB    12   5       300
+## 3:    EWR  ALB     1  31       268
+## 4:    EWR  ALB     3   8       263
+## 5:    EWR  ALB     2  26       217
+## 6:    EWR  ALB     3  15       190</code></pre>
+<p>But how to retrieve the top row for each origin, dest pair? .SD[] is designed for that purpose. As mentioned, .SD denotes the data.table which contains subset of data corresponding to each group. We can use .SD[i] to retrieve the i-th row from the data.table.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="use-data-table-package-for-big-data-ii.html#cb17-1"></a><span class="co"># use .SD[] to retrieve the top row for each group.</span></span>
+<span id="cb17-2"><a href="use-data-table-package-for-big-data-ii.html#cb17-2"></a>flights[<span class="kw">order</span>(origin,dest,<span class="op">-</span>arr_delay)][, .SD[<span class="dv">1</span>], by=.(origin,dest)]</span></code></pre></div>
+<p>We can use .SDcols to select columns contained in .SD.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="use-data-table-package-for-big-data-ii.html#cb18-1"></a><span class="co"># use .SD[] to select top row for each group and select month, day, arr_delay</span></span>
+<span id="cb18-2"><a href="use-data-table-package-for-big-data-ii.html#cb18-2"></a>flights[<span class="kw">order</span>(origin,dest,<span class="op">-</span>arr_delay)][, .SD[<span class="dv">1</span>], by=.(origin,dest),.SDcols=<span class="kw">c</span>(<span class="st">&quot;month&quot;</span>,<span class="st">&quot;day&quot;</span>,<span class="st">&quot;arr_delay&quot;</span>)]</span></code></pre></div>
+<p>You can also select the top n rows for each group using .SD</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="use-data-table-package-for-big-data-ii.html#cb19-1"></a><span class="co"># use .SD[] to select top three row for each group and select month, day, arr_delay</span></span>
+<span id="cb19-2"><a href="use-data-table-package-for-big-data-ii.html#cb19-2"></a>flights[<span class="kw">order</span>(origin,dest,<span class="op">-</span>arr_delay)][, .SD[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], by=.(origin,dest),.SDcols=<span class="kw">c</span>(<span class="st">&quot;month&quot;</span>,<span class="st">&quot;day&quot;</span>,<span class="st">&quot;arr_delay&quot;</span>)]</span></code></pre></div>
+<p>Using is .SD[] provides an easy way to identify the outlier (or the most interesting data point) in our data for each group. This can help us to answer question such as: what is the top sales person for each region? which county has the top population for each state?</p>
+</div>
+<div id="use-to-addupdate-columns-by-reference" class="section level2">
+<h2><span class="header-section-number">9.4</span> Use := to Add/Update Columns By Reference</h2>
+<p>data.table defines a new operator := for adding/updating columns by reference.</p>
+<p>The syntax of := is as follow: LHS := RHS</p>
+<p>E.g., we want to create a new variable called total_delay, which equals to arr_delay+arr_delay. We can use the following code:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="use-data-table-package-for-big-data-ii.html#cb20-1"></a>flights[,total_delay<span class="op">:</span><span class="er">=</span>arr_delay<span class="op">+</span>arr_delay]</span>
+<span id="cb20-2"><a href="use-data-table-package-for-big-data-ii.html#cb20-2"></a><span class="kw">str</span>(flights)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   336776 obs. of  20 variables:
+##  $ year          : int  2013 2013 2013 2013 2013 2013 2013 2013 2013 2013 ...
+##  $ month         : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ day           : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ dep_time      : int  517 533 542 544 554 554 555 557 557 558 ...
+##  $ sched_dep_time: int  515 529 540 545 600 558 600 600 600 600 ...
+##  $ dep_delay     : int  2 4 2 -1 -6 -4 -5 -3 -3 -2 ...
+##  $ arr_time      : int  830 850 923 1004 812 740 913 709 838 753 ...
+##  $ sched_arr_time: int  819 830 850 1022 837 728 854 723 846 745 ...
+##  $ arr_delay     : int  11 20 33 -18 -25 12 19 -14 -8 8 ...
+##  $ carrier       : chr  &quot;UA&quot; &quot;UA&quot; &quot;AA&quot; &quot;B6&quot; ...
+##  $ flight        : int  1545 1714 1141 725 461 1696 507 5708 79 301 ...
+##  $ tailnum       : chr  &quot;N14228&quot; &quot;N24211&quot; &quot;N619AA&quot; &quot;N804JB&quot; ...
+##  $ origin        : chr  &quot;EWR&quot; &quot;LGA&quot; &quot;JFK&quot; &quot;JFK&quot; ...
+##  $ dest          : chr  &quot;IAH&quot; &quot;IAH&quot; &quot;MIA&quot; &quot;BQN&quot; ...
+##  $ air_time      : int  227 227 160 183 116 150 158 53 140 138 ...
+##  $ distance      : int  1400 1416 1089 1576 762 719 1065 229 944 733 ...
+##  $ hour          : int  5 5 5 5 6 5 6 6 6 6 ...
+##  $ minute        : int  15 29 40 45 0 58 0 0 0 0 ...
+##  $ time_hour     : chr  &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; ...
+##  $ total_delay   : int  22 40 66 -36 -50 24 38 -28 -16 16 ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##  - attr(*, &quot;index&quot;)= int(0) 
+##   ..- attr(*, &quot;__carrier&quot;)= int [1:336776] 117 428 429 434 452 482 496 501 504 506 ...</code></pre>
+<p>We will see the variable total_delay is created.</p>
+<p>You may be wondering what “updating by reference” means. Under the data.frame, when we need to update a column, R will read the whole data.frame into memory, update the whole data.frame and write the updated data.frame into a new object. This is really inefficient. Under data.table with :=, we do not need to updated the whole data.table object; Instead, we just refer the new column to the computer memory address that contains the new column. Therefore, := is much more efficient. The efficiency difference is particular evident when working with big data.</p>
+<p>You can also create multiple new columns simultaneously using := . E.g., you need to create a total_delay and speed=distance/(air_time/60). Note that speed is measured by miles per hour.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="use-data-table-package-for-big-data-ii.html#cb22-1"></a>flights[,<span class="kw">c</span>(<span class="st">&quot;total_delay&quot;</span>,<span class="st">&quot;speed&quot;</span>)<span class="op">:</span><span class="er">=</span>.(arr_delay<span class="op">+</span>arr_delay,  distance<span class="op">/</span>air_time<span class="op">*</span><span class="dv">60</span>)]</span>
+<span id="cb22-2"><a href="use-data-table-package-for-big-data-ii.html#cb22-2"></a><span class="kw">str</span>(flights)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   336776 obs. of  21 variables:
+##  $ year          : int  2013 2013 2013 2013 2013 2013 2013 2013 2013 2013 ...
+##  $ month         : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ day           : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ dep_time      : int  517 533 542 544 554 554 555 557 557 558 ...
+##  $ sched_dep_time: int  515 529 540 545 600 558 600 600 600 600 ...
+##  $ dep_delay     : int  2 4 2 -1 -6 -4 -5 -3 -3 -2 ...
+##  $ arr_time      : int  830 850 923 1004 812 740 913 709 838 753 ...
+##  $ sched_arr_time: int  819 830 850 1022 837 728 854 723 846 745 ...
+##  $ arr_delay     : int  11 20 33 -18 -25 12 19 -14 -8 8 ...
+##  $ carrier       : chr  &quot;UA&quot; &quot;UA&quot; &quot;AA&quot; &quot;B6&quot; ...
+##  $ flight        : int  1545 1714 1141 725 461 1696 507 5708 79 301 ...
+##  $ tailnum       : chr  &quot;N14228&quot; &quot;N24211&quot; &quot;N619AA&quot; &quot;N804JB&quot; ...
+##  $ origin        : chr  &quot;EWR&quot; &quot;LGA&quot; &quot;JFK&quot; &quot;JFK&quot; ...
+##  $ dest          : chr  &quot;IAH&quot; &quot;IAH&quot; &quot;MIA&quot; &quot;BQN&quot; ...
+##  $ air_time      : int  227 227 160 183 116 150 158 53 140 138 ...
+##  $ distance      : int  1400 1416 1089 1576 762 719 1065 229 944 733 ...
+##  $ hour          : int  5 5 5 5 6 5 6 6 6 6 ...
+##  $ minute        : int  15 29 40 45 0 58 0 0 0 0 ...
+##  $ time_hour     : chr  &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; &quot;2013-01-01 05:00:00&quot; ...
+##  $ total_delay   : int  22 40 66 -36 -50 24 38 -28 -16 16 ...
+##  $ speed         : num  370 374 408 517 394 ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##  - attr(*, &quot;index&quot;)= int(0) 
+##   ..- attr(*, &quot;__carrier&quot;)= int [1:336776] 117 428 429 434 452 482 496 501 504 506 ...</code></pre>
+<p>Note that, on the LHS of :=, i.e., c(“total_delay”,“speed”), we used variable name inside "" because these variables are not yet defined in the data.table and thus cannot be referred as variables directly.</p>
+<p>We can combine := with by group argument to create new variables by groups. E.g., we want to add a new column avg_air_time which is the average air_time for the origin, dest pair.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="use-data-table-package-for-big-data-ii.html#cb24-1"></a>tmp=flights[, avg_air_time<span class="op">:</span><span class="er">=</span><span class="kw">mean</span>(air_time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), by =<span class="st"> </span>.(origin, dest)]</span>
+<span id="cb24-2"><a href="use-data-table-package-for-big-data-ii.html#cb24-2"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     1   1      517            515         2      830            819
+## 2: 2013     1   1      533            529         4      850            830
+## 3: 2013     1   1      542            540         2      923            850
+## 4: 2013     1   1      544            545        -1     1004           1022
+## 5: 2013     1   1      554            600        -6      812            837
+## 6: 2013     1   1      554            558        -4      740            728
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        11      UA   1545  N14228    EWR  IAH      227     1400    5     15
+## 2:        20      UA   1714  N24211    LGA  IAH      227     1416    5     29
+## 3:        33      AA   1141  N619AA    JFK  MIA      160     1089    5     40
+## 4:       -18      B6    725  N804JB    JFK  BQN      183     1576    5     45
+## 5:       -25      DL    461  N668DN    LGA  ATL      116      762    6      0
+## 6:        12      UA   1696  N39463    EWR  ORD      150      719    5     58
+##              time_hour total_delay    speed avg_air_time
+## 1: 2013-01-01 05:00:00          22 370.0441     195.8404
+## 2: 2013-01-01 05:00:00          40 374.2731     200.7932
+## 3: 2013-01-01 05:00:00          66 408.3750     152.1300
+## 4: 2013-01-01 05:00:00         -36 516.7213     194.2411
+## 5: 2013-01-01 06:00:00         -50 394.1379     113.5550
+## 6: 2013-01-01 05:00:00          24 287.6000     113.2603</code></pre>
+<p>Note that we created a new variable as the average air time.</p>
+<p>Note that we can also compute on j by group as we illustrate in previous chapter (shown in the code below. However, we cannot add this calculation as a new column to the original data.table as we did with :=.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="use-data-table-package-for-big-data-ii.html#cb26-1"></a>tmp=flights[, .(<span class="dt">avg_air_time=</span><span class="kw">mean</span>(air_time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)), by =<span class="st"> </span>.(origin, dest)]</span>
+<span id="cb26-2"><a href="use-data-table-package-for-big-data-ii.html#cb26-2"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    origin dest avg_air_time
+## 1:    EWR  IAH     195.8404
+## 2:    LGA  IAH     200.7932
+## 3:    JFK  MIA     152.1300
+## 4:    JFK  BQN     194.2411
+## 5:    LGA  ATL     113.5550
+## 6:    EWR  ORD     113.2603</code></pre>
+</div>
+<div id="binning-a-continuous-value-into-category" class="section level2">
+<h2><span class="header-section-number">9.5</span> Binning a continuous value into category</h2>
+<p>In many application, we want to convert a continuous value into levels. E.g., we want to classify flights into short/median/long flight based on the average distance. Specifically, if average distance&lt;=520 (1st Qu), short; else if average distance&lt;=1389 (3rd Qu.), median; else long.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="use-data-table-package-for-big-data-ii.html#cb28-1"></a>distance_level &lt;-<span class="st"> </span><span class="cf">function</span>(distance) {</span>
+<span id="cb28-2"><a href="use-data-table-package-for-big-data-ii.html#cb28-2"></a>  avg_distance=<span class="kw">mean</span>(distance, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb28-3"><a href="use-data-table-package-for-big-data-ii.html#cb28-3"></a>  <span class="cf">if</span> (avg_distance <span class="op">&lt;=</span><span class="st"> </span><span class="dv">520</span>) <span class="st">&quot;short&quot;</span></span>
+<span id="cb28-4"><a href="use-data-table-package-for-big-data-ii.html#cb28-4"></a>  <span class="cf">else</span> <span class="cf">if</span> (avg_distance <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1389</span>) <span class="st">&quot;medium&quot;</span></span>
+<span id="cb28-5"><a href="use-data-table-package-for-big-data-ii.html#cb28-5"></a>  <span class="cf">else</span> <span class="st">&quot;long&quot;</span></span>
+<span id="cb28-6"><a href="use-data-table-package-for-big-data-ii.html#cb28-6"></a>}</span>
+<span id="cb28-7"><a href="use-data-table-package-for-big-data-ii.html#cb28-7"></a></span>
+<span id="cb28-8"><a href="use-data-table-package-for-big-data-ii.html#cb28-8"></a>tmp=flights[, distance_level<span class="op">:</span><span class="er">=</span><span class="st"> </span>.( <span class="kw">distance_level</span>(distance) ), by=.(origin, dest)]</span>
+<span id="cb28-9"><a href="use-data-table-package-for-big-data-ii.html#cb28-9"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    year month day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## 1: 2013     1   1      517            515         2      830            819
+## 2: 2013     1   1      533            529         4      850            830
+## 3: 2013     1   1      542            540         2      923            850
+## 4: 2013     1   1      544            545        -1     1004           1022
+## 5: 2013     1   1      554            600        -6      812            837
+## 6: 2013     1   1      554            558        -4      740            728
+##    arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## 1:        11      UA   1545  N14228    EWR  IAH      227     1400    5     15
+## 2:        20      UA   1714  N24211    LGA  IAH      227     1416    5     29
+## 3:        33      AA   1141  N619AA    JFK  MIA      160     1089    5     40
+## 4:       -18      B6    725  N804JB    JFK  BQN      183     1576    5     45
+## 5:       -25      DL    461  N668DN    LGA  ATL      116      762    6      0
+## 6:        12      UA   1696  N39463    EWR  ORD      150      719    5     58
+##              time_hour total_delay    speed avg_air_time distance_level
+## 1: 2013-01-01 05:00:00          22 370.0441     195.8404           long
+## 2: 2013-01-01 05:00:00          40 374.2731     200.7932           long
+## 3: 2013-01-01 05:00:00          66 408.3750     152.1300         medium
+## 4: 2013-01-01 05:00:00         -36 516.7213     194.2411           long
+## 5: 2013-01-01 06:00:00         -50 394.1379     113.5550         medium
+## 6: 2013-01-01 05:00:00          24 287.6000     113.2603         medium</code></pre>
+</div>
+<div id="expressions-in-by" class="section level2">
+<h2><span class="header-section-number">9.6</span> Expressions in by</h2>
+<p>Recall the data.table syntax DT[i, j, by].
+Like argument j, argument by also accepts expressions? As an example, if we would like to find out how many flights departed late but arrived early, departed and arrived late, departed early and arrived early, departed early but arrived late:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="use-data-table-package-for-big-data-ii.html#cb30-1"></a>flights[, .(<span class="dt">count=</span>.N), by=.(<span class="dt">dep_late=</span>dep_delay<span class="op">&gt;</span><span class="dv">0</span>, <span class="dt">arr_late=</span>arr_delay<span class="op">&gt;</span><span class="dv">0</span>)]</span></code></pre></div>
+<pre><code>##    dep_late arr_late  count
+## 1:     TRUE     TRUE  92303
+## 2:    FALSE    FALSE 158900
+## 3:    FALSE     TRUE  40701
+## 4:     TRUE    FALSE  35442
+## 5:    FALSE       NA    488
+## 6:     TRUE       NA    687
+## 7:       NA       NA   8255</code></pre>
+<p>We can further show calcuate count as percentage of total.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="use-data-table-package-for-big-data-ii.html#cb32-1"></a>flights[, .(<span class="dt">count=</span>.N), by=.(<span class="dt">dep_late=</span>dep_delay<span class="op">&gt;</span><span class="dv">0</span>, <span class="dt">arr_late=</span>arr_delay<span class="op">&gt;</span><span class="dv">0</span>)][, percent<span class="op">:</span><span class="er">=</span>count<span class="op">/</span><span class="kw">sum</span>(count)][]</span></code></pre></div>
+<pre><code>##    dep_late arr_late  count     percent
+## 1:     TRUE     TRUE  92303 0.274078319
+## 2:    FALSE    FALSE 158900 0.471826971
+## 3:    FALSE     TRUE  40701 0.120854812
+## 4:     TRUE    FALSE  35442 0.105239091
+## 5:    FALSE       NA    488 0.001449034
+## 6:     TRUE       NA    687 0.002039932
+## 7:       NA       NA   8255 0.024511842</code></pre>
+<p>As seen, 27.4% of the flights does not depart nor arrive late. About half of flights depart and arrive on time. This is a very useful and quick way to slice data into different groups and compute summary statistics accordingly.</p>
+</div>
+<div id="summary-4" class="section level2">
+<h2><span class="header-section-number">9.7</span> Summary</h2>
+<ul>
+<li><p>The basic data.table syntax DT[ i,j, by] is like a building block and can be chained DT[i, j, by][…][…] to avoid intermediate results.</p></li>
+<li><p>Use uniqueN() to count the unqiue value in a group</p></li>
+<li><p>Use .SD[ ] to select the top n rows in a group</p></li>
+<li><p>Use := to add new columns in a data.table</p></li>
+<li><p>Convert a continuous value into category</p></li>
+<li><p>Use expression in by</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="references.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="join-mutliple-datasets.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/08-datatable_II.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

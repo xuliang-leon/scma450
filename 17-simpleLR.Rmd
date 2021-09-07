@@ -1,0 +1,307 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Simple Linear Regression
+
+Here are the packages we will use in this chapter. 
+```{r, eval=FALSE, message=FALSE}
+install.packages("data.table") # for data manipulation
+install.packages("corrplot")   # for ploting beautiful correlation matrix
+```
+
+Load these packages into R:
+```{r}
+library(data.table)
+library(corrplot)
+```
+
+Linear regression is to use a linear equation to approximate the relationship between dependent variable and single/multiple explanatory variables (also known as independent variables or predictors). The linear regression model with single predictor is called simple linear regression. The linear regression model with multiple predictors is called multiple linear regression.
+
+Let's illustrate the concept of linear regression through the following example of simple linear regression. 
+
+The Boston house price dataset contains the price information of houses in the Boston suburbs areas. It also includes variables related to the neighbourhood, air pollution, per capita crime rate, index of accessibility to radial highways, etc, for evaluation of their impact on house price.
+
+Here is a brief description of the variables in the dataset:
+
+* medv: median value of ower-occupied homes in $10,000
+* crim: per capita crime rate by town
+* zn: proportion of residential land zoned for lots over 25,000 sq.ft.
+* indus: proportion of non-retail business acres per town
+* chas: charles river dummy variables
+* nox: nitrogen oxides concentration (parts per 10 million)
+* rm: average number of rooms per dwelling
+* age: proportion of owner-occupied units built prior to 1940
+* dis: weighted mean of distances to five Boston employment centres
+* rad: index of accessibility to radial highways
+* tax: full-value property tax rate per $10,000
+* ptratio pupil-teacher ratio by town
+* black: 1000*(Bk-0.63)^2 where Bk is the proportion of African American by town
+* lstat: lower income of the population within the neighborhood (percent)
+* location: a categorical variable to indicate the location of the area
+
+Note that, the medv is the dependent variable, which we want to explain and predict.
+
+
+```{r, echo=FALSE}
+Boston=fread("data/Boston.csv")
+plot(Boston$lstat,Boston$medv, 
+     xlab ="lstat: percent of low income population in the neighborhood", 
+     ylab = "medv: house price",
+     main="Relationship between house price and income status of neighborhood")
+```
+
+The above scatter plot demonstrates that the relationship between medv and lstat: The house price tends to be higher in richer neighborhood. This is intutively true, but we want to further quantify this relationship. The goal of linear regression is to approximate and estimate this relationship through a linear equation. In particular, for this example, we want to approximate and estimate the relationship between medv and lstat through a linear equalition as below:
+$$medv=\beta_0+\beta_1*lstat+\epsilon$$
+In the above linear regression model, medv is called dependent variable, the variable we want to explain and predict. In other words, we observe variation in medv (i.e., different houses have different price), and we want to explain what factors causes such variation in house price.
+
+lstat is called independent variable, which is used to explain and predict the dependent variable. In other words, we hypothesize that the houses have different prices is because they are located in region with different income status. 
+
+$\epsilon$ is called residual terms. This represents the variation in medv that is left unexplained by the independent variable. In this particular example, it encompasses any related factors (such as size of the house, number of bedrooms, interest rate) that are not included in the model as predictors. 
+
+The linear regression is a method to develop such linear equations and estimate their coefficents (i.e., $\beta_0$, $\beta_1$ in the above example) such that we can quantify the relationship between the dependent and independent variables.
+
+## Examine and explore the data 
+Before developing any linear regression, it is a best practice to explore the data first to check whether there exists any kinds of linear relationship. 
+
+As mentioned, we will use the Boston house price dataset for illustration. 
+### Load and clean the data
+```{r}
+Boston=fread("data/Boston.csv")  # read the data in R as data.table
+head(Boston)                # inspect the first few rows visually
+```
+The data is tidy: each rows represents an observation, and each column is a variable.
+
+```{r}
+str(Boston)  # examine the structure of the data
+```
+Since location (east, south, west, north) is actually a categorical variable, we need to change it as factor.
+
+```{r}
+# examine the frequency table of location variable
+table(Boston$location)
+
+ # change location from character as factor
+Boston[,location:=factor(location)] 
+
+# examine the frequencey table of chas variable
+table(Boston$chas)
+
+# change chas (0/1 variable) from numeric to factor
+Boston[,chas:=factor(chas)] 
+```
+
+Examine whether there are some missing value in the data:
+```{r}
+sum(is.na(Boston))
+```
+
+Take a quick look at the summary of the data to see if there is any extreme values in each variable:
+```{r}
+summary(Boston)
+```
+
+No extreme value or obvious error are found in the data. We have the luxury to work with a very clear dataset. Next, we will introduce two tools to examine whether any linear relationship exists in the data: correlation matrix and scatter plot. 
+
+### Correlation matrix
+Correlation coefficient is a single number between -1 and 1 to quantify the strength of the linear relationship between two variables. We can obtain the correlation between any two variable as below:
+```{r}
+# cor() is only takes numeric variables as arguments
+corr=cor(Boston[,-c("location","chas")])   
+
+# round the correlation coefficient with 2 digits
+round(corr, digits = 2) 
+```
+
+
+corr is called correlation matrix: Each number indicates the correlation coefficient between the two variables on the corresponding row and column. 
+
+As detailed as it is, the correlation matrix is however hard to read. We can add some visual element to help readers comprehending the correlation matrix. We can use corrplot() to plot the correlation matrix as below:
+```{r}
+# the correlation between x and y is the same as y and x
+# thus, we only need the upper or lower part of the matrix
+corrplot(corr, type = "upper")  
+```
+Both the size and color of the circle indicates the magnitude of the correlation coefficients so that we can focus our attention on the pairs with correlation close to 1 or -1. 
+
+We can set the method="number" to show the correlation coefficient directly.
+```{r}
+# number.cex and tl.cex change the font size of the number and label, respectively
+corrplot(corr, type = "upper", method = "number",  number.cex = .7, tl.cex=0.8)
+```
+
+We can combine these two togother:
+```{r}
+corrplot.mixed(corr, number.cex = .7, tl.cex=0.8)
+```
+
+The last column shows that medv has strong positive correlation with rm (number of rooms in the house), wiht $\rho=0.7$, and has strong negative correlation with lstat ($\rho=-0.74$). This gives us the confidence to develop linear regression model to explain the variation in medv.
+
+### Scatter plot 
+Scatter plot gives a visual clue of the correlation between two variables. We have learned how to make scatter plot with ggplot2 package. Here we will introduce a quick way of making scatter plot matrix.
+```{r}
+pairs(Boston[,c("indus","nox","rm","tax","ptratio","lstat","medv")], 
+      pch = 19,  cex = 0.1, lower.panel=NULL)  # cex sets the size of the points
+```
+It becomes difficult to see when too many variables are putting in the scatter plot matrix all together. Thus, you can choose a few variables that has high correlation with the dependent variables for a better display. 
+
+Now, draw your attention on the last column, which shows the relationship between medv and different independent variables. It appears that lstat and rm have a very strong linear relationship with medv.
+
+Both correlation matrix and scatter plot matrix indicates that there exists strong relationship between some of the independent variables and dependent variable. New, we will develop linear regression model to approximate and quantify that relationship.
+
+## Develop simple linear regression model
+The general form of simple linear regression equation is $y=\beta_0+\beta_1*x+\epsilon$. This implies two things. First, we are using the variation in x to explain variation in y. E.g., let y= students' final grade of SCMA450, and x=lines of codes written by the students. Then the model implies that students' SCMA450 final grade is different because of the number of lines they wrote during the study. 
+
+Second, one additional unit of x will always result in the same amount of change (i.e., quantifies by $\beta_1$). In the above example, each additional line of code written by the students will result in the same amount of improvement on their final grade. Such linear assumption works fine in many application and leads easy-to-understand interpretation. We will talk about how to address potential non-linear relationship in next chapter.  
+
+Back to the Boston house price example, we are trying to explain why the house price varies at Boston. We hypothesize that "lstat" (i.e., the percent of low income population in the neighborhood) may result in different house price: Houses located in "rich" area (i.e., lstat is low) would likely have higher price. To test this hypothesis, we can build a simple linear regression model as follow: 
+$$medv=\beta_0+\beta_1*lstat+\epsilon$$
+
+### Estimation
+The model estimation is to find the coefficient $\beta_0$ and $\beta_1$ to minimize the sum square error, which is known as the least square algorithm. Let's illustrate the least square algorithm.
+
+For a given lstat, based on the linear equation, we can compute the fitted value of medv according to: 
+$$medvFit=\beta_0+\beta_1*lstat$$
+and the error term:
+$$error=medv-\beta_0-\beta_1*lstat$$
+We can better demonstrate the formula using the following tabular form:
+```{r, echo=FALSE}
+head(Boston[,.(medv=medv,lstat, medvFit=paste("beta0+beta1*",lstat, sep=""), error=paste(medv,"-","beta0-beta1*",lstat, sep="") )])
+```
+Given any value $\beta_0$ and $\beta_1$, based on the above formula in the table, we will get a series of fitted value and errors. We want to our model to best fit the data, meaning we want medvFit to be as close to medv and thus we want error to as small as possible. Thus, the best $\beta_0$ and $\beta_1$ should minimize the errors. The algorithm to find optimal $\beta_0$ and $\beta_1$ is called least square algoirthm. Mathematically, the least square algorithm will determine $\beta_0$ and $\beta_1$ to minimize the residual sum square (RSS):
+$$\min_{\beta_0,\beta_1} RSS=\sum_i(y_i-\beta_0-\beta_1x_i)^2$$
+here $i$ is the index of different observations (i.e., the index of rows in the above table).
+
+
+We do not to need to calcuate the optimal $\beta_0$ and $\beta_1$ mannually. The R code to estimate the above model is really simple. 
+```{r}
+lm(formula=medv~lstat, data=Boston)
+```
+Here lm() is the function to estimate linear model. It takes two arguments: formula and data. medv~lstat represents the formula: medv is y-variable, with lstat as the x-variable. data=Boston specifies the dataset used.
+
+We typically save the estimated results first and use summary() to get more information about the estimation.
+```{r}
+fit1=lm(medv~lstat, data=Boston)
+summary(fit1)
+```
+
+In fact, lm() function returns a list, and is saved into "fit1" as we defined. We can take a look at the elements in "fit1" list. 
+
+```{r}
+names(fit1)
+```
+
+As seen, the fitted line is: 
+$$medvFit=34.55-0.95*lstat$$
+
+### How to interpret the coefficient estimates?
+The estimated coefficients ($\beta_0$ and $\beta_1$) are actually random variables, because their value depends on the data and the data are typically from random sampling. In this example, if we happen to sample a different set of houses at Bonston, we may get different coefficient estimates. 
+
+Let's illustrate that by randomly drawing 100 houses from the Boston dataset and re-estimate the model based on the sub-sample.
+```{r}
+# Take 100 houses randomly from the Boston dataset
+Boston_sample=Boston[sample(1:506, 100, replace=FALSE)] 
+
+# estimate coefficients based on the sub-sample
+fit_sub=lm(formula=medv~lstat, data=Boston_sample)
+
+# plot the sub-sample and fitted line
+plot(Boston_sample$lstat, Boston_sample$medv)
+points(Boston_sample$lstat, fitted(fit_sub), col="blue", type="l")
+```
+
+Each time we run the above code, we randomly generate a new dataset and obtain a new estimated regression line. In this example, although the sample is randomly drawn and thus different, the shope of the line is quite rubust. This is because there is a strong linear relationship between medv and lstat, and thus this relationship should sustain in the random sample. In this case, we says the coefficient lstat is significant. 
+
+Since the coefficient estimates are random variable, we can obtain their confidence interval as below:
+```{r}
+# get confidence interval with confidence level of 0.95
+confint(fit1, level=0.95)
+```
+
+This means, with probability of 95%, $\beta_1$ will be between -1.026148 and -0.8739505. Notice that, this interval does not contain 0, meaning that we are pretty sure the coefficient is not zero and has a consistent negative sign (i.e., the lstat has a significant impact on medv). 
+
+In particular, the p-value is particularly used to determine whether the coefficient is significantly different from 0.  p-value < 5% is commonly considered that the coefficient is significantly different from 0. 
+
+We will only intercept the impact of significant independent variable on dependent variable, because, as mentioned, we cannot differentiate the impact of insignifcant variable from 0. 
+
+In this example, the estimated result suggests that: when lstat=0, then medv is 34.55; as lstat increases by 1, then medv will decreases on average by 0.95 (or 0.874~1.026).  
+
+
+## Overall model fittness
+How good is our model? In other words, how does the linear line fit our data?
+
+Let's first examine the model fittness through a scatter plot.
+```{r}
+# plot the original data
+plot(Boston$lstat, Boston$medv)
+
+# fitted() function returns the fitted value
+points(Boston$lstat, fitted(fit1), col="blue") 
+
+```
+
+As seen above, the blue line is the fitted line: for a given lstat, the blue line denotes our prediction of the corresponding medv. As seen, there is gap between the actual medv and our prediction. That is the error terms. The linear linear capture the linear relationship, but the error term is quite evident.
+
+In addition to the above visual inspection, we can use two metrics to determine how "good" the model is. 
+
+* R-squared, as well as the adjusted R-squared
+* F-statistic and the correponding p-value
+
+R-squared (R2) measures the percent of variation in dependent variable that is explained by the model. The formula for R-squared is:
+$$R2=1-\frac{RSS}{\sum(y_i-\bar{y})^2}=1-\frac{\sum_i(y_i-\beta_0-\beta_1x_i)^2}{\sum_{i}(y_i-\bar{y})^2}$$
+Here $\sum_{i}(y_i-\bar{y})^2$ represents the total variation in y that we want to explain. $\sum_i(y_i-\beta_0-\beta_1x_i)^2$ represents the variation left unexplained by our linear regression model. $\frac{\sum_i(y_i-\beta_0-\beta_1x_i)^2}{\sum_{i}(y_i-\bar{y})^2}$ represent the precents of variation in y that is left unexplained (i.e., the variation in the error terms). 
+
+Since our goal is to explain the variation in dependent variable, a higher R-square means more variation is explained by the model. However, R-squared always increases as more independent variables are included in the model. Thus, we usually use adjusted R-squared instead, which will penalize the model complexity. Adding irrelevant independent variables increases R-squared, but will lower adjusted R-squared. We will come back to this when discussing model selection.
+
+F-statistic is a statistical test whether all the coefficients (except intercept) are jointly 0. If that is true, then the model is useless. The model with p-value of F-statistics less than 0.05 is considered a good model, i.e., at least some coefficients are not 0. 
+Let's look at the model fittness for the Bonston house price example. 
+```{r}
+summary(fit1)
+```
+For this example, the R-squared is 0.5441, meaning 54.41% of the variation in medv is explained by the model; Adjusted R-squared is not much different, meaning the variables included are mostly relevant. The p-value of the F-statistic is less than 2.2e-16, meaning the model is very significant.
+
+
+### Regression Diagnoise
+In order for the estimated linear line to be the best fitted line, we need to make an assumption on the error terms $\epsilon$: $\epsilon \sim N(0, \sigma^2 )$, which means
+
+* $\epsilon$ on average should be 0, regardless the value of x and y.
+* $\epsilon$  has constant stdev deviation, regardless the value of x and y (No "Heteroskedasticity").
+*  $\epsilon$ are not correlated (No "Autocorrelation"). 
+
+In most applications, we are fine to assume these to be true. Even if these assumptions are not true, the point estimates of the coefficients is still unbiased; we just cannot trust their confidence interval. Nevertheless, there is a quick way to check whether these assumptions are true by plotting the residuals. 
+```{r}
+par(mfrow=c(2,2)) # arrange subplot in 2 by 2 matrix
+plot(fit1)
+```
+
+Draw your attention on the first subplot (the up-left one). It seems to suggest that the average of residuals does not always equal to 0: it seems to be above 0 when fitted value is very small or very large. This can also be seen from the plot of the fitted value.
+```{r}
+plot(Boston$lstat, Boston$medv)
+points(Boston$lstat, fitted(fit1), col="blue")
+```
+
+The above plot suggests that our linear model underestimates medv when lstat is either very small or very large. 
+
+The above diagnose seems to suggests that the linear regression model may not provide a perfect approximation to the relationship between medv and lstat. We will discuss later how to address the non-linear relationship. 
+
+
+## Use estimated model for prediction
+E.g., we want to predict what medv could be if lstat is 10:20. We can obtain both point estimates, as well as the 95% prediction interval.
+```{r}
+predict(fit1,data.table(lstat=c(10:20)), interval="confidence")
+```
+
+E.g., looking at the first row (i.e., lstat=10), the prediction of medv is 25.05 or with 95% probability, medv should be between 22.47~25.63. 
+
+
+## Summary
+
+* Correlation matrix and scatter plot matrix are two quick ways to inspect whether linear relationship exists in your data.
+* We can estiamte and quantify the linear relationship between dependent variable and independent variable using linear equation: $y=\beta_0+\beta_1x+\epsilon$, where $\beta_1$ measures the change of y related to each additional unit of x. This impact is linear becuase it does not depends on the value of x or y. 
+* The syntax for estimating linear regression in R is: lm(formula=y~x, data). 
+* Estimated coefficients are randomly variables. We learn how to deterine whether they are significant different from 0. 
+* Learn to access the model fitness through R-squared, adj-R2, and F-statistics.
+* Learn how to use the estimated model for prediction.
+
+

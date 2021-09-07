@@ -1,0 +1,193 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Mutiple Linear Regression
+
+
+```{r, message=FALSE}
+# Load packages into R:
+library(data.table)
+library(corrplot)
+library(ggplot2)
+```
+
+In this chapter, we will study multiple linear regression, i.e., including more than one independent variable into the regression model.
+
+Load and clean the Boston house price data.
+```{r}
+Boston=fread("data/Boston.csv")
+
+# change location from character as factor
+Boston[,location:=factor(location)]
+
+# change chas (0/1 variable) from numeric to factor
+Boston[,chas:=factor(chas)] 
+```
+
+## Mutiple linear regression
+Use Boston house dataset as an example. In addition to lstat, we want to include age (i.e., proportion of owner-occupied units built prior to 1940) into the model to predict medv. The age variable captures how established the neighborhood is. The resulting model is thus:
+$$medv=\beta_0+\beta_1*lstat+\beta_2*age+\epsilon$$
+
+In, R, we can easily estimate the above model as follow:
+```{r}
+# multiple linear regression with lstat and age as predictors.
+fit1=lm(medv~lstat+age,data=Boston)
+summary(fit1)
+```
+As seen, the coefficient of both lstat and age are significant (because their p-value is less than 0.05) in explaining the variation in house price.
+
+Let's plot the fitted value to say how the model fits the house price data better than a simple linear regression model. 
+```{r}
+# the simple regression with only lstat as predictor
+fit0=lm(medv~lstat, data=Boston) 
+
+plot(Boston$lstat, Boston$medv)
+points(Boston$lstat, fitted(fit0), col="black", type = "l")
+points(Boston$lstat, fitted(fit1), col="red", cex=0.5)
+```
+
+When including age, the fitted line is no longer a straight line. This is because for houses with same lstat may be located in region with different age, thus having different medv. Thus, multiple linear regression utilize variation in multiple independent variables to explain variation in dependent varaible.
+
+We can further include all independent variables in the data to construct the multiple linear regression. Here, "." is a special character which denotes all independent variables in the dataset so that we do not need to type all variables. 
+```{r}
+# multiple regression with all predictors
+fit2=lm(medv~.,data=Boston)
+summary(fit2)
+
+plot(Boston$lstat, Boston$medv)
+points(Boston$lstat, fitted(fit0), col="black", type = "l")
+points(Boston$lstat, fitted(fit1), col="red", cex=0.5)
+points(Boston$lstat, fitted(fit2), col="blue", cex=0.5)
+
+```
+
+The plot above demonstrates the advantage of multiple linear regression. Including more predictors means less variation is left in the error terms; thus we can better explain the variation in dependent variables through the model. 
+
+
+There is a very useful shortcut to construct multiple linear regression. E.g., we want to construct a regression model with all independent variables except dis (weighted mean of distances to five Boston employment centres). As the correlation matrix shows, dis is highly correlated with indus, nox and age. In other words, the variation in dis is likely captured by indus, nox and age; including dis may potentially cause multicollinearity. In R, ".-dis" mean all independent variable except dis:
+```{r}
+fit3=lm(medv~.-dis,data=Boston)
+summary(fit3)
+```
+
+## Categorical variables
+Now, let's draw our attention on the variable "location". This is a categorical variable in R, and it takes only 4 value; east, north, south, west. Note that, we have saved this variable as factor, which is the data type in R to save categorical variables.
+
+We can check the frequency of the location variable as belows:
+```{r}
+table(Boston$location)
+```
+
+In the previous model, we see that R **automatically** create three dummy variables: locationnorth, locationsouth, locationwest to represents the locations. The dummy variables take value of only 0/1. E.g., locationnorth=1 means the location is north. You many wondering why R does not create locationeast dummy. This is because the location=east can be represented by locationnorth locationsouth and locationwest all equal to 0. The location=east is called the base case. In general, for a categorical variable with n levels, n-1 dummy variables will be created, and the left level is the base level.
+
+To have a better understand of the categorical variables in regression, let's regress medv on lstat and location:
+```{r}
+fit4=lm(medv~ lstat+location, data=Boston)
+summary(fit4)
+```
+
+Again, R **automatically** create three dummy variables: locationnorth, locationsouth, locationwest to represents the locations. How to interpret the coefficients of locationnorth, locationsouth, locationwest?
+```{r}
+fit_dt=data.table(lstat=Boston$lstat, location=Boston$location,
+                   medv_fit=fitted(fit4))
+head(fit_dt)
+
+ggplot()+
+  geom_point(data=Boston, aes(lstat,medv, color=location), alpha=0.5)+
+  geom_line(data=fit_dt[location=="north"], aes(lstat,medv_fit, color=location))+
+  geom_line(data=fit_dt[location=="south"], aes(lstat,medv_fit, color=location))+
+  geom_line(data=fit_dt[location=="west"], aes(lstat,medv_fit, color=location))+
+  geom_line(data=fit_dt[location=="east"], aes(lstat,medv_fit, color=location))+
+  theme_minimal()
+```
+
+The above chart demonstrates the coefficients of categorical variables location visually. Each color represents a particular location, the fitted line for different location has different intercept to capture the fact that the average house price at different location is different. 
+
+Formally, the coefficient of locationnorth (0.463) means the average house price in the north is 0.463 higher than that in the base case (i.e., in the east). The coefficient of locationsouth (-1.293) means the average house price in the south is 1.293 lower than that in the base case (i.e., in the east). The coefficient of locationwest (-0.432) means the average house price in the south is 0.43233 lower than that in the base case (i.e., in the east). 
+
+The great thing about R is that we do not need to manually define dummy variables to represent a categorical variable. R will do that automatically. You just need to understand the coefficients of the dummy variables. However, you must first save the categorical variable into factor to tell R that is a categorical variable.
+
+
+## Interprate coefficients - Keeping all other variables the same
+Now, let's look into the estimated coefficients of the mutliple linear regression model. For the first model, $medv=\beta_0+\beta_1lstat+\beta_2age+\epsilon$, our estimates suggests the following best linear line:
+$$medvFit=33.22-1.032lstat+0.034age+\epsilon$$
+Both lstat and age has p-value less than 5%, thus they both are significant predictors. 
+
+Here -1.032l represents the marginal impact of lstat on medv: **keeping everything else the same**, if medv increases by 1, then medv will decreases by -1.0321. Similarly, **keeping everything else the same**, if age increase by 1, medv will increase by 0.034. 
+
+It is very important to note the phrase "**keeping everything else the same**". It means we only allow one variable to change a time when interpreting the coefficients. However, it is sometime hard to keep all other variables unchanged. In many cases it is even not be possible. E.g., we want to predict the medv using their $lstat$, $lstat^2$, $sqft$ and $bedrooms$. 
+$$medv=\beta_0+\beta_1*lstat+\beta_2 *lstat^2+\beta_3*sqft+\beta4*bedrooms+\epsilon$$
+
+However, it is hard to argument keeping $sqft$ unchanged while changing $bedrooms$. And you cannot keep $medv^2$ unchanged while changing $lstat$. Thus, you need to be cautions to determine whether keeping all other variable unchanged is possible when interpreting the coefficients. 
+
+## Multicollinearity
+Our linear regression model will have the multicollinearity problem when two or more independent variables are highly correlated because the regression does not know which variable to “credit” with changes in dependent variable.
+
+Let's look at one example. Suppose we are trying regress height of a person on his/her left foot and right foot: $height=\beta_0+\beta_1*left+\beta_2* right+\epsilon$
+```{r}
+# simulate the data
+right=rnorm(50, 20.5, 2)
+left=right+rnorm(50, 0, 0.5)
+height=left*7.9+rnorm(50,0,3)
+height_dat=data.table(right, left, height)
+head(height_dat)
+```
+Let's examine the correlation matrix and scatter plot matrix:
+```{r}
+corr=cor(height_dat)
+
+corrplot(corr, type = "upper", method = "number",  number.cex = .7, tl.cex=0.8)
+
+pairs(height_dat, pch = 19,  cex = 0.1, lower.panel=NULL)  # cex sets the size of the points
+```
+
+As seen in the scatter plot, both right and left are highly correlated with height, i.e., both are good predictor of height. However, right and left are also highly correlated. If we regress heigh on both left and right, we have:
+```{r}
+fit_test=lm(height~left+right, data=height_dat)
+summary(fit_test)
+```
+
+The result is not what we expected becuase the coefficient of "right" is negative. This is because left and right are almost always changing together, thus the regression model does not know which one to "credit" with changes in height. The possible solution is to drop the one of the independent variable that is highly correlated with other independent variables. This will not lead to much loss of information because the variation in the dropped variable is mostly captured by the ones that are highly correlated with the dropped variable.
+
+While in most cases it is impossible to see absolutely no correlations among independent variables. But we will begin to worry about multicollinearity if correlation between independent variable is > 0.70 or < -0.70. We definitely need to drop some independent variables if correlation between them is > 0.90 or < -0.90. 
+
+While, it seems that we are again facing the problem of selecting the best set of independent variables into our regression model. This time, we are selecting variables to aviod multicollinearity. In the next chapter, we will start to discuss how to select the best linear regression model.  
+
+## Excerise
+chas is another categorical variable to indicate whether the house is on the charles river. Develop a linear regression model with lstat and chas, and interpret the coefficient of chas. 
+
+### Examine the frequency of chas
+```{r}
+table(Boston$chas)
+```
+
+### Visualize the house price with ggplot2
+Create a scatter plot between medv and lstat, mark the color of points based on chas.
+```{r}
+ggplot()+
+  geom_point(data=Boston, aes(lstat,medv, color=chas), alpha=0.5)+
+  theme_minimal()
+```
+
+### estimate the linear regression model
+```{r}
+fit=lm(medv~lstat+chas,data=Boston)
+summary(fit)
+```
+
+### plot the fitted line 
+```{r}
+fit_dt=data.table(lstat=Boston$lstat, chas=Boston$chas,
+                   medv_fit=fitted(fit))
+head(fit_dt)
+
+ggplot()+
+  geom_point(data=Boston, aes(lstat,medv, color=chas), alpha=0.5)+
+  geom_line(data=fit_dt[chas==1], aes(lstat,medv_fit, color=chas))+
+  geom_line(data=fit_dt[chas==0], aes(lstat,medv_fit, color=chas))+
+  theme_minimal()
+```
+
+The ultimate question: what is the coefficient of chase is? Is it significant? What does it mean?

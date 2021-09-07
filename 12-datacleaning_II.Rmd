@@ -1,0 +1,272 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Data Cleaning II
+
+In this chapter, we will continue the discussion on how to clean data through an example of cleaning the messy dataset: weather_boston.
+
+Run the code to install the packages (only need to run once):
+```{r, eval=FALSE}
+install.packages("lubridate")   # dealing date variable
+install.packages("stringr")     # dealing strings/character
+install.packages("tidyr")       # tidying data
+install.packages("data.table")
+```
+
+Run the code to load the packages into R:
+```{r}
+library(lubridate)
+library(stringr)
+library(tidyr)
+library(data.table)
+```
+
+Just a recap: the three basic steps to clean a messy data include:
+
+* exploring raw data to diagnose the places to be cleaned
+
+* tidying data to make rows as observations, columns as variables.
+
+* preparing data for analysis (converting columns into the right variable type)
+
+First thing first, let's read the weather_boston.csv data into R. 
+```{r}
+# use fread() to read csv into R as data.table
+weather_boston<-fread("data/weather_boston.csv")  
+```
+
+## Explore the raw data
+Before diving into our data cleaning routine, we must first understand the basic structure of the data. This involves looking at things like the class() of the data object to make sure it's what we expect (generally a data.table) in addition to checking its dimensions with dim() and the column names with names()
+```{r}
+# Verify that weather_boston is a data.frame
+class(weather_boston)
+
+# Check the dimensions
+dim(weather_boston)
+
+# View the column names
+names(weather_boston)
+```
+
+## Summarize the data
+Next up is to look at some summaries of the data. This is where functions like str(), glimpse() from dplyr, and summary() come in handy.
+```{r}
+# View the structure of the data
+str(weather_boston)
+
+# View a summary of the data
+summary(weather_boston)
+```
+
+### Take a closer look
+After understanding the structure of the data and looking at some brief summaries, it often helps to preview the actual data. The functions head() and tail() allow you to view the top and bottom 6 rows of the data, respectively. You can show more rows by assigning a second argument.
+```{r}
+# View first 6 rows
+head(weather_boston)
+
+# View first 8 rows
+head(weather_boston, 8)
+
+# View the last 6 rows
+tail(weather_boston)
+```
+
+## Tidy the data
+The first symptoms of the data is that column names are values. In particular, the column names X1-X31 represent days of the month, which should really be values of a new variable called day.
+
+We can use melt() function exactly this scenario.
+```{r}
+weather_boston2 = melt(weather_boston, id=c("year","month","measure"), measure=patterns("X"), variable.name = "day", value.name= "value")  
+
+# View the head
+head(weather_boston2)
+```
+
+
+The resulting data now suffers from another common symptom of messy data: values are variable names. Specifically, values in the measure column should be variables (i.e. column names) in our dataset. 
+
+The dcast() function is designed to help with this. 
+```{r}
+weather_boston3 <- dcast(weather_boston2, year+month+day~measure, value.var = "value")
+
+head(weather_boston3)
+```
+Now, the data is tidy: each row is an observation, each column is a variable.
+
+## prepare for analysis 
+### Clean up dates
+Now that the weather_boston dataset adheres to tidy data principles, the next step is to prepare it for analysis. We'll start by combining the year, month, and day columns and recoding the resulting character column as a date. We can use a combination of base R, stringr, and lubridate to accomplish this task.
+```{r}
+# Remove X's from day column
+weather_boston3[,day:=str_replace(day, "X", "")]  
+head(weather_boston3)
+```
+
+Convert date column to proper date format using lubridates's ymd()
+```{r}
+# combine year, month day to be a date variable 
+weather_boston3[,date:=ymd(str_c(year,month,day, sep="-"))]  
+
+# examine the rows with missing date
+weather_boston3[is.na(date)]
+
+# remove rows with missing date
+weather_boston4=weather_boston3[!is.na(date)] 
+```
+
+### A closer look at column types
+It's important for analysis that variables are coded appropriately. This is not yet the case with our weather_boston data. Recall that functions such as as.numeric() and as.character() can be used to coerce variables into different types.
+
+It's important to keep in mind that coercion are not always successful, particularly if there's some data in a column that you don't expect. For example, the following will cause problems:
+```{r}
+as.numeric(c(4, 6.44, "some string", 222))
+```
+
+If you run the code above in the console, you'll get a warning message saying that R introduced an NA in the process of coercing to numeric. This is because it doesn't know how to make a number out of a string ("some string"). Watch out for this in our weather_boston data!
+```{r}
+str(weather_boston4)
+```
+
+Thus, all of these character variables (except for events) need to be convert to numeric. 
+
+Now, see what happens if we try to convert PrecipitationIn to numeric
+```{r}
+as.numeric(weather_boston4$PrecipitationIn)
+```
+
+Note that some NA is created. This is because there are strings in the PrecipitationIn column. To find that out, we can use table() to get the frequency count of each value in PrecipitationIn.  
+```{r}
+table(weather_boston4$PrecipitationIn)
+```
+
+Here, "T" was used to denote a trace amount (i.e. too small to be accurately measured) of precipitation in the PrecipitationIn column. In order to coerce this column to numeric, you'll need to deal with this somehow. To keep things simple, we will just replace "T" with zero, as a string ("0").
+
+```{r}
+# replace "T" with "0" in the PrecipitationIn column
+weather_boston4$PrecipitationIn<-str_replace(weather_boston4$PrecipitationIn,"T","0")
+
+# convert string to numeric using :=
+weather_boston4[,weather_boston4:=as.numeric(PrecipitationIn) ]
+```
+
+
+If we want to convert multiple column to numeric simultaneously:
+```{r}
+# obtain the column names which you want to convert to numeric
+col_names=names(weather_boston4)[c(3,4,6:25)]
+
+# convert the to numeric
+weather_boston4[,(col_names):=lapply(.SD,  as.numeric), .SDcols=col_names]
+str(weather_boston4)
+```
+In the above code, LHS:=RHS is the data.table syntax for updating columns. On the LHS, we specify the columns to be updated using the col_names (note, do not forget to the ()). The RHS side is more comples: First, .SD is the special character in data.table to represent the subset of data and .SDcols=col_names specifies which variables should be in the subset of data by column names. 
+
+The syntax for lapply() is as follow: lapply(X, FUN)
+Arguments:
+-X: A vector or an object
+-FUN: Function applied to each element of x	
+
+
+### Missing, extreme and unexpected values
+Return whether a data frame element is missing: is.na()
+```{r}
+# Count missing values
+sum(is.na(weather_boston4))
+
+# Find missing values
+summary(is.na(weather_boston4))
+
+# Find indices of NAs in Max.Gust.SpeedMPH
+( ind<-which(is.na(weather_boston4$Max.Gust.SpeedMPH )) )
+
+# Look at the full rows for records missing Max.Gust.SpeedMPH
+weather_boston4[ind,]
+
+```
+
+Now, we will look at one obvious error
+```{r}
+summary(weather_boston4)
+```
+
+you may notice the max humidity is 1000, which is an obvious error since humidity is measured in percentage from 1-100. In fact, this is a input error, and the value should be 100. We can make a histogram for Max.Humidity.
+```{r}
+hist(weather_boston4$Max.Humidity,breaks=100)
+```
+
+We can also make a boxplot for Max.Humidity.
+```{r}
+boxplot(weather_boston4$Max.Humidity)
+```
+Change the Max.Humidity from 1000 to 100.
+```{r}
+weather_boston4[Max.Humidity==1000,Max.Humidity:=100]
+hist(weather_boston4$Max.Humidity)
+```
+In the above code, Max.Humidity==1000 selects the rows which Max.Humidity==1000, and Max.Humidity:=100 updates the Max.Humidity for the selected rows.
+
+Another obvious error: You've discovered and repaired one obvious error in the data, but it appears that there's another. Sometimes you get lucky and can infer the correct or intended value from the other data. For example, if you know the minimum and maximum values of a particular metric on a given day...
+```{r}
+summary(weather_boston4$Mean.VisibilityMiles)
+```
+We cannot have negative visibility miles. This is likely to be an input error and it should 1. Let's change -1 to 1.
+```{r}
+weather_boston4[Mean.VisibilityMiles==-1, Mean.VisibilityMiles:=1]
+hist(weather_boston4$Mean.VisibilityMiles)
+```
+
+Check other possible extreme values
+```{r}
+# Look at histogram for MeanDew.PointF
+hist(weather_boston4$MeanDew.PointF)
+
+# Look at histogram for Min.TemperatureF
+hist(weather_boston4$Min.TemperatureF)
+
+# Compare to histogram for Mean.TemperatureF
+hist(weather_boston4$Mean.TemperatureF)
+```
+
+
+### Finishing touches
+Before officially calling our weather_boston data clean, we want to put a couple of finishing touches on the data. These are a bit more subjective and may not be necessary for analysis, but they will make the data easier for others to interpret, which is generally a good thing.
+
+There are a number of stylistic conventions in the R language. Depending on who you ask, these conventions may vary. Because the period (.) has special meaning in certain situations, we generally recommend using underscores (_) to separate words in variable names. We also prefer all lowercase letters so that no one has to remember which letters are uppercase or lowercase.
+
+Finally, the events column (renamed to be all lowercase in the first instruction) contains an empty string ("") for any day on which there was no significant weather event such as rain, fog, a thunderstorm, etc. However, if it's the first time you're seeing these data, it may not be obvious that this is the case, so it's best for us to be explicit and replace the empty strings with something more meaningful.
+```{r}
+# Clean up column names
+names(weather_boston4) = tolower(names(weather_boston4))
+
+names(weather_boston4)=str_replace_all(names(weather_boston4),"\\.","_")  
+```
+Note that str_replace_all(names(weather_boston4),".","_")  will not replace "." with "_" becuase . is a special operator in R, we need to use \\ in front of "." such that the code know we are not refer . as the special operator, but literal "." 
+
+```{r}
+# Replace empty cells in events column
+weather_boston4[events == "", events:= "none"]
+table(weather_boston4$events)
+```
+
+Print the first 6 rows of weather_boston4. Enjoy examining your great accomplishment of cleaning a messy data!
+```{r}
+head(weather_boston4[order(year,month,day)])
+```
+
+Remove intermediate datasets to save memory space. This is particular important when working with big data.
+```{r}
+remove(weather_boston2, weather_boston3)
+```
+
+
+## Summary
+
+* We go through the three steps to clean data with an example of weather_boston: 1) exploring raw data to for diagnosis; 2) tidy the data using melt() and dcast() 3) convert columns into the right variable type. 
+
+* We use melt() and dcast() to tidy the data. 
+
+* Convert variables into the right variable type using teh data.table syntax.
+
+In real work, we may encounter different messy data. We should use the learned knowledge to describe the messy data, and clean the data. 

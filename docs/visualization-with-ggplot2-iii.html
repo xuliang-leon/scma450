@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 16 Visualization with ggplot2 III | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 16 Visualization with ggplot2 III | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 16 Visualization with ggplot2 III | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="visualization-with-ggplot2-ii.html"/>
+<link rel="next" href="visualization-with-ggplot2---animation.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2 I</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html"><i class="fa fa-check"></i><b>15</b> Visualization with ggplot2 II</a><ul>
+<li class="chapter" data-level="15.1" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#bar-chart-and-statistical-transformation-1"><i class="fa fa-check"></i><b>15.1</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="15.2" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#stacked-par-1"><i class="fa fa-check"></i><b>15.2</b> stacked par</a></li>
+<li class="chapter" data-level="15.3" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#histogram-1"><i class="fa fa-check"></i><b>15.3</b> Histogram</a></li>
+<li class="chapter" data-level="15.4" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#boxplot-1"><i class="fa fa-check"></i><b>15.4</b> boxplot</a></li>
+<li class="chapter" data-level="15.5" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#line-chart-1"><i class="fa fa-check"></i><b>15.5</b> line chart</a></li>
+<li class="chapter" data-level="15.6" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#use-theme-to-customize-the-appearance-of-your-chart.-1"><i class="fa fa-check"></i><b>15.6</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="15.7" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#summary-10"><i class="fa fa-check"></i><b>15.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html"><i class="fa fa-check"></i><b>16</b> Visualization with ggplot2 III</a><ul>
+<li class="chapter" data-level="16.1" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-world-map"><i class="fa fa-check"></i><b>16.1</b> Draw world map</a></li>
+<li class="chapter" data-level="16.2" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-map"><i class="fa fa-check"></i><b>16.2</b> Draw US map</a></li>
+<li class="chapter" data-level="16.3" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-county-map"><i class="fa fa-check"></i><b>16.3</b> draw US county map</a></li>
+<li class="chapter" data-level="16.4" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#summary-11"><i class="fa fa-check"></i><b>16.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html"><i class="fa fa-check"></i><b>17</b> Visualization with ggplot2 - Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-of-scatter-plot-to-show-how-two-variables-evolve-over-time-simultaneously"><i class="fa fa-check"></i><b>17.1</b> Animation of scatter plot to show how two variables evolve over time simultaneously</a></li>
+<li class="chapter" data-level="17.2" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#use-a-line-chart-to-show-how-gdppercap-evolve-over-time"><i class="fa fa-check"></i><b>17.2</b> Use a line chart to show how gdpPercap evolve over time</a></li>
+<li class="chapter" data-level="17.3" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-with-bar-chart"><i class="fa fa-check"></i><b>17.3</b> Animation with Bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>18</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="18.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#examine-and-explore-the-data"><i class="fa fa-check"></i><b>18.1</b> Examine and explore the data</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#correlation-matrix"><i class="fa fa-check"></i><b>18.1.1</b> Correlation matrix</a></li>
+<li class="chapter" data-level="18.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#scatter-plot-1"><i class="fa fa-check"></i><b>18.1.2</b> Scatter plot</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#develop-simple-linear-regression-model"><i class="fa fa-check"></i><b>18.2</b> Develop simple linear regression model</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>18.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="18.2.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#how-to-interpret-the-coefficient-estimates"><i class="fa fa-check"></i><b>18.2.2</b> How to interpret the coefficient estimates?</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#overall-model-fittness"><i class="fa fa-check"></i><b>18.3</b> Overall model fittness</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-diagnoise"><i class="fa fa-check"></i><b>18.3.1</b> Regression Diagnoise</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#use-estimated-model-for-prediction"><i class="fa fa-check"></i><b>18.4</b> Use estimated model for prediction</a></li>
+<li class="chapter" data-level="18.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#summary-12"><i class="fa fa-check"></i><b>18.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html"><i class="fa fa-check"></i><b>19</b> Log Tranformation and Polynomial Terms</a><ul>
+<li class="chapter" data-level="19.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#log-transformation"><i class="fa fa-check"></i><b>19.1</b> Log-transformation</a></li>
+<li class="chapter" data-level="19.2" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#quadratic-regression"><i class="fa fa-check"></i><b>19.2</b> Quadratic regression</a></li>
+<li class="chapter" data-level="19.3" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#polynomial-regression"><i class="fa fa-check"></i><b>19.3</b> Polynomial regression</a></li>
+<li class="chapter" data-level="19.4" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#summary-13"><i class="fa fa-check"></i><b>19.4</b> Summary</a></li>
+<li class="chapter" data-level="19.5" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#exercise-3"><i class="fa fa-check"></i><b>19.5</b> Exercise</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#solution"><i class="fa fa-check"></i><b>19.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html"><i class="fa fa-check"></i><b>20</b> Mutiple Linear Regression</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#mutiple-linear-regression-1"><i class="fa fa-check"></i><b>20.1</b> Mutiple linear regression</a></li>
+<li class="chapter" data-level="20.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#categorical-variables"><i class="fa fa-check"></i><b>20.2</b> Categorical variables</a></li>
+<li class="chapter" data-level="20.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#interprate-coefficients---keeping-all-other-variables-the-same"><i class="fa fa-check"></i><b>20.3</b> Interprate coefficients - Keeping all other variables the same</a></li>
+<li class="chapter" data-level="20.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#multicollinearity"><i class="fa fa-check"></i><b>20.4</b> Multicollinearity</a></li>
+<li class="chapter" data-level="20.5" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#excerise"><i class="fa fa-check"></i><b>20.5</b> Excerise</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#examine-the-frequency-of-chas"><i class="fa fa-check"></i><b>20.5.1</b> Examine the frequency of chas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#visualize-the-house-price-with-ggplot2"><i class="fa fa-check"></i><b>20.5.2</b> Visualize the house price with ggplot2</a></li>
+<li class="chapter" data-level="20.5.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#estimate-the-linear-regression-model"><i class="fa fa-check"></i><b>20.5.3</b> estimate the linear regression model</a></li>
+<li class="chapter" data-level="20.5.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#plot-the-fitted-line"><i class="fa fa-check"></i><b>20.5.4</b> plot the fitted line</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html"><i class="fa fa-check"></i><b>21</b> Best Subset Model Selection</a><ul>
+<li class="chapter" data-level="21.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#best-subset-model-selection-1"><i class="fa fa-check"></i><b>21.1</b> Best Subset Model Selection</a></li>
+<li class="chapter" data-level="21.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#deterimining-the-best-model-with-adj-r2-cp-aic-and-bic"><i class="fa fa-check"></i><b>21.2</b> Deterimining the best model with adj-R2, Cp, AIC, and BIC</a><ul>
+<li class="chapter" data-level="21.2.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#r-squared-is-not-a-good-criteria-for-model-selection"><i class="fa fa-check"></i><b>21.2.1</b> R-squared is not a good criteria for model selection</a></li>
+<li class="chapter" data-level="21.2.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-adjusted-r2"><i class="fa fa-check"></i><b>21.2.2</b> Select the best model using Adjusted R2</a></li>
+<li class="chapter" data-level="21.2.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-cp"><i class="fa fa-check"></i><b>21.2.3</b> Select the best model using Cp</a></li>
+<li class="chapter" data-level="21.2.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-bic"><i class="fa fa-check"></i><b>21.2.4</b> Select the best model using BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#forwardbackward-selection"><i class="fa fa-check"></i><b>21.3</b> Forward/Backward selection</a></li>
+<li class="chapter" data-level="21.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#summary-14"><i class="fa fa-check"></i><b>21.4</b> Summary:</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>22</b> Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#create-trainingtest-set"><i class="fa fa-check"></i><b>22.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="22.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-selection"><i class="fa fa-check"></i><b>22.2</b> Model selection</a><ul>
+<li class="chapter" data-level="22.2.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#estimate-the-model-using-training-set"><i class="fa fa-check"></i><b>22.2.1</b> estimate the model using training set</a></li>
+<li class="chapter" data-level="22.2.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#evaluate-the-models-out-of-sample-prediction-using-test-set"><i class="fa fa-check"></i><b>22.2.2</b> evaluate the models’ out-of-sample prediction using test set</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-4-has-the-problem-of-over-fitting"><i class="fa fa-check"></i><b>22.3</b> Model 4 has the problem of over-fitting</a></li>
+<li class="chapter" data-level="22.4" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#other-commonly-used-metrics-for-prediction-performance"><i class="fa fa-check"></i><b>22.4</b> Other Commonly Used Metrics for Prediction performance</a></li>
+<li class="chapter" data-level="22.5" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#summary-15"><i class="fa fa-check"></i><b>22.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>23</b> Best Subset Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="23.1" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#create-trainingtest-set-1"><i class="fa fa-check"></i><b>23.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="23.2" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#evaluate-the-best-subset-regression-through-trainingtest-set"><i class="fa fa-check"></i><b>23.2</b> Evaluate the Best subset regression through training/test set</a></li>
+<li class="chapter" data-level="23.3" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#exercise-4"><i class="fa fa-check"></i><b>23.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="decision-tree.html"><a href="decision-tree.html"><i class="fa fa-check"></i><b>24</b> Decision Tree</a></li>
+<li class="chapter" data-level="25" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html"><i class="fa fa-check"></i><b>25</b> Maching Learning with Caret</a><ul>
+<li class="chapter" data-level="25.1" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest"><i class="fa fa-check"></i><b>25.1</b> Random Forest</a></li>
+<li class="chapter" data-level="25.2" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest-1"><i class="fa fa-check"></i><b>25.2</b> Random Forest</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="visualization-with-ggplot2-iii" class="section level1">
+<h1><span class="header-section-number">Chapter 16</span> Visualization with ggplot2 III</h1>
+<p>In many cases, we work with location data. The best way to visualize the location data is map. To draw maps in R, we first need to install the map-related packages.</p>
+<div class="sourceCode" id="cb808"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb808-1"><a href="visualization-with-ggplot2-iii.html#cb808-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>) </span>
+<span id="cb808-2"><a href="visualization-with-ggplot2-iii.html#cb808-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;maps&quot;</span>)      <span class="co"># maps packages contains world maps data </span></span>
+<span id="cb808-3"><a href="visualization-with-ggplot2-iii.html#cb808-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;mapproj&quot;</span>)   <span class="co"># Converts latitude/longitude into projected coordinates</span></span></code></pre></div>
+<div class="sourceCode" id="cb809"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb809-1"><a href="visualization-with-ggplot2-iii.html#cb809-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb809-2"><a href="visualization-with-ggplot2-iii.html#cb809-2"></a><span class="kw">library</span>(maps)</span></code></pre></div>
+<pre><code>## Warning: package &#39;maps&#39; was built under R version 4.0.5</code></pre>
+<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb811-1"><a href="visualization-with-ggplot2-iii.html#cb811-1"></a><span class="kw">library</span>(mapproj)</span></code></pre></div>
+<pre><code>## Warning: package &#39;mapproj&#39; was built under R version 4.0.5</code></pre>
+<p>We will also be using data.table and lubridate packages to clean data; and curl package for download data directly from website.</p>
+<div class="sourceCode" id="cb813"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb813-1"><a href="visualization-with-ggplot2-iii.html#cb813-1"></a><span class="kw">library</span>(lubridate)</span>
+<span id="cb813-2"><a href="visualization-with-ggplot2-iii.html#cb813-2"></a><span class="kw">library</span>(data.table)</span>
+<span id="cb813-3"><a href="visualization-with-ggplot2-iii.html#cb813-3"></a><span class="kw">library</span>(curl)</span>
+<span id="cb813-4"><a href="visualization-with-ggplot2-iii.html#cb813-4"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<div id="draw-world-map" class="section level2">
+<h2><span class="header-section-number">16.1</span> Draw world map</h2>
+<p>First, we get the world map data from the map package.</p>
+<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb814-1"><a href="visualization-with-ggplot2-iii.html#cb814-1"></a><span class="co"># map_data() is a function in maps package to load the map data</span></span>
+<span id="cb814-2"><a href="visualization-with-ggplot2-iii.html#cb814-2"></a>world_map=<span class="kw">as.data.table</span>(<span class="kw">map_data</span>(<span class="st">&quot;world&quot;</span>))</span>
+<span id="cb814-3"><a href="visualization-with-ggplot2-iii.html#cb814-3"></a></span>
+<span id="cb814-4"><a href="visualization-with-ggplot2-iii.html#cb814-4"></a><span class="kw">head</span>(world_map)</span></code></pre></div>
+<pre><code>##         long      lat group order region subregion
+## 1: -69.89912 12.45200     1     1  Aruba      &lt;NA&gt;
+## 2: -69.89571 12.42300     1     2  Aruba      &lt;NA&gt;
+## 3: -69.94219 12.43853     1     3  Aruba      &lt;NA&gt;
+## 4: -70.00415 12.50049     1     4  Aruba      &lt;NA&gt;
+## 5: -70.06612 12.54697     1     5  Aruba      &lt;NA&gt;
+## 6: -70.05088 12.59707     1     6  Aruba      &lt;NA&gt;</code></pre>
+<p>Second, we can use ggplot2 to plot the world map:</p>
+<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb816-1"><a href="visualization-with-ggplot2-iii.html#cb816-1"></a><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb816-2"><a href="visualization-with-ggplot2-iii.html#cb816-2"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data=</span>world_map, <span class="kw">aes</span>(long, lat, <span class="dt">group=</span>group), <span class="dt">fill=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">color=</span><span class="st">&quot;black&quot;</span>)<span class="op">+</span></span>
+<span id="cb816-3"><a href="visualization-with-ggplot2-iii.html#cb816-3"></a><span class="st">  </span><span class="kw">geom_path</span>()<span class="op">+</span><span class="st"> </span></span>
+<span id="cb816-4"><a href="visualization-with-ggplot2-iii.html#cb816-4"></a><span class="st">  </span><span class="kw">coord_map</span>(<span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">180</span>,<span class="dv">180</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-356-1.png" width="672" /></p>
+<p>Next, we want to add information of each country on the map. For example, we want to show the number of confirmed COVID-19 cases.</p>
+<p>The csv format data can be access through from the following website:</p>
+<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb817-1"><a href="visualization-with-ggplot2-iii.html#cb817-1"></a>covid_world=<span class="kw">fread</span>(<span class="st">&quot;https://covid.ourworldindata.org/data/owid-covid-data.csv&quot;</span>)</span></code></pre></div>
+<p>Let’s first take a look at the data:</p>
+<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb818-1"><a href="visualization-with-ggplot2-iii.html#cb818-1"></a>covid_world=covid_world[,.(iso_code,continent,location,date,total_cases,new_cases,total_deaths,new_deaths,total_tests_per_thousand,people_vaccinated_per_hundred)]</span>
+<span id="cb818-2"><a href="visualization-with-ggplot2-iii.html#cb818-2"></a><span class="kw">head</span>(covid_world)</span></code></pre></div>
+<pre><code>##    iso_code continent    location       date total_cases new_cases total_deaths
+## 1:      AFG      Asia Afghanistan 2020-02-24           1         1           NA
+## 2:      AFG      Asia Afghanistan 2020-02-25           1         0           NA
+## 3:      AFG      Asia Afghanistan 2020-02-26           1         0           NA
+## 4:      AFG      Asia Afghanistan 2020-02-27           1         0           NA
+## 5:      AFG      Asia Afghanistan 2020-02-28           1         0           NA
+## 6:      AFG      Asia Afghanistan 2020-02-29           1         0           NA
+##    new_deaths total_tests_per_thousand people_vaccinated_per_hundred
+## 1:         NA                       NA                            NA
+## 2:         NA                       NA                            NA
+## 3:         NA                       NA                            NA
+## 4:         NA                       NA                            NA
+## 5:         NA                       NA                            NA
+## 6:         NA                       NA                            NA</code></pre>
+<div class="sourceCode" id="cb820"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb820-1"><a href="visualization-with-ggplot2-iii.html#cb820-1"></a><span class="kw">str</span>(covid_world)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   114995 obs. of  10 variables:
+##  $ iso_code                     : chr  &quot;AFG&quot; &quot;AFG&quot; &quot;AFG&quot; &quot;AFG&quot; ...
+##  $ continent                    : chr  &quot;Asia&quot; &quot;Asia&quot; &quot;Asia&quot; &quot;Asia&quot; ...
+##  $ location                     : chr  &quot;Afghanistan&quot; &quot;Afghanistan&quot; &quot;Afghanistan&quot; &quot;Afghanistan&quot; ...
+##  $ date                         : IDate, format: &quot;2020-02-24&quot; &quot;2020-02-25&quot; ...
+##  $ total_cases                  : num  1 1 1 1 1 1 1 1 2 4 ...
+##  $ new_cases                    : num  1 0 0 0 0 0 0 0 1 2 ...
+##  $ total_deaths                 : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ new_deaths                   : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ total_tests_per_thousand     : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ people_vaccinated_per_hundred: num  NA NA NA NA NA NA NA NA NA NA ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb822"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb822-1"><a href="visualization-with-ggplot2-iii.html#cb822-1"></a><span class="kw">summary</span>(covid_world)</span></code></pre></div>
+<pre><code>##    iso_code          continent           location              date           
+##  Length:114995      Length:114995      Length:114995      Min.   :2020-01-01  
+##  Class :character   Class :character   Class :character   1st Qu.:2020-07-25  
+##  Mode  :character   Mode  :character   Mode  :character   Median :2020-12-18  
+##                                                           Mean   :2020-12-11  
+##                                                           3rd Qu.:2021-05-02  
+##                                                           Max.   :2021-09-06  
+##                                                                               
+##   total_cases          new_cases       total_deaths       new_deaths   
+##  Min.   :        1   Min.   :-74347   Min.   :      1   Min.   :-1918  
+##  1st Qu.:     1776   1st Qu.:     2   1st Qu.:     63   1st Qu.:    0  
+##  Median :    17999   Median :    86   Median :    542   Median :    2  
+##  Mean   :  1323061   Mean   :  6389   Mean   :  34173   Mean   :  146  
+##  3rd Qu.:   192856   3rd Qu.:   892   3rd Qu.:   4713   3rd Qu.:   18  
+##  Max.   :221211222   Max.   :905932   Max.   :4576372   Max.   :17977  
+##  NA&#39;s   :5536        NA&#39;s   :5539     NA&#39;s   :16134     NA&#39;s   :15979  
+##  total_tests_per_thousand people_vaccinated_per_hundred
+##  Min.   :    0.00         Min.   :  0.00               
+##  1st Qu.:   18.03         1st Qu.:  3.30               
+##  Median :   91.11         Median : 15.11               
+##  Mean   :  401.32         Mean   : 23.45               
+##  3rd Qu.:  375.29         3rd Qu.: 40.29               
+##  Max.   :13230.12         Max.   :117.71               
+##  NA&#39;s   :65196            NA&#39;s   :91556</code></pre>
+<p>We need to clean the date into the correct format before any analysis:
+Examine extreme values</p>
+<div class="sourceCode" id="cb824"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb824-1"><a href="visualization-with-ggplot2-iii.html#cb824-1"></a>covid_world[new_cases<span class="op">&lt;</span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>new_cases<span class="op">&gt;</span><span class="dv">100000</span>]</span></code></pre></div>
+<pre><code>##       iso_code     continent            location       date total_cases
+##    1:      ATG North America Antigua and Barbuda 2020-07-03          68
+##    2:      ATG North America Antigua and Barbuda 2021-05-09        1231
+##    3: OWID_ASI                              Asia 2020-08-26     6604021
+##    4: OWID_ASI                              Asia 2020-08-27     6707611
+##    5: OWID_ASI                              Asia 2020-08-28     6811518
+##   ---                                                                  
+## 1655: OWID_WRL                             World 2021-09-04   220348745
+## 1656: OWID_WRL                             World 2021-09-05   220775393
+## 1657: OWID_WRL                             World 2021-09-06   221211222
+## 1658:      YEM          Asia               Yemen 2020-08-11        1831
+## 1659:      ZWE        Africa            Zimbabwe 2020-05-02          34
+##       new_cases total_deaths new_deaths total_tests_per_thousand
+##    1:        -1            3          0                       NA
+##    2:        -1           32          0                       NA
+##    3:    112974       135017       1682                       NA
+##    4:    103590       136658       1641                       NA
+##    5:    103907       138253       1595                       NA
+##   ---                                                           
+## 1655:    480942      4561996       7736                       NA
+## 1656:    426648      4568456       6460                       NA
+## 1657:    435829      4576372       7916                       NA
+## 1658:        -1          523          5                       NA
+## 1659:        -6            4          0                       NA
+##       people_vaccinated_per_hundred
+##    1:                            NA
+##    2:                            NA
+##    3:                            NA
+##    4:                            NA
+##    5:                            NA
+##   ---                              
+## 1655:                         40.33
+## 1656:                         40.47
+## 1657:                         40.61
+## 1658:                            NA
+## 1659:                            NA</code></pre>
+<p>Clean up the data:</p>
+<div class="sourceCode" id="cb826"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb826-1"><a href="visualization-with-ggplot2-iii.html#cb826-1"></a>covid_world[,date<span class="op">:</span><span class="er">=</span><span class="kw">ymd</span>(date)]</span>
+<span id="cb826-2"><a href="visualization-with-ggplot2-iii.html#cb826-2"></a></span>
+<span id="cb826-3"><a href="visualization-with-ggplot2-iii.html#cb826-3"></a><span class="co"># in the world map data, United States is named USA</span></span>
+<span id="cb826-4"><a href="visualization-with-ggplot2-iii.html#cb826-4"></a>covid_world[location<span class="op">==</span><span class="st">&quot;United States&quot;</span>,location<span class="op">:</span><span class="er">=</span><span class="st">&quot;USA&quot;</span>]  </span>
+<span id="cb826-5"><a href="visualization-with-ggplot2-iii.html#cb826-5"></a></span>
+<span id="cb826-6"><a href="visualization-with-ggplot2-iii.html#cb826-6"></a><span class="co"># clean up the negative new cases as missing value</span></span>
+<span id="cb826-7"><a href="visualization-with-ggplot2-iii.html#cb826-7"></a>covid_world[new_cases<span class="op">&lt;</span><span class="dv">0</span>,new_cases<span class="op">:</span><span class="er">=</span><span class="ot">NA</span>]  </span></code></pre></div>
+<p>Use a line chart to show the number of new cases over time:</p>
+<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb827-1"><a href="visualization-with-ggplot2-iii.html#cb827-1"></a><span class="kw">ggplot</span>(covid_world)<span class="op">+</span></span>
+<span id="cb827-2"><a href="visualization-with-ggplot2-iii.html#cb827-2"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(date, new_cases, <span class="dt">color=</span>location),<span class="dt">show.legend =</span> <span class="ot">FALSE</span>)<span class="op">+</span></span>
+<span id="cb827-3"><a href="visualization-with-ggplot2-iii.html#cb827-3"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 5538 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-361-1.png" width="672" /></p>
+<p>Use a line chart to show the number of new cases over time:</p>
+<div class="sourceCode" id="cb829"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb829-1"><a href="visualization-with-ggplot2-iii.html#cb829-1"></a><span class="kw">ggplot</span>(covid_world[location<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;United Kingdom&quot;</span>,<span class="st">&quot;USA&quot;</span>,<span class="st">&quot;Italy&quot;</span>,<span class="st">&quot;Brazil&quot;</span>,<span class="st">&quot;Korean&quot;</span>,<span class="st">&quot;China&quot;</span>)])<span class="op">+</span></span>
+<span id="cb829-2"><a href="visualization-with-ggplot2-iii.html#cb829-2"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(date, new_cases, <span class="dt">color=</span>location))<span class="op">+</span></span>
+<span id="cb829-3"><a href="visualization-with-ggplot2-iii.html#cb829-3"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 2 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-362-1.png" width="672" /></p>
+<p>To plot the map of new cases in each day, we need to first prepare the map data to include the COVID-19 cases informatin.</p>
+<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb831-1"><a href="visualization-with-ggplot2-iii.html#cb831-1"></a><span class="co"># define any date you want to inquiry</span></span>
+<span id="cb831-2"><a href="visualization-with-ggplot2-iii.html#cb831-2"></a>today=<span class="kw">ymd</span>(<span class="st">&quot;2020-06-19&quot;</span>) </span>
+<span id="cb831-3"><a href="visualization-with-ggplot2-iii.html#cb831-3"></a></span>
+<span id="cb831-4"><a href="visualization-with-ggplot2-iii.html#cb831-4"></a><span class="co"># subset the covid dataset to select the above date and relevant columns</span></span>
+<span id="cb831-5"><a href="visualization-with-ggplot2-iii.html#cb831-5"></a>covid_today=covid_world[date<span class="op">==</span>today,.(location,continent,date,total_cases,new_cases, total_deaths, total_tests_per_thousand)]</span>
+<span id="cb831-6"><a href="visualization-with-ggplot2-iii.html#cb831-6"></a></span>
+<span id="cb831-7"><a href="visualization-with-ggplot2-iii.html#cb831-7"></a><span class="co"># combine the map data file</span></span>
+<span id="cb831-8"><a href="visualization-with-ggplot2-iii.html#cb831-8"></a>my_map =<span class="st"> </span><span class="kw">merge</span>(world_map,covid_today, <span class="dt">by.x=</span><span class="st">&quot;region&quot;</span>, <span class="dt">by.y =</span><span class="st">&quot;location&quot;</span>, <span class="dt">all.x =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb831-9"><a href="visualization-with-ggplot2-iii.html#cb831-9"></a></span>
+<span id="cb831-10"><a href="visualization-with-ggplot2-iii.html#cb831-10"></a><span class="kw">head</span>(my_map)</span></code></pre></div>
+<pre><code>##         region     long      lat group order subregion continent       date
+## 1: Afghanistan 74.89131 37.23164     2    12      &lt;NA&gt;      Asia 2020-06-19
+## 2: Afghanistan 74.84023 37.22505     2    13      &lt;NA&gt;      Asia 2020-06-19
+## 3: Afghanistan 74.76738 37.24917     2    14      &lt;NA&gt;      Asia 2020-06-19
+## 4: Afghanistan 74.73896 37.28564     2    15      &lt;NA&gt;      Asia 2020-06-19
+## 5: Afghanistan 74.72666 37.29072     2    16      &lt;NA&gt;      Asia 2020-06-19
+## 6: Afghanistan 74.66895 37.26670     2    17      &lt;NA&gt;      Asia 2020-06-19
+##    total_cases new_cases total_deaths total_tests_per_thousand
+## 1:       27882       346          552                       NA
+## 2:       27882       346          552                       NA
+## 3:       27882       346          552                       NA
+## 4:       27882       346          552                       NA
+## 5:       27882       346          552                       NA
+## 6:       27882       346          552                       NA</code></pre>
+<div class="sourceCode" id="cb833"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb833-1"><a href="visualization-with-ggplot2-iii.html#cb833-1"></a><span class="co"># It is vital that the map data is ordered by the order column. Otherwise, the map will be messed up. </span></span>
+<span id="cb833-2"><a href="visualization-with-ggplot2-iii.html#cb833-2"></a>my_map[<span class="kw">order</span>(order)]</span></code></pre></div>
+<pre><code>##         region      long      lat group  order subregion continent       date
+##     1:   Aruba -69.89912 12.45200     1      1      &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;
+##     2:   Aruba -69.89571 12.42300     1      2      &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;
+##     3:   Aruba -69.94219 12.43853     1      3      &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;
+##     4:   Aruba -70.00415 12.50049     1      4      &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;
+##     5:   Aruba -70.06612 12.54697     1      5      &lt;NA&gt;      &lt;NA&gt;       &lt;NA&gt;
+##    ---                                                                       
+## 99334: Vatican  12.43838 41.90620  1627 100960   enclave    Europe 2020-06-19
+## 99335: Vatican  12.43057 41.90547  1627 100961   enclave    Europe 2020-06-19
+## 99336: Vatican  12.42754 41.90073  1627 100962   enclave    Europe 2020-06-19
+## 99337: Vatican  12.43057 41.89756  1627 100963   enclave    Europe 2020-06-19
+## 99338: Vatican  12.43916 41.89839  1627 100964   enclave    Europe 2020-06-19
+##        total_cases new_cases total_deaths total_tests_per_thousand
+##     1:          NA        NA           NA                       NA
+##     2:          NA        NA           NA                       NA
+##     3:          NA        NA           NA                       NA
+##     4:          NA        NA           NA                       NA
+##     5:          NA        NA           NA                       NA
+##    ---                                                            
+## 99334:          12         0           NA                       NA
+## 99335:          12         0           NA                       NA
+## 99336:          12         0           NA                       NA
+## 99337:          12         0           NA                       NA
+## 99338:          12         0           NA                       NA</code></pre>
+<p>Now, we are ready to plot the data:</p>
+<div class="sourceCode" id="cb835"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb835-1"><a href="visualization-with-ggplot2-iii.html#cb835-1"></a>g&lt;-<span class="kw">ggplot</span>(my_map, <span class="kw">aes</span>(<span class="dt">x=</span>long,<span class="dt">y=</span>lat,<span class="dt">group=</span>group))<span class="op">+</span></span>
+<span id="cb835-2"><a href="visualization-with-ggplot2-iii.html#cb835-2"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>new_cases))<span class="op">+</span></span>
+<span id="cb835-3"><a href="visualization-with-ggplot2-iii.html#cb835-3"></a><span class="st">  </span><span class="kw">geom_path</span>()<span class="op">+</span><span class="st"> </span></span>
+<span id="cb835-4"><a href="visualization-with-ggplot2-iii.html#cb835-4"></a><span class="st">  </span><span class="kw">coord_map</span>(<span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">180</span>,<span class="dv">180</span>))<span class="op">+</span></span>
+<span id="cb835-5"><a href="visualization-with-ggplot2-iii.html#cb835-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>, <span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">&quot;New confirmed cases worldwide: &quot;</span>, today),<span class="dt">fill=</span><span class="st">&quot;New Cases&quot;</span>)</span>
+<span id="cb835-6"><a href="visualization-with-ggplot2-iii.html#cb835-6"></a></span>
+<span id="cb835-7"><a href="visualization-with-ggplot2-iii.html#cb835-7"></a>g</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-364-1.png" width="672" /></p>
+<p>The default fill color scheme is not quite differentiable. We can use scale_fill_gradient() function to creates a two colour gradient (low-high):</p>
+<div class="sourceCode" id="cb836"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb836-1"><a href="visualization-with-ggplot2-iii.html#cb836-1"></a>g<span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low=</span><span class="st">&quot;white&quot;</span>,<span class="dt">high=</span><span class="st">&quot;red&quot;</span>,<span class="dt">na.value=</span><span class="st">&quot;grey90&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-365-1.png" width="672" /></p>
+<p>In the above code, we set color scheme of “white” representing low quantity, “red” representing high quantity, the missing value is represented by grey.</p>
+<p>Here is another commonly used color scheme. In the code below, heat.colors(10) generate a heat color scheme from white, yellow to red with 10 steps in between. rev() reserves this color scheme because we want to use red to represent high quantity, and yellow to represent low quantity.</p>
+<div class="sourceCode" id="cb837"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb837-1"><a href="visualization-with-ggplot2-iii.html#cb837-1"></a>g<span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours=</span><span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">10</span>)),<span class="dt">na.value=</span><span class="st">&quot;grey90&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-366-1.png" width="672" /></p>
+<p>Now, the map looks OK, but we want to clean the extra grid and axis labels. We can do that by change the theme of the plot. Below is a reusable map theme that is readily to use.</p>
+<p>Define the theme of map:</p>
+<div class="sourceCode" id="cb838"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb838-1"><a href="visualization-with-ggplot2-iii.html#cb838-1"></a>theme_map &lt;-<span class="st"> </span><span class="cf">function</span>(...) {</span>
+<span id="cb838-2"><a href="visualization-with-ggplot2-iii.html#cb838-2"></a>  <span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb838-3"><a href="visualization-with-ggplot2-iii.html#cb838-3"></a><span class="st">    </span><span class="kw">theme</span>(</span>
+<span id="cb838-4"><a href="visualization-with-ggplot2-iii.html#cb838-4"></a>      <span class="dt">axis.line =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb838-5"><a href="visualization-with-ggplot2-iii.html#cb838-5"></a>      <span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb838-6"><a href="visualization-with-ggplot2-iii.html#cb838-6"></a>      <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb838-7"><a href="visualization-with-ggplot2-iii.html#cb838-7"></a>      <span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb838-8"><a href="visualization-with-ggplot2-iii.html#cb838-8"></a>      <span class="dt">axis.title.x =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb838-9"><a href="visualization-with-ggplot2-iii.html#cb838-9"></a>      <span class="dt">axis.title.y =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb838-10"><a href="visualization-with-ggplot2-iii.html#cb838-10"></a>      <span class="dt">panel.grid.minor =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb838-11"><a href="visualization-with-ggplot2-iii.html#cb838-11"></a>      <span class="dt">panel.grid.major =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb838-12"><a href="visualization-with-ggplot2-iii.html#cb838-12"></a>      <span class="dt">plot.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">color =</span> <span class="ot">NA</span>), </span>
+<span id="cb838-13"><a href="visualization-with-ggplot2-iii.html#cb838-13"></a>      <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;gray99&quot;</span>, <span class="dt">color =</span> <span class="ot">NA</span>), </span>
+<span id="cb838-14"><a href="visualization-with-ggplot2-iii.html#cb838-14"></a>      <span class="dt">legend.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">color =</span> <span class="ot">NA</span>),</span>
+<span id="cb838-15"><a href="visualization-with-ggplot2-iii.html#cb838-15"></a>      <span class="dt">panel.border =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb838-16"><a href="visualization-with-ggplot2-iii.html#cb838-16"></a>      <span class="dt">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb838-17"><a href="visualization-with-ggplot2-iii.html#cb838-17"></a>      ...</span>
+<span id="cb838-18"><a href="visualization-with-ggplot2-iii.html#cb838-18"></a>    )</span>
+<span id="cb838-19"><a href="visualization-with-ggplot2-iii.html#cb838-19"></a>}</span></code></pre></div>
+<p>Apply the self-defined map theme:</p>
+<div class="sourceCode" id="cb839"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb839-1"><a href="visualization-with-ggplot2-iii.html#cb839-1"></a>g <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours=</span><span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">10</span>)),<span class="dt">na.value=</span><span class="st">&quot;grey90&quot;</span>)<span class="op">+</span></span>
+<span id="cb839-2"><a href="visualization-with-ggplot2-iii.html#cb839-2"></a><span class="st">  </span><span class="kw">theme_map</span>()          </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-368-1.png" width="672" /></p>
+<p>Now, let’s plot the total cases on the map:</p>
+<div class="sourceCode" id="cb840"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb840-1"><a href="visualization-with-ggplot2-iii.html#cb840-1"></a><span class="kw">ggplot</span>(my_map, <span class="kw">aes</span>(<span class="dt">x=</span>long,<span class="dt">y=</span>lat,<span class="dt">group=</span>group))<span class="op">+</span></span>
+<span id="cb840-2"><a href="visualization-with-ggplot2-iii.html#cb840-2"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>total_cases))<span class="op">+</span></span>
+<span id="cb840-3"><a href="visualization-with-ggplot2-iii.html#cb840-3"></a><span class="st">  </span><span class="kw">geom_path</span>()<span class="op">+</span><span class="st"> </span></span>
+<span id="cb840-4"><a href="visualization-with-ggplot2-iii.html#cb840-4"></a><span class="st">  </span><span class="kw">coord_map</span>(<span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">180</span>,<span class="dv">180</span>))<span class="op">+</span></span>
+<span id="cb840-5"><a href="visualization-with-ggplot2-iii.html#cb840-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="ot">NULL</span>, <span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">&quot;Total cases worldwide: &quot;</span>, today), <span class="dt">fill=</span><span class="st">&quot;Total Cases&quot;</span>)<span class="op">+</span></span>
+<span id="cb840-6"><a href="visualization-with-ggplot2-iii.html#cb840-6"></a><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours=</span><span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">10</span>)),<span class="dt">na.value=</span><span class="st">&quot;grey90&quot;</span>)<span class="op">+</span></span>
+<span id="cb840-7"><a href="visualization-with-ggplot2-iii.html#cb840-7"></a><span class="st">  </span><span class="kw">theme_map</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-369-1.png" width="672" /></p>
+<div class="sourceCode" id="cb841"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb841-1"><a href="visualization-with-ggplot2-iii.html#cb841-1"></a><span class="kw">ggsave</span>(<span class="st">&quot;data/covid_total_cases.png&quot;</span>) <span class="co"># save the chart into local file</span></span></code></pre></div>
+<pre><code>## Saving 7 x 5 in image</code></pre>
+</div>
+<div id="draw-us-map" class="section level2">
+<h2><span class="header-section-number">16.2</span> Draw US map</h2>
+<p>In most of the situation, we focus on US as well as states in US. Here we show how to create US/States map.
+First, we need to load the US map data.</p>
+<div class="sourceCode" id="cb843"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb843-1"><a href="visualization-with-ggplot2-iii.html#cb843-1"></a>states_map=<span class="kw">as.data.table</span>(<span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>))</span>
+<span id="cb843-2"><a href="visualization-with-ggplot2-iii.html#cb843-2"></a><span class="kw">head</span>(states_map)</span></code></pre></div>
+<pre><code>##         long      lat group order  region subregion
+## 1: -87.46201 30.38968     1     1 alabama      &lt;NA&gt;
+## 2: -87.48493 30.37249     1     2 alabama      &lt;NA&gt;
+## 3: -87.52503 30.37249     1     3 alabama      &lt;NA&gt;
+## 4: -87.53076 30.33239     1     4 alabama      &lt;NA&gt;
+## 5: -87.57087 30.32665     1     5 alabama      &lt;NA&gt;
+## 6: -87.58806 30.32665     1     6 alabama      &lt;NA&gt;</code></pre>
+<p>Next, we can plot the US map.</p>
+<div class="sourceCode" id="cb845"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb845-1"><a href="visualization-with-ggplot2-iii.html#cb845-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>states_map)<span class="op">+</span></span>
+<span id="cb845-2"><a href="visualization-with-ggplot2-iii.html#cb845-2"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">group=</span>group), <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;gray90&quot;</span>) <span class="op">+</span></span>
+<span id="cb845-3"><a href="visualization-with-ggplot2-iii.html#cb845-3"></a><span class="st">  </span><span class="kw">coord_map</span>() <span class="op">+</span></span>
+<span id="cb845-4"><a href="visualization-with-ggplot2-iii.html#cb845-4"></a><span class="st">  </span><span class="kw">theme_map</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-371-1.png" width="672" /></p>
+<p>We can add the information of each state on the map. E.g., we can fill each state to a color corresponding to its number of new COVID-19 confirmed cases.</p>
+<p>First, we need to download the COVID-19 data for each state from the web.</p>
+<div class="sourceCode" id="cb846"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb846-1"><a href="visualization-with-ggplot2-iii.html#cb846-1"></a><span class="co"># the data is in the following web-page</span></span>
+<span id="cb846-2"><a href="visualization-with-ggplot2-iii.html#cb846-2"></a>url =<span class="st"> &#39;https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv&#39;</span></span>
+<span id="cb846-3"><a href="visualization-with-ggplot2-iii.html#cb846-3"></a></span>
+<span id="cb846-4"><a href="visualization-with-ggplot2-iii.html#cb846-4"></a>covid_US=<span class="kw">fread</span>(url)</span></code></pre></div>
+<p>Examine the data through head():</p>
+<div class="sourceCode" id="cb847"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb847-1"><a href="visualization-with-ggplot2-iii.html#cb847-1"></a><span class="kw">head</span>(covid_US)</span></code></pre></div>
+<pre><code>##          date      state fips cases deaths
+## 1: 2020-01-21 Washington   53     1      0
+## 2: 2020-01-22 Washington   53     1      0
+## 3: 2020-01-23 Washington   53     1      0
+## 4: 2020-01-24   Illinois   17     1      0
+## 5: 2020-01-24 Washington   53     1      0
+## 6: 2020-01-25 California    6     1      0</code></pre>
+<p>Clean the data before any analysis. First, in map_state, the state name is lower case; here state name has upper case, we need to make it also lower case so that we can merge the two datasets. Second, we need to convert date from string to date.</p>
+<div class="sourceCode" id="cb849"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb849-1"><a href="visualization-with-ggplot2-iii.html#cb849-1"></a>covid_US[,date<span class="op">:</span><span class="er">=</span><span class="kw">ymd</span>(date)]</span>
+<span id="cb849-2"><a href="visualization-with-ggplot2-iii.html#cb849-2"></a>covid_US[,state<span class="op">:</span><span class="er">=</span><span class="kw">tolower</span>(state)]</span>
+<span id="cb849-3"><a href="visualization-with-ggplot2-iii.html#cb849-3"></a><span class="kw">head</span>(covid_US)</span></code></pre></div>
+<pre><code>##          date      state fips cases deaths
+## 1: 2020-01-21 washington   53     1      0
+## 2: 2020-01-22 washington   53     1      0
+## 3: 2020-01-23 washington   53     1      0
+## 4: 2020-01-24   illinois   17     1      0
+## 5: 2020-01-24 washington   53     1      0
+## 6: 2020-01-25 california    6     1      0</code></pre>
+<p>Merge the state map data with the covid-19 data.</p>
+<div class="sourceCode" id="cb851"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb851-1"><a href="visualization-with-ggplot2-iii.html#cb851-1"></a>select_date=<span class="st">&quot;2020-07-04&quot;</span></span>
+<span id="cb851-2"><a href="visualization-with-ggplot2-iii.html#cb851-2"></a>covid_US_today=covid_US[date<span class="op">==</span>select_date]</span>
+<span id="cb851-3"><a href="visualization-with-ggplot2-iii.html#cb851-3"></a>  </span>
+<span id="cb851-4"><a href="visualization-with-ggplot2-iii.html#cb851-4"></a>map_covid_state =<span class="st"> </span><span class="kw">merge</span>(states_map,covid_US_today, <span class="dt">by.x=</span><span class="st">&quot;region&quot;</span>, <span class="dt">by.y=</span><span class="st">&quot;state&quot;</span>, <span class="dt">all.x =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb851-5"><a href="visualization-with-ggplot2-iii.html#cb851-5"></a></span>
+<span id="cb851-6"><a href="visualization-with-ggplot2-iii.html#cb851-6"></a><span class="kw">head</span>(map_covid_state)</span></code></pre></div>
+<pre><code>##     region      long      lat group order subregion       date fips cases
+## 1: alabama -87.46201 30.38968     1     1      &lt;NA&gt; 2020-07-04    1 42862
+## 2: alabama -87.48493 30.37249     1     2      &lt;NA&gt; 2020-07-04    1 42862
+## 3: alabama -87.52503 30.37249     1     3      &lt;NA&gt; 2020-07-04    1 42862
+## 4: alabama -87.53076 30.33239     1     4      &lt;NA&gt; 2020-07-04    1 42862
+## 5: alabama -87.57087 30.32665     1     5      &lt;NA&gt; 2020-07-04    1 42862
+## 6: alabama -87.58806 30.32665     1     6      &lt;NA&gt; 2020-07-04    1 42862
+##    deaths
+## 1:   1007
+## 2:   1007
+## 3:   1007
+## 4:   1007
+## 5:   1007
+## 6:   1007</code></pre>
+<p>Next, we can plot the US map.</p>
+<div class="sourceCode" id="cb853"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb853-1"><a href="visualization-with-ggplot2-iii.html#cb853-1"></a><span class="kw">ggplot</span>(map_covid_state)<span class="op">+</span></span>
+<span id="cb853-2"><a href="visualization-with-ggplot2-iii.html#cb853-2"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">group=</span>group, <span class="dt">fill=</span>cases), <span class="dt">color=</span><span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
+<span id="cb853-3"><a href="visualization-with-ggplot2-iii.html#cb853-3"></a><span class="st">  </span><span class="kw">coord_map</span>() <span class="op">+</span></span>
+<span id="cb853-4"><a href="visualization-with-ggplot2-iii.html#cb853-4"></a><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours=</span><span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">10</span>)),<span class="dt">na.value=</span><span class="st">&quot;grey90&quot;</span>)<span class="op">+</span></span>
+<span id="cb853-5"><a href="visualization-with-ggplot2-iii.html#cb853-5"></a><span class="st">  </span><span class="kw">theme_map</span>()<span class="op">+</span></span>
+<span id="cb853-6"><a href="visualization-with-ggplot2-iii.html#cb853-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="kw">paste</span>(<span class="st">&quot;Total confimed cases in US: &quot;</span>, select_date, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>), <span class="dt">fill=</span><span class="st">&quot;New Cases&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-377-1.png" width="672" /></p>
+<div class="sourceCode" id="cb854"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb854-1"><a href="visualization-with-ggplot2-iii.html#cb854-1"></a><span class="kw">ggsave</span>(<span class="st">&quot;data/covid_us_map.png&quot;</span>)</span></code></pre></div>
+<pre><code>## Saving 7 x 5 in image</code></pre>
+<p>Sometime, we want to add text information on the map:</p>
+<div class="sourceCode" id="cb856"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb856-1"><a href="visualization-with-ggplot2-iii.html#cb856-1"></a><span class="kw">ggplot</span>(map_covid_state)<span class="op">+</span></span>
+<span id="cb856-2"><a href="visualization-with-ggplot2-iii.html#cb856-2"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">group=</span>group, <span class="dt">fill=</span>cases), <span class="dt">color=</span><span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
+<span id="cb856-3"><a href="visualization-with-ggplot2-iii.html#cb856-3"></a><span class="st">  </span><span class="kw">coord_map</span>() <span class="op">+</span></span>
+<span id="cb856-4"><a href="visualization-with-ggplot2-iii.html#cb856-4"></a><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours=</span><span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">10</span>)),<span class="dt">na.value=</span><span class="st">&quot;grey90&quot;</span>)<span class="op">+</span></span>
+<span id="cb856-5"><a href="visualization-with-ggplot2-iii.html#cb856-5"></a><span class="st">  </span><span class="kw">theme_map</span>()<span class="op">+</span></span>
+<span id="cb856-6"><a href="visualization-with-ggplot2-iii.html#cb856-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="kw">paste</span>(<span class="st">&quot;Total confimed cases in US: &quot;</span>, select_date, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>), <span class="dt">fill=</span><span class="st">&quot;New Cases&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-378-1.png" width="672" /></p>
+<div class="sourceCode" id="cb857"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb857-1"><a href="visualization-with-ggplot2-iii.html#cb857-1"></a><span class="kw">ggsave</span>(<span class="st">&quot;data/covid_us_map.png&quot;</span>)</span></code></pre></div>
+<pre><code>## Saving 7 x 5 in image</code></pre>
+</div>
+<div id="draw-us-county-map" class="section level2">
+<h2><span class="header-section-number">16.3</span> draw US county map</h2>
+<p>Sometime, we only want to zoom in to look at a subset of states at the county level.
+Here we show how to draw US county map.</p>
+<p>First, we need to extract the US county map data:</p>
+<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb859-1"><a href="visualization-with-ggplot2-iii.html#cb859-1"></a>county_map=<span class="kw">as.data.table</span>(<span class="kw">map_data</span>(<span class="st">&quot;county&quot;</span>))</span>
+<span id="cb859-2"><a href="visualization-with-ggplot2-iii.html#cb859-2"></a><span class="kw">head</span>(county_map)</span></code></pre></div>
+<pre><code>##         long      lat group order  region subregion
+## 1: -86.50517 32.34920     1     1 alabama   autauga
+## 2: -86.53382 32.35493     1     2 alabama   autauga
+## 3: -86.54527 32.36639     1     3 alabama   autauga
+## 4: -86.55673 32.37785     1     4 alabama   autauga
+## 5: -86.57966 32.38357     1     5 alabama   autauga
+## 6: -86.59111 32.37785     1     6 alabama   autauga</code></pre>
+<p>Next, we can draw US county map:</p>
+<div class="sourceCode" id="cb861"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb861-1"><a href="visualization-with-ggplot2-iii.html#cb861-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>county_map)<span class="op">+</span></span>
+<span id="cb861-2"><a href="visualization-with-ggplot2-iii.html#cb861-2"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">group=</span>group), <span class="dt">color=</span><span class="st">&quot;gray&quot;</span>)<span class="op">+</span></span>
+<span id="cb861-3"><a href="visualization-with-ggplot2-iii.html#cb861-3"></a><span class="st">  </span><span class="kw">coord_map</span>() <span class="op">+</span></span>
+<span id="cb861-4"><a href="visualization-with-ggplot2-iii.html#cb861-4"></a><span class="st">  </span><span class="kw">theme_map</span>()<span class="op">+</span></span>
+<span id="cb861-5"><a href="visualization-with-ggplot2-iii.html#cb861-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;US county map&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-380-1.png" width="672" /></p>
+<p>Similarly, we can include county information to the map. Take covid-19 as an example:</p>
+<p>First, we need to download the data from the following address:</p>
+<div class="sourceCode" id="cb862"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb862-1"><a href="visualization-with-ggplot2-iii.html#cb862-1"></a>covid_county=<span class="kw">fread</span>(<span class="st">&quot;https://github.com/nytimes/covid-19-data/raw/master/us-counties.csv&quot;</span>)</span>
+<span id="cb862-2"><a href="visualization-with-ggplot2-iii.html#cb862-2"></a><span class="kw">head</span>(covid_county)</span></code></pre></div>
+<pre><code>##          date    county      state  fips cases deaths
+## 1: 2020-01-21 Snohomish Washington 53061     1      0
+## 2: 2020-01-22 Snohomish Washington 53061     1      0
+## 3: 2020-01-23 Snohomish Washington 53061     1      0
+## 4: 2020-01-24      Cook   Illinois 17031     1      0
+## 5: 2020-01-24 Snohomish Washington 53061     1      0
+## 6: 2020-01-25    Orange California  6059     1      0</code></pre>
+<p>Clean up the data for analysis:</p>
+<div class="sourceCode" id="cb864"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb864-1"><a href="visualization-with-ggplot2-iii.html#cb864-1"></a>covid_county[,date<span class="op">:</span><span class="er">=</span><span class="kw">ymd</span>(date)]</span>
+<span id="cb864-2"><a href="visualization-with-ggplot2-iii.html#cb864-2"></a>covid_county[,county<span class="op">:</span><span class="er">=</span><span class="kw">tolower</span>(county)]</span>
+<span id="cb864-3"><a href="visualization-with-ggplot2-iii.html#cb864-3"></a>covid_county[,state<span class="op">:</span><span class="er">=</span><span class="kw">tolower</span>(state)]</span>
+<span id="cb864-4"><a href="visualization-with-ggplot2-iii.html#cb864-4"></a><span class="kw">head</span>(covid_county)</span></code></pre></div>
+<pre><code>##          date    county      state  fips cases deaths
+## 1: 2020-01-21 snohomish washington 53061     1      0
+## 2: 2020-01-22 snohomish washington 53061     1      0
+## 3: 2020-01-23 snohomish washington 53061     1      0
+## 4: 2020-01-24      cook   illinois 17031     1      0
+## 5: 2020-01-24 snohomish washington 53061     1      0
+## 6: 2020-01-25    orange california  6059     1      0</code></pre>
+<p>Merge with the map data</p>
+<div class="sourceCode" id="cb866"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb866-1"><a href="visualization-with-ggplot2-iii.html#cb866-1"></a><span class="co"># choose the date to map</span></span>
+<span id="cb866-2"><a href="visualization-with-ggplot2-iii.html#cb866-2"></a>select_date=<span class="st">&quot;06-21-2020&quot;</span></span>
+<span id="cb866-3"><a href="visualization-with-ggplot2-iii.html#cb866-3"></a>covid_county2&lt;-covid_county[date<span class="op">==</span><span class="kw">mdy</span>(select_date)]</span>
+<span id="cb866-4"><a href="visualization-with-ggplot2-iii.html#cb866-4"></a></span>
+<span id="cb866-5"><a href="visualization-with-ggplot2-iii.html#cb866-5"></a>map_covid_county =<span class="st"> </span><span class="kw">merge</span>(county_map,covid_county2, <span class="dt">by.x=</span><span class="kw">c</span>(<span class="st">&quot;region&quot;</span>,<span class="st">&quot;subregion&quot;</span>), <span class="dt">by.y=</span><span class="kw">c</span>(<span class="st">&quot;state&quot;</span>,<span class="st">&quot;county&quot;</span>), <span class="dt">all.x =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb866-6"><a href="visualization-with-ggplot2-iii.html#cb866-6"></a></span>
+<span id="cb866-7"><a href="visualization-with-ggplot2-iii.html#cb866-7"></a><span class="kw">head</span>(map_covid_county)</span></code></pre></div>
+<pre><code>##     region subregion      long      lat group order       date fips cases
+## 1: alabama   autauga -86.50517 32.34920     1     1 2020-06-21 1001   434
+## 2: alabama   autauga -86.53382 32.35493     1     2 2020-06-21 1001   434
+## 3: alabama   autauga -86.54527 32.36639     1     3 2020-06-21 1001   434
+## 4: alabama   autauga -86.55673 32.37785     1     4 2020-06-21 1001   434
+## 5: alabama   autauga -86.57966 32.38357     1     5 2020-06-21 1001   434
+## 6: alabama   autauga -86.59111 32.37785     1     6 2020-06-21 1001   434
+##    deaths
+## 1:      9
+## 2:      9
+## 3:      9
+## 4:      9
+## 5:      9
+## 6:      9</code></pre>
+<p>Next, we can draw US county map:</p>
+<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb868-1"><a href="visualization-with-ggplot2-iii.html#cb868-1"></a><span class="kw">ggplot</span>(map_covid_county)<span class="op">+</span></span>
+<span id="cb868-2"><a href="visualization-with-ggplot2-iii.html#cb868-2"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">fill=</span>cases, <span class="dt">group=</span>group), <span class="dt">color=</span><span class="st">&quot;gray80&quot;</span>)<span class="op">+</span></span>
+<span id="cb868-3"><a href="visualization-with-ggplot2-iii.html#cb868-3"></a><span class="st">  </span><span class="kw">coord_map</span>() <span class="op">+</span></span>
+<span id="cb868-4"><a href="visualization-with-ggplot2-iii.html#cb868-4"></a><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours=</span><span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">10</span>)),<span class="dt">na.value=</span><span class="st">&quot;grey90&quot;</span>)<span class="op">+</span></span>
+<span id="cb868-5"><a href="visualization-with-ggplot2-iii.html#cb868-5"></a><span class="st">  </span><span class="kw">theme_map</span>()<span class="op">+</span></span>
+<span id="cb868-6"><a href="visualization-with-ggplot2-iii.html#cb868-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="kw">paste</span>(<span class="st">&quot;Total confirmed cases in US: &quot;</span>, select_date), <span class="dt">fill=</span><span class="st">&quot;total cases&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-384-1.png" width="672" /></p>
+<p>The county map is mostly useful when we want to zoom in to look at particular state.</p>
+<div class="sourceCode" id="cb869"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb869-1"><a href="visualization-with-ggplot2-iii.html#cb869-1"></a>select_state=<span class="kw">c</span>(<span class="st">&quot;nebraska&quot;</span>)</span>
+<span id="cb869-2"><a href="visualization-with-ggplot2-iii.html#cb869-2"></a><span class="kw">ggplot</span>(map_covid_county[region<span class="op">%in%</span>select_state])<span class="op">+</span></span>
+<span id="cb869-3"><a href="visualization-with-ggplot2-iii.html#cb869-3"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">fill=</span>cases, <span class="dt">group=</span>group), <span class="dt">color=</span><span class="st">&quot;gray80&quot;</span>)<span class="op">+</span></span>
+<span id="cb869-4"><a href="visualization-with-ggplot2-iii.html#cb869-4"></a><span class="st">  </span><span class="kw">coord_map</span>() <span class="op">+</span></span>
+<span id="cb869-5"><a href="visualization-with-ggplot2-iii.html#cb869-5"></a><span class="st">  </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colours=</span><span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">10</span>)),<span class="dt">na.value=</span><span class="st">&quot;grey90&quot;</span>)<span class="op">+</span></span>
+<span id="cb869-6"><a href="visualization-with-ggplot2-iii.html#cb869-6"></a><span class="st">  </span><span class="kw">theme_map</span>()<span class="op">+</span></span>
+<span id="cb869-7"><a href="visualization-with-ggplot2-iii.html#cb869-7"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="kw">paste</span>(<span class="st">&quot;Total confirmed cases in &quot;</span>, select_state, <span class="st">&quot; : &quot;</span>, select_date), <span class="dt">fill=</span><span class="st">&quot;Total Cases&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-385-1.png" width="672" /></p>
+<div class="sourceCode" id="cb870"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb870-1"><a href="visualization-with-ggplot2-iii.html#cb870-1"></a><span class="kw">ggsave</span>(<span class="st">&quot;data/covid_county_map.png&quot;</span>)</span></code></pre></div>
+<pre><code>## Saving 7 x 5 in image</code></pre>
+</div>
+<div id="summary-11" class="section level2">
+<h2><span class="header-section-number">16.4</span> Summary</h2>
+<ul>
+<li><p>learn to make maps with ggplot2: world map, US state maps, US county maps</p></li>
+<li><p>learn to include information about on the map.</p></li>
+<li><p>apply data.table to join data.table.</p></li>
+<li><p>Use theme to adjust the appearance of the map</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="visualization-with-ggplot2-ii.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualization-with-ggplot2---animation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/15-ggplot2_3.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

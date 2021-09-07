@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 Put it together: explore big data with data.table | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 Put it together: explore big data with data.table | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Put it together: explore big data with data.table | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="join-mutliple-datasets.html"/>
+<link rel="next" href="data-cleaning-i.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data.table-package-for-big-data-i.html"><a href="use-data.table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data.table-package-for-big-data-ii.html"><a href="use-data.table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data.html"><a href="put-it-together-explore-big-data-with-data.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a><ul>
+<li class="chapter" data-level="13.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#explore-the-raw-data"><i class="fa fa-check"></i><b>13.1</b> Explore the raw data</a></li>
+<li class="chapter" data-level="13.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summarize-the-data"><i class="fa fa-check"></i><b>13.2</b> Summarize the data</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#take-a-closer-look"><i class="fa fa-check"></i><b>13.2.1</b> Take a closer look</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#tidy-the-data"><i class="fa fa-check"></i><b>13.3</b> Tidy the data</a></li>
+<li class="chapter" data-level="13.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#prepare-for-analysis"><i class="fa fa-check"></i><b>13.4</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#clean-up-dates"><i class="fa fa-check"></i><b>13.4.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="13.4.2" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>13.4.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="13.4.3" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>13.4.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="13.4.4" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#finishing-touches"><i class="fa fa-check"></i><b>13.4.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html#summary-8"><i class="fa fa-check"></i><b>13.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html"><i class="fa fa-check"></i><b>14</b> Visualization with ggplot2 I</a><ul>
+<li class="chapter" data-level="14.1" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="14.2" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-fitting"><i class="fa fa-check"></i><b>14.2</b> line-fitting</a></li>
+<li class="chapter" data-level="14.3" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#overplotting"><i class="fa fa-check"></i><b>14.3</b> Overplotting</a></li>
+<li class="chapter" data-level="14.4" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#bar-chart-and-statistical-transformation"><i class="fa fa-check"></i><b>14.4</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="14.5" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#stacked-par"><i class="fa fa-check"></i><b>14.5</b> stacked par</a></li>
+<li class="chapter" data-level="14.6" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#histogram"><i class="fa fa-check"></i><b>14.6</b> Histogram</a></li>
+<li class="chapter" data-level="14.7" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#boxplot"><i class="fa fa-check"></i><b>14.7</b> boxplot</a></li>
+<li class="chapter" data-level="14.8" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#line-chart"><i class="fa fa-check"></i><b>14.8</b> line chart</a></li>
+<li class="chapter" data-level="14.9" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#use-theme-to-customize-the-appearance-of-your-chart."><i class="fa fa-check"></i><b>14.9</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="14.10" data-path="visualization-with-ggplot2-i.html"><a href="visualization-with-ggplot2-i.html#summary-9"><i class="fa fa-check"></i><b>14.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html"><i class="fa fa-check"></i><b>15</b> Visualization with ggplot2 II</a><ul>
+<li class="chapter" data-level="15.1" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#bar-chart-and-statistical-transformation-1"><i class="fa fa-check"></i><b>15.1</b> Bar chart and statistical transformation</a></li>
+<li class="chapter" data-level="15.2" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#stacked-par-1"><i class="fa fa-check"></i><b>15.2</b> stacked par</a></li>
+<li class="chapter" data-level="15.3" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#histogram-1"><i class="fa fa-check"></i><b>15.3</b> Histogram</a></li>
+<li class="chapter" data-level="15.4" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#boxplot-1"><i class="fa fa-check"></i><b>15.4</b> boxplot</a></li>
+<li class="chapter" data-level="15.5" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#line-chart-1"><i class="fa fa-check"></i><b>15.5</b> line chart</a></li>
+<li class="chapter" data-level="15.6" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#use-theme-to-customize-the-appearance-of-your-chart.-1"><i class="fa fa-check"></i><b>15.6</b> use theme to customize the appearance of your chart.</a></li>
+<li class="chapter" data-level="15.7" data-path="visualization-with-ggplot2-ii.html"><a href="visualization-with-ggplot2-ii.html#summary-10"><i class="fa fa-check"></i><b>15.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html"><i class="fa fa-check"></i><b>16</b> Visualization with ggplot2 III</a><ul>
+<li class="chapter" data-level="16.1" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-world-map"><i class="fa fa-check"></i><b>16.1</b> Draw world map</a></li>
+<li class="chapter" data-level="16.2" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-map"><i class="fa fa-check"></i><b>16.2</b> Draw US map</a></li>
+<li class="chapter" data-level="16.3" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#draw-us-county-map"><i class="fa fa-check"></i><b>16.3</b> draw US county map</a></li>
+<li class="chapter" data-level="16.4" data-path="visualization-with-ggplot2-iii.html"><a href="visualization-with-ggplot2-iii.html#summary-11"><i class="fa fa-check"></i><b>16.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html"><i class="fa fa-check"></i><b>17</b> Visualization with ggplot2 - Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-of-scatter-plot-to-show-how-two-variables-evolve-over-time-simultaneously"><i class="fa fa-check"></i><b>17.1</b> Animation of scatter plot to show how two variables evolve over time simultaneously</a></li>
+<li class="chapter" data-level="17.2" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#use-a-line-chart-to-show-how-gdppercap-evolve-over-time"><i class="fa fa-check"></i><b>17.2</b> Use a line chart to show how gdpPercap evolve over time</a></li>
+<li class="chapter" data-level="17.3" data-path="visualization-with-ggplot2---animation.html"><a href="visualization-with-ggplot2---animation.html#animation-with-bar-chart"><i class="fa fa-check"></i><b>17.3</b> Animation with Bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>18</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="18.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#examine-and-explore-the-data"><i class="fa fa-check"></i><b>18.1</b> Examine and explore the data</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#correlation-matrix"><i class="fa fa-check"></i><b>18.1.1</b> Correlation matrix</a></li>
+<li class="chapter" data-level="18.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#scatter-plot-1"><i class="fa fa-check"></i><b>18.1.2</b> Scatter plot</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#develop-simple-linear-regression-model"><i class="fa fa-check"></i><b>18.2</b> Develop simple linear regression model</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>18.2.1</b> Estimation</a></li>
+<li class="chapter" data-level="18.2.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#how-to-interpret-the-coefficient-estimates"><i class="fa fa-check"></i><b>18.2.2</b> How to interpret the coefficient estimates?</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#overall-model-fittness"><i class="fa fa-check"></i><b>18.3</b> Overall model fittness</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#regression-diagnoise"><i class="fa fa-check"></i><b>18.3.1</b> Regression Diagnoise</a></li>
+</ul></li>
+<li class="chapter" data-level="18.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#use-estimated-model-for-prediction"><i class="fa fa-check"></i><b>18.4</b> Use estimated model for prediction</a></li>
+<li class="chapter" data-level="18.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#summary-12"><i class="fa fa-check"></i><b>18.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html"><i class="fa fa-check"></i><b>19</b> Log Tranformation and Polynomial Terms</a><ul>
+<li class="chapter" data-level="19.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#log-transformation"><i class="fa fa-check"></i><b>19.1</b> Log-transformation</a></li>
+<li class="chapter" data-level="19.2" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#quadratic-regression"><i class="fa fa-check"></i><b>19.2</b> Quadratic regression</a></li>
+<li class="chapter" data-level="19.3" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#polynomial-regression"><i class="fa fa-check"></i><b>19.3</b> Polynomial regression</a></li>
+<li class="chapter" data-level="19.4" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#summary-13"><i class="fa fa-check"></i><b>19.4</b> Summary</a></li>
+<li class="chapter" data-level="19.5" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#exercise-3"><i class="fa fa-check"></i><b>19.5</b> Exercise</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="log-tranformation-and-polynomial-terms.html"><a href="log-tranformation-and-polynomial-terms.html#solution"><i class="fa fa-check"></i><b>19.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html"><i class="fa fa-check"></i><b>20</b> Mutiple Linear Regression</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#mutiple-linear-regression-1"><i class="fa fa-check"></i><b>20.1</b> Mutiple linear regression</a></li>
+<li class="chapter" data-level="20.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#categorical-variables"><i class="fa fa-check"></i><b>20.2</b> Categorical variables</a></li>
+<li class="chapter" data-level="20.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#interprate-coefficients---keeping-all-other-variables-the-same"><i class="fa fa-check"></i><b>20.3</b> Interprate coefficients - Keeping all other variables the same</a></li>
+<li class="chapter" data-level="20.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#multicollinearity"><i class="fa fa-check"></i><b>20.4</b> Multicollinearity</a></li>
+<li class="chapter" data-level="20.5" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#excerise"><i class="fa fa-check"></i><b>20.5</b> Excerise</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#examine-the-frequency-of-chas"><i class="fa fa-check"></i><b>20.5.1</b> Examine the frequency of chas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#visualize-the-house-price-with-ggplot2"><i class="fa fa-check"></i><b>20.5.2</b> Visualize the house price with ggplot2</a></li>
+<li class="chapter" data-level="20.5.3" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#estimate-the-linear-regression-model"><i class="fa fa-check"></i><b>20.5.3</b> estimate the linear regression model</a></li>
+<li class="chapter" data-level="20.5.4" data-path="mutiple-linear-regression.html"><a href="mutiple-linear-regression.html#plot-the-fitted-line"><i class="fa fa-check"></i><b>20.5.4</b> plot the fitted line</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html"><i class="fa fa-check"></i><b>21</b> Best Subset Model Selection</a><ul>
+<li class="chapter" data-level="21.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#best-subset-model-selection-1"><i class="fa fa-check"></i><b>21.1</b> Best Subset Model Selection</a></li>
+<li class="chapter" data-level="21.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#deterimining-the-best-model-with-adj-r2-cp-aic-and-bic"><i class="fa fa-check"></i><b>21.2</b> Deterimining the best model with adj-R2, Cp, AIC, and BIC</a><ul>
+<li class="chapter" data-level="21.2.1" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#r-squared-is-not-a-good-criteria-for-model-selection"><i class="fa fa-check"></i><b>21.2.1</b> R-squared is not a good criteria for model selection</a></li>
+<li class="chapter" data-level="21.2.2" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-adjusted-r2"><i class="fa fa-check"></i><b>21.2.2</b> Select the best model using Adjusted R2</a></li>
+<li class="chapter" data-level="21.2.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-cp"><i class="fa fa-check"></i><b>21.2.3</b> Select the best model using Cp</a></li>
+<li class="chapter" data-level="21.2.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#select-the-best-model-using-bic"><i class="fa fa-check"></i><b>21.2.4</b> Select the best model using BIC</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#forwardbackward-selection"><i class="fa fa-check"></i><b>21.3</b> Forward/Backward selection</a></li>
+<li class="chapter" data-level="21.4" data-path="best-subset-model-selection.html"><a href="best-subset-model-selection.html#summary-14"><i class="fa fa-check"></i><b>21.4</b> Summary:</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>22</b> Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#create-trainingtest-set"><i class="fa fa-check"></i><b>22.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="22.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-selection"><i class="fa fa-check"></i><b>22.2</b> Model selection</a><ul>
+<li class="chapter" data-level="22.2.1" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#estimate-the-model-using-training-set"><i class="fa fa-check"></i><b>22.2.1</b> estimate the model using training set</a></li>
+<li class="chapter" data-level="22.2.2" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#evaluate-the-models-out-of-sample-prediction-using-test-set"><i class="fa fa-check"></i><b>22.2.2</b> evaluate the models’ out-of-sample prediction using test set</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#model-4-has-the-problem-of-over-fitting"><i class="fa fa-check"></i><b>22.3</b> Model 4 has the problem of over-fitting</a></li>
+<li class="chapter" data-level="22.4" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#other-commonly-used-metrics-for-prediction-performance"><i class="fa fa-check"></i><b>22.4</b> Other Commonly Used Metrics for Prediction performance</a></li>
+<li class="chapter" data-level="22.5" data-path="model-selection-with-trainingtest-set.html"><a href="model-selection-with-trainingtest-set.html#summary-15"><i class="fa fa-check"></i><b>22.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html"><i class="fa fa-check"></i><b>23</b> Best Subset Model Selection with Training/Test Set</a><ul>
+<li class="chapter" data-level="23.1" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#create-trainingtest-set-1"><i class="fa fa-check"></i><b>23.1</b> Create training/test set</a></li>
+<li class="chapter" data-level="23.2" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#evaluate-the-best-subset-regression-through-trainingtest-set"><i class="fa fa-check"></i><b>23.2</b> Evaluate the Best subset regression through training/test set</a></li>
+<li class="chapter" data-level="23.3" data-path="best-subset-model-selection-with-trainingtest-set.html"><a href="best-subset-model-selection-with-trainingtest-set.html#exercise-4"><i class="fa fa-check"></i><b>23.3</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="decision-tree.html"><a href="decision-tree.html"><i class="fa fa-check"></i><b>24</b> Decision Tree</a></li>
+<li class="chapter" data-level="25" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html"><i class="fa fa-check"></i><b>25</b> Maching Learning with Caret</a><ul>
+<li class="chapter" data-level="25.1" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest"><i class="fa fa-check"></i><b>25.1</b> Random Forest</a></li>
+<li class="chapter" data-level="25.2" data-path="maching-learning-with-caret.html"><a href="maching-learning-with-caret.html#random-forest-1"><i class="fa fa-check"></i><b>25.2</b> Random Forest</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="put-it-together-explore-big-data-with-data.table" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> Put it together: explore big data with data.table</h1>
+<p>The general form of data.table syntax is</p>
+<p>DT[i, j, by]</p>
+<p>where</p>
+<ul>
+<li>DT is a data.table.</li>
+<li>by: grouped by what?<br />
+</li>
+<li>j: what to do?</li>
+<li>i: on which rows?</li>
+</ul>
+<p>In general, we can tack expressions one after another, forming a chain of operations, i.e., DT[ … ][ … ][ … ].</p>
+<p>The learning objectives is to</p>
+<ul>
+<li>Practice the data.table syntax to explore datasets on COVID-19:</li>
+<li>Two datasets will be used:
+<ul>
+<li>COVID-19 new/cumulative cases on county level</li>
+<li>population of US counties in 2019</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="put-it-together-explore-big-data-with-data.html#cb493-1"></a><span class="kw">library</span>(data.table)</span>
+<span id="cb493-2"><a href="put-it-together-explore-big-data-with-data.html#cb493-2"></a><span class="kw">library</span>(curl)</span></code></pre></div>
+<pre><code>## Warning: package &#39;curl&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Using libcurl 7.64.1 with Schannel</code></pre>
+<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="put-it-together-explore-big-data-with-data.html#cb496-1"></a><span class="kw">library</span>(lubridate)</span></code></pre></div>
+<pre><code>## Warning: package &#39;lubridate&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     hour, isoweek, mday, minute, month, quarter, second, wday, week,
+##     yday, year</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="put-it-together-explore-big-data-with-data.html#cb501-1"></a><span class="kw">library</span>(magrittr)</span></code></pre></div>
+<pre><code>## Warning: package &#39;magrittr&#39; was built under R version 4.0.5</code></pre>
+<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="put-it-together-explore-big-data-with-data.html#cb503-1"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<div id="import-the-covid-19-case-data" class="section level2">
+<h2><span class="header-section-number">11.1</span> Import the COVID-19 case data</h2>
+<p>The New York Times is releasing a series of data files with cumulative counts of coronavirus cases in the United States, at the state and county level, over time. We are compiling this time series data from state and local governments and health departments in an attempt to provide a complete record of the ongoing outbreak. The data is published on Github. We can download the csv data directly using fread().</p>
+<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="put-it-together-explore-big-data-with-data.html#cb504-1"></a><span class="co"># the data record the total confirmed cases and deaths for each county at each date. </span></span>
+<span id="cb504-2"><a href="put-it-together-explore-big-data-with-data.html#cb504-2"></a>covid_county=<span class="kw">fread</span>(<span class="st">&quot;https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv&quot;</span>)</span>
+<span id="cb504-3"><a href="put-it-together-explore-big-data-with-data.html#cb504-3"></a></span>
+<span id="cb504-4"><a href="put-it-together-explore-big-data-with-data.html#cb504-4"></a><span class="kw">head</span>(covid_county)</span></code></pre></div>
+<pre><code>##          date    county      state  fips cases deaths
+## 1: 2020-01-21 Snohomish Washington 53061     1      0
+## 2: 2020-01-22 Snohomish Washington 53061     1      0
+## 3: 2020-01-23 Snohomish Washington 53061     1      0
+## 4: 2020-01-24      Cook   Illinois 17031     1      0
+## 5: 2020-01-24 Snohomish Washington 53061     1      0
+## 6: 2020-01-25    Orange California  6059     1      0</code></pre>
+<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="put-it-together-explore-big-data-with-data.html#cb506-1"></a><span class="kw">str</span>(covid_county)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   1693157 obs. of  6 variables:
+##  $ date  : IDate, format: &quot;2020-01-21&quot; &quot;2020-01-22&quot; ...
+##  $ county: chr  &quot;Snohomish&quot; &quot;Snohomish&quot; &quot;Snohomish&quot; &quot;Cook&quot; ...
+##  $ state : chr  &quot;Washington&quot; &quot;Washington&quot; &quot;Washington&quot; &quot;Illinois&quot; ...
+##  $ fips  : int  53061 53061 53061 17031 53061 6059 17031 53061 4013 6037 ...
+##  $ cases : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ deaths: int  0 0 0 0 0 0 0 0 0 0 ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="put-it-together-explore-big-data-with-data.html#cb508-1"></a><span class="co"># add a column to define abbr for each state</span></span>
+<span id="cb508-2"><a href="put-it-together-explore-big-data-with-data.html#cb508-2"></a>covid_county[,state_abbr<span class="op">:</span><span class="er">=</span>state.abb[<span class="kw">match</span>(state,state.name)]]</span>
+<span id="cb508-3"><a href="put-it-together-explore-big-data-with-data.html#cb508-3"></a></span>
+<span id="cb508-4"><a href="put-it-together-explore-big-data-with-data.html#cb508-4"></a><span class="co"># Set order of column</span></span>
+<span id="cb508-5"><a href="put-it-together-explore-big-data-with-data.html#cb508-5"></a><span class="kw">setcolorder</span>(covid_county, <span class="kw">c</span>(<span class="st">&quot;date&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;state_abbr&quot;</span>,<span class="st">&quot;county&quot;</span>,<span class="st">&quot;fips&quot;</span>,<span class="st">&quot;cases&quot;</span>,<span class="st">&quot;deaths&quot;</span>))</span>
+<span id="cb508-6"><a href="put-it-together-explore-big-data-with-data.html#cb508-6"></a></span>
+<span id="cb508-7"><a href="put-it-together-explore-big-data-with-data.html#cb508-7"></a><span class="co"># change state name to lower case for consistency</span></span>
+<span id="cb508-8"><a href="put-it-together-explore-big-data-with-data.html#cb508-8"></a>covid_county[,state<span class="op">:</span><span class="er">=</span><span class="kw">tolower</span>(state)]</span>
+<span id="cb508-9"><a href="put-it-together-explore-big-data-with-data.html#cb508-9"></a></span>
+<span id="cb508-10"><a href="put-it-together-explore-big-data-with-data.html#cb508-10"></a></span>
+<span id="cb508-11"><a href="put-it-together-explore-big-data-with-data.html#cb508-11"></a><span class="co"># illustrate the total cases and total death</span></span>
+<span id="cb508-12"><a href="put-it-together-explore-big-data-with-data.html#cb508-12"></a>covid_county[county<span class="op">==</span><span class="st">&quot;Lancaster&quot;</span> <span class="op">&amp;</span><span class="st"> </span>state_abbr<span class="op">==</span><span class="st">&quot;NE&quot;</span>, </span>
+<span id="cb508-13"><a href="put-it-together-explore-big-data-with-data.html#cb508-13"></a>             .(date,cases)] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb508-14"><a href="put-it-together-explore-big-data-with-data.html#cb508-14"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(date,cases))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-211-1.png" width="672" /></p>
+<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="put-it-together-explore-big-data-with-data.html#cb509-1"></a>covid_county[county<span class="op">==</span><span class="st">&quot;Lancaster&quot;</span> <span class="op">&amp;</span><span class="st"> </span>state_abbr<span class="op">==</span><span class="st">&quot;NE&quot;</span>, </span>
+<span id="cb509-2"><a href="put-it-together-explore-big-data-with-data.html#cb509-2"></a>             .(date,deaths)] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb509-3"><a href="put-it-together-explore-big-data-with-data.html#cb509-3"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(date,deaths))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-211-2.png" width="672" /></p>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="put-it-together-explore-big-data-with-data.html#cb510-1"></a><span class="co"># compute the daily new cases and new deaths</span></span>
+<span id="cb510-2"><a href="put-it-together-explore-big-data-with-data.html#cb510-2"></a>covid_county=covid_county[<span class="kw">order</span>(state,county,date)]</span>
+<span id="cb510-3"><a href="put-it-together-explore-big-data-with-data.html#cb510-3"></a>covid_county[ , confirmed_count <span class="op">:</span><span class="er">=</span><span class="st"> </span>cases <span class="op">-</span><span class="st"> </span><span class="kw">shift</span>(cases), by =<span class="st"> </span>.(state,county)] </span>
+<span id="cb510-4"><a href="put-it-together-explore-big-data-with-data.html#cb510-4"></a>covid_county[ , death_count <span class="op">:</span><span class="er">=</span><span class="st"> </span>deaths <span class="op">-</span><span class="st"> </span><span class="kw">shift</span>(deaths), by =<span class="st"> </span>.(state,county)] </span>
+<span id="cb510-5"><a href="put-it-together-explore-big-data-with-data.html#cb510-5"></a>covid_county[<span class="kw">is.na</span>(confirmed_count),confirmed_count<span class="op">:</span><span class="er">=</span>cases][<span class="kw">is.na</span>(death_count),death_count<span class="op">:</span><span class="er">=</span>deaths]</span>
+<span id="cb510-6"><a href="put-it-together-explore-big-data-with-data.html#cb510-6"></a></span>
+<span id="cb510-7"><a href="put-it-together-explore-big-data-with-data.html#cb510-7"></a><span class="co"># save the data to local computer</span></span>
+<span id="cb510-8"><a href="put-it-together-explore-big-data-with-data.html#cb510-8"></a><span class="kw">fwrite</span>(covid_county,<span class="st">&quot;data/covid_county.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="selecting-rows-and-columns" class="section level2">
+<h2><span class="header-section-number">11.2</span> Selecting Rows and Columns</h2>
+<ul>
+<li>Q1: What is the new confirmed cases in the Lancaster county, NE, on 2020-07-16?</li>
+</ul>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="put-it-together-explore-big-data-with-data.html#cb511-1"></a>covid_county[county<span class="op">==</span><span class="st">&quot;Lancaster&quot;</span> <span class="op">&amp;</span><span class="st"> </span>state_abbr<span class="op">==</span><span class="st">&quot;NE&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb511-2"><a href="put-it-together-explore-big-data-with-data.html#cb511-2"></a><span class="st">               </span>date<span class="op">==</span><span class="st">&quot;2020-07-16&quot;</span>, </span>
+<span id="cb511-3"><a href="put-it-together-explore-big-data-with-data.html#cb511-3"></a>             .(confirmed_count)]</span></code></pre></div>
+<pre><code>##    confirmed_count
+## 1:              50</code></pre>
+</div>
+<div id="selecting-rows-and-columns-1" class="section level2">
+<h2><span class="header-section-number">11.3</span> Selecting Rows and Columns</h2>
+<ul>
+<li>Q2: What is the new confirmed cases and death in the Lancaster county, NE, on 2020-07-16?</li>
+</ul>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="put-it-together-explore-big-data-with-data.html#cb513-1"></a>covid_county[county<span class="op">==</span><span class="st">&quot;Lancaster&quot;</span> <span class="op">&amp;</span><span class="st"> </span>state_abbr<span class="op">==</span><span class="st">&quot;NE&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb513-2"><a href="put-it-together-explore-big-data-with-data.html#cb513-2"></a><span class="st">               </span>date<span class="op">==</span><span class="st">&quot;2020-07-16&quot;</span>, </span>
+<span id="cb513-3"><a href="put-it-together-explore-big-data-with-data.html#cb513-3"></a>             .(confirmed_count, death_count)]</span></code></pre></div>
+<pre><code>##    confirmed_count death_count
+## 1:              50           0</code></pre>
+</div>
+<div id="computing-on-j" class="section level2">
+<h2><span class="header-section-number">11.4</span> Computing on j</h2>
+<ul>
+<li>Q3: What is the new confirmed cases in US on 2020-07-16?</li>
+</ul>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="put-it-together-explore-big-data-with-data.html#cb515-1"></a>covid_county[date<span class="op">==</span><span class="st">&quot;2020-07-16&quot;</span>,</span>
+<span id="cb515-2"><a href="put-it-together-explore-big-data-with-data.html#cb515-2"></a>             .(<span class="dt">confirmed_count=</span><span class="kw">sum</span>(confirmed_count))]</span></code></pre></div>
+<pre><code>##    confirmed_count
+## 1:           75701</code></pre>
+</div>
+<div id="computing-on-j-1" class="section level2">
+<h2><span class="header-section-number">11.5</span> Computing on j</h2>
+<ul>
+<li>Q4: What is the new confirmed cases for each state on 2020-07-16? Order the result in the descending order of cases count.</li>
+</ul>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="put-it-together-explore-big-data-with-data.html#cb517-1"></a>tmp=covid_county[date<span class="op">==</span><span class="st">&quot;2020-07-16&quot;</span>,</span>
+<span id="cb517-2"><a href="put-it-together-explore-big-data-with-data.html#cb517-2"></a>             .(<span class="dt">confirmed_count=</span><span class="kw">sum</span>(confirmed_count)), </span>
+<span id="cb517-3"><a href="put-it-together-explore-big-data-with-data.html#cb517-3"></a>             by=.(state_abbr)][<span class="kw">order</span>(<span class="op">-</span>confirmed_count)]</span>
+<span id="cb517-4"><a href="put-it-together-explore-big-data-with-data.html#cb517-4"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    state_abbr confirmed_count
+## 1:         TX           15038
+## 2:         FL           13965
+## 3:         CA            9264
+## 4:         AZ            3319
+## 5:         GA            2701
+## 6:         TN            2312</code></pre>
+</div>
+<div id="computing-on-j-2" class="section level2">
+<h2><span class="header-section-number">11.6</span> Computing on j</h2>
+<ul>
+<li>Q5: What is the new confirmed cases and death for each state, on 2020-07-16? Order the result in the descending order of cases count.</li>
+</ul>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="put-it-together-explore-big-data-with-data.html#cb519-1"></a>tmp=covid_county[date<span class="op">==</span><span class="st">&quot;2020-07-16&quot;</span>, </span>
+<span id="cb519-2"><a href="put-it-together-explore-big-data-with-data.html#cb519-2"></a>             .(<span class="dt">confirmed_count=</span><span class="kw">sum</span>(confirmed_count),</span>
+<span id="cb519-3"><a href="put-it-together-explore-big-data-with-data.html#cb519-3"></a>               <span class="dt">death_count=</span><span class="kw">sum</span>(death_count)), </span>
+<span id="cb519-4"><a href="put-it-together-explore-big-data-with-data.html#cb519-4"></a>             by=.(state_abbr)][<span class="kw">order</span>(<span class="op">-</span>confirmed_count)]</span>
+<span id="cb519-5"><a href="put-it-together-explore-big-data-with-data.html#cb519-5"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    state_abbr confirmed_count death_count
+## 1:         TX           15038         154
+## 2:         FL           13965         156
+## 3:         CA            9264         122
+## 4:         AZ            3319          64
+## 5:         GA            2701          13
+## 6:         TN            2312          14</code></pre>
+</div>
+<div id="computing-on-j-3" class="section level2">
+<h2><span class="header-section-number">11.7</span> Computing on j</h2>
+<ul>
+<li>Q6: What is the new confirmed cases each day for the state of Nebraska?</li>
+</ul>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="put-it-together-explore-big-data-with-data.html#cb521-1"></a>tmp=covid_county[state_abbr<span class="op">==</span><span class="st">&quot;NE&quot;</span>, </span>
+<span id="cb521-2"><a href="put-it-together-explore-big-data-with-data.html#cb521-2"></a>                 .(<span class="dt">confirmed_count=</span><span class="kw">sum</span>(confirmed_count)), </span>
+<span id="cb521-3"><a href="put-it-together-explore-big-data-with-data.html#cb521-3"></a>                 by=.(state_abbr,date)]</span>
+<span id="cb521-4"><a href="put-it-together-explore-big-data-with-data.html#cb521-4"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    state_abbr       date confirmed_count
+## 1:         NE 2020-03-18               7
+## 2:         NE 2020-03-19               4
+## 3:         NE 2020-03-20               6
+## 4:         NE 2020-03-21               8
+## 5:         NE 2020-03-22               1
+## 6:         NE 2020-03-23              11</code></pre>
+</div>
+<div id="special-symbol-.n" class="section level2">
+<h2><span class="header-section-number">11.8</span> Special symbol .N</h2>
+<ul>
+<li>Q7: How many counties has new confirmed cases that is above 5000?</li>
+</ul>
+<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="put-it-together-explore-big-data-with-data.html#cb523-1"></a>covid_county[confirmed_count<span class="op">&gt;</span><span class="dv">5000</span>, .N]</span></code></pre></div>
+<pre><code>## [1] 270</code></pre>
+<ul>
+<li>Q8: What are these counties which has new confirmed cases that is above 5000 in a single day?</li>
+</ul>
+<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="put-it-together-explore-big-data-with-data.html#cb525-1"></a>covid_county[confirmed_count<span class="op">&gt;</span><span class="dv">5000</span>, </span>
+<span id="cb525-2"><a href="put-it-together-explore-big-data-with-data.html#cb525-2"></a>                 .(state,county, date, confirmed_count)] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</span></code></pre></div>
+<pre><code>##      state   county       date confirmed_count
+## 1: arizona Maricopa 2020-12-01            8330
+## 2: arizona Maricopa 2020-12-08            9701
+## 3: arizona Maricopa 2020-12-14            6975
+## 4: arizona Maricopa 2020-12-22            6088
+## 5: arizona Maricopa 2020-12-28            6878
+## 6: arizona Maricopa 2020-12-31            5181</code></pre>
+</div>
+<div id="fitering-rows-through-between" class="section level2">
+<h2><span class="header-section-number">11.9</span> Fitering rows through %between%</h2>
+<ul>
+<li>Q9: How many county has daily new confirmed case between 1000 and 5000 for each day?</li>
+</ul>
+<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="put-it-together-explore-big-data-with-data.html#cb527-1"></a>tmp=covid_county[confirmed_count<span class="op">%between%</span><span class="kw">c</span>(<span class="dv">1000</span>,<span class="dv">5000</span>), </span>
+<span id="cb527-2"><a href="put-it-together-explore-big-data-with-data.html#cb527-2"></a>                 .(<span class="dt">count=</span>.N), by=.(date)]</span>
+<span id="cb527-3"><a href="put-it-together-explore-big-data-with-data.html#cb527-3"></a><span class="kw">tail</span>(tmp)</span></code></pre></div>
+<pre><code>##          date count
+## 1: 2021-06-03     1
+## 2: 2020-10-03     3
+## 3: 2020-08-30     1
+## 4: 2020-09-14     1
+## 5: 2020-09-15     1
+## 6: 2020-09-29     1</code></pre>
+</div>
+<div id="fitering-rows-through-chin" class="section level2">
+<h2><span class="header-section-number">11.10</span> Fitering rows through %chin%</h2>
+<ul>
+<li>Q10: How many new confirmed cases in each day for the top10 states together?</li>
+</ul>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="put-it-together-explore-big-data-with-data.html#cb529-1"></a><span class="co"># find the top10 states in terms of total cases</span></span>
+<span id="cb529-2"><a href="put-it-together-explore-big-data-with-data.html#cb529-2"></a>covid_county[date<span class="op">==</span><span class="st">&quot;2021-08-27&quot;</span>,.(<span class="dt">cases=</span><span class="kw">sum</span>(cases)), by=<span class="kw">c</span>(<span class="st">&quot;state&quot;</span>,<span class="st">&quot;state_abbr&quot;</span>)][<span class="kw">order</span>(<span class="op">-</span>cases)][<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>##              state state_abbr   cases
+##  1:     california         CA 4396238
+##  2:          texas         TX 3548371
+##  3:        florida         FL 3179714
+##  4:       new york         NY 2258143
+##  5:       illinois         IL 1512387
+##  6:        georgia         GA 1339537
+##  7:   pennsylvania         PA 1288041
+##  8:           ohio         OH 1202728
+##  9: north carolina         NC 1191456
+## 10:     new jersey         NJ 1084546</code></pre>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="put-it-together-explore-big-data-with-data.html#cb531-1"></a>top10_states=covid_county[date<span class="op">==</span><span class="st">&quot;2021-08-27&quot;</span>,.(<span class="dt">cases=</span><span class="kw">sum</span>(cases)), by=<span class="kw">c</span>(<span class="st">&quot;state&quot;</span>,<span class="st">&quot;state_abbr&quot;</span>)][<span class="kw">order</span>(<span class="op">-</span>cases)][<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]<span class="op">$</span>state_abbr</span>
+<span id="cb531-2"><a href="put-it-together-explore-big-data-with-data.html#cb531-2"></a></span>
+<span id="cb531-3"><a href="put-it-together-explore-big-data-with-data.html#cb531-3"></a>top10_states=<span class="kw">c</span>(<span class="st">&quot;NY&quot;</span>, <span class="st">&quot;CA&quot;</span>, <span class="st">&quot;FL&quot;</span>, <span class="st">&quot;TX&quot;</span>, <span class="st">&quot;NJ&quot;</span>, <span class="st">&quot;IL&quot;</span>, <span class="st">&quot;MA&quot;</span>,</span>
+<span id="cb531-4"><a href="put-it-together-explore-big-data-with-data.html#cb531-4"></a>               <span class="st">&quot;AZ&quot;</span>, <span class="st">&quot;GA&quot;</span>, <span class="st">&quot;PA&quot;</span>)  </span>
+<span id="cb531-5"><a href="put-it-together-explore-big-data-with-data.html#cb531-5"></a></span>
+<span id="cb531-6"><a href="put-it-together-explore-big-data-with-data.html#cb531-6"></a><span class="co"># find how many confirmed cases each date for the top 10 state</span></span>
+<span id="cb531-7"><a href="put-it-together-explore-big-data-with-data.html#cb531-7"></a>tmp=covid_county[state_abbr<span class="op">%chin%</span>top10_states, </span>
+<span id="cb531-8"><a href="put-it-together-explore-big-data-with-data.html#cb531-8"></a>                 .(<span class="dt">confirmed=</span><span class="kw">sum</span>(cases)), </span>
+<span id="cb531-9"><a href="put-it-together-explore-big-data-with-data.html#cb531-9"></a>                 by=.(date)]</span>
+<span id="cb531-10"><a href="put-it-together-explore-big-data-with-data.html#cb531-10"></a><span class="kw">tail</span>(tmp)</span></code></pre></div>
+<pre><code>##          date confirmed
+## 1: 2020-03-10       572
+## 2: 2020-03-11       677
+## 3: 2020-03-12       896
+## 4: 2020-03-13      1179
+## 5: 2020-01-25         2
+## 6: 2020-01-24         1</code></pre>
+</div>
+<div id="uniquen-1" class="section level2">
+<h2><span class="header-section-number">11.11</span> uniqueN()</h2>
+<ul>
+<li>Q11: How many counties has COVID-19 cases for each state?</li>
+</ul>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="put-it-together-explore-big-data-with-data.html#cb533-1"></a>tmp=covid_county[confirmed_count<span class="op">&gt;</span><span class="dv">0</span>, </span>
+<span id="cb533-2"><a href="put-it-together-explore-big-data-with-data.html#cb533-2"></a>                 .(<span class="dt">county_cnt=</span><span class="kw">uniqueN</span>(county)), </span>
+<span id="cb533-3"><a href="put-it-together-explore-big-data-with-data.html#cb533-3"></a>                 by=.(state_abbr)]</span>
+<span id="cb533-4"><a href="put-it-together-explore-big-data-with-data.html#cb533-4"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    state_abbr county_cnt
+## 1:         AL         67
+## 2:         AK         28
+## 3:         AZ         16
+## 4:         AR         76
+## 5:         CA         59
+## 6:         CO         65</code></pre>
+</div>
+<div id="subset-of-data-.sd-1" class="section level2">
+<h2><span class="header-section-number">11.12</span> Subset of Data: .SD[ ]</h2>
+<ul>
+<li>Q12: for each day, find the top 3 counties in terms of the new confirmed cases.</li>
+</ul>
+<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="put-it-together-explore-big-data-with-data.html#cb535-1"></a>tmp=covid_county[<span class="kw">order</span>(date,<span class="op">-</span>confirmed_count)][</span>
+<span id="cb535-2"><a href="put-it-together-explore-big-data-with-data.html#cb535-2"></a>  , .SD[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], by=.(date), </span>
+<span id="cb535-3"><a href="put-it-together-explore-big-data-with-data.html#cb535-3"></a>   .SDcols=<span class="kw">c</span>(<span class="st">&quot;state_abbr&quot;</span>,<span class="st">&quot;county&quot;</span>,</span>
+<span id="cb535-4"><a href="put-it-together-explore-big-data-with-data.html#cb535-4"></a>             <span class="st">&quot;confirmed_count&quot;</span>)]</span>
+<span id="cb535-5"><a href="put-it-together-explore-big-data-with-data.html#cb535-5"></a><span class="kw">tail</span>(tmp)</span></code></pre></div>
+<pre><code>##          date state_abbr        county confirmed_count
+## 1: 2021-09-05         NY New York City            3632
+## 2: 2021-09-05         AZ      Maricopa            2352
+## 3: 2021-09-05         CA   Los Angeles            2111
+## 4: 2021-09-06         SC    Greenville            1780
+## 5: 2021-09-06         AZ      Maricopa            1636
+## 6: 2021-09-06         CA   Los Angeles            1530</code></pre>
+</div>
+<div id="subset-of-data-.sd-2" class="section level2">
+<h2><span class="header-section-number">11.13</span> Subset of Data: .SD[ ]</h2>
+<ul>
+<li>Q13: find the top 3 counties for each state in terms of the total confirmed cases.</li>
+</ul>
+<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="put-it-together-explore-big-data-with-data.html#cb537-1"></a>tmp=covid_county[,.(<span class="dt">confirmed=</span><span class="kw">sum</span>(confirmed_count)),</span>
+<span id="cb537-2"><a href="put-it-together-explore-big-data-with-data.html#cb537-2"></a>     by=.(county,state_abbr)][</span>
+<span id="cb537-3"><a href="put-it-together-explore-big-data-with-data.html#cb537-3"></a>     <span class="kw">order</span>(state_abbr,<span class="op">-</span>confirmed)][, .SD[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], </span>
+<span id="cb537-4"><a href="put-it-together-explore-big-data-with-data.html#cb537-4"></a>                                   by=.(state_abbr)]</span>
+<span id="cb537-5"><a href="put-it-together-explore-big-data-with-data.html#cb537-5"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##    state_abbr                       county confirmed
+## 1:         AK                    Anchorage     38593
+## 2:         AK    Matanuska-Susitna Borough     13904
+## 3:         AK Fairbanks North Star Borough      9298
+## 4:         AL                    Jefferson    104567
+## 5:         AL                       Mobile     65549
+## 6:         AL                      Madison     45548</code></pre>
+<ul>
+<li>Q13_extension: find the bottom 3 counties for each state in terms of the total confirmed cases.</li>
+</ul>
+</div>
+<div id="use-to-addupdate-columns-by-reference-1" class="section level2">
+<h2><span class="header-section-number">11.14</span> Use := to Add/Update Columns By Reference</h2>
+<ul>
+<li>Q14: Define a new variable death_rate, which equals to cumulative death divided by cumulative confirmed cases for each state</li>
+</ul>
+<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="put-it-together-explore-big-data-with-data.html#cb539-1"></a>tmp=covid_county[, deat_rate<span class="op">:</span><span class="er">=</span>deaths<span class="op">/</span>cases][</span>
+<span id="cb539-2"><a href="put-it-together-explore-big-data-with-data.html#cb539-2"></a>                 <span class="kw">order</span>(<span class="op">-</span>deat_rate)]</span>
+<span id="cb539-3"><a href="put-it-together-explore-big-data-with-data.html#cb539-3"></a><span class="kw">head</span>(tmp)</span></code></pre></div>
+<pre><code>##          date   state state_abbr  county fips cases deaths confirmed_count
+## 1: 2020-03-24 arizona         AZ Unknown   NA     0      3               0
+## 2: 2020-03-25 arizona         AZ Unknown   NA     0      3               0
+## 3: 2020-03-26 arizona         AZ Unknown   NA     0      2               0
+## 4: 2020-03-27 arizona         AZ Unknown   NA     0      4               0
+## 5: 2020-03-28 arizona         AZ Unknown   NA     0      3               0
+## 6: 2020-03-29 arizona         AZ Unknown   NA     0      5               0
+##    death_count deat_rate
+## 1:           3       Inf
+## 2:           0       Inf
+## 3:          -1       Inf
+## 4:           2       Inf
+## 5:          -1       Inf
+## 6:           2       Inf</code></pre>
+</div>
+<div id="join-datasets" class="section level2">
+<h2><span class="header-section-number">11.15</span> Join datasets</h2>
+<ul>
+<li>Q15: Compute the infection_rate (percent of population infected at each county). We need to first compute the total cases for each county and add population information to it for computing the infection rate.</li>
+</ul>
+<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="put-it-together-explore-big-data-with-data.html#cb541-1"></a>population2019=<span class="kw">fread</span>(<span class="st">&quot;data/population2019.csv&quot;</span>)</span>
+<span id="cb541-2"><a href="put-it-together-explore-big-data-with-data.html#cb541-2"></a></span>
+<span id="cb541-3"><a href="put-it-together-explore-big-data-with-data.html#cb541-3"></a>tmp=covid_county[, .(<span class="dt">cum_case=</span><span class="kw">sum</span>(confirmed_count)), </span>
+<span id="cb541-4"><a href="put-it-together-explore-big-data-with-data.html#cb541-4"></a>             by=.(state_abbr, state, county)]</span>
+<span id="cb541-5"><a href="put-it-together-explore-big-data-with-data.html#cb541-5"></a></span>
+<span id="cb541-6"><a href="put-it-together-explore-big-data-with-data.html#cb541-6"></a>tmp1=<span class="kw">merge</span>(tmp, population2019, <span class="dt">by.x=</span><span class="kw">c</span>(<span class="st">&quot;state&quot;</span>,<span class="st">&quot;county&quot;</span>), </span>
+<span id="cb541-7"><a href="put-it-together-explore-big-data-with-data.html#cb541-7"></a>          <span class="dt">by.y =</span> <span class="kw">c</span>(<span class="st">&quot;state_name&quot;</span>,<span class="st">&quot;county_name&quot;</span>),</span>
+<span id="cb541-8"><a href="put-it-together-explore-big-data-with-data.html#cb541-8"></a>          <span class="dt">all.x =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb541-9"><a href="put-it-together-explore-big-data-with-data.html#cb541-9"></a>tmp2=tmp1[,infection_rate<span class="op">:</span><span class="er">=</span>cum_case<span class="op">/</span>population19][,<span class="op">-</span><span class="kw">c</span>(<span class="st">&quot;state&quot;</span>)][</span>
+<span id="cb541-10"><a href="put-it-together-explore-big-data-with-data.html#cb541-10"></a>  <span class="kw">order</span>(<span class="op">-</span>infection_rate)]</span>
+<span id="cb541-11"><a href="put-it-together-explore-big-data-with-data.html#cb541-11"></a><span class="kw">head</span>(tmp2)</span></code></pre></div>
+<pre><code>##           county state_abbr cum_case population19 infection_rate
+## 1: Chattahoochee         GA     5109        10907      0.4684148
+## 2:       Crowley         CO     2236         6061      0.3689160
+## 3:        Dimmit         TX     3567        10124      0.3523311
+## 4:          Bent         CO     1566         5577      0.2807961
+## 5:       Lincoln         AR     3572        13024      0.2742629
+## 6:         Dewey         SD     1591         5892      0.2700272</code></pre>
+</div>
+<div id="additional-exercises" class="section level2">
+<h2><span class="header-section-number">11.16</span> Additional Exercises:</h2>
+<ul>
+<li>Q16: what is the total death in each state?</li>
+<li>Q17: Which county in Nebraska has the highest total confirmed cases?</li>
+</ul>
+</div>
+<div id="summary-6" class="section level2">
+<h2><span class="header-section-number">11.17</span> Summary</h2>
+<ul>
+<li>Congratulation! You have mastered the skills to manipulate big data for insights using data.table.</li>
+<li>It is very likely you will forget the codes for manipulating data.</li>
+<li>Do not try to memorize the code; memorize the scenarios in which the code is used; develop a code library for these scenarios.</li>
+<li>We will later learn to combine data manipulation and visualization.</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="join-mutliple-datasets.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-cleaning-i.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/10-exploreData.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

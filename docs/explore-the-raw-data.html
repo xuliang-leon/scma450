@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 14 Explore the raw data | Notes for SCMA450: Data Modeling and Computing</title>
+  <meta name="description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 14 Explore the raw data | Notes for SCMA450: Data Modeling and Computing" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  <meta name="github-repo" content="xuliang-leon/scma450" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 14 Explore the raw data | Notes for SCMA450: Data Modeling and Computing" />
+  
+  <meta name="twitter:description" content="Notes for SCMA450@University of Nebraska - Lincoln" />
+  
+
+<meta name="author" content="Dr. Liang (Leon) Xu" />
+
+
+<meta name="date" content="2021-08-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-cleaning-ii.html"/>
+<link rel="next" href="tidy-the-data.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCMA450 Notes</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview of Business Analytics and R Programming</a></li>
+<li class="chapter" data-level="2" data-path="chapter01.html"><a href="chapter01.html"><i class="fa fa-check"></i><b>2</b> Define Variables</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter01.html"><a href="chapter01.html#use-r-as-a-calculator"><i class="fa fa-check"></i><b>2.1</b> Use R as a Calculator</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter01.html"><a href="chapter01.html#define-variables"><i class="fa fa-check"></i><b>2.2</b> Define variables</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter01.html"><a href="chapter01.html#basic-variable-modes-integer-numeric-character-logical-factor."><i class="fa fa-check"></i><b>2.3</b> Basic Variable Modes: integer, numeric, character, logical, factor.</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="chapter01.html"><a href="chapter01.html#integer-and-numeric"><i class="fa fa-check"></i><b>2.3.1</b> Integer and numeric</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chapter01.html"><a href="chapter01.html#logical"><i class="fa fa-check"></i><b>2.3.2</b> Logical</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chapter01.html"><a href="chapter01.html#character"><i class="fa fa-check"></i><b>2.3.3</b> Character</a></li>
+<li class="chapter" data-level="2.3.4" data-path="chapter01.html"><a href="chapter01.html#type-coercion"><i class="fa fa-check"></i><b>2.3.4</b> Type coercion</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chapter01.html"><a href="chapter01.html#exercise-1-greeting-from-r"><i class="fa fa-check"></i><b>2.4</b> Exercise 1: Greeting from R</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter01.html"><a href="chapter01.html#exercise-2-mortgage-calculation"><i class="fa fa-check"></i><b>2.5</b> Exercise 2: Mortgage Calculation</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter01.html"><a href="chapter01.html#summary"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html"><i class="fa fa-check"></i><b>3</b> Data Structure: Vector, Matrix, List and Factor</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector"><i class="fa fa-check"></i><b>3.1</b> Vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-vectors"><i class="fa fa-check"></i><b>3.1.1</b> Subsetting vectors</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#vector-calculus"><i class="fa fa-check"></i><b>3.1.2</b> Vector calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrices"><i class="fa fa-check"></i><b>3.2</b> Matrices</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#subsetting-matrix"><i class="fa fa-check"></i><b>3.2.1</b> subsetting matrix</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#matrix-calculus"><i class="fa fa-check"></i><b>3.2.2</b> matrix calculus</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#factors"><i class="fa fa-check"></i><b>3.3</b> Factors</a></li>
+<li class="chapter" data-level="3.4" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#list"><i class="fa fa-check"></i><b>3.4</b> List</a></li>
+<li class="chapter" data-level="3.5" data-path="data-structure-vector-matrix-list-and-factor.html"><a href="data-structure-vector-matrix-list-and-factor.html#summary-1"><i class="fa fa-check"></i><b>3.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-frame.html"><a href="data-frame.html"><i class="fa fa-check"></i><b>4</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-frame.html"><a href="data-frame.html#define-a-data.frame-manually"><i class="fa fa-check"></i><b>4.1</b> Define a data.frame manually</a></li>
+<li class="chapter" data-level="4.2" data-path="data-frame.html"><a href="data-frame.html#subsetting-data.frame"><i class="fa fa-check"></i><b>4.2</b> Subsetting data.frame</a></li>
+<li class="chapter" data-level="4.3" data-path="data-frame.html"><a href="data-frame.html#import-csv-data-as-data.frame."><i class="fa fa-check"></i><b>4.3</b> Import csv data as data.frame.</a></li>
+<li class="chapter" data-level="4.4" data-path="data-frame.html"><a href="data-frame.html#subsetting-data-frame"><i class="fa fa-check"></i><b>4.4</b> Subsetting data frame</a></li>
+<li class="chapter" data-level="4.5" data-path="data-frame.html"><a href="data-frame.html#write-a-data-frame-to-your-computer"><i class="fa fa-check"></i><b>4.5</b> Write a data frame to your computer</a></li>
+<li class="chapter" data-level="4.6" data-path="data-frame.html"><a href="data-frame.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>5</b> Functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="functions.html"><a href="functions.html#get-the-help-document-of-a-function"><i class="fa fa-check"></i><b>5.1</b> Get the Help Document of A Function</a></li>
+<li class="chapter" data-level="5.2" data-path="functions.html"><a href="functions.html#call-build-in-functions-in-r"><i class="fa fa-check"></i><b>5.2</b> Call build-in functions in R</a></li>
+<li class="chapter" data-level="5.3" data-path="functions.html"><a href="functions.html#write-your-own-functions"><i class="fa fa-check"></i><b>5.3</b> Write Your Own Functions</a></li>
+<li class="chapter" data-level="5.4" data-path="functions.html"><a href="functions.html#flexible-function"><i class="fa fa-check"></i><b>5.4</b> Flexible Function</a></li>
+<li class="chapter" data-level="5.5" data-path="functions.html"><a href="functions.html#excercise-1"><i class="fa fa-check"></i><b>5.5</b> Excercise 1</a></li>
+<li class="chapter" data-level="5.6" data-path="functions.html"><a href="functions.html#the-apply-function-family"><i class="fa fa-check"></i><b>5.6</b> The apply() function family</a></li>
+<li class="chapter" data-level="5.7" data-path="functions.html"><a href="functions.html#scoping-rule-in-r"><i class="fa fa-check"></i><b>5.7</b> Scoping Rule in R</a></li>
+<li class="chapter" data-level="5.8" data-path="functions.html"><a href="functions.html#excercise"><i class="fa fa-check"></i><b>5.8</b> Excercise</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>6</b> Flow Control</a><ul>
+<li class="chapter" data-level="6.1" data-path="flow-control.html"><a href="flow-control.html#ifelse-statement"><i class="fa fa-check"></i><b>6.1</b> if…else Statement</a></li>
+<li class="chapter" data-level="6.2" data-path="flow-control.html"><a href="flow-control.html#ifelse-ifelse-statement"><i class="fa fa-check"></i><b>6.2</b> if…else if…else Statement</a></li>
+<li class="chapter" data-level="6.3" data-path="flow-control.html"><a href="flow-control.html#exercise"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="flow-control.html"><a href="flow-control.html#for-loop"><i class="fa fa-check"></i><b>6.4</b> for loop</a></li>
+<li class="chapter" data-level="6.5" data-path="flow-control.html"><a href="flow-control.html#break-your-loops-with-break"><i class="fa fa-check"></i><b>6.5</b> Break Your Loops With break</a></li>
+<li class="chapter" data-level="6.6" data-path="flow-control.html"><a href="flow-control.html#jump-to-the-next-cycly-with-next"><i class="fa fa-check"></i><b>6.6</b> Jump to the next cycly with next</a></li>
+<li class="chapter" data-level="6.7" data-path="flow-control.html"><a href="flow-control.html#exercise-1"><i class="fa fa-check"></i><b>6.7</b> Exercise</a></li>
+<li class="chapter" data-level="6.8" data-path="flow-control.html"><a href="flow-control.html#while-loop"><i class="fa fa-check"></i><b>6.8</b> While Loop</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html"><i class="fa fa-check"></i><b>7</b> R markdown for documentation</a><ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#rock-paper-scissors"><i class="fa fa-check"></i><b>7.1</b> rock, paper, scissors</a></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-1"><i class="fa fa-check"></i><b>7.2</b> verison 1:</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verison-2"><i class="fa fa-check"></i><b>7.3</b> verison 2</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-3"><i class="fa fa-check"></i><b>7.4</b> Version 3</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#verision-4"><i class="fa fa-check"></i><b>7.5</b> verision 4</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown-for-documentation.html"><a href="r-markdown-for-documentation.html#version-5"><i class="fa fa-check"></i><b>7.6</b> version 5</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html"><i class="fa fa-check"></i><b>8</b> Use data.table Package for Big Data I</a><ul>
+<li class="chapter" data-level="8.1" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#install-r-packages"><i class="fa fa-check"></i><b>8.1</b> Install R Packages</a></li>
+<li class="chapter" data-level="8.2" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#fread-read-csv-file-into-r-as-data.table"><i class="fa fa-check"></i><b>8.2</b> fread(): Read csv file into R as data.table</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#convert-data.frame-into-data.table"><i class="fa fa-check"></i><b>8.2.1</b> Convert data.frame into data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#quick-summary-of-the-data"><i class="fa fa-check"></i><b>8.3</b> Quick summary of the data</a></li>
+<li class="chapter" data-level="8.4" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#data-manipulation-with-data.table"><i class="fa fa-check"></i><b>8.4</b> Data Manipulation with data.table</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#filtering-rows-through-logical-expression"><i class="fa fa-check"></i><b>8.4.1</b> Filtering rows through logical expression</a></li>
+<li class="chapter" data-level="8.4.2" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#filtering-rows-by-row-index"><i class="fa fa-check"></i><b>8.4.2</b> Filtering rows by row index</a></li>
+<li class="chapter" data-level="8.4.3" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#fitering-rows-through-between-chin-like"><i class="fa fa-check"></i><b>8.4.3</b> Fitering rows through %between%, %chin%, %like%</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#select-columns"><i class="fa fa-check"></i><b>8.5</b> Select Columns</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#using-column-names-to-select-columns"><i class="fa fa-check"></i><b>8.5.1</b> Using column names to select columns</a></li>
+<li class="chapter" data-level="8.5.2" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#select-columns-as-variables---the-data.table-way"><i class="fa fa-check"></i><b>8.5.2</b> Select columns as variables - the data.table way</a></li>
+<li class="chapter" data-level="8.5.3" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#computing-on-columns"><i class="fa fa-check"></i><b>8.5.3</b> Computing on columns</a></li>
+<li class="chapter" data-level="8.5.4" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#computing-on-rows-and-columns"><i class="fa fa-check"></i><b>8.5.4</b> Computing on rows and columns</a></li>
+<li class="chapter" data-level="8.5.5" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#special-symbol-.n-in-j"><i class="fa fa-check"></i><b>8.5.5</b> Special symbol .N in j</a></li>
+<li class="chapter" data-level="8.5.6" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#advanced-computation-on-columns"><i class="fa fa-check"></i><b>8.5.6</b> Advanced Computation on columns</a></li>
+<li class="chapter" data-level="8.5.7" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#sort-data-by-onemultiple-columns"><i class="fa fa-check"></i><b>8.5.7</b> Sort Data by One/Multiple Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#calcuation-by-group"><i class="fa fa-check"></i><b>8.6</b> Calcuation by Group</a></li>
+<li class="chapter" data-level="8.7" data-path="use-data-table-package-for-big-data-i.html"><a href="use-data-table-package-for-big-data-i.html#summary-3"><i class="fa fa-check"></i><b>8.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html"><i class="fa fa-check"></i><b>9</b> Use data.table Package for Big Data II</a><ul>
+<li class="chapter" data-level="9.1" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#use-chaining-to-avoid-intermediate-result"><i class="fa fa-check"></i><b>9.1</b> Use Chaining to Avoid Intermediate Result</a></li>
+<li class="chapter" data-level="9.2" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#uniquen"><i class="fa fa-check"></i><b>9.2</b> uniqueN()</a></li>
+<li class="chapter" data-level="9.3" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#subset-of-data-.sd"><i class="fa fa-check"></i><b>9.3</b> Subset of Data: .SD[]</a></li>
+<li class="chapter" data-level="9.4" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#use-to-addupdate-columns-by-reference"><i class="fa fa-check"></i><b>9.4</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="9.5" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#binning-a-continuous-value-into-category"><i class="fa fa-check"></i><b>9.5</b> Binning a continuous value into category</a></li>
+<li class="chapter" data-level="9.6" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#expressions-in-by"><i class="fa fa-check"></i><b>9.6</b> Expressions in by</a></li>
+<li class="chapter" data-level="9.7" data-path="use-data-table-package-for-big-data-ii.html"><a href="use-data-table-package-for-big-data-ii.html#summary-4"><i class="fa fa-check"></i><b>9.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html"><i class="fa fa-check"></i><b>10</b> Join Mutliple Datasets</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#join-files-using-merge"><i class="fa fa-check"></i><b>10.0.1</b> Join files using merge()</a></li>
+<li class="chapter" data-level="10.0.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#inner-join"><i class="fa fa-check"></i><b>10.0.2</b> inner join</a></li>
+<li class="chapter" data-level="10.0.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#full-join"><i class="fa fa-check"></i><b>10.0.3</b> full join</a></li>
+<li class="chapter" data-level="10.0.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#left-joinright-join"><i class="fa fa-check"></i><b>10.0.4</b> left join/right join</a></li>
+<li class="chapter" data-level="10.1" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#merge-dataset-using-data.table-syntax"><i class="fa fa-check"></i><b>10.1</b> Merge dataset using data.table syntax</a></li>
+<li class="chapter" data-level="10.2" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#chaining-join-and-data-manipulation"><i class="fa fa-check"></i><b>10.2</b> Chaining Join and Data Manipulation</a></li>
+<li class="chapter" data-level="10.3" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#exercise-2"><i class="fa fa-check"></i><b>10.3</b> Exercise</a></li>
+<li class="chapter" data-level="10.4" data-path="join-mutliple-datasets.html"><a href="join-mutliple-datasets.html#summary-5"><i class="fa fa-check"></i><b>10.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html"><i class="fa fa-check"></i><b>11</b> Put it together: explore big data with data.table</a><ul>
+<li class="chapter" data-level="11.1" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#import-the-covid-19-case-data"><i class="fa fa-check"></i><b>11.1</b> Import the COVID-19 case data</a></li>
+<li class="chapter" data-level="11.2" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>11.2</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.3" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#selecting-rows-and-columns-1"><i class="fa fa-check"></i><b>11.3</b> Selecting Rows and Columns</a></li>
+<li class="chapter" data-level="11.4" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#computing-on-j"><i class="fa fa-check"></i><b>11.4</b> Computing on j</a></li>
+<li class="chapter" data-level="11.5" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#computing-on-j-1"><i class="fa fa-check"></i><b>11.5</b> Computing on j</a></li>
+<li class="chapter" data-level="11.6" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#computing-on-j-2"><i class="fa fa-check"></i><b>11.6</b> Computing on j</a></li>
+<li class="chapter" data-level="11.7" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#computing-on-j-3"><i class="fa fa-check"></i><b>11.7</b> Computing on j</a></li>
+<li class="chapter" data-level="11.8" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#special-symbol-.n"><i class="fa fa-check"></i><b>11.8</b> Special symbol .N</a></li>
+<li class="chapter" data-level="11.9" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#fitering-rows-through-between"><i class="fa fa-check"></i><b>11.9</b> Fitering rows through %between%</a></li>
+<li class="chapter" data-level="11.10" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#fitering-rows-through-chin"><i class="fa fa-check"></i><b>11.10</b> Fitering rows through %chin%</a></li>
+<li class="chapter" data-level="11.11" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#uniquen-1"><i class="fa fa-check"></i><b>11.11</b> uniqueN()</a></li>
+<li class="chapter" data-level="11.12" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#subset-of-data-.sd-1"><i class="fa fa-check"></i><b>11.12</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.13" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#subset-of-data-.sd-2"><i class="fa fa-check"></i><b>11.13</b> Subset of Data: .SD[ ]</a></li>
+<li class="chapter" data-level="11.14" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#use-to-addupdate-columns-by-reference-1"><i class="fa fa-check"></i><b>11.14</b> Use := to Add/Update Columns By Reference</a></li>
+<li class="chapter" data-level="11.15" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#join-datasets"><i class="fa fa-check"></i><b>11.15</b> Join datasets</a></li>
+<li class="chapter" data-level="11.16" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#additional-exercises"><i class="fa fa-check"></i><b>11.16</b> Additional Exercises:</a></li>
+<li class="chapter" data-level="11.17" data-path="put-it-together-explore-big-data-with-data-table.html"><a href="put-it-together-explore-big-data-with-data-table.html#summary-6"><i class="fa fa-check"></i><b>11.17</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html"><i class="fa fa-check"></i><b>12</b> Data Cleaning I</a><ul>
+<li class="chapter" data-level="12.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#exploring-the-raw-data"><i class="fa fa-check"></i><b>12.1</b> Exploring the raw data</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#understand-the-structure-of-the-data"><i class="fa fa-check"></i><b>12.1.1</b> Understand the structure of the data</a></li>
+<li class="chapter" data-level="12.1.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visulize-the-data-in-tabular-form"><i class="fa fa-check"></i><b>12.1.2</b> Visulize the data in Tabular form</a></li>
+<li class="chapter" data-level="12.1.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#visualize-the-raw-data-through-charts"><i class="fa fa-check"></i><b>12.1.3</b> Visualize the raw data through charts</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#tidying-data"><i class="fa fa-check"></i><b>12.2</b> Tidying data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#melt"><i class="fa fa-check"></i><b>12.2.1</b> melt()</a></li>
+<li class="chapter" data-level="12.2.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#dcast"><i class="fa fa-check"></i><b>12.2.2</b> dcast()</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#preparing-data-for-analysis"><i class="fa fa-check"></i><b>12.3</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#type-conversions"><i class="fa fa-check"></i><b>12.3.1</b> Type conversions</a></li>
+<li class="chapter" data-level="12.3.2" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#working-with-dates"><i class="fa fa-check"></i><b>12.3.2</b> Working with dates</a></li>
+<li class="chapter" data-level="12.3.3" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#string-character-manipulation"><i class="fa fa-check"></i><b>12.3.3</b> String (character) manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#missing-and-special-values-in-r"><i class="fa fa-check"></i><b>12.4</b> Missing and special values in R</a></li>
+<li class="chapter" data-level="12.5" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#outliers-obvious-error-and-missing-value"><i class="fa fa-check"></i><b>12.5</b> Outliers, obvious error and missing value</a></li>
+<li class="chapter" data-level="12.6" data-path="data-cleaning-i.html"><a href="data-cleaning-i.html#summary-7"><i class="fa fa-check"></i><b>12.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="data-cleaning-ii.html"><a href="data-cleaning-ii.html"><i class="fa fa-check"></i><b>13</b> Data Cleaning II</a></li>
+<li class="chapter" data-level="14" data-path="explore-the-raw-data.html"><a href="explore-the-raw-data.html"><i class="fa fa-check"></i><b>14</b> Explore the raw data</a><ul>
+<li class="chapter" data-level="14.1" data-path="explore-the-raw-data.html"><a href="explore-the-raw-data.html#summarize-the-data"><i class="fa fa-check"></i><b>14.1</b> Summarize the data</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="explore-the-raw-data.html"><a href="explore-the-raw-data.html#take-a-closer-look"><i class="fa fa-check"></i><b>14.1.1</b> Take a closer look</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="tidy-the-data.html"><a href="tidy-the-data.html"><i class="fa fa-check"></i><b>15</b> Tidy the data</a><ul>
+<li class="chapter" data-level="15.1" data-path="tidy-the-data.html"><a href="tidy-the-data.html#prepare-for-analysis"><i class="fa fa-check"></i><b>15.1</b> prepare for analysis</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="tidy-the-data.html"><a href="tidy-the-data.html#clean-up-dates"><i class="fa fa-check"></i><b>15.1.1</b> Clean up dates</a></li>
+<li class="chapter" data-level="15.1.2" data-path="tidy-the-data.html"><a href="tidy-the-data.html#a-closer-look-at-column-types"><i class="fa fa-check"></i><b>15.1.2</b> A closer look at column types</a></li>
+<li class="chapter" data-level="15.1.3" data-path="tidy-the-data.html"><a href="tidy-the-data.html#missing-extreme-and-unexpected-values"><i class="fa fa-check"></i><b>15.1.3</b> Missing, extreme and unexpected values</a></li>
+<li class="chapter" data-level="15.1.4" data-path="tidy-the-data.html"><a href="tidy-the-data.html#finishing-touches"><i class="fa fa-check"></i><b>15.1.4</b> Finishing touches</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="tidy-the-data.html"><a href="tidy-the-data.html#summary-8"><i class="fa fa-check"></i><b>15.2</b> Summary</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/xuliang-leon/scma450" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notes for SCMA450: Data Modeling and Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="explore-the-raw-data" class="section level1">
+<h1><span class="header-section-number">Chapter 14</span> Explore the raw data</h1>
+<p>Before diving into our data cleaning routine, we must first understand the basic structure of the data. This involves looking at things like the class() of the data object to make sure it’s what we expect (generally a data.table) in addition to checking its dimensions with dim() and the column names with names()</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="explore-the-raw-data.html#cb10-1"></a><span class="co"># Verify that weather_boston is a data.frame</span></span>
+<span id="cb10-2"><a href="explore-the-raw-data.html#cb10-2"></a><span class="kw">class</span>(weather_boston)</span></code></pre></div>
+<pre><code>## [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="explore-the-raw-data.html#cb12-1"></a><span class="co"># Check the dimensions</span></span>
+<span id="cb12-2"><a href="explore-the-raw-data.html#cb12-2"></a><span class="kw">dim</span>(weather_boston)</span></code></pre></div>
+<pre><code>## [1] 286  34</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="explore-the-raw-data.html#cb14-1"></a><span class="co"># View the column names</span></span>
+<span id="cb14-2"><a href="explore-the-raw-data.html#cb14-2"></a><span class="kw">names</span>(weather_boston)</span></code></pre></div>
+<pre><code>##  [1] &quot;year&quot;    &quot;month&quot;   &quot;measure&quot; &quot;X1&quot;      &quot;X2&quot;      &quot;X3&quot;      &quot;X4&quot;     
+##  [8] &quot;X5&quot;      &quot;X6&quot;      &quot;X7&quot;      &quot;X8&quot;      &quot;X9&quot;      &quot;X10&quot;     &quot;X11&quot;    
+## [15] &quot;X12&quot;     &quot;X13&quot;     &quot;X14&quot;     &quot;X15&quot;     &quot;X16&quot;     &quot;X17&quot;     &quot;X18&quot;    
+## [22] &quot;X19&quot;     &quot;X20&quot;     &quot;X21&quot;     &quot;X22&quot;     &quot;X23&quot;     &quot;X24&quot;     &quot;X25&quot;    
+## [29] &quot;X26&quot;     &quot;X27&quot;     &quot;X28&quot;     &quot;X29&quot;     &quot;X30&quot;     &quot;X31&quot;</code></pre>
+<div id="summarize-the-data" class="section level2">
+<h2><span class="header-section-number">14.1</span> Summarize the data</h2>
+<p>Next up is to look at some summaries of the data. This is where functions like str(), glimpse() from dplyr, and summary() come in handy.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="explore-the-raw-data.html#cb16-1"></a><span class="co"># View the structure of the data</span></span>
+<span id="cb16-2"><a href="explore-the-raw-data.html#cb16-2"></a><span class="kw">str</span>(weather_boston)</span></code></pre></div>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   286 obs. of  34 variables:
+##  $ year   : int  2014 2014 2014 2014 2014 2014 2014 2014 2014 2014 ...
+##  $ month  : int  12 12 12 12 12 12 12 12 12 12 ...
+##  $ measure: chr  &quot;Max.TemperatureF&quot; &quot;Mean.TemperatureF&quot; &quot;Min.TemperatureF&quot; &quot;Max.Dew.PointF&quot; ...
+##  $ X1     : chr  &quot;64&quot; &quot;52&quot; &quot;39&quot; &quot;46&quot; ...
+##  $ X2     : chr  &quot;42&quot; &quot;38&quot; &quot;33&quot; &quot;40&quot; ...
+##  $ X3     : chr  &quot;51&quot; &quot;44&quot; &quot;37&quot; &quot;49&quot; ...
+##  $ X4     : chr  &quot;43&quot; &quot;37&quot; &quot;30&quot; &quot;24&quot; ...
+##  $ X5     : chr  &quot;42&quot; &quot;34&quot; &quot;26&quot; &quot;37&quot; ...
+##  $ X6     : chr  &quot;45&quot; &quot;42&quot; &quot;38&quot; &quot;45&quot; ...
+##  $ X7     : chr  &quot;38&quot; &quot;30&quot; &quot;21&quot; &quot;36&quot; ...
+##  $ X8     : chr  &quot;29&quot; &quot;24&quot; &quot;18&quot; &quot;28&quot; ...
+##  $ X9     : chr  &quot;49&quot; &quot;39&quot; &quot;29&quot; &quot;49&quot; ...
+##  $ X10    : chr  &quot;48&quot; &quot;43&quot; &quot;38&quot; &quot;45&quot; ...
+##  $ X11    : chr  &quot;39&quot; &quot;36&quot; &quot;32&quot; &quot;37&quot; ...
+##  $ X12    : chr  &quot;39&quot; &quot;35&quot; &quot;31&quot; &quot;28&quot; ...
+##  $ X13    : chr  &quot;42&quot; &quot;37&quot; &quot;32&quot; &quot;28&quot; ...
+##  $ X14    : chr  &quot;45&quot; &quot;39&quot; &quot;33&quot; &quot;29&quot; ...
+##  $ X15    : chr  &quot;42&quot; &quot;37&quot; &quot;32&quot; &quot;33&quot; ...
+##  $ X16    : chr  &quot;44&quot; &quot;40&quot; &quot;35&quot; &quot;42&quot; ...
+##  $ X17    : chr  &quot;49&quot; &quot;45&quot; &quot;41&quot; &quot;46&quot; ...
+##  $ X18    : chr  &quot;44&quot; &quot;40&quot; &quot;36&quot; &quot;34&quot; ...
+##  $ X19    : chr  &quot;37&quot; &quot;33&quot; &quot;29&quot; &quot;25&quot; ...
+##  $ X20    : chr  &quot;36&quot; &quot;32&quot; &quot;27&quot; &quot;30&quot; ...
+##  $ X21    : chr  &quot;36&quot; &quot;33&quot; &quot;30&quot; &quot;30&quot; ...
+##  $ X22    : chr  &quot;44&quot; &quot;39&quot; &quot;33&quot; &quot;39&quot; ...
+##  $ X23    : chr  &quot;47&quot; &quot;45&quot; &quot;42&quot; &quot;45&quot; ...
+##  $ X24    : chr  &quot;46&quot; &quot;44&quot; &quot;41&quot; &quot;46&quot; ...
+##  $ X25    : chr  &quot;59&quot; &quot;52&quot; &quot;44&quot; &quot;58&quot; ...
+##  $ X26    : chr  &quot;50&quot; &quot;44&quot; &quot;37&quot; &quot;31&quot; ...
+##  $ X27    : chr  &quot;52&quot; &quot;45&quot; &quot;38&quot; &quot;34&quot; ...
+##  $ X28    : chr  &quot;52&quot; &quot;46&quot; &quot;40&quot; &quot;42&quot; ...
+##  $ X29    : chr  &quot;41&quot; &quot;36&quot; &quot;30&quot; &quot;26&quot; ...
+##  $ X30    : chr  &quot;30&quot; &quot;26&quot; &quot;22&quot; &quot;10&quot; ...
+##  $ X31    : chr  &quot;30&quot; &quot;25&quot; &quot;20&quot; &quot;8&quot; ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="explore-the-raw-data.html#cb18-1"></a><span class="co"># View a summary of the data</span></span>
+<span id="cb18-2"><a href="explore-the-raw-data.html#cb18-2"></a><span class="kw">summary</span>(weather_boston)</span></code></pre></div>
+<pre><code>##       year          month          measure               X1           
+##  Min.   :2014   Min.   : 1.000   Length:286         Length:286        
+##  1st Qu.:2015   1st Qu.: 4.000   Class :character   Class :character  
+##  Median :2015   Median : 7.000   Mode  :character   Mode  :character  
+##  Mean   :2015   Mean   : 6.923                                        
+##  3rd Qu.:2015   3rd Qu.:10.000                                        
+##  Max.   :2015   Max.   :12.000                                        
+##       X2                 X3                 X4                 X5           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##       X6                 X7                 X8                 X9           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X10                X11                X12                X13           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X14                X15                X16                X17           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X18                X19                X20                X21           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X22                X23                X24                X25           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X26                X27                X28                X29           
+##  Length:286         Length:286         Length:286         Length:286        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##      X30                X31           
+##  Length:286         Length:286        
+##  Class :character   Class :character  
+##  Mode  :character   Mode  :character  
+##                                       
+##                                       
+## </code></pre>
+<div id="take-a-closer-look" class="section level3">
+<h3><span class="header-section-number">14.1.1</span> Take a closer look</h3>
+<p>After understanding the structure of the data and looking at some brief summaries, it often helps to preview the actual data. The functions head() and tail() allow you to view the top and bottom 6 rows of the data, respectively. You can show more rows by assigning a second argument.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="explore-the-raw-data.html#cb20-1"></a><span class="co"># View first 6 rows</span></span>
+<span id="cb20-2"><a href="explore-the-raw-data.html#cb20-2"></a><span class="kw">head</span>(weather_boston)</span></code></pre></div>
+<pre><code>##    year month           measure X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14
+## 1: 2014    12  Max.TemperatureF 64 42 51 43 42 45 38 29 49  48  39  39  42  45
+## 2: 2014    12 Mean.TemperatureF 52 38 44 37 34 42 30 24 39  43  36  35  37  39
+## 3: 2014    12  Min.TemperatureF 39 33 37 30 26 38 21 18 29  38  32  31  32  33
+## 4: 2014    12    Max.Dew.PointF 46 40 49 24 37 45 36 28 49  45  37  28  28  29
+## 5: 2014    12    MeanDew.PointF 40 27 42 21 25 40 20 16 41  39  31  27  26  27
+## 6: 2014    12     Min.DewpointF 26 17 24 13 12 36 -3  3 28  37  27  25  24  25
+##    X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31
+## 1:  42  44  49  44  37  36  36  44  47  46  59  50  52  52  41  30  30
+## 2:  37  40  45  40  33  32  33  39  45  44  52  44  45  46  36  26  25
+## 3:  32  35  41  36  29  27  30  33  42  41  44  37  38  40  30  22  20
+## 4:  33  42  46  34  25  30  30  39  45  46  58  31  34  42  26  10   8
+## 5:  29  36  41  30  22  24  27  34  42  44  43  29  31  35  20   4   5
+## 6:  27  30  32  26  20  20  25  25  37  41  29  28  29  27  10  -6   1</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="explore-the-raw-data.html#cb22-1"></a><span class="co"># View first 8 rows</span></span>
+<span id="cb22-2"><a href="explore-the-raw-data.html#cb22-2"></a><span class="kw">head</span>(weather_boston, <span class="dv">8</span>)</span></code></pre></div>
+<pre><code>##    year month           measure X1 X2  X3 X4 X5  X6 X7 X8  X9 X10 X11 X12 X13
+## 1: 2014    12  Max.TemperatureF 64 42  51 43 42  45 38 29  49  48  39  39  42
+## 2: 2014    12 Mean.TemperatureF 52 38  44 37 34  42 30 24  39  43  36  35  37
+## 3: 2014    12  Min.TemperatureF 39 33  37 30 26  38 21 18  29  38  32  31  32
+## 4: 2014    12    Max.Dew.PointF 46 40  49 24 37  45 36 28  49  45  37  28  28
+## 5: 2014    12    MeanDew.PointF 40 27  42 21 25  40 20 16  41  39  31  27  26
+## 6: 2014    12     Min.DewpointF 26 17  24 13 12  36 -3  3  28  37  27  25  24
+## 7: 2014    12      Max.Humidity 74 92 100 69 85 100 92 92 100 100  92  85  75
+## 8: 2014    12     Mean.Humidity 63 72  79 54 66  93 61 70  93  95  87  75  65
+##    X14 X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31
+## 1:  45  42  44  49  44  37  36  36  44  47  46  59  50  52  52  41  30  30
+## 2:  39  37  40  45  40  33  32  33  39  45  44  52  44  45  46  36  26  25
+## 3:  33  32  35  41  36  29  27  30  33  42  41  44  37  38  40  30  22  20
+## 4:  29  33  42  46  34  25  30  30  39  45  46  58  31  34  42  26  10   8
+## 5:  27  29  36  41  30  22  24  27  34  42  44  43  29  31  35  20   4   5
+## 6:  25  27  30  32  26  20  20  25  25  37  41  29  28  29  27  10  -6   1
+## 7:  82  89  96 100  89  69  89  85  89 100 100 100  70  70  76  64  50  57
+## 8:  68  75  85  85  73  63  79  77  79  91  98  75  60  60  65  51  38  44</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="explore-the-raw-data.html#cb24-1"></a><span class="co"># View the last 6 rows</span></span>
+<span id="cb24-2"><a href="explore-the-raw-data.html#cb24-2"></a><span class="kw">tail</span>(weather_boston)</span></code></pre></div>
+<pre><code>##    year month            measure   X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13
+## 1: 2015    12 Mean.Wind.SpeedMPH    6                                        
+## 2: 2015    12  Max.Gust.SpeedMPH   17                                        
+## 3: 2015    12    PrecipitationIn 0.14                                        
+## 4: 2015    12         CloudCover    7                                        
+## 5: 2015    12             Events Rain                                        
+## 6: 2015    12     WindDirDegrees  109                                        
+##    X14 X15 X16 X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31
+## 1:                                                                        
+## 2:                                                                        
+## 3:                                                                        
+## 4:                                                                        
+## 5:                                                                        
+## 6:</code></pre>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-cleaning-ii.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tidy-the-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/xuliang-leon/scma450/edit/master/12-datacleaning_II.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,202 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Model Selection with Training/Test Set
+
+Load the packages needed for this chapter:
+```{r, message=FALSE}
+# Load packages into R:
+library(data.table)
+library(leaps)
+```
+
+Using Adj-R, Cp, AIC, and BIC is convenient, but only work for linear models. Here we introduce another approach which can be used to select the best among any types of models: Use training set and test set for model selection. This is a very widely used method in any statistical and machine learning applications.
+
+The ultimate goal of any predictive models is to predict the future. Thus, to determine which model is best, the straightforward criteria for model selection is how well the model can predict the future. 
+
+However, we typically do not wait for the future to unfold and then use this additional data to test our model. This is time consuming and the future may have been quite different from the time when the original dataset is collected. 
+
+Therefore, a more feasible way is to divide the data into two sub-datasets of training set and test set:
+
+* training set: the data used to estimate (also called "train") the model. 
+* test set: the data that is not used in training the model and thus used to test the prediction performance of the model.
+ 
+The prediction performance of the model over the training set is called the in-sample prediction performance; while the prediction performance of the model over the test set is called out-of-sample prediction performance. Because the model is specifically calibrated to the training set, thus the in-sample prediction performance might be slightly better than out-of-sample. However, if the out-of-sample prediction is much worse than the in-sample prediction, then we have a problem of over-fitting: the model is too specific to the training data, and cannot be generalizable for out-of-sample prediction. 
+
+The training/test model selection method is good way to detect and avoid over-fitting. 
+
+## Create training/test set
+There is no definitive rule on how much proportation of data goes to training set or test set. A typical rule of thumb is 80% of data goes to training set and 20% goes to test set. 
+```{r}
+Boston=fread("data/Boston.csv")             # load the data into R
+Boston[,location:=factor(location)]
+Boston[,chas:=factor(chas)]
+
+num_row=nrow(Boston)  # check the number of rows
+
+# Random select the training set
+set.seed(1) # set the rand seed to ensure replicability 
+
+train_size=round(0.8*num_row,0)  # set the size of training set
+
+# randomly select train_size=300 numbers from the sequence of 1 to nrow(Boston)=506
+train=sample(1:num_row, train_size, replace=FALSE)
+
+# the index of rows selected as training set
+head(train)  
+
+# the training set: Boston[train]
+head(Boston[train])
+
+# the test set: Boston[-train]
+head(Boston[-train])
+```
+
+
+## Model selection 
+Let's revisit the simple linear model in the first chapter. We have talked about four different models: 
+
+* Model 1: Simple linear model 
+* Model 2: log-transformation 
+* Model 3: quadratic terms 
+* Model 4: $6^{th}$ order polynomial terms
+
+Some of these are not the typical linear regression model, so we cannot rely on Adj-R2, CP, AIC, and BIC to select the best model. We will show how to use the training/test set for model selection.
+
+### estimate the model using training set
+```{r}
+fit1=lm(formula=medv~lstat, data=Boston[train])
+fit2=lm(formula=medv~log(lstat), data=Boston[train])
+fit3=lm(formula=medv~lstat+I(lstat^2), data=Boston[train])
+fit4=lm(formula=medv~poly(lstat,6), data=Boston[train])
+```
+
+Note that, instead of using the whole Boston dataset, we use the training set (i.e., Boston[train]) to estimate each model. 
+
+### evaluate the models' out-of-sample prediction using test set
+The next step is to evaluate the out-of-sample prediction performance of each model over the test set. 
+
+Let's first evaluate the prediction performance for model 1: the simple linear model. 
+```{r}
+# take a quick look of the coefficents of estimated model 1:
+coef(fit1)
+```
+Model 1 use lstat to predict medv according to the linear equation: 
+$$medv=35.19-0.984*lstat$$
+
+To use the estimated model for prediction over test set, we need to make the test set in the appropriate format so that we can apply the above model on test set:
+```{r}
+# use the same formula as model 1 to create test set in the appropriate format 
+test_set1=model.matrix(medv ~ lstat,data=Boston[-train,])
+head(test_set1)
+```
+Note that model.matrix() function constructs the matrix of test set according to the formula. Accordingly, the test set will have the same structure of the training set. 
+
+Given the value of lstat in test_set1, we can predict the corresponding medv. For example, on the first row in test_set1, lstat=4.03; based on the estimated model 1, the prediction is $$medv=35.19*1-0.984*5.21=30.063$$
+
+Similarly, we can generate prediction of medv for each row in the test set. We can use do this using matrix multiplication operator %*%: 
+```{r}
+pred1=test_set1%*%coef(fit1)   
+```
+
+You have now generated the prediction over the test set based on the model 1. Now we need to evaluate how close our prediction is to the actual medv. The most common measure of prediction accurary is the Mean Square Error (MSE) and rMSE (root of MSE). MSE is defined as
+$$MSE=\sum_{i=1}^{N} (\hat{y}_i-y_i)^2/N$$
+where N is the number of observations in the test set, $\hat{y}_i$ denotes the prediction of $y_i$
+
+Once we compute MSE, we can easily derive rMSE as follow: $rMSE=\sqrt{MSE}$, which has the same unit as the dependent variable y. 
+
+Thus, the out-of-sample MSE and rMSE for model 1 is thus:
+```{r}
+mse1=mean((Boston$medv[-train]-pred1)^2)
+rmse1=sqrt(mse1)
+```
+
+
+Now, we can evaluate the out-of-sample prediction performance for model 2, 3, and 4. 
+```{r}
+# model 2
+test_set2=model.matrix(medv ~ log(lstat),data=Boston[-train,])
+head(test_set2)
+coef(fit2)
+pred2=test_set2%*%coef(fit2)  
+mse2=mean((Boston$medv[-train]-pred2)^2)
+rmse2=sqrt(mse2)
+```
+
+```{r}
+# model 3
+test_set3=model.matrix(medv ~ lstat+I(lstat^2),data=Boston[-train,])
+head(test_set3)
+coef(fit3)  
+pred3=test_set3%*%coef(fit3)  
+mse3=mean((Boston$medv[-train]-pred3)^2)
+rmse3=sqrt(mse3)
+```
+
+```{r}
+# model 4
+test_set4=model.matrix(medv ~poly(lstat,6),data=Boston[-train,])
+head(test_set4)
+coef(fit4)  
+pred4=test_set4%*%coef(fit4)  
+mse4=mean((Boston$medv[-train]-pred4)^2)
+rmse4=sqrt(mse4)
+```
+
+Now, we have compute the out-of-sample performance measured by rMSE for each model, we can pick the model with the minimum rMSE, which will be our best model: 
+```{r}
+# print the rMSE for the four models
+c(rmse1,rmse2,rmse3,rmse4)
+barplot(c(rmse1,rmse2,rmse3,rmse4))
+```
+As seen, model 2 (the log-transformation) is the winner.
+
+We can plot the prediction over the test set to see the result visually: 
+```{r}
+plot(Boston$lstat[-train], Boston$medv[-train])
+points(Boston$lstat[-train], pred1,col="blue")
+points(Boston$lstat[-train], pred2, col="black")
+points(Boston$lstat[-train], pred3, col="red")
+points(Boston$lstat[-train], pred4, col="yellow")
+```
+
+As seen, the log-transformation models seems to be the best model for prediction over test set. The quadratic model and polynomial clearly suffer from over-fitting -- these cannot be generaliziable on the test set.
+
+## Model 4 has the problem of over-fitting
+```{r}
+plot(Boston$lstat[train], Boston$medv[train], cex=0.5)
+points(Boston$lstat[train], fitted(fit4), cex=0.5)
+points(Boston$lstat[-train], Boston$medv[-train], col="blue", cex=0.5)
+points(Boston$lstat[-train], pred4, col="blue",cex=0.3)
+
+```
+
+
+## Other Commonly Used Metrics for Prediction performance
+In addition to MSE and rMSE, we usually report the following two metrics for the prediction performance: 
+
+* MAE (Mean Absolute Error): measures the average gap between our prediction and the actual y-variable.
+* MAPE (mean absolute percent error): mean the average percent gap between our prediction and the actual y-variable. 
+
+Let's compute and report the MAE and MAPE for our best model:
+```{r}
+# Mean Absolute Error
+mae=mean(abs(Boston$medv[-train]-pred2))
+mae
+
+# Mean Absolute Percent Error
+mape=mean( abs(Boston$medv[-train]-pred2)/ Boston$medv[-train] )
+mape
+```
+This suggests that our prediction is on average off by 3.8 or 19.% as compared to the actual medv value. Well, a positive way to look at this is that there is plenty room for improvment. Remember, we only include one variable yet. In the next chapter, we will use training and set to select the model from the best subset regression. 
+
+## Summary
+
+* The ultimate criteria for model selection is the out-of-sample prediction performance. 
+* We can divide the dataset into training set and test set. The training set is used to estimate the model; the test set is used to evaluate the out-of-sample prediction.
+* The common measure of prediction performance for model selection is rMSE and MSE.
+* We also report MAE and MAPE to get a sense of how off/good our prediction is.
+
+
