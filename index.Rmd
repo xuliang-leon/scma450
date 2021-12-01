@@ -42,7 +42,7 @@ ggplot(jobData)+
   coord_flip()+xlab("keyword")+theme_minimal()
 ```
 
-So, what are the skills needed to be competitive in the business analytical position? We have survey the data scientists and marketing analytics at Ameritas (a large insurance company). This is their response:
+So, what are the skills needed to be competitive in the business analytical jobs? We have survey the data scientists and marketing analytics at Ameritas (a large insurance company). This is their response:
 
 > “If a course is focusing on data visualization, then I would highly recommend Tableau. If they are looking at data cleansing, then teaching either R or Python to their students, even on an introductory level, will give them a considerable boost when looking for positions. An in-depth understanding of Microsoft Excel should be understood, but it is much harder to recreate accessible and powerful commands in R or Python.”
 
